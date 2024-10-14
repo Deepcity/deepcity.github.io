@@ -50,7 +50,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            proxy_on
+            screen -r clash
             cd /usr/local/hexo/
             git fetch origin
             git reset --hard origin/gh-pages
