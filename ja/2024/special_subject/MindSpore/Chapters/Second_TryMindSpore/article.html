@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="MindSpore">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MindSpore专题">
+<meta property="og:url" content="https://deepcity.github.io/ja/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="MindSpore">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://s2.loli.net/2024/06/05/EuK87I6YUjdAs2v.png">
+<meta property="og:image" content="https://deepcity.github.io/ja/2024/special_subject/MindSpore/Chapters/img/img_workflow.svg">
+<meta property="og:image" content="https://s2.loli.net/2024/06/05/QAonmGKX4FqxUMt.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/05/QSIFMsjBCUAo34y.png">
+<meta property="article:published_time" content="2024-08-14T11:47:58.000Z">
+<meta property="article:modified_time" content="2024-08-16T08:59:00.000Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="MindSpore">
+<meta property="article:tag" content="目录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/06/05/EuK87I6YUjdAs2v.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ja/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ja","comments":true,"permalink":"https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html","path":"ja/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html","title":"MindSpore专题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MindSpore专题 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="検索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>プロフィール</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>タグ</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>スケジュール</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>サイトマップ</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>検索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="検索…" spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MindSpore-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">MindSpore 数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#download"><span class="nav-number">1.1.</span> <span class="nav-text">download</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E5%8C%85%E5%B9%B6%E4%B8%8B%E8%BD%BD%E6%89%80%E9%9C%80%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.2.</span> <span class="nav-text">引包并下载所需数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MindSpore%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">MindSpore数据处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%9E%84%E5%BB%BA"><span class="nav-number">1.4.</span> <span class="nav-text">网络构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83"><span class="nav-number">1.5.</span> <span class="nav-text">模型训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.6.</span> <span class="nav-text">保存模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.7.</span> <span class="nav-text">加载模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E5%A4%84%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">归一化处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%BD%A2%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">归一化处理的两种形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E5%BD%92%E4%B8%80%E5%8C%96"><span class="nav-number">2.2.</span> <span class="nav-text">为什么要进行归一化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">归一化类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E5%92%8C%E6%A0%87%E5%87%86%E5%8C%96%E7%9A%84%E8%81%94%E7%B3%BB%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="nav-number">2.4.</span> <span class="nav-text">归一化和标准化的联系与区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BD%92%E4%B8%80%E5%8C%96%E8%83%BD%E6%8F%90%E9%AB%98%E6%B1%82%E8%A7%A3%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84%E9%80%9F%E5%BA%A6"><span class="nav-number">2.5.</span> <span class="nav-text">为什么归一化能提高求解最优解的速度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89-%E6%97%A0%E9%87%8F%E7%BA%B2%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">有&#x2F;无量纲表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">常见问题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">タグ</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MindSpore专题 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MindSpore专题<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9zcGVjaWFsX3N1YmplY3QvTWluZFNwb3JlL0NoYXB0ZXJzL1NlY29uZF9UcnlNaW5kU3BvcmUubWQ=" title="この記事を編集する"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">投稿日</span>
+
+      <time title="作成日：2024-08-14 19:47:58" itemprop="dateCreated datePublished" datetime="2024-08-14T19:47:58+08:00">2024-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">編集日</span>
+      <time title="修正日：2024-08-16 16:59:00" itemprop="dateModified" datetime="2024-08-16T16:59:00+08:00">2024-08-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">カテゴリ</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/" itemprop="url" rel="index"><span itemprop="name">Mindspore</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基本概念</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閲覧数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閲覧数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/ja/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ja/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="単語数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">単語数：</span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="読書の時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">読書の時間 &asymp;</span>
+      <span>13 分</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL3R1dG9yaWFscy96aC1DTi9yMi4zLjByYzIvYmVnaW5uZXIvcXVpY2tfc3RhcnQuaHRtbA==">MindSpore<i class="fa fa-external-link-alt"></i></span></p>
+<span id="more"></span>
+<h2 id="MindSpore-数据处理"><a href="#MindSpore-数据处理" class="headerlink" title="MindSpore 数据处理"></a>MindSpore 数据处理</h2><h3 id="download"><a href="#download" class="headerlink" title="download"></a>download</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install download</span><br></pre></td></tr></table></figure>
+<p>下载download python模块</p>
+<h3 id="引包并下载所需数据集"><a href="#引包并下载所需数据集" class="headerlink" title="引包并下载所需数据集"></a>引包并下载所需数据集</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mindspore</span><br><span class="line"><span class="keyword">from</span> mindspore <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> mindspore.dataset <span class="keyword">import</span> vision, transforms</span><br><span class="line"><span class="keyword">from</span> mindspore.dataset <span class="keyword">import</span> MnistDataset</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Download data from open datasets</span></span><br><span class="line"><span class="keyword">from</span> download <span class="keyword">import</span> download</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://mindspore-website.obs.cn-north-4.myhuaweicloud.com/&quot;</span> \</span><br><span class="line">      <span class="string">&quot;notebook/datasets/MNIST_Data.zip&quot;</span></span><br><span class="line">path = download(url, <span class="string">&quot;./&quot;</span>, kind=<span class="string">&quot;zip&quot;</span>, replace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2024/06/05/EuK87I6YUjdAs2v.png" alt="image-20240605204942126"></p>
+<p>下载下来MNIST_Data数据，根据官网这是一份Mnist数据集，结构如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MNIST_Data</span><br><span class="line">└── train</span><br><span class="line">    ├── train-images-idx3-ubyte (60000个训练图片)</span><br><span class="line">    ├── train-labels-idx1-ubyte (60000个训练标签)</span><br><span class="line">└── test</span><br><span class="line">    ├── t10k-images-idx3-ubyte (10000个测试图片)</span><br><span class="line">    ├── t10k-labels-idx1-ubyte (10000个测试标签)</span><br></pre></td></tr></table></figure>
+<h3 id="MindSpore数据处理"><a href="#MindSpore数据处理" class="headerlink" title="MindSpore数据处理"></a>MindSpore数据处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(train_dataset.get_col_names())</span><br></pre></td></tr></table></figure>
+<p>打印数据集中所包含的数据列名</p>
+<blockquote>
+<p>MindSpore的dataset使用数据处理流水线（Data Processing Pipeline），需指定map、batch、shuffle等操作。这里我们使用map对图像数据及标签进行变换处理，将输入的图像缩放为1/255，根据均值0.1307和标准差值0.3081进行归一化处理，然后将处理好的数据集打包为大小为64的batch。</p>
+</blockquote>
+<p>上面是官网对以下代码的处理。</p>
+<p>其中出现了一个新名词——<a href="#归一化处理">归一化处理</a>，这里使用的是Z-score normalization。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">datapipe</span>(<span class="params">dataset, batch_size</span>):</span><br><span class="line">    image_transforms = [</span><br><span class="line">        vision.Rescale(<span class="number">1.0</span> / <span class="number">255.0</span>, <span class="number">0</span>),</span><br><span class="line">        vision.Normalize(mean=(<span class="number">0.1307</span>,), std=(<span class="number">0.3081</span>,)),</span><br><span class="line">        vision.HWC2CHW()</span><br><span class="line">    ]</span><br><span class="line">    label_transform = transforms.TypeCast(mindspore.int32)</span><br><span class="line"></span><br><span class="line">    dataset = dataset.<span class="built_in">map</span>(image_transforms, <span class="string">&#x27;image&#x27;</span>)</span><br><span class="line">    dataset = dataset.<span class="built_in">map</span>(label_transform, <span class="string">&#x27;label&#x27;</span>)</span><br><span class="line">    dataset = dataset.batch(batch_size)</span><br><span class="line">    <span class="keyword">return</span> dataset</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Map vision transforms and batch dataset</span></span><br><span class="line">train_dataset = datapipe(train_dataset, <span class="number">64</span>)</span><br><span class="line">test_dataset = datapipe(test_dataset, <span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p>可使用<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL2RhdGFzZXQvZGF0YXNldF9tZXRob2QvaXRlcmF0b3IvbWluZHNwb3JlLmRhdGFzZXQuRGF0YXNldC5jcmVhdGVfdHVwbGVfaXRlcmF0b3IuaHRtbA==">create_tuple_iterator<i class="fa fa-external-link-alt"></i></span> 或<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL2RhdGFzZXQvZGF0YXNldF9tZXRob2QvaXRlcmF0b3IvbWluZHNwb3JlLmRhdGFzZXQuRGF0YXNldC5jcmVhdGVfZGljdF9pdGVyYXRvci5odG1s">create_dict_iterator<i class="fa fa-external-link-alt"></i></span>对数据集进行迭代访问，查看数据和标签的shape和datatype。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> image, label <span class="keyword">in</span> test_dataset.create_tuple_iterator():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Shape of image [N, C, H, W]: <span class="subst">&#123;image.shape&#125;</span> <span class="subst">&#123;image.dtype&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Shape of label: <span class="subst">&#123;label.shape&#125;</span> <span class="subst">&#123;label.dtype&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Shape of image [N, C, H, W]: (64, 1, 28, 28) Float32<br>Shape of label: (64,) Int32</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> test_dataset.create_dict_iterator():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Shape of image [N, C, H, W]: <span class="subst">&#123;data[<span class="string">&#x27;image&#x27;</span>].shape&#125;</span> <span class="subst">&#123;data[<span class="string">&#x27;image&#x27;</span>].dtype&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Shape of label: <span class="subst">&#123;data[<span class="string">&#x27;label&#x27;</span>].shape&#125;</span> <span class="subst">&#123;data[<span class="string">&#x27;label&#x27;</span>].dtype&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Shape of image [N, C, H, W]: (64, 1, 28, 28) Float32<br>Shape of label: (64,) Int32</p>
+</blockquote>
+<p>更多细节详见<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL3R1dG9yaWFscy96aC1DTi9yMi4yL2JlZ2lubmVyL2RhdGFzZXQuaHRtbA==">数据集 Dataset<i class="fa fa-external-link-alt"></i></span>与<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL3R1dG9yaWFscy96aC1DTi9yMi4yL2JlZ2lubmVyL3RyYW5zZm9ybXMuaHRtbA==">数据变换 Transforms<i class="fa fa-external-link-alt"></i></span>。</p>
+<h3 id="网络构建"><a href="#网络构建" class="headerlink" title="网络构建"></a>网络构建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Define model</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Network</span>(nn.Cell):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.flatten = nn.Flatten()</span><br><span class="line">        <span class="variable language_">self</span>.dense_relu_sequential = nn.SequentialCell(</span><br><span class="line">            nn.Dense(<span class="number">28</span>*<span class="number">28</span>, <span class="number">512</span>),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.Dense(<span class="number">512</span>, <span class="number">512</span>),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.Dense(<span class="number">512</span>, <span class="number">10</span>)</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">construct</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = <span class="variable language_">self</span>.flatten(x)</span><br><span class="line">        logits = <span class="variable language_">self</span>.dense_relu_sequential(x)</span><br><span class="line">        <span class="keyword">return</span> logits</span><br><span class="line"></span><br><span class="line">model = Network()</span><br><span class="line"><span class="built_in">print</span>(model)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Network&lt;<br>  (flatten): Flatten&lt;&gt;<br>  (dense_relu_sequential): SequentialCell&lt;<br>    (0): Dense<input_channels=784, output_channels=512, has_bias=True><br>    (1): ReLU&lt;&gt;<br>    (2): Dense<input_channels=512, output_channels=512, has_bias=True><br>    (3): ReLU&lt;&gt;<br>    (4): Dense<input_channels=512, output_channels=10, has_bias=True><br>    &gt;</p>
+</blockquote>
+<p>以上为网格的构建以及其输出，有以下几点需要注意</p>
+<ol>
+<li>上面重命名过MindSpore中的nn类是构建所有网格的基类，也是网格的基本单元</li>
+<li>当需要自定义网络时可以重写<code>`nn.Cell</code>类重写<code>__init__</code>方法和<code>construct</code>方法</li>
+<li><code>__init__</code>包含所有网络层的定义<code>construct</code>中包含数据（<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL3R1dG9yaWFscy96aC1DTi9yMi4yL2JlZ2lubmVyL3RlbnNvci5odG1s">Tensor<i class="fa fa-external-link-alt"></i></span>）的变换过程</li>
+</ol>
+<blockquote>
+<p><code>mindspore.nn</code>类是构建所有网络的基类，也是网络的基本单元。当用户需要自定义网络时，可以继承<code>nn.Cell</code>类，并重写<code>__init__</code>方法和<code>construct</code>方法。<code>__init__</code>包含所有网络层的定义，<code>construct</code>中包含数据（<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL3R1dG9yaWFscy96aC1DTi9yMi4yL2JlZ2lubmVyL3RlbnNvci5odG1s">Tensor<i class="fa fa-external-link-alt"></i></span>）的变换过程。</p>
+</blockquote>
+<h3 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h3><p>个人菜狗形象的想，实际上这里的网格神经网络对图像的识别类似一种带指向的可变哈希函数（只不过这个函数的实现比较复杂和通用）。他是从大量信息到小量准确抽象的描述过程。下面是<span class="exturl" data-url="aHR0cHM6Ly9vcGVubWxzeXMuZ2l0aHViLmlvL2NoYXB0ZXJfcHJvZ3JhbW1pbmdfaW50ZXJmYWNlL21sX3dvcmtmbG93Lmh0bWw=">3.2. 机器学习工作流 — 机器学习系统：设计和实现 1.0.0 documentation (openmlsys.github.io)<i class="fa fa-external-link-alt"></i></span>手册上的机器学习流程图，这里以求形象的理解</p>
+<p><img src="./../img/img_workflow.svg" alt="img_workflow"></p>
+<blockquote>
+<p>在模型训练中，一个完整的训练过程（step）需要实现以下三步：</p>
+<ol>
+<li><strong>正向计算</strong>：模型预测结果（logits），并与正确标签（label）求预测损失（loss）。</li>
+<li><strong>反向传播</strong>：利用自动微分机制，自动求模型参数（parameters）对于loss的梯度（gradients）。</li>
+<li><strong>参数优化</strong>：将梯度更新到参数上。</li>
+</ol>
+<p>MindSpore使用函数式自动微分机制，因此针对上述步骤需要实现：</p>
+<ol>
+<li>定义正向计算函数。</li>
+<li>使用<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS9taW5kc3BvcmUudmFsdWVfYW5kX2dyYWQuaHRtbA==">value_and_grad<i class="fa fa-external-link-alt"></i></span>通过函数变换获得梯度计算函数。</li>
+<li>定义训练函数，使用<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL25uL21pbmRzcG9yZS5ubi5DZWxsLmh0bWwjbWluZHNwb3JlLm5uLkNlbGwuc2V0X3RyYWlu">set_train<i class="fa fa-external-link-alt"></i></span>设置为训练模式，执行正向计算、反向传播和参数优化。</li>
+</ol>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Instantiate loss function and optimizer</span></span><br><span class="line">loss_fn = nn.CrossEntropyLoss()</span><br><span class="line">optimizer = nn.SGD(model.trainable_params(), <span class="number">1e-2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. Define forward function</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">forward_fn</span>(<span class="params">data, label</span>):</span><br><span class="line">    logits = model(data)</span><br><span class="line">    loss = loss_fn(logits, label)</span><br><span class="line">    <span class="keyword">return</span> loss, logits</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. Get gradient function</span></span><br><span class="line">grad_fn = mindspore.value_and_grad(forward_fn, <span class="literal">None</span>, optimizer.parameters, has_aux=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. Define function of one-step training</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train_step</span>(<span class="params">data, label</span>):</span><br><span class="line">    (loss, _), grads = grad_fn(data, label)</span><br><span class="line">    optimizer(grads)</span><br><span class="line">    <span class="keyword">return</span> loss</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">model, dataset</span>):</span><br><span class="line">    size = dataset.get_dataset_size()</span><br><span class="line">    model.set_train()</span><br><span class="line">    <span class="keyword">for</span> batch, (data, label) <span class="keyword">in</span> <span class="built_in">enumerate</span>(dataset.create_tuple_iterator()):</span><br><span class="line">        loss = train_step(data, label)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> batch % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">            loss, current = loss.asnumpy(), batch</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;loss: <span class="subst">&#123;loss:&gt;7f&#125;</span>  [<span class="subst">&#123;current:&gt;3d&#125;</span>/<span class="subst">&#123;size:&gt;3d&#125;</span>]&quot;</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>除训练外，我们定义测试函数，用来评估模型的性能。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">model, dataset, loss_fn</span>):</span><br><span class="line">    num_batches = dataset.get_dataset_size()</span><br><span class="line">    model.set_train(<span class="literal">False</span>)</span><br><span class="line">    total, test_loss, correct = <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> data, label <span class="keyword">in</span> dataset.create_tuple_iterator():</span><br><span class="line">        pred = model(data)</span><br><span class="line">        total += <span class="built_in">len</span>(data)</span><br><span class="line">        test_loss += loss_fn(pred, label).asnumpy()</span><br><span class="line">        correct += (pred.argmax(<span class="number">1</span>) == label).asnumpy().<span class="built_in">sum</span>()</span><br><span class="line">    test_loss /= num_batches</span><br><span class="line">    correct /= total</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Test: \n Accuracy: <span class="subst">&#123;(<span class="number">100</span>*correct):&gt;<span class="number">0.1</span>f&#125;</span>%, Avg loss: <span class="subst">&#123;test_loss:&gt;8f&#125;</span> \n&quot;</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>训练过程需多次迭代数据集，一次完整的迭代称为一轮（epoch）。在每一轮，遍历训练集进行训练，结束后使用测试集进行预测。打印每一轮的loss值和预测准确率（Accuracy），可以看到loss在不断下降，Accuracy在不断提高。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">epochs = <span class="number">3</span></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> <span class="built_in">range</span>(epochs):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Epoch <span class="subst">&#123;t+<span class="number">1</span>&#125;</span>\n-------------------------------&quot;</span>)</span><br><span class="line">    train(model, train_dataset)</span><br><span class="line">    test(model, test_dataset, loss_fn)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Done!&quot;</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&gt;Epoch 1</span><br><span class="line">&gt;-------------------------------</span><br><span class="line">&gt;loss: 2.302088  [  0/938]</span><br><span class="line">&gt;loss: 2.290692  [100/938]</span><br><span class="line">&gt;loss: 2.266338  [200/938]</span><br><span class="line">&gt;loss: 2.205240  [300/938]</span><br><span class="line">&gt;loss: 1.907198  [400/938]</span><br><span class="line">&gt;loss: 1.455603  [500/938]</span><br><span class="line">&gt;loss: 0.861103  [600/938]</span><br><span class="line">&gt;loss: 0.767219  [700/938]</span><br><span class="line">&gt;loss: 0.422253  [800/938]</span><br><span class="line">&gt;loss: 0.513922  [900/938]</span><br><span class="line">&gt;Test:</span><br><span class="line">Accuracy: 83.8%, Avg loss: 0.529534</span><br><span class="line"></span><br><span class="line">&gt;Epoch 2</span><br><span class="line">&gt;-------------------------------</span><br><span class="line">&gt;loss: 0.580867  [  0/938]</span><br><span class="line">&gt;loss: 0.479347  [100/938]</span><br><span class="line">&gt;loss: 0.677991  [200/938]</span><br><span class="line">&gt;loss: 0.550141  [300/938]</span><br><span class="line">&gt;loss: 0.226565  [400/938]</span><br><span class="line">&gt;loss: 0.314738  [500/938]</span><br><span class="line">&gt;loss: 0.298739  [600/938]</span><br><span class="line">&gt;loss: 0.459540  [700/938]</span><br><span class="line">&gt;loss: 0.332978  [800/938]</span><br><span class="line">&gt;loss: 0.406709  [900/938]</span><br><span class="line">&gt;Test:</span><br><span class="line">Accuracy: 90.2%, Avg loss: 0.334828</span><br><span class="line"></span><br><span class="line">&gt;Epoch 3</span><br><span class="line">&gt;-------------------------------</span><br><span class="line">&gt;loss: 0.461890  [  0/938]</span><br><span class="line">&gt;loss: 0.242303  [100/938]</span><br><span class="line">&gt;loss: 0.281414  [200/938]</span><br><span class="line">&gt;loss: 0.207835  [300/938]</span><br><span class="line">&gt;loss: 0.206000  [400/938]</span><br><span class="line">&gt;loss: 0.409646  [500/938]</span><br><span class="line">&gt;loss: 0.193608  [600/938]</span><br><span class="line">&gt;loss: 0.217575  [700/938]</span><br><span class="line">&gt;loss: 0.212817  [800/938]</span><br><span class="line">&gt;loss: 0.202862  [900/938]</span><br><span class="line">&gt;Test:</span><br><span class="line">Accuracy: 91.9%, Avg loss: 0.280962</span><br><span class="line"></span><br><span class="line">&gt;Done!</span><br></pre></td></tr></table></figure>
+<p>训练过程需多次迭代数据集，一次完整的迭代称为一轮（epoch）。在每一轮，遍历训练集进行训练，结束后使用测试集进行预测。打印每一轮的loss值和预测准确率（Accuracy），可以看到loss在不断下降，Accuracy在不断提高。</p>
+</blockquote>
+<h3 id="保存模型"><a href="#保存模型" class="headerlink" title="保存模型"></a>保存模型</h3><p>模型训练完成后，需要将其参数进行保存。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save checkpoint</span></span><br><span class="line">mindspore.save_checkpoint(model, <span class="string">&quot;model.ckpt&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Saved Model to model.ckpt&quot;</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Saved Model to model.ckpt</p>
+</blockquote>
+<h3 id="加载模型"><a href="#加载模型" class="headerlink" title="加载模型"></a>加载模型</h3><blockquote>
+<p>加载保存的权重分为两步：</p>
+<ol>
+<li>重新实例化模型对象，构造模型。</li>
+<li>加载模型参数，并将其加载至模型上。</li>
+</ol>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Instantiate a random initialized model</span></span><br><span class="line">model = Network()</span><br><span class="line"><span class="comment"># Load checkpoint and load parameter to model</span></span><br><span class="line">param_dict = mindspore.load_checkpoint(<span class="string">&quot;model.ckpt&quot;</span>)</span><br><span class="line">param_not_load, _ = mindspore.load_param_into_net(model, param_dict)</span><br><span class="line"><span class="built_in">print</span>(param_not_load)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>param_not_load未被加载的参数列表，为空时代表所有参数均加载成功。</code></p>
+<p>加载后的模型可以直接用于预测推理。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">model.set_train(<span class="literal">False</span>)</span><br><span class="line"><span class="keyword">for</span> data, label <span class="keyword">in</span> test_dataset:</span><br><span class="line">    pred = model(data)</span><br><span class="line">    predicted = pred.argmax(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;Predicted: &quot;<span class="subst">&#123;predicted[:<span class="number">10</span>]&#125;</span>&quot;, Actual: &quot;<span class="subst">&#123;label[:<span class="number">10</span>]&#125;</span>&quot;&#x27;</span>)</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>以上就是一个简单的图像识别机械学习</p>
+<p><strong>注意在加载模型的过程中必须定义模型构建与datapipe</strong></p>
+<h2 id="归一化处理"><a href="#归一化处理" class="headerlink" title="归一化处理"></a>归一化处理</h2><blockquote>
+<p>一些传送门：<br><span class="exturl" data-url="aHR0cHM6Ly9wYWRkbGVwZWRpYS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvdHV0b3JpYWxzL2RlZXBfbGVhcm5pbmcvbm9ybWFsaXphdGlvbi9iYXNpY19ub3JtYWxpemF0aW9uLmh0bWw=">归一化基础知识点 — PaddleEdu documentation (paddlepedia.readthedocs.io)<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9nZWVrLWRvY3MuY29tL251bXB5L251bXB5LWFzay1hbnN3ZXIvbm9ybWFsaXplLW51bXB5LWFycmF5X3oxLmh0bWw=">Numpy数组归一化|极客教程 (geek-docs.com)<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<p>归一化是一种数据处理方式，能将数据经过处理后限制在某个固定范围内。</p>
+<h3 id="归一化处理的两种形式"><a href="#归一化处理的两种形式" class="headerlink" title="归一化处理的两种形式"></a>归一化处理的两种形式</h3><p>归一化存在两种形式</p>
+<ol>
+<li>将数处理为 [0, 1] 之间的小数，其目的是为了在随后的数据处理过程中更便捷，其他情况下，也可将数据处理到 [-1, 1] 之间，或其他的固定范围内。</li>
+</ol>
+<blockquote>
+<p>例如，在图像处理中，就会将图像从 [0, 255] 归一化到 [0, 1]之间，这样既不会改变图像本身的信息储存，又可加速后续的网络处理。</p>
+</blockquote>
+<ol>
+<li>通过归一化将有<a href="#有/无量纲表达式">量纲表达式</a>变成<a href="#有/无量纲表达式">无量纲表达式</a>。</li>
+</ol>
+<h3 id="为什么要进行归一化"><a href="#为什么要进行归一化" class="headerlink" title="为什么要进行归一化"></a>为什么要进行归一化</h3><ol>
+<li>解决数据间的可比性问题</li>
+<li>数据归一化后，寻求最优解的过程会变得平缓，可以更快速的收敛到最优解。<a href="为什么归一化能提高求解最优解的速度">为什么能提高收敛速度</a>.</li>
+</ol>
+<h3 id="归一化类型"><a href="#归一化类型" class="headerlink" title="归一化类型"></a>归一化类型</h3><ol>
+<li>Min-max normalization (Rescaling) 范围为[0,1]:</li>
+</ol>
+<script type="math/tex; mode=display">
+x^{'} = \frac{x - min(x)}{max(x) - min(x)}</script><ol>
+<li>Mean normalization范围为[-1,1]：</li>
+</ol>
+<script type="math/tex; mode=display">
+x^{'} = \frac{x - mean(x)}{max(x) - min(x)}</script><blockquote>
+<p>mean(x)：x数据的平均值</p>
+</blockquote>
+<p>​    Min-max归一化和mean归一化适合在最大最小值明确不变的情况下使用，比如图像处理时，灰度值限定在 [0, 255] 的范围内，就可以用min-max归一化将其处理到[0, 1]之间。在最大最小值不明确时，每当有新数据加入，都可能会改变最大或最小值，导致归一化结果不稳定，后续使用效果也不稳定。同时，数据需要相对稳定，如果有过大或过小的异常值存在，min-max归一化和mean归一化的效果也不会很好。如果对处理后的数据范围有严格要求，也应使用min-max归一化或mean归一化。</p>
+<ol>
+<li>Z-score normalization (Standardization)范围为实数集：</li>
+</ol>
+<script type="math/tex; mode=display">
+x^{'} = \frac{x - \mu}{\sigma}</script><blockquote>
+<p>𝜇、𝜎 分别为样本数据的均值和标准差。</p>
+</blockquote>
+<p>​    Z-score归一化也可称为标准化，经过处理的数据呈均值为0，标准差为1的分布。在数据存在异常值、最大最小值不固定的情况下，可以使用标准化。标准化会改变数据的状态分布，但不会改变分布的种类。特别地，神经网络中经常会使用到z-score归一化，针对这一点，我们将在后续的文章中进行详细的介绍。</p>
+<ol>
+<li>对数归一化：</li>
+</ol>
+<script type="math/tex; mode=display">
+x^{'} = \frac{\lg x}{\lg max(x)}</script><ol>
+<li>反正切函数归一化：</li>
+</ol>
+<script type="math/tex; mode=display">
+x^{'} = \arctan(x) * \frac{2}{\pi}</script><ol>
+<li>小数定标标准化（Demical Point Normalization）:</li>
+</ol>
+<script type="math/tex; mode=display">
+x^{'} = \frac{x}{10^j}</script><p>​    非线性归一化通常被用在数据分化程度较大的场景，有时需要通过一些数学函数对原始值进行映射，如对数、反正切等。</p>
+<h3 id="归一化和标准化的联系与区别"><a href="#归一化和标准化的联系与区别" class="headerlink" title="归一化和标准化的联系与区别"></a>归一化和标准化的联系与区别</h3><p>谈到归一化和标准化可能会存在一些概念的混淆，我们都知道归一化是指normalization，标准化是指standardization，但根据wiki上对feature scaling方法的定义，standardization其实就是z-score normalization，也就是说标准化其实是归一化的一种，而一般情况下，我们会把z-score归一化称为标准化，把min-max归一化简称为归一化。在下文中，我们也是用标准化指代z-score归一化，并使用归一化指代min-max归一化。</p>
+<p>其实，归一化和标准化在本质上都是一种线性变换。在<a href="#归一化类型">归一化类型</a>中，我们提到了归一化和标准化的公式，对于归一化的公式，在数据给定的情况下，可以令𝑎=𝑚𝑎𝑥(𝑥)−𝑚𝑖𝑛(𝑥)、𝑏=𝑚𝑖𝑛(𝑥)，则归一化的公式可变形为：</p>
+<script type="math/tex; mode=display">
+x^{'} = \frac{x - b}{a} = \frac{x}{a} - \frac{b}{a} = \frac{x}{a} - c</script><p>标准化的公式与变形后的归一化类似，其中的$\mu $和$\sigma$在数据给定的情况下，可以看作常数。因此，标准化的变形与归一化的类似，都可看作对𝑥按比例𝑎进行缩放，再进行𝑐个单位的平移。由此可见，归一化和标准化的本质都是一种线性变换，他们都不会因为对数据的处理而改变数据的原始数值排序。</p>
+<p>那么归一化和标准化又有什么区别呢？</p>
+<ol>
+<li>归一化不会改变数据的状态分布，但标准化会改变数据的状态分布；</li>
+<li>归一化会将数据限定在一个具体的范围内，如 [0, 1]，但标准化不会，标准化只会将数据处理为均值为0，标准差为1。</li>
+</ol>
+<h3 id="为什么归一化能提高求解最优解的速度"><a href="#为什么归一化能提高求解最优解的速度" class="headerlink" title="为什么归一化能提高求解最优解的速度"></a>为什么归一化能提高求解最优解的速度</h3><script type="math/tex; mode=display">
+\begin{split}
+\begin{align}
+y &= \theta_1x_1 + \theta_2x_2 \\
+J &= (\theta_{1}x_{1} + \theta_{2}x_{2} - y_{label})^2
+\end{align}
+\end{split}</script><p>假设自变量只有房子到地铁站的距离<script type="math/tex">𝑥_1</script>和房子内房间的个数<script type="math/tex">𝑥_2</script>，因变量为房价，预测公式和损失函数分别为：</p>
+<script type="math/tex; mode=display">
+J = (1000\theta_{1}+3\theta_{2} - y_{label})^2</script><p><img src="https://s2.loli.net/2024/06/05/QAonmGKX4FqxUMt.png" alt="normalization"></p>
+<div align="center">图1: 损失函数的等高线，图1（左）为未归一化时，图1（右）为归一化</div>
+
+<p>​    在图1中，左图的红色椭圆代表归一化前的损失函数等高线，蓝色线段代表梯度的更新，箭头的方向代表梯度更新的方向。寻求最优解的过程就是梯度更新的过程，其更新方向与登高线垂直。由于𝑥1 和 𝑥2 的量级相差过大，损失函数的等高线呈现为一个瘦窄的椭圆。因此如图1（左）所示，瘦窄的椭圆形会使得梯度下降过程呈之字形呈现，导致梯度下降速度缓慢。</p>
+<p>​    当数据经过归一化后，$x<em>{1}^{‘} = \frac{1000-0}{5000-0}=0.2$，$x</em>{2}^{‘} = \frac{3-0}{10-0}=0.3$，那么损失函数的公式可以写为：</p>
+<script type="math/tex; mode=display">
+J(x) = (0.2\theta_{1} + 0.3\theta_{2} - y_{label})^2</script><p>​    我们可以看到，经过归一化后的数据属于同一量级，损失函数的等高线呈现为一个矮胖的椭圆形（如图1（右）所示），求解最优解过程变得更加迅速且平缓，因此可以在通过梯度下降进行求解时获得更快的收敛。</p>
+<h2 id="有-无量纲表达式"><a href="#有-无量纲表达式" class="headerlink" title="有/无量纲表达式"></a>有/无量纲表达式</h2><p>我们假定数据都是一个个变量（不过提前收集好了）量纲指有些未知数他们是变量存在的一种或几种依赖关系，该变量的值由这些依赖关系的未知数（量纲）决定。</p>
+<blockquote>
+<p> 就像一些函数的y值，理想状态下的房价，他们由x，面积/位置决定。</p>
+</blockquote>
+<p>显然位置差几百米，面积差几百平方米对变量影响差距极大，这种情况下我们称对这些依赖关系式是有量纲的。他们对变量影响的系数存在数量级的不同。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
+<li>vscode 出现python解释器的选择错误，这在windows经常有非常多版本的相同软件上经常出现，选定安装MindSpore库的python版本</li>
+</ol>
+<p><img src="https://s2.loli.net/2024/06/05/QSIFMsjBCUAo34y.png" alt="image-20240605210110827"></p>
+<p>​    点击此处python版本即可</p>
+<ol>
+<li><p>注意python的多数语法检查集成已分离为插件，一些在2023.10发布，发布后一些网络上的blog修改linting的将禁用，详情请看<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL21pY3Jvc29mdC92c2NvZGUtcHl0aG9uL3dpa2kvTWlncmF0aW9uLXRvLVB5dGhvbi1Ub29scy1FeHRlbnNpb25z">迁移到 Python 工具扩展 ·microsoft/vscode-python 维基 (github.com)<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>解决一些格式上的报错也可以不理会，但根据PEP 8 python规范，一行不能超过80个字符，同时换行需要缩进,如果看不管可以在扩展语法检查中增加args</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--max-line-length=120</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    寄付
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat 支払う">
+        <span>WeChat 支払う</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>著者： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>記事へのリンク：</strong>
+      <a href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html" title="MindSpore专题">https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>著作権表示： </strong>このブログ内のすべての記事は、特別な記載がない限り <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> の下のライセンスで保護されています。
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>他の公開チャンネルへようこそ</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/MindSpore/" rel="tag"># MindSpore</a>
+              <a href="/tags/%E7%9B%AE%E5%BD%95/" rel="tag"># 目录</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/special_subject/MindSpore/Chapters/Fivth_ConstructNetwork/article.html" rel="prev" title="MindSpore专题——第五章、网络构建">
+                  <i class="fa fa-angle-left"></i> MindSpore专题——第五章、网络构建
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/special_subject/MindSpore/Chapters/Fourth_DataSet/article.html" rel="next" title="MindSpore专题——第四章、数据集">
+                  MindSpore专题——第四章、数据集 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>日本語</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="単語の総数">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="合計閲覧者数">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="閲覧合計数">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ja","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ja/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

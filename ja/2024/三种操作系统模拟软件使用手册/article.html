@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="三种操作系统简单模拟使用手册可运行程序图标https:&#x2F;&#x2F;1drv.ms&#x2F;u&#x2F;s!Ap-enY7ckLANgpBTVvNJXGKi-3tRZw">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三种操作系统模拟软件使用手册">
+<meta property="og:url" content="https://deepcity.github.io/ja/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="三种操作系统简单模拟使用手册可运行程序图标https:&#x2F;&#x2F;1drv.ms&#x2F;u&#x2F;s!Ap-enY7ckLANgpBTVvNJXGKi-3tRZw">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://s2.loli.net/2024/05/25/rRF47xevIZApJO1.png">
+<meta property="og:image" content="https://s2.loli.net/2024/05/25/FUodMlsAgf75OE2.png">
+<meta property="og:image" content="https://s2.loli.net/2024/05/25/9wMmaFXxNAiBypv.png">
+<meta property="og:image" content="https://s2.loli.net/2024/05/25/ITFwqptEnl1Seka.png">
+<meta property="og:image" content="https://s2.loli.net/2024/05/25/yJD8xRevhCt3A6i.png">
+<meta property="og:image" content="https://s2.loli.net/2024/05/25/RxZEQ7APFjNoOHL.png">
+<meta property="og:image" content="https://s2.loli.net/2024/05/25/V4QyC1j2gBNGPv8.png">
+<meta property="og:image" content="https://s2.loli.net/2024/05/25/UrwAdqCO6xNtkBf.png">
+<meta property="article:published_time" content="2024-05-13T09:07:09.000Z">
+<meta property="article:modified_time" content="2024-08-27T08:34:17.798Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="文档">
+<meta property="article:tag" content="学校">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/05/25/rRF47xevIZApJO1.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ja/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ja","comments":true,"permalink":"https://deepcity.github.io/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html","path":"ja/2024/三种操作系统模拟软件使用手册/article.html","title":"三种操作系统模拟软件使用手册"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>三种操作系统模拟软件使用手册 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="検索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>プロフィール</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>タグ</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>スケジュール</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>サイトマップ</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>検索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="検索…" spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E5%8D%95%E6%A8%A1%E6%8B%9F%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C"><span class="nav-number">1.</span> <span class="nav-text">三种操作系统简单模拟使用手册</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%9B%BE%E6%A0%87"><span class="nav-number">1.1.</span> <span class="nav-text">可运行程序图标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exe%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">exe模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JAR%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">JAR模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install%E5%AE%89%E8%A3%85%E5%8C%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">install安装包模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">卸载方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.4.</span> <span class="nav-text">程序使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E6%BA%90%E5%8D%8F%E8%AE%AE%E7%AA%97%E5%8F%A3"><span class="nav-number">1.4.1.</span> <span class="nav-text">开源协议窗口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA%E8%8F%9C%E5%8D%95%E7%95%8C%E9%9D%A2"><span class="nav-number">1.4.2.</span> <span class="nav-text">导航菜单界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">1.4.3.</span> <span class="nav-text">生产者消费者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.4.</span> <span class="nav-text">银行家算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E6%A8%A1%E6%8B%9F"><span class="nav-number">1.4.5.</span> <span class="nav-text">调度算法模拟</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">タグ</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="三种操作系统模拟软件使用手册 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          三种操作系统模拟软件使用手册<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy/kuInnp43mk43kvZzns7vnu5/mqKHmi5/ova/ku7bkvb/nlKjmiYvlhowubWQ=" title="この記事を編集する"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">投稿日</span>
+
+      <time title="作成日：2024-05-13 17:07:09" itemprop="dateCreated datePublished" datetime="2024-05-13T17:07:09+08:00">2024-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">編集日</span>
+      <time title="修正日：2024-08-27 16:34:17" itemprop="dateModified" datetime="2024-08-27T16:34:17+08:00">2024-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">カテゴリ</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">软件</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/%E6%96%87%E6%A1%A3/" itemprop="url" rel="index"><span itemprop="name">文档</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閲覧数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閲覧数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/ja/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ja/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="単語数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">単語数：</span>
+      <span>830</span>
+    </span>
+    <span class="post-meta-item" title="読書の時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">読書の時間 &asymp;</span>
+      <span>3 分</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="三种操作系统简单模拟使用手册"><a href="#三种操作系统简单模拟使用手册" class="headerlink" title="三种操作系统简单模拟使用手册"></a>三种操作系统简单模拟使用手册</h1><h2 id="可运行程序图标"><a href="#可运行程序图标" class="headerlink" title="可运行程序图标"></a>可运行程序图标</h2><p><span class="exturl" data-url="aHR0cHM6Ly8xZHJ2Lm1zL3UvcyFBcC1lblk3Y2tMQU5ncEJUVnZOSlhHS2ktM3RSWnc=">https://1drv.ms/u/s!Ap-enY7ckLANgpBTVvNJXGKi-3tRZw<i class="fa fa-external-link-alt"></i></span></p>
+<p><img src="https://s2.loli.net/2024/05/25/rRF47xevIZApJO1.png" alt="image-20240525143542993"></p>
+<span id="more"></span>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>程序提供了三种安装形式。</p>
+<h3 id="exe模式"><a href="#exe模式" class="headerlink" title="exe模式"></a>exe模式</h3><p>第一种为exe模式，在该模式下，整体程序表现为一个exe文件单文件，点开即可启动，但值得注意的的是，这种方式启动需要主机上环境变量中配置好1.8版本以上的jre环境，否则无法启动。详细配置jre参考<span class="exturl" data-url="aHR0cHM6Ly93d3cuamF2YS5jb20vemgtQ04vZG93bmxvYWQvbWFudWFsLmpzcA==">Java官网<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="JAR模式"><a href="#JAR模式" class="headerlink" title="JAR模式"></a>JAR模式</h3><p>第二种模式为jar模式，在该模式下，整个程序包作为一个jar文件表示，可通过java -jar直接调用，也可以通过ide导入为库调用</p>
+<!--more-->
+<h3 id="install安装包模式"><a href="#install安装包模式" class="headerlink" title="install安装包模式"></a>install安装包模式</h3><p>第三种模式为install安装包模式，这是最推荐的一种安装方式，但较为耗费内存，在该模式下会调用一个安装脚本自动配置运行环境，选择程序安装目录即可安装。</p>
+<h2 id="卸载方式"><a href="#卸载方式" class="headerlink" title="卸载方式"></a>卸载方式</h2><p>通过前两种安装方式安装的程序可直接通过删除对应文件卸载，第三种安装方式请运行安装目录下的unins000.exe文件脚本并删除对应的快捷方式。</p>
+<h2 id="程序使用指南"><a href="#程序使用指南" class="headerlink" title="程序使用指南"></a>程序使用指南</h2><h3 id="开源协议窗口"><a href="#开源协议窗口" class="headerlink" title="开源协议窗口"></a>开源协议窗口</h3><p><img src="https://s2.loli.net/2024/05/25/FUodMlsAgf75OE2.png" alt="image-20240525143707804"></p>
+<p>该界面为程序运行启动第一个窗口，根据创建程序时所使用的第三方库创建，符合开源软件协议而显示，请忽略该窗口。</p>
+<h3 id="导航菜单界面"><a href="#导航菜单界面" class="headerlink" title="导航菜单界面"></a>导航菜单界面</h3><p><img src="https://s2.loli.net/2024/05/25/9wMmaFXxNAiBypv.png" alt="image-20240525143849896"></p>
+<p>该界面为程序主题界面，可通过界面导航到三个算法界面</p>
+<h3 id="生产者消费者"><a href="#生产者消费者" class="headerlink" title="生产者消费者"></a>生产者消费者</h3><p><img src="https://s2.loli.net/2024/05/25/ITFwqptEnl1Seka.png" alt="image-20240525144036276"></p>
+<p>该界面可实现生产者消费者业务功能</p>
+<p>使用方式为：</p>
+<ol>
+<li>按照程序显示按钮进行操作，请勿输入未指定的，空数据。</li>
+</ol>
+<p>1.0.1 版本常见问题为：</p>
+<ol>
+<li>该窗口为单例模式实现，由于系统垃圾管理与多线程设计，该窗口只能打开一次，第二次打开会导致无反应。</li>
+</ol>
+<h3 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h3><p>   <img src="https://s2.loli.net/2024/05/25/yJD8xRevhCt3A6i.png" alt="image-20240525144551258"></p>
+<p>该界面为银行家算法界面，可实现银行家算法的功能与设计</p>
+<p>使用方式为：</p>
+<ol>
+<li>给定总进程与总资源数</li>
+<li>设定进程与资源矩阵，请勿对不同进程设定不同的avaliable矩阵</li>
+<li>是否继续请求</li>
+</ol>
+<p>1.0.1版本可能遇到的问题：</p>
+<ol>
+<li>设定过多进程与资源数导致无法输入</li>
+<li><img src="https://s2.loli.net/2024/05/25/RxZEQ7APFjNoOHL.png" alt="image-20240525145256829"></li>
+</ol>
+<h3 id="调度算法模拟"><a href="#调度算法模拟" class="headerlink" title="调度算法模拟"></a>调度算法模拟</h3><p><img src="https://s2.loli.net/2024/05/25/V4QyC1j2gBNGPv8.png" alt="image-20240525144538081"></p>
+<p>调度算法模拟可实现六种算法的计算各种时间并可视化运行顺序等业务功能</p>
+<p><img src="https://s2.loli.net/2024/05/25/UrwAdqCO6xNtkBf.png" alt="image-20240525144654678"></p>
+<p>六种调度算法全称分别是</p>
+<ol>
+<li>先到先执行</li>
+<li>非抢占式短作业优先</li>
+<li>最短剩余时间优先（抢占式最短作业优先）</li>
+<li>非抢占式优先级优先</li>
+<li>抢占式优先级优先</li>
+<li>时间片轮转算法</li>
+</ol>
+<p>使用方法为：</p>
+<ol>
+<li>输入每个进程的前四列信息</li>
+<li>选择算法</li>
+<li>点击计算</li>
+</ol>
+<p>1.0.1版本可能遇到的问题：</p>
+<ol>
+<li>请勿设置相同进程号</li>
+<li>请勿设置小数时间片轮转或设置为0</li>
+<li>给定的完成时间，周转时间，等待时间将被忽略</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    寄付
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat 支払う">
+        <span>WeChat 支払う</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>著者： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>記事へのリンク：</strong>
+      <a href="https://deepcity.github.io/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html" title="三种操作系统模拟软件使用手册">https://deepcity.github.io/2024/三种操作系统模拟软件使用手册/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>著作権表示： </strong>このブログ内のすべての記事は、特別な記載がない限り <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> の下のライセンスで保護されています。
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>他の公開チャンネルへようこそ</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
+              <a href="/tags/%E6%96%87%E6%A1%A3/" rel="tag"># 文档</a>
+              <a href="/tags/%E5%AD%A6%E6%A0%A1/" rel="tag"># 学校</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E7%94%A8Typora%E2%80%94%E2%80%94Typora%E4%B8%8E%E5%85%B6%E4%BB%96markdown%E7%9A%84%E6%AF%94%E8%BE%83/article.html" rel="prev" title="为什么我用Typora——Typora与其他markdown的比较">
+                  <i class="fa fa-angle-left"></i> 为什么我用Typora——Typora与其他markdown的比较
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E4%B9%A0%E9%A2%98/article.html" rel="next" title="状态转移习题">
+                  状态转移习题 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>日本語</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="単語の総数">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="合計閲覧者数">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="閲覧合計数">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ja","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ja/2024/%E4%B8%89%E7%A7%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A8%A1%E6%8B%9F%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

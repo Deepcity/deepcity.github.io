@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="CentOS运维记录我在CentOS中折腾的经验。 存储空间不足在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS运维记录">
+<meta property="og:url" content="https://deepcity.github.io/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="CentOS运维记录我在CentOS中折腾的经验。 存储空间不足在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/08/25/JwhxWA1cV8niUu2.png">
+<meta property="article:published_time" content="2024-08-25T07:23:35.000Z">
+<meta property="article:modified_time" content="2024-08-25T09:34:23.702Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="CentOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/08/25/JwhxWA1cV8niUu2.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://deepcity.github.io/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html","path":"2024/CentOS运维记录/article.html","title":"CentOS运维记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CentOS运维记录 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CentOS%E8%BF%90%E7%BB%B4"><span class="nav-number">1.</span> <span class="nav-text">CentOS运维</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3"><span class="nav-number">1.1.</span> <span class="nav-text">存储空间不足</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.1.1.</span> <span class="nav-text">名词解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%98%90%E8%BF%B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">常用命令阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A9%E5%AE%B9"><span class="nav-number">1.1.3.</span> <span class="nav-text">虚拟机扩容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LVM%E6%89%A9%E5%AE%B9"><span class="nav-number">1.1.4.</span> <span class="nav-text">LVM扩容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%89%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">掉网络问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.3.</span> <span class="nav-text">经验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CentOS运维记录 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CentOS运维记录<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9DZW50T1Pov5Dnu7TorrDlvZUubWQ=" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-08-25 15:23:35 / 修改时间：17:34:23" itemprop="dateCreated datePublished" datetime="2024-08-25T15:23:35+08:00">2024-08-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">软件</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="CentOS运维"><a href="#CentOS运维" class="headerlink" title="CentOS运维"></a>CentOS运维</h1><p>记录我在CentOS中折腾的经验。</p>
+<h2 id="存储空间不足"><a href="#存储空间不足" class="headerlink" title="存储空间不足"></a>存储空间不足</h2><p>在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。</p>
+<span id="more"></span>
+<h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><p>写在前面为一些缩写给出解释</p>
+<ol>
+<li><p>LVM的基本组成</p>
+<ol>
+<li>物理卷 (PV，Physical Volume)<br>一个可供存储LVM的块设备. 如硬盘分区（MBR或GPT分区）、SAN 的硬盘、RAID 或 LUN，一个回环文件, 一个被内核映射的设备 (例如 dm-crypt)，它包含一个特殊的LVM头，它是 LVM 构建的实际硬件或存储系统。</li>
+<li>卷组 (VG，Volume Group)<br>卷组是对一个或多个物理卷的集合，并在设备文件系统中显示为 /dev/VG_NAME。</li>
+<li>逻辑卷 (LV，Logical Volume)<br>逻辑卷是可供系统使用的最终元设备，它们在卷组中创建和管理，由物理块组成，实际上就是一个虚拟分区，并显示为 /dev/VG_NAME/LV_NAME，通常在其上可以创建文件系统。</li>
+<li>物理块 (PE，Physical Extends)<br>一个卷组中最小的连续区域(默认为4 MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。</li>
+</ol>
+</li>
+<li><p>xfs文件系统：一种自Centos7起使用的文件系统</p>
+</li>
+</ol>
+<h3 id="常用命令阐述"><a href="#常用命令阐述" class="headerlink" title="常用命令阐述"></a>常用命令阐述</h3><ol>
+<li><code>lsblk</code>该命令可以查看当前硬盘的分区状况</li>
+<li><code>fdisk</code>该命令可以启动分盘程序，常用<code>fdisk -l</code>查看磁盘情况</li>
+<li><code>pvdisplay</code>显示物理卷</li>
+<li><code>vgdisplay</code>显示虚拟卷组</li>
+<li><code>lvdisplay</code>显示逻辑卷</li>
+<li><code>df</code>显示文件系统的容量以及挂载点位，常用参数<code>-h</code>显示适当的大小</li>
+<li><code>pvcreate</code>创建物理分区</li>
+<li><code>vgextend</code>扩容vg空间</li>
+<li><code>lvextend</code> 扩容lv空间 <code>-L</code>指按照指定空间，<code>-l</code>指按照指定百分比</li>
+<li><code>xfs_growfs</code>增加 XFS 文件系统的大小，必须挂载 XFS 文件系统，并且底层设备上必须有可用空间。</li>
+</ol>
+<h3 id="虚拟机扩容"><a href="#虚拟机扩容" class="headerlink" title="虚拟机扩容"></a>虚拟机扩容</h3><p>在Vmware虚拟机中，如果VM对硬盘预留了空间，那么可以直接二通过VMware进行扩容</p>
+<p><img src="https://s2.loli.net/2024/08/25/JwhxWA1cV8niUu2.png" alt="VMware"></p>
+<p>但很多情况下，这个方法都是不起作用的，尤其是分配了多块硬盘的情况。</p>
+<h3 id="LVM扩容"><a href="#LVM扩容" class="headerlink" title="LVM扩容"></a>LVM扩容</h3><p>LVM是扩容时所使用的空间的格式，是Linux所特有的空间的处理方法。</p>
+<ol>
+<li><p>通过虚拟机或服务器提供商增加硬盘大小</p>
+</li>
+<li><p>为当前硬盘新建分区，并格式化为lvm</p>
+<ol>
+<li><code>lsblk</code>显示硬盘状态</li>
+<li><code>fdisk [sdx]</code> 指定硬盘名调用fdisk系统</li>
+<li>新建分区</li>
+<li><code>t</code>指定<code>8e</code>lvm文件系统</li>
+</ol>
+</li>
+<li><p>将新建硬盘加入vg</p>
+<ol>
+<li><p>创建pv，<code>pvcreate /dev/[sdx]</code> </p>
+</li>
+<li><p>合并到已有vg组</p>
+<ol>
+<li><code>vgdisplay</code> 查看当前vg</li>
+<li>对欲增加容量的vg使用<code>vgextend [VG Name] /dev/[sdx]</code></li>
+</ol>
+</li>
+<li><p>扩展lv空间</p>
+<ol>
+<li><p><code>lvdisplay</code>查看已有lv空间</p>
+</li>
+<li><p><code>df -h</code>查看对应挂载点空间</p>
+<blockquote>
+<p>如LV name是home，他的LV Path是/dev/centos/home。</p>
+<p>假如我们想添加空间到/home中，可以在df -h的结果中看到其对应着/dev/mapper/centos-home</p>
+</blockquote>
+</li>
+<li><p><code>lvextend -l/L +xx%/+xxG /dev/centos/xxxxx</code>扩展空间</p>
+</li>
+</ol>
+</li>
+<li><p><code>xfs_growfs</code>使新的空间可用</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="掉网络问题"><a href="#掉网络问题" class="headerlink" title="掉网络问题"></a>掉网络问题</h2><p>见 <a href="../Linux网络设置/article.html">Linux网络设置.md</a> 中异常处理一章</p>
+<h2 id="经验"><a href="#经验" class="headerlink" title="经验"></a>经验</h2><ol>
+<li>多快照，尤其是当你修改/etc/目录下的一些配置文件，尤其是<code>/etc/fstab</code>该文件。</li>
+<li>maintain模式下，小数字键盘是不起作用的，而且这时不会有提示告诉你有问题</li>
+</ol>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><span class="exturl" data-url="aHR0cHM6Ly9jbG91ZC50ZW5jZW50LmNvbS9kZXZlbG9wZXIvYXJ0aWNsZS8yNDI0MTM2">Linux Centos系统 磁盘分区和文件系统管理 （深入理解）-腾讯云开发者社区-腾讯云 (tencent.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vbGFiLXpqL3AvMTM0NzQ1NDkuaHRtbA==">VMware虚拟机（centos7）容量不足调整（LVM） - 小小小光子 - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vb3JhbmdlLUNDL3AvMTI3MTEwNzguaHRtbA==">存储系列之 XFS文件系统简介 - orange-C - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjkxNTQzMS9hcnRpY2xlL2RldGFpbHMvMTIxODgxMDU0">Linux下的磁盘管理之LVM详解及lvm的常用磁盘操作命令_lvm命令-CSDN博客<i class="fa fa-external-link-alt"></i></span></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文博主： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://deepcity.github.io/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html" title="CentOS运维记录">https://deepcity.github.io/2024/CentOS运维记录/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" rel="prev" title="Linux网络设置">
+                  <i class="fa fa-angle-left"></i> Linux网络设置
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/Docker%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/article.html" rel="next" title="Docker安装与网络配置">
+                  Docker安装与网络配置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>简体中文</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="选择语言">
+      
+        <option value="zh-CN" data-href="/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-CN","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

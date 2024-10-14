@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Поиск...","empty":"По запросу ничего не найдено: ${query}","hits_time":"${hits} результатов найдено за ${time} мс","hits":"${hits} результатов найдено"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="张量 Tensor​    张量（Tensor）是一个可用来表示在一些矢量、标量和其他张量之间的线性关系的多线性函数，这些线性关系的基本例子有内积、外积、线性映射以及笛卡儿积。其坐标在 $n$ 维空间内，有 $n^r$ 个分量的一种量，其中每个分量都是坐标的函数，而在坐标变换时，这些分量也依照某些规则作线性变换。$r$ 称为该张量的秩或阶（与矩阵的秩和阶均无关系）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MindSpore专题——第三章——张量">
+<meta property="og:url" content="https://deepcity.github.io/ru/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="张量 Tensor​    张量（Tensor）是一个可用来表示在一些矢量、标量和其他张量之间的线性关系的多线性函数，这些线性关系的基本例子有内积、外积、线性映射以及笛卡儿积。其坐标在 $n$ 维空间内，有 $n^r$ 个分量的一种量，其中每个分量都是坐标的函数，而在坐标变换时，这些分量也依照某些规则作线性变换。$r$ 称为该张量的秩或阶（与矩阵的秩和阶均无关系）。">
+<meta property="og:locale" content="ru_RU">
+<meta property="article:published_time" content="2024-08-14T11:47:58.000Z">
+<meta property="article:modified_time" content="2024-08-16T08:59:14.000Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="MindSpore">
+<meta property="article:tag" content="目录">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ru/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ru","comments":true,"permalink":"https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html","path":"ru/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html","title":"MindSpore专题——第三章——张量"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MindSpore专题——第三章——张量 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Показать/скрыть меню" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Поиск" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Главная</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>О сайте</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Тэги</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Категории</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Архив</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Планировщик</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Карта сайта</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Страница 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Поиск
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Поиск..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Содержание
+        </li>
+        <li class="sidebar-nav-overview">
+          Обзор
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%A0%E9%87%8F-Tensor"><span class="nav-number">1.</span> <span class="nav-text">张量 Tensor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%BC%A0%E9%87%8F"><span class="nav-number">1.1.</span> <span class="nav-text">创建张量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%A0%E9%87%8F%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">张量的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%A0%E9%87%8F%E7%9A%84%E4%B8%8B%E6%A0%87%E7%B4%A2%E5%BC%95"><span class="nav-number">1.3.</span> <span class="nav-text">张量的下标索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%A0%E9%87%8F%E8%BF%90%E7%AE%97"><span class="nav-number">1.4.</span> <span class="nav-text">张量运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tensor%E4%B8%8ENumpy%E4%B9%8B%E9%97%B4%E7%9A%84%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96"><span class="nav-number">1.5.</span> <span class="nav-text">Tensor与Numpy之间的相互转化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%80%E7%96%8F%E5%BC%A0%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">稀疏张量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRTensor"><span class="nav-number">2.1.</span> <span class="nav-text">CSRTensor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COOTensor"><span class="nav-number">2.2.</span> <span class="nav-text">COOTensor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">2.3.</span> <span class="nav-text">使用实例</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">Архив</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">Категории</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">Тэги</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ru">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MindSpore专题——第三章——张量 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MindSpore专题——第三章——张量<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9zcGVjaWFsX3N1YmplY3QvTWluZFNwb3JlL0NoYXB0ZXJzL1RoaXJkX1RlbnNvci5tZA==" title="Редактировать запись"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Размещено</span>
+
+      <time title="Создано: 2024-08-14 19:47:58" itemprop="dateCreated datePublished" datetime="2024-08-14T19:47:58+08:00">2024-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Изменено</span>
+      <time title="Изменено: 2024-08-16 16:59:14" itemprop="dateModified" datetime="2024-08-16T16:59:14+08:00">2024-08-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">В категории</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/" itemprop="url" rel="index"><span itemprop="name">Mindspore</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基本概念</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Просмотров" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Просмотров: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline: </span>
+  
+    <a title="waline" href="/ru/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ru/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Кол-во символов в статье">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Кол-во символов в статье: </span>
+      <span>2k</span>
+    </span>
+    <span class="post-meta-item" title="Время чтения">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Время чтения &asymp;</span>
+      <span>7 мин.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="张量-Tensor"><a href="#张量-Tensor" class="headerlink" title="张量 Tensor"></a>张量 Tensor</h2><p>​    张量（Tensor）是一个可用来表示在一些矢量、标量和其他张量之间的线性关系的多线性函数，这些线性关系的基本例子有内积、外积、线性映射以及笛卡儿积。其坐标在 $n$ 维空间内，有 $n^r$ 个分量的一种量，其中每个分量都是坐标的函数，而在坐标变换时，这些分量也依照某些规则作线性变换。$r$ 称为该张量的秩或阶（与矩阵的秩和阶均无关系）。</p>
+<span id="more"></span>
+<p>​    张量是一种特殊的数据结构，与数组和矩阵非常相似，他表示的是一种多维的“矩阵”的集合。张量（<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS9taW5kc3BvcmUuVGVuc29yLmh0bWw=">Tensor<i class="fa fa-external-link-alt"></i></span>）是MindSpore网络运算中的基本数据结构，本教程主要介绍张量和稀疏张量的属性及用法。</p>
+<p>​    <em>矩阵的秩或阶是人工智能中基础且常考的考点：一般形式是求矩阵秩是多少</em></p>
+<p>下面是对张量在MindSpore中的实践</p>
+<h3 id="创建张量"><a href="#创建张量" class="headerlink" title="创建张量"></a>创建张量</h3><ol>
+<li><strong>根据数据直接生成</strong></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line">x_data = Tensor(data)</span><br><span class="line"><span class="built_in">print</span>(x_data, x_data.shape, x_data.dtype)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[1 0 1 0] (4,) Int64</p>
+</blockquote>
+<ol>
+<li><strong>从NumPy数组生成</strong></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">np_array = np.array(data)</span><br><span class="line">x_np = Tensor(np_array)</span><br><span class="line"><span class="built_in">print</span>(x_np, x_np.shape, x_np.dtype)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[1 0 1 0] (4,) Int64</p>
+</blockquote>
+<ol>
+<li><strong>使用init初始化器构造张量</strong></li>
+</ol>
+<p>​    当使用<code>init</code>初始化器对张量进行初始化时，支持传入的参数有<code>init</code>、<code>shape</code>、<code>dtype</code>。</p>
+<ul>
+<li><p><code>init</code>: 支持传入<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS5jb21tb24uaW5pdGlhbGl6ZXIuaHRtbA==">initializer<i class="fa fa-external-link-alt"></i></span>的子类。如：下方示例中的 <span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS5jb21tb24uaW5pdGlhbGl6ZXIuaHRtbCNtaW5kc3BvcmUuY29tbW9uLmluaXRpYWxpemVyLk9uZQ==">One()<i class="fa fa-external-link-alt"></i></span> 和 <span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS5jb21tb24uaW5pdGlhbGl6ZXIuaHRtbCNtaW5kc3BvcmUuY29tbW9uLmluaXRpYWxpemVyLk5vcm1hbA==">Normal()<i class="fa fa-external-link-alt"></i></span>。</p>
+<ul>
+<li><p><code>shape</code>: 支持传入 <code>list</code>、<code>tuple</code>、 <code>int</code>。</p>
+</li>
+<li><p><code>dtype</code>: 支持传入<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS9taW5kc3BvcmUuZHR5cGUuaHRtbCNtaW5kc3BvcmUuZHR5cGU=">mindspore.dtype<i class="fa fa-external-link-alt"></i></span>。</p>
+</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>继承张量并形成新的张量</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mindspore <span class="keyword">import</span> ops</span><br><span class="line"></span><br><span class="line">x_ones = ops.ones_like(x_data)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Ones Tensor: \n <span class="subst">&#123;x_ones&#125;</span> \n&quot;</span>)</span><br><span class="line"></span><br><span class="line">x_zeros = ops.zeros_like(x_data)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Zeros Tensor: \n <span class="subst">&#123;x_zeros&#125;</span> \n&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="张量的属性"><a href="#张量的属性" class="headerlink" title="张量的属性"></a>张量的属性</h3><ul>
+<li>张量的属性包括形状、数据类型、转置张量、单个元素大小、占用字节数量、维数、元素个数和每一维步长。<ul>
+<li>形状（shape）：<code>Tensor</code>的shape，是一个tuple（元组，python中的数据类型标签）。</li>
+<li>数据类型（dtype）：<code>Tensor</code>的dtype，是MindSpore的一个数据类型。</li>
+<li>单个元素大小（itemsize）： <code>Tensor</code>中每一个元素占用字节数，是一个整数。</li>
+<li>占用字节数量（nbytes）： <code>Tensor</code>占用的总字节数，是一个整数。</li>
+<li>维数（ndim）： <code>Tensor</code>的秩，也就是len(tensor.shape)，是一个整数。</li>
+<li>元素个数（size）： <code>Tensor</code>中所有元素的个数，是一个整数。</li>
+<li>每一维步长（strides）： <code>Tensor</code>每一维所需要的字节数，是一个tuple。</li>
+</ul>
+</li>
+</ul>
+<p>为更简单的理解shape的含义，我修改了一下官方文档中的x张量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x = Tensor(np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>]]), mindspore.int32)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x_shape:&quot;</span>, x.shape)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x_dtype:&quot;</span>, x.dtype)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x_itemsize:&quot;</span>, x.itemsize)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x_nbytes:&quot;</span>, x.nbytes)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x_ndim:&quot;</span>, x.ndim)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x_size:&quot;</span>, x.size)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x_strides:&quot;</span>, x.strides)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>x_shape: (3, 2)<br>x_dtype: Int32<br>x_itemsize: 4<br>x_nbytes: 24<br>x_ndim: 2<br>x_size: 6<br>x_strides: (8, 4)</p>
+</blockquote>
+<h3 id="张量的下标索引"><a href="#张量的下标索引" class="headerlink" title="张量的下标索引"></a>张量的下标索引</h3><p>Tensor索引与Numpy索引类似，索引从0开始编制，负索引表示按倒序编制，冒号<code>:</code>和 <code>...</code>用于对数据进行切片。切片的意思是后面的参数是按行算的还是按列算的，详细请看代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tensor = Tensor(np.array([[0, 1], [2, 3]]).astype(np.float32))</span><br><span class="line"></span><br><span class="line">print(&quot;First row: &#123;&#125;&quot;.format(tensor[0]))</span><br><span class="line">print(&quot;value of bottom right corner: &#123;&#125;&quot;.format(tensor[1, 1]))</span><br><span class="line">print(&quot;Last column: &#123;&#125;&quot;.format(tensor[:, -1]))</span><br><span class="line">print(&quot;First column: &#123;&#125;&quot;.format(tensor[..., 0]))</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>First row: [0. 1.]<br>value of bottom right corner: 3.0<br>Last column: [1. 3.]<br>First column: [0. 2.]</p>
+</blockquote>
+<h3 id="张量运算"><a href="#张量运算" class="headerlink" title="张量运算"></a>张量运算</h3><p>张量之间有很多运算，包括算术、线性代数、矩阵处理（转置、标引、切片）、采样等，张量运算和NumPy的使用方式类似，下面介绍其中几种操作。</p>
+<blockquote>
+<p>普通算术运算有：加（+）、减（-）、乘（*）、除（/）、取模（%）、整除（//）。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">x = Tensor(np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]), mindspore.float32)</span><br><span class="line">y = Tensor(np.array([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]), mindspore.float32)</span><br><span class="line"></span><br><span class="line">output_add = x + y</span><br><span class="line">output_sub = x - y</span><br><span class="line">output_mul = x * y</span><br><span class="line">output_div = y / x</span><br><span class="line">output_mod = y % x</span><br><span class="line">output_floordiv = y // x</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;add:&quot;</span>, output_add)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;sub:&quot;</span>, output_sub)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;mul:&quot;</span>, output_mul)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;div:&quot;</span>, output_div)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;mod:&quot;</span>, output_mod)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;floordiv:&quot;</span>, output_floordiv)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>add: [5. 7. 9.]<br>sub: [-3. -3. -3.]<br>mul: [ 4. 10. 18.]<br>div: [4.  2.5 2. ]<br>mod: [0. 1. 0.]<br>floordiv: [4. 2. 2.]</p>
+</blockquote>
+<p>对于一些函数的使用，这里之贴出定义，详细运行库中代码（个人觉得没必要，知道这些函数即可，毕竟到处可见类似函数）</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL29wcy9taW5kc3BvcmUub3BzLmNvbmNhdC5odG1s">concat<i class="fa fa-external-link-alt"></i></span>() : 将给定维度上的一系列张量连接起来，0表示最高得也就是直接通过<code>张量名[下标索引]</code>时的张量名所代表的元组。</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL29wcy9taW5kc3BvcmUub3BzLnN0YWNrLmh0bWw=">stack<i class="fa fa-external-link-alt"></i></span>()：则是从另一个维度上将两个张量合并起来。（新建一个维度）</p>
+<h3 id="Tensor与Numpy之间的相互转化"><a href="#Tensor与Numpy之间的相互转化" class="headerlink" title="Tensor与Numpy之间的相互转化"></a>Tensor与Numpy之间的相互转化</h3><p>Tensor() : 将ndarray转化为Tensor</p>
+<p>asnumpy()：将Tensor转化为ndarray</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t = Tensor([<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;t: <span class="subst">&#123;t&#125;</span>&quot;</span>, <span class="built_in">type</span>(t))</span><br><span class="line">n = t.asnumpy()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;n: <span class="subst">&#123;n&#125;</span>&quot;</span>, <span class="built_in">type</span>(n))</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>t: [1. 1. 1. 1. 1.] <class 'mindspore.common.tensor.Tensor'><br>n: [1. 1. 1. 1. 1.] <class 'numpy.ndarray'></p>
+</blockquote>
+<p>将NumPy变量转换为Tensor变量同样也不贴出来了，详情请运行本章代码对应部分查看</p>
+<p>有一个值得注意的点： </p>
+<p>当我们运行代码时调用了<code>np.add(n, 1, out=n)</code>函数，该函数<strong>同时改变了我们的Numpy数据和Tensor数据</strong>，这说明当我们进行转化时我们并没有创建新的变量，而是创建了新的变量指针。</p>
+<h2 id="稀疏张量"><a href="#稀疏张量" class="headerlink" title="稀疏张量"></a>稀疏张量</h2><p>稀疏张量是一种特殊张量，其中绝大部分元素的值为零。</p>
+<p>在某些应用场景中（比如推荐系统、分子动力学、图神经网络等），数据的特征是稀疏的，若使用普通张量表征这些数据会引入大量不必要的计算、存储和通讯开销。这时就可以使用稀疏张量来表征这些数据。</p>
+<p>两种常用的稀疏张量格式</p>
+<ol>
+<li>CRS（Compressed Sparse Row）其中，非零元素的值存储在<code>values</code>中，非零元素的位置存储在<code>indptr</code>（行）和<code>indices</code>（列）中。</li>
+<li>COOCoordinate Format）稀疏张量格式用来表示某一张量在给定索引上非零元素的集合，若非零元素的个数为<code>N</code>，被压缩的张量的维数为<code>ndims</code>。</li>
+</ol>
+<p>常用稀疏张量的表达形式是<code>&lt;indices:Tensor, values:Tensor, shape:Tensor&gt;</code>。其中，<code>indices</code>表示非零下标元素， <code>values</code>表示非零元素的值，shape表示的是被压缩的稀疏张量的形状。在这个结构下，我们定义了三种稀疏张量结构：<code>CSRTensor</code>、<code>COOTensor</code>和<code>RowTensor</code>。</p>
+<h3 id="CSRTensor"><a href="#CSRTensor" class="headerlink" title="CSRTensor"></a>CSRTensor</h3><ul>
+<li><code>indptr</code>: 一维整数张量, 表示稀疏数据每一行的非零元素在<code>values</code>中的起始位置和终止位置, 索引数据类型支持int16、int32、int64。</li>
+<li><code>indices</code>: 一维整数张量，表示稀疏张量非零元素在列中的位置, 与<code>values</code>长度相等，索引数据类型支持int16、int32、int64。</li>
+<li><code>values</code>: 一维张量，表示<code>CSRTensor</code>相对应的非零元素的值，与<code>indices</code>长度相等。</li>
+<li><code>shape</code>: 表示被压缩的稀疏张量的形状，数据类型为<code>Tuple</code>，目前仅支持二维<code>CSRTensor</code>。</li>
+</ul>
+<h3 id="COOTensor"><a href="#COOTensor" class="headerlink" title="COOTensor"></a>COOTensor</h3><ul>
+<li><code>indices</code>: 二维整数张量，每行代表非零元素下标。形状：<code>[N, ndims]</code>， 索引数据类型支持int16、int32、int64。</li>
+<li><code>values</code>: 一维张量，表示相对应的非零元素的值。形状：<code>[N]</code>。</li>
+<li><code>shape</code>: 表示被压缩的稀疏张量的形状，目前仅支持二维<code>COOTensor</code>。</li>
+</ul>
+<h3 id="使用实例"><a href="#使用实例" class="headerlink" title="使用实例"></a>使用实例</h3><p>在源代码最后有CSRTensor、COOTensor的使用实例</p>
+<p>这里得给出代码，我做了一些修改，不然不好理解</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CSRTensor 稀疏张量表实例</span></span><br><span class="line">indptr = Tensor([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">indices = Tensor([<span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">values = Tensor([<span class="number">1</span>, <span class="number">2</span>], dtype=mindspore.float32)</span><br><span class="line">shape = (<span class="number">2</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Make a CSRTensor</span></span><br><span class="line">csr_tensor = CSRTensor(indptr, indices, values, shape)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(csr_tensor.astype(mindspore.float64).dtype)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(csr_tensor)</span><br><span class="line"></span><br><span class="line">indices = Tensor([[<span class="number">0</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">2</span>]], dtype=mindspore.int32)</span><br><span class="line">values = Tensor([<span class="number">1</span>, <span class="number">2</span>], dtype=mindspore.float32)</span><br><span class="line">shape = (<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Make a COOTensor</span></span><br><span class="line">coo_tensor = COOTensor(indices, values, shape)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(coo_tensor)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Float64<br>CSRTensor(shape=[2, 4], </p>
+<p>dtype=Float32,</p>
+<p> indptr=Tensor(shape=[3], dtype=Int64, value=[0 1 2]), </p>
+<p>indices=Tensor(shape=[2], dtype=Int64, value=[0 1]), </p>
+<p>values=Tensor(shape=[2], dtype=Float32, value=[ 1.00000000e+00  2.00000000e+00]))<br>COOTensor(shape=[3, 4], </p>
+<p>dtype=Float32, </p>
+<p>indices=Tensor(shape=[2, 2], dtype=Int32, value=[[0 1] [1 2]]), </p>
+<p>values=Tensor(shape=[2], dtype=Float32, value=[ 1.00000000e+00  2.00000000e+00]))</p>
+</blockquote>
+<p>其生成实例如下</p>
+<p>CSRTensor: </p>
+<script type="math/tex; mode=display">
+\begin{split}\left[
+\begin{matrix}
+  1 & 0 & 0 & 0 \\
+  0 & 2 & 0 & 0
+ \end{matrix}
+ \right]\end{split}</script><p>COOTensor:</p>
+<script type="math/tex; mode=display">
+\begin{split}\left[
+\begin{matrix}
+  0 & 1 & 0 & 0 \\
+  0 & 0 & 2 & 0 \\
+  0 & 0 & 0 & 0
+ \end{matrix}
+ \right]\end{split}</script><ul>
+<li>CSRTensor(indptr, indices, values, shape)： 构造一个CSR稀疏张量表</li>
+<li>COOTensor(indices, values, shape) ：构造一个COO稀疏张量表</li>
+</ul>
+<p>理解不了CSR请参考:<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS9taW5kc3BvcmUuQ1NSVGVuc29yLmh0bWw=">MindSpore<i class="fa fa-external-link-alt"></i></span></p>
+<p>理解不了COO请参考:<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS9taW5kc3BvcmUuQ09PVGVuc29yLmh0bWw=">MindSpore<i class="fa fa-external-link-alt"></i></span></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Донат
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Автор записи:  </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>Ссылка на запись: </strong>
+      <a href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html" title="MindSpore专题——第三章——张量">https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Информация об авторских правах:  </strong>Все записи на этом сайте защищены лицензией <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span>, если не указано дополнительно.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Добро пожаловать на другие мои издательские каналы</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/MindSpore/" rel="tag"># MindSpore</a>
+              <a href="/tags/%E7%9B%AE%E5%BD%95/" rel="tag"># 目录</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html" rel="prev" title="MindSpore专题——第六章——函数式微分">
+                  <i class="fa fa-angle-left"></i> MindSpore专题——第六章——函数式微分
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/special_subject/MindSpore/Chapters/Seven_ModelTrain/article.html" rel="next" title="MindSpore专题——第七章、模型训练">
+                  MindSpore专题——第七章、模型训练 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>Английский</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Выберите язык">
+      
+        <option value="zh-CN" data-href="/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Общее кол-во символов">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Общее время чтения">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Всего посетителей">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Всего просмотров">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Генератор — <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="В начало">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ru","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ru/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

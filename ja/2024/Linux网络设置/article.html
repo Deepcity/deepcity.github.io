@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Linux的网络配置在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。 基础网络命令 ifconfig最基本最常用的命令，用于查看本地网卡的信息，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux网络设置">
+<meta property="og:url" content="https://deepcity.github.io/ja/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="Linux的网络配置在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。 基础网络命令 ifconfig最基本最常用的命令，用于查看本地网卡的信息，">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://s2.loli.net/2024/08/24/uRIr2VMaYvtkFhH.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/24/1K8cfE5atGrgeAY.png">
+<meta property="article:published_time" content="2024-08-25T07:23:20.000Z">
+<meta property="article:modified_time" content="2024-08-27T08:07:33.479Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/08/24/uRIr2VMaYvtkFhH.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ja/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ja","comments":true,"permalink":"https://deepcity.github.io/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html","path":"ja/2024/Linux网络设置/article.html","title":"Linux网络设置"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux网络设置 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="検索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>プロフィール</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>タグ</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>スケジュール</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>サイトマップ</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>検索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="検索…" spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">Linux的网络配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">基础网络命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91"><span class="nav-number">1.2.</span> <span class="nav-text">如何科学上网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E5%B9%B3%E5%8F%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">Windows平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">推荐软件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E5%B9%B3%E5%8F%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">Linux平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">常用的软件配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#yum"><span class="nav-number">1.2.2.1.1.</span> <span class="nav-text">yum</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#docker"><span class="nav-number">1.2.2.1.2.</span> <span class="nav-text">docker</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%B9%BF%E5%91%8A%EF%BC%8C%E4%B8%AA%E4%BA%BA%E8%87%AA%E7%94%A8%E6%9C%BA%E5%9C%BA"><span class="nav-number">1.2.3.</span> <span class="nav-text">无广告，个人自用机场</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E4%BF%AE%E5%A4%8D"><span class="nav-number">1.3.</span> <span class="nav-text">异常修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">タグ</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux网络设置 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux网络设置<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9MaW51eOe9kee7nOiuvue9ri5tZA==" title="この記事を編集する"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">投稿日</span>
+
+      <time title="作成日：2024-08-25 15:23:20" itemprop="dateCreated datePublished" datetime="2024-08-25T15:23:20+08:00">2024-08-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">編集日</span>
+      <time title="修正日：2024-08-27 16:07:33" itemprop="dateModified" datetime="2024-08-27T16:07:33+08:00">2024-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">カテゴリ</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">软件</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閲覧数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閲覧数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/ja/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ja/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="単語数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">単語数：</span>
+      <span>1.9k</span>
+    </span>
+    <span class="post-meta-item" title="読書の時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">読書の時間 &asymp;</span>
+      <span>7 分</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Linux的网络配置"><a href="#Linux的网络配置" class="headerlink" title="Linux的网络配置"></a>Linux的网络配置</h1><p>在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。</p>
+<h2 id="基础网络命令"><a href="#基础网络命令" class="headerlink" title="基础网络命令"></a>基础网络命令</h2><ol>
+<li><code>ifconfig</code>最基本最常用的命令，用于查看本地网卡的信息，一般查看值为IP或者本地物理地址</li>
+<li><code>ping</code> 简单的测试网络丢包率，有时<code>curl</code>命令对网站的检测更为准确，因为两者对于代理的检测并不完全一致</li>
+<li><code>netstat</code>用于查看本地端口的状态信息，一般用于查看当前那些端口是开放的，那些端口是被某个特定应用监控的，一般搭配<code>grep</code>使用</li>
+<li><code>traceroute</code>针对特定目标地址的报文转发追踪，基于IP报文中的生存时间TTL实现，一般用于查看对特定网络服务是否联通，也可用于查看本机某个端口是否对外界开放，最经典的例子就是mail端口25，这个端口国内很少开放</li>
+<li><code>whois</code> 查看域名建立时间，有效期等，一般用于查看网站的归属信息以及ssl证书的有效期</li>
+<li><code>host</code>查看有关目的地址的信息，既可以通过IP查看域名，也可以通过域名查看IP</li>
+<li><code>ifdown</code> <code>ifup</code>,这两个命令用于对特定网卡的关启</li>
+<li><code>nmtui</code> 通过调用一个内置的网卡配置图形化界面配置网卡</li>
+<li><code>systemctl start/stop/enable/restart NetworkManager</code>这是一个特殊的通过systemctl控制网络服务以实现对网络进行开关的命令，常用于对<code>/etc/NetworkManager/NetworkManager.conf</code>该文件进行修改后的重新配置网络</li>
+<li><code>env | grep -E &#39;http_proxy|https_proxy&#39;</code>这条命令比较特殊，一般用于查看当前的代理</li>
+</ol>
+<span id="more"></span>
+<h2 id="如何科学上网"><a href="#如何科学上网" class="headerlink" title="如何科学上网"></a>如何科学上网</h2><h3 id="Windows平台"><a href="#Windows平台" class="headerlink" title="Windows平台"></a>Windows平台</h3><p>对于Windows平台，该平台有大量用户基础，并且生态良好，很容易找到代理上网的软件以及节点。（初接触者千万区分这两者，代理是代理也称机场，软件是软件）。两者一个收费最好，一个完全免费。</p>
+<h4 id="推荐软件"><a href="#推荐软件" class="headerlink" title="推荐软件"></a>推荐软件</h4><p>V2ray、ClashForWindows等</p>
+<h3 id="Linux平台"><a href="#Linux平台" class="headerlink" title="Linux平台"></a>Linux平台</h3><p>推荐clash-for-linux，一个个人自用的备份库</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0VsZWd5Y2xvdWQvY2xhc2gtZm9yLWxpbnV4LWJhY2t1cA==">Elegycloud/clash-for-linux-backup: 基于Clash Core 制作的Clash For Linux备份仓库 A Clash For Linux Backup Warehouse Based on Clash Core (github.com)<i class="fa fa-external-link-alt"></i></span></p>
+<p>根据md文档操作即可</p>
+<p>注：</p>
+<ol>
+<li>这样的操作一般用于加速对github的下载</li>
+<li>配置其他的服务代理一般需要特别配置，因为很多服务实际上是通过守护进程来进行网络通信的</li>
+</ol>
+<h4 id="常用的软件配置"><a href="#常用的软件配置" class="headerlink" title="常用的软件配置"></a>常用的软件配置</h4><h5 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h5><p>注意对yum文件的禁用修改方式，不要使用rm，而是加文件名后缀禁用文件</p>
+<ol>
+<li><p>全局修改</p>
+<p>修改/etc/yum.conf文件即可，在结尾添加你的本地代理网址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy=http://IP:Port</span><br><span class="line">// 在本文中为</span><br><span class="line">proxy=http://127.0.0.1：7890</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对特定的仓库启用代理</p>
+<p>比如<code>CentOS-Base.repo</code>中有三个仓库：base、updates和extras。我们只想给base仓库设置代理，则只需要在对应的仓库后面添加一行，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[base]</span><br><span class="line">name=CentOS-$releasever - Base</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"># 下一行为新增,效果为base仓库走代理</span><br><span class="line">proxy=http://ip:port</span><br><span class="line"># 下注释一行为base不走代理</span><br><span class="line"># proxy=_none_</span><br><span class="line">#released updates </span><br><span class="line">[updates]</span><br><span class="line">name=CentOS-$releasever - Updates</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#additional packages that may be useful</span><br><span class="line">[extras]</span><br><span class="line">name=CentOS-$releasever - Extras</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-</span><br><span class="line">gpg/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h5><p>按照需求修改文件即可，详见</p>
+<p> <a href="Docker安装与网络配置/article.html">Docker.md</a> </p>
+<h3 id="无广告，个人自用机场"><a href="#无广告，个人自用机场" class="headerlink" title="无广告，个人自用机场"></a>无广告，个人自用机场</h3><p><span class="exturl" data-url="aHR0cHM6Ly9qdXN0bXlzb2Nrcy5hcHAv">Just My Socks官网<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="异常修复"><a href="#异常修复" class="headerlink" title="异常修复"></a>异常修复</h2><p><strong>重装系统或恢复快照</strong></p>
+<p>在花式乱搞后，虚拟机（服务器）的网络很容易会出现问题，比如，完全看不到虚拟机的网络选项，它有网卡但是却根本不获取ip！</p>
+<p><img src="https://s2.loli.net/2024/08/24/uRIr2VMaYvtkFhH.png" alt="Error"></p>
+<p>这种情况一般都是 network这个网卡服务出现了问题</p>
+<ol>
+<li><p>找到错误</p>
+<p>查找虚拟机设置或者通过其他命令与文件查找到错误之后，通过<code>systemctl restart network</code>验证该服务是否出错</p>
+</li>
+<li><p>排除关联</p>
+<p>通过</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop NetworkManager</span><br><span class="line">systemctl disable NetworkManager</span><br><span class="line">systemctl start network.service</span><br></pre></td></tr></table></figure>
+<p>成功启动服务，确定network服务启动失败与NetworkManager之间的关联</p>
+<p>但可以观察到，此时问题仍未解决，虚拟机仍无法上网，但是通过<code>ifconfig ens33</code>（ens33为网卡名）可以发现dhcp正常工作，更进一步的，我们从虚拟机ping主机也是可以ping通的</p>
+</li>
+<li><p>尝试解决上网问题</p>
+<p>每种vm切换连接方式都解决不了问题，虚拟机仍无法上网，但可以发现，每次启动NetworkManager服务，就会导致虚拟机失去IP从而无法通信</p>
+</li>
+</ol>
+<p>可见NetworkManager与network之间发生了一些冲突，导致两个服务相互影响使得网络处于要么能分配ip但上不了网，要么根本没ip的局面。</p>
+<p><img src="https://s2.loli.net/2024/08/24/1K8cfE5atGrgeAY.png" alt="xe"></p>
+<p>尝试查看错误信息可以发现其中奥秘。可以发现这一切都与一个名叫lo的本地环回接口有关，它被设置为不受管理。</p>
+<p>在我询问chatgpt后，我得到了一种解决方式</p>
+<p><strong>这种方式使得NetworkManager与network服务同时进行，可以访问网络，但无网络连接图标</strong>（虚拟机环境）</p>
+<p>具体方式为</p>
+<ol>
+<li><p>确保 <code>lo</code> 接口没有被 NetworkManager 管理。<code>/etc/NetworkManager/NetworkManager.conf</code> 文件中修改配置</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">main</span>]</span><br><span class="line">plugins=keyfile</span><br><span class="line"></span><br><span class="line">[<span class="meta">keyfile</span>]</span><br><span class="line"><span class="keyword">unmanaged</span>-devices=<span class="keyword">interface</span>-<span class="title">name</span>:<span class="title">lo</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清除可能的网络配置缓存</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr flush dev ens33</span><br><span class="line">sudo ip route flush table main</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启服务</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart NetworkManager</span><br><span class="line">sudo systemctl restart network.service</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><del>对于虚拟机的网络显示问题，目前还未找到好的解决方式，网络上博主表示直接重装系统即可。。。</del> 找到方法了， 直接挂起然后启动就好，很神奇，重启解决不了，挂起能解决。。。</p>
+<blockquote>
+<p>网络管理器(NetworManager)是检测网络、自动连接网络的程序。无论是无线还是有线连接，它都可以令您轻松管理。对于无线网络,网络管理器优先连接已知的网络并可以自动切换到最可靠的无线网络。利用网络管理器的程序可以自由切换在线和离线模式。网络管理器会相对无线网络优先选择有线网络，支持 VPN。网络管理器最初由 Redhat 公司开发，现在由 GNOME 管理。</p>
+<p>NetworkManager由一个管理系统网络连接、并且将其状态通过D-BUS（是一个提供简单的应用程序 互相通讯的途径的自由软件项目，它是作为freedesktoporg项目的一部分来开发的。）进行报告的后台服务，以及一个允许用户管理网络连接的客户端程序。</p>
+</blockquote>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><span class="exturl" data-url="aHR0cHM6Ly9wc2hpemhzeXN1LmdpdGJvb2suaW8vbGludXgveXVtL3dlaS15dW0teXVhbi1wZWktemhpLWRhaS1saQ==">为yum源配置代理 | linux (gitbook.io)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vd2FuZ2Z4L3AvMTcyOTM0NzIuaHRtbA==">解决centos7网卡启动失败解决（亲测有效！！） - 王飞侠 - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    寄付
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat 支払う">
+        <span>WeChat 支払う</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>著者： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>記事へのリンク：</strong>
+      <a href="https://deepcity.github.io/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" title="Linux网络设置">https://deepcity.github.io/2024/Linux网络设置/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>著作権表示： </strong>このブログ内のすべての記事は、特別な記載がない限り <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> の下のライセンスで保護されています。
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>他の公開チャンネルへようこそ</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag"># 网络</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/%E7%AE%97%E6%B3%95%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/article.html" rel="prev" title="算法数论基础">
+                  <i class="fa fa-angle-left"></i> 算法数论基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html" rel="next" title="CentOS运维记录">
+                  CentOS运维记录 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>日本語</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="単語の総数">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="合計閲覧者数">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="閲覧合計数">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ja","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ja/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

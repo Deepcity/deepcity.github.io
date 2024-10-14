@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="B-小苯的好数组_牛客小白月赛94 (nowcoder.com)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xiaobai94">
+<meta property="og:url" content="https://deepcity.github.io/ja/2024/Xiaobai94/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="B-小苯的好数组_牛客小白月赛94 (nowcoder.com)">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2024-08-14T11:46:31.000Z">
+<meta property="article:modified_time" content="2024-08-27T08:24:38.072Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="newcoder">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ja/2024/Xiaobai94/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ja","comments":true,"permalink":"https://deepcity.github.io/2024/Xiaobai94/article.html","path":"ja/2024/Xiaobai94/article.html","title":"Xiaobai94"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Xiaobai94 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="検索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>プロフィール</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>タグ</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>スケジュール</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>サイトマップ</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>検索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="検索…" spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#B-%E5%B0%8F%E8%8B%AF%E7%9A%84%E5%A5%BD%E6%95%B0%E7%BB%84-%E7%89%9B%E5%AE%A2%E5%B0%8F%E7%99%BD%E6%9C%88%E8%B5%9B94-nowcoder-com"><span class="nav-number">1.</span> <span class="nav-text">B-小苯的好数组_牛客小白月赛94 (nowcoder.com)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E6%84%8F"><span class="nav-number">1.1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">题解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E5%B0%8F%E8%8B%AF%E7%9A%84%E6%95%B0%E5%AD%97%E5%90%88%E5%B9%B6-%E7%89%9B%E5%AE%A2%E5%B0%8F%E7%99%BD%E6%9C%88%E8%B5%9B94-nowcoder-com"><span class="nav-number">2.</span> <span class="nav-text">C-小苯的数字合并_牛客小白月赛94 (nowcoder.com)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E6%84%8F-1"><span class="nav-number">2.1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3-1"><span class="nav-number">2.2.</span> <span class="nav-text">题解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D-%E5%B0%8F%E8%8B%AF%E7%9A%84%E6%8E%92%E5%88%97%E6%9E%84%E9%80%A0-%E7%89%9B%E5%AE%A2%E5%B0%8F%E7%99%BD%E6%9C%88%E8%B5%9B94-nowcoder-com"><span class="nav-number">3.</span> <span class="nav-text">D-小苯的排列构造_牛客小白月赛94 (nowcoder.com)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E6%84%8F-2"><span class="nav-number">3.1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3-2"><span class="nav-number">3.2.</span> <span class="nav-text">题解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#E-%E5%B0%8F%E8%8B%AF%E7%9A%8401%E8%83%8C%E5%8C%85%EF%BC%88easy%EF%BC%89-%E7%89%9B%E5%AE%A2%E5%B0%8F%E7%99%BD%E6%9C%88%E8%B5%9B94-nowcoder-com"><span class="nav-number">4.</span> <span class="nav-text">E-小苯的01背包（easy）_牛客小白月赛94 (nowcoder.com)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#F-%E5%B0%8F%E8%8B%AF%E7%9A%8401%E8%83%8C%E5%8C%85%EF%BC%88hard%EF%BC%89-%E7%89%9B%E5%AE%A2%E5%B0%8F%E7%99%BD%E6%9C%88%E8%B5%9B94-nowcoder-com"><span class="nav-number">5.</span> <span class="nav-text">F-小苯的01背包（hard）_牛客小白月赛94 (nowcoder.com)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E6%84%8F-3"><span class="nav-number">5.1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3-3"><span class="nav-number">5.2.</span> <span class="nav-text">题解</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">タグ</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/Xiaobai94/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Xiaobai94 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Xiaobai94<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9YaWFvYmFpOTQubWQ=" title="この記事を編集する"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">投稿日</span>
+
+      <time title="作成日：2024-08-14 19:46:31" itemprop="dateCreated datePublished" datetime="2024-08-14T19:46:31+08:00">2024-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">編集日</span>
+      <time title="修正日：2024-08-27 16:24:38" itemprop="dateModified" datetime="2024-08-27T16:24:38+08:00">2024-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">カテゴリ</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%AF%94%E8%B5%9B/" itemprop="url" rel="index"><span itemprop="name">比赛</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%AF%94%E8%B5%9B/%E6%97%A5%E5%B8%B8%E8%B5%9B/" itemprop="url" rel="index"><span itemprop="name">日常赛</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%AF%94%E8%B5%9B/%E6%97%A5%E5%B8%B8%E8%B5%9B/newcoder/" itemprop="url" rel="index"><span itemprop="name">newcoder</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閲覧数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閲覧数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/ja/2024/Xiaobai94/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ja/2024/Xiaobai94/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="単語数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">単語数：</span>
+      <span>1.7k</span>
+    </span>
+    <span class="post-meta-item" title="読書の時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">読書の時間 &asymp;</span>
+      <span>6 分</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="B-小苯的好数组-牛客小白月赛94-nowcoder-com"><a href="#B-小苯的好数组-牛客小白月赛94-nowcoder-com" class="headerlink" title="B-小苯的好数组_牛客小白月赛94 (nowcoder.com)"></a><span class="exturl" data-url="aHR0cHM6Ly9hYy5ub3djb2Rlci5jb20vYWNtL2NvbnRlc3QvODI5NTcvQg==">B-小苯的好数组_牛客小白月赛94 (nowcoder.com)<i class="fa fa-external-link-alt"></i></span></h2><span id="more"></span>
+<h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3><p>大白熊给了小苯一个长度为 $n$ 的数组 $a$，这次他希望小苯从数组中选择一个<strong>子序列</strong>（下方备注有定义解释），满足这个子序列构成的数组是一个“好数组”。  </p>
+<p>大白熊定义好数组是：如果一个数组按升序排序后和原来<strong>不完全相同</strong>，则其是一个好数组。例如 $[3,2,2]$ 升序排序后是 $[2, 2, 3]$，和原来不完全相同，因此<strong>是</strong>一个好数组，而 $[1,2,2]$ <strong>不是</strong>一个好数组。</p>
+<p>小苯想知道，如果想要使得选择的子序列构成一个“好数组”，最长可以选多长的子序列？</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>误入签到，答案只有0和n两种，很好判断</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">slove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	vector&lt;<span class="type">int</span>&gt; ve;</span><br><span class="line">	cin&gt;&gt;n;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">		<span class="type">int</span> x;cin&gt;&gt;x;</span><br><span class="line">		ve.<span class="built_in">pb</span>(x);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> ls = <span class="number">0</span>,flag = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> v:ve)&#123;</span><br><span class="line">		<span class="keyword">if</span>(v &lt; ls)flag = <span class="number">1</span>;</span><br><span class="line">		ls = <span class="built_in">max</span>(v,ls);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(flag) cout&lt;&lt;n&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">else</span> cout&lt;&lt;<span class="number">0</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="C-小苯的数字合并-牛客小白月赛94-nowcoder-com"><a href="#C-小苯的数字合并-牛客小白月赛94-nowcoder-com" class="headerlink" title="C-小苯的数字合并_牛客小白月赛94 (nowcoder.com)"></a><span class="exturl" data-url="aHR0cHM6Ly9hYy5ub3djb2Rlci5jb20vYWNtL2NvbnRlc3QvODI5NTcvQw==">C-小苯的数字合并_牛客小白月赛94 (nowcoder.com)<i class="fa fa-external-link-alt"></i></span></h2><h3 id="题意-1"><a href="#题意-1" class="headerlink" title="题意"></a>题意</h3><p>大白熊给了小苯一个长度为 <script type="math/tex">n</script> 的数组 <script type="math/tex">a</script>，小苯想要<strong>最大化</strong> <script type="math/tex">a</script> 的极差。</p>
+<p>具体的，小苯可以做如下操作任意次（前提是数组至少有两个数字）：  </p>
+<p>$\bullet$ 选择一个正整数 <script type="math/tex">i \ (1 \leq i <n)</script>，接着将 <script type="math/tex">a_i</script> 与 <script type="math/tex">a_{i+1}</script> 合并为一个数字，结果为二者的和。</p>
+<p>（即：将 <script type="math/tex">a_i</script> 变为 <script type="math/tex">a_i + a_{i+1}</script>，然后删去 <script type="math/tex">a_{i+1}</script>，当然操作完后 $a$ 的长度也会减一。）</p>
+<p>小苯想知道他最大能将数组极差变为多少呢，请你帮帮他吧。</p>
+<h3 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h3><p>注意到无法将数字变小，因此保留最小值是最优的，我们枚举最小值，计算前缀后缀和即可</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">slove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin&gt;&gt;n;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) cin&gt;&gt;a[i];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">		pre[i] = pre[i<span class="number">-1</span>] + a[i];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=n;i;i--)</span><br><span class="line">		rep[i] = rep[i<span class="number">+1</span>] + a[i];</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> mx = <span class="built_in">max</span>(pre[i<span class="number">-1</span>] ,rep[i<span class="number">+1</span>]);</span><br><span class="line">		ans = <span class="built_in">max</span>(ans,mx - a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="D-小苯的排列构造-牛客小白月赛94-nowcoder-com"><a href="#D-小苯的排列构造-牛客小白月赛94-nowcoder-com" class="headerlink" title="D-小苯的排列构造_牛客小白月赛94 (nowcoder.com)"></a><span class="exturl" data-url="aHR0cHM6Ly9hYy5ub3djb2Rlci5jb20vYWNtL2NvbnRlc3QvODI5NTcvRA==">D-小苯的排列构造_牛客小白月赛94 (nowcoder.com)<i class="fa fa-external-link-alt"></i></span></h2><h3 id="题意-2"><a href="#题意-2" class="headerlink" title="题意"></a>题意</h3><p>格格有一个长度为 <script type="math/tex">n</script> 的排列 <script type="math/tex">p</script>，但她不记得 <script type="math/tex">p</script> 具体的样子，她只记得数组 <script type="math/tex">a</script>。<br>其中：<script type="math/tex">a_i = gcd(p_1, p_2,...,p_i)</script>，也就是说，<script type="math/tex">a_i</script> 表示排列 <script type="math/tex">p</script> 中前 <script type="math/tex">i</script> 个数字的最大公约数。  </p>
+<p>现在，她希望小苯将排列 <script type="math/tex">p</script> 复原出来，请你帮帮他吧。</p>
+<p>（但有可能无解，这意味着格格给出的 <script type="math/tex">a</script> 数组可能是不正确的，此时输出 <script type="math/tex">-1</script> 即可。）</p>
+<h3 id="题解-2"><a href="#题解-2" class="headerlink" title="题解"></a>题解</h3><p>公约数只会不断变小或保持不变，排列的前缀最大公约数最多会有log(2e5)个非1的数，即不到30个数。并且满足这个数组非严格递减的。</p>
+<p>如果整个数组除1外无相同数字，显然我们直接对1以前的数字按原样赋值即可，第一个1赋值1，随后任意。</p>
+<p>如果整个数组对1存在相同数字，显然直接对第一个原样赋值也是可行的，随后赋值该数的倍数即可</p>
+<p>注意由于最多只有log(2e5)个数是非1的，因此很容易想到整体的复杂度是不大于n*log(n)的，对于枚举倍数的过程可能存在更好的优化，这里就不提及了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">slove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin&gt;&gt;n;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> f = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		cin&gt;&gt;a[i];</span><br><span class="line">		<span class="keyword">if</span>(i &gt; <span class="number">1</span> &amp;&amp; a[i<span class="number">-1</span>] % a[i] != <span class="number">0</span>) f = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	vector&lt;<span class="type">int</span>&gt; ves;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="type">int</span> c = <span class="number">1</span>, s = a[i];</span><br><span class="line">		<span class="keyword">while</span>(i &lt; n &amp;&amp; a[i<span class="number">+1</span>] == a[i])i ++,c ++;</span><br><span class="line">		<span class="type">int</span> t = s;</span><br><span class="line">		<span class="keyword">while</span>(c &amp;&amp; t &lt;= n) &#123;</span><br><span class="line">			<span class="keyword">while</span>(st[t]) t+=s;</span><br><span class="line">			<span class="keyword">if</span>(t &gt; n) <span class="keyword">break</span>;</span><br><span class="line">			ves.<span class="built_in">push_back</span>(t);</span><br><span class="line">			st[t] = <span class="number">1</span>;</span><br><span class="line">			<span class="comment">// cout&lt;&lt;t&lt;&lt;endl;</span></span><br><span class="line">			t+=s,c--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(c) &#123;f = <span class="number">0</span>;<span class="keyword">break</span>;&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(!f) &#123;cout&lt;&lt;<span class="number">-1</span>&lt;&lt;endl; <span class="keyword">return</span> ;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> v: ves) cout&lt;&lt;v&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">		cout&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="E-小苯的01背包（easy）-牛客小白月赛94-nowcoder-com"><a href="#E-小苯的01背包（easy）-牛客小白月赛94-nowcoder-com" class="headerlink" title="E-小苯的01背包（easy）_牛客小白月赛94 (nowcoder.com)"></a><span class="exturl" data-url="aHR0cHM6Ly9hYy5ub3djb2Rlci5jb20vYWNtL2NvbnRlc3QvODI5NTcvRQ==">E-小苯的01背包（easy）_牛客小白月赛94 (nowcoder.com)<i class="fa fa-external-link-alt"></i></span></h2><h2 id="F-小苯的01背包（hard）-牛客小白月赛94-nowcoder-com"><a href="#F-小苯的01背包（hard）-牛客小白月赛94-nowcoder-com" class="headerlink" title="F-小苯的01背包（hard）_牛客小白月赛94 (nowcoder.com)"></a><span class="exturl" data-url="aHR0cHM6Ly9hYy5ub3djb2Rlci5jb20vYWNtL2NvbnRlc3QvODI5NTcvRg==">F-小苯的01背包（hard）_牛客小白月赛94 (nowcoder.com)<i class="fa fa-external-link-alt"></i></span></h2><h3 id="题意-3"><a href="#题意-3" class="headerlink" title="题意"></a>题意</h3><p><strong>注：此版本为本题的easy（简单版），与hard（困难版）唯一的不同之处只有数据范围。</strong>  </p>
+<p>小苯有一个容量为 $k$ 的背包，现在有 $n$ 个物品，每个物品有一个体积 $v$ 和价值 $w$，他想知道在体积不超过 $k$ 的前提下，他最多能装价值为多少的物品。</p>
+<p>本问题中，物品的总体积定义为所装物品的体积的 $\&amp;$（按位与），总价值也定义为所装物品的价值的 $\&amp;$（按位与）。</p>
+<p>（如果不选物品，则价值为 0，所占体积也为 0。）</p>
+<h3 id="题解-3"><a href="#题解-3" class="headerlink" title="题解"></a>题解</h3><p>按位与显然需要从高到低位考虑，需要体积小而整体物品的价值高，容易想到，较少的物品容易有较高的价格。（并的最大值是当前物品中的最大值）</p>
+<p>比如对于二进制下物品价值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">101101</span><br><span class="line">110010</span><br><span class="line">101011</span><br><span class="line">110110</span><br></pre></td></tr></table></figure>
+<p>不考虑体积，最优解是拿4号物品，我们假定4号物品体积恰好大于整体体积，而1，2，3都可以降低体积到合适的大小，即，2，4为最优解，整体的解法考虑为，选出尽量少的物品使得价值高而体积小于背包容量。</p>
+<p>构造一个dp，对于前i个物品在体积为j下要求的最大价值，这要求维护出当前的数字，对于hard1e9的时间空间是不够的。easy版就直接跑<script type="math/tex">O(n\times 4e3)</script>即可，注意初始状态为(1&lt;&lt;14)-1，但是这样跑出来是过93%，哪里有问题？</p>
+<p>一个可能的原因是0表示非法的同时也表示价值为0，想了半个小时，也没想到是为什么，要是有数据就好了。</p>
+<p>官方题解是枚举答案，然后根据答案来选数，观察是否可以体积小于k</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">slove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) cin&gt;&gt;v[i]&gt;&gt;w[i];</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">2000</span>; i++) &#123;</span><br><span class="line">        <span class="type">int</span> V = (<span class="number">1</span> &lt;&lt; <span class="number">20</span>) - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((i &amp; w[j]) == i) &#123;</span><br><span class="line">                V &amp;= v[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (V &lt;= k)</span><br><span class="line">            ans = <span class="built_in">max</span>(ans, i);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不得不说这个写法更简洁也更正确</p>
+<p>hard显然我们需要优化枚举答案，只需要按位枚举即可，我们取当前位为1的取得越多，体积越小，因此，我们优先多选择当前价值为为1的使得体积尽可能的小。如果当前位取1，那么我们就抛弃所有当前位位0的值。就这样。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">slove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> i, j, k;</span><br><span class="line">     </span><br><span class="line">    cin &gt;&gt; n &gt;&gt; k;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        cin &gt;&gt; w[i] &gt;&gt; v[i];</span><br><span class="line">        q[<span class="number">0</span>].<span class="built_in">push</span>(&#123;w[i], v[i]&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">30</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="type">int</span> ww = <span class="number">0x7fffffff</span>;</span><br><span class="line">        <span class="type">int</span> now = q[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; now; j++) &#123;</span><br><span class="line">            <span class="keyword">auto</span> x = q[<span class="number">0</span>].<span class="built_in">front</span>();</span><br><span class="line">            q[<span class="number">0</span>].<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span> ((x.y &gt;&gt; i) &amp; <span class="number">1</span>) &#123;</span><br><span class="line">                q[<span class="number">1</span>].<span class="built_in">push</span>(x);</span><br><span class="line">                ww &amp;= x.x;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                q[<span class="number">0</span>].<span class="built_in">push</span>(x);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">        <span class="keyword">if</span> (ww &lt;= k) &#123;</span><br><span class="line">            ans |= (<span class="number">1</span> &lt;&lt; i);</span><br><span class="line">            <span class="keyword">while</span> (!q[<span class="number">0</span>].<span class="built_in">empty</span>()) &#123;</span><br><span class="line">                q[<span class="number">0</span>].<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (!q[<span class="number">1</span>].<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            q[<span class="number">0</span>].<span class="built_in">push</span>(q[<span class="number">1</span>].<span class="built_in">front</span>());</span><br><span class="line">            q[<span class="number">1</span>].<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    寄付
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat 支払う">
+        <span>WeChat 支払う</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>著者： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>記事へのリンク：</strong>
+      <a href="https://deepcity.github.io/2024/Xiaobai94/article.html" title="Xiaobai94">https://deepcity.github.io/2024/Xiaobai94/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>著作権表示： </strong>このブログ内のすべての記事は、特別な記載がない限り <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> の下のライセンスで保護されています。
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>他の公開チャンネルへようこそ</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/newcoder/" rel="tag"># newcoder</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/abc353/article.html" rel="prev" title="abc353">
+                  <i class="fa fa-angle-left"></i> abc353
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/Xiaobai93D-E/article.html" rel="next" title="Xiaobai93D-E">
+                  Xiaobai93D-E <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>日本語</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/Xiaobai94/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/Xiaobai94/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/Xiaobai94/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/Xiaobai94/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="単語の総数">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="合計閲覧者数">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="閲覧合計数">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ja","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ja/2024/Xiaobai94/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

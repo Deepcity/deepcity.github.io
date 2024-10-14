@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="初等概念名词解释在接近学完初级的机器学习后，我意识到单纯的看MindSpore文档以及看Youtube视频是远远不够的，我必须系统的学习一些概念知识以避免在后面的学习中云里雾里，故就有了这一章，在这一章中几乎全是对概念的解释，他们的来源广泛，传送门我都会贴在此处，供查阅：  神经网络入门 - 阮一峰的网络日志 (ruanyifeng.com) https:&#x2F;&#x2F;github.com&#x2F;exacity&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MindSpore专题——第〇章、概念">
+<meta property="og:url" content="https://deepcity.github.io/en/2024/special_subject/MindSpore/Chapters/Concept/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="初等概念名词解释在接近学完初级的机器学习后，我意识到单纯的看MindSpore文档以及看Youtube视频是远远不够的，我必须系统的学习一些概念知识以避免在后面的学习中云里雾里，故就有了这一章，在这一章中几乎全是对概念的解释，他们的来源广泛，传送门我都会贴在此处，供查阅：  神经网络入门 - 阮一峰的网络日志 (ruanyifeng.com) https:&#x2F;&#x2F;github.com&#x2F;exacity&#x2F;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.loli.net/2024/06/10/bkVr3Lymea1OAnw.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/26/DxICv7oeaSA5hrz.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/26/fs2bXCkaleBDYQS.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/10/7WA9zDuB2UYrlKF.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/10/vtux96qNrkAH8jZ.png">
+<meta property="article:published_time" content="2024-08-14T11:47:58.000Z">
+<meta property="article:modified_time" content="2024-08-29T11:27:04.971Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="MindSpore">
+<meta property="article:tag" content="目录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/06/10/bkVr3Lymea1OAnw.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/en/2024/special_subject/MindSpore/Chapters/Concept/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Concept/article.html","path":"en/2024/special_subject/MindSpore/Chapters/Concept/article.html","title":"MindSpore专题——第〇章、概念"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MindSpore专题——第〇章、概念 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Calendar</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E7%AD%89%E6%A6%82%E5%BF%B5%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.</span> <span class="nav-text">初等概念名词解释</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%84%9F%E7%9F%A5%E6%9C%BA%EF%BC%88Perceptron%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">感知机（Perceptron）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Representation-Learning%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">表示学习（Representation Learning）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E5%B7%AE%E5%9B%A0%E7%B4%A0"><span class="nav-number">1.3.</span> <span class="nav-text">变差因素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E5%B1%82"><span class="nav-number">1.4.</span> <span class="nav-text">可见层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E5%B1%82"><span class="nav-number">1.5.</span> <span class="nav-text">隐藏层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E5%B1%82"><span class="nav-number">1.6.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E9%A6%88%E6%B7%B1%E5%BA%A6%E7%BD%91%E7%BB%9C"><span class="nav-number">1.7.</span> <span class="nav-text">前馈深度网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA%EF%BC%88Multilayer-Perceptron%EF%BC%89"><span class="nav-number">1.7.1.</span> <span class="nav-text">多层感知机（Multilayer Perceptron）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%87%BD%E6%95%B0"><span class="nav-number">1.8.</span> <span class="nav-text">为什么需要使用非线性函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.9.</span> <span class="nav-text">分布式表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">1.10.</span> <span class="nav-text">激活函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sigmoid%E5%87%BD%E6%95%B0"><span class="nav-number">1.10.1.</span> <span class="nav-text">Sigmoid函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tanh%E5%87%BD%E6%95%B0"><span class="nav-number">1.10.2.</span> <span class="nav-text">Tanh函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReLU-Rectified-Linear-Unit%E5%87%BD%E6%95%B0"><span class="nav-number">1.10.3.</span> <span class="nav-text">ReLU (Rectified Linear Unit函数)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leaky-ReLU%E5%87%BD%E6%95%B0"><span class="nav-number">1.10.4.</span> <span class="nav-text">Leaky ReLU函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Softmax%E5%87%BD%E6%95%B0"><span class="nav-number">1.10.5.</span> <span class="nav-text">Softmax函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.11.</span> <span class="nav-text">损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E5%9B%9E%E5%BD%92%E9%97%AE%E9%A2%98%E4%B8%AD%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.11.1.</span> <span class="nav-text">1回归问题中的损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98%E4%B8%AD%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.11.2.</span> <span class="nav-text">2. 分类问题中的损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AF%B9%E6%AF%94%E6%8D%9F%E5%A4%B1%EF%BC%88Hinge-Loss%EF%BC%89"><span class="nav-number">1.11.3.</span> <span class="nav-text">3. 对比损失（Hinge Loss）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.11.4.</span> <span class="nav-text">4. 自定义损失函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">1.12.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96"><span class="nav-number">1.13.</span> <span class="nav-text">正则化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E6%8B%9F%E5%90%88"><span class="nav-number">1.14.</span> <span class="nav-text">过拟合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="nav-number">1.15.</span> <span class="nav-text">线性代数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E5%AF%B9%E8%A7%92%E7%BA%BF"><span class="nav-number">1.15.1.</span> <span class="nav-text">主对角线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E7%BD%AE"><span class="nav-number">1.15.2.</span> <span class="nav-text">转置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%B4%A0%E5%AF%B9%E5%BA%94%E4%B9%98%E7%A7%AF%EF%BC%88Hadamard-%E4%B9%98%E7%A7%AF%EF%BC%89"><span class="nav-number">1.15.3.</span> <span class="nav-text">元素对应乘积（Hadamard 乘积）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E7%A7%AF"><span class="nav-number">1.15.4.</span> <span class="nav-text">点积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BD%8D%E7%9F%A9%E9%98%B5"><span class="nav-number">1.15.5.</span> <span class="nav-text">单位矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%86%E7%9F%A9%E9%98%B5"><span class="nav-number">1.15.6.</span> <span class="nav-text">逆矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%9B%B8%E5%85%B3%E4%B8%8E%E7%94%9F%E6%88%90%E5%AD%90%E7%A9%BA%E9%97%B4"><span class="nav-number">1.15.7.</span> <span class="nav-text">线性相关与生成子空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%87%E5%BC%82%E7%9F%A9%E9%98%B5%EF%BC%88singular-square%EF%BC%89"><span class="nav-number">1.15.8.</span> <span class="nav-text">奇异矩阵（singular square）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E5%8F%B3%E4%B9%98"><span class="nav-number">1.15.9.</span> <span class="nav-text">矩阵右乘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8C%83%E6%95%B0%EF%BC%88norm%EF%BC%89"><span class="nav-number">1.15.10.</span> <span class="nav-text">范数（norm）</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Concept/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MindSpore专题——第〇章、概念 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MindSpore专题——第〇章、概念<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9zcGVjaWFsX3N1YmplY3QvTWluZFNwb3JlL0NoYXB0ZXJzL0NvbmNlcHQubWQ=" title="Edit this post"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-08-14 19:47:58" itemprop="dateCreated datePublished" datetime="2024-08-14T19:47:58+08:00">2024-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-08-29 19:27:04" itemprop="dateModified" datetime="2024-08-29T19:27:04+08:00">2024-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/" itemprop="url" rel="index"><span itemprop="name">Mindspore</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基本概念</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline: </span>
+  
+    <a title="waline" href="/en/2024/special_subject/MindSpore/Chapters/Concept/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/en/2024/special_subject/MindSpore/Chapters/Concept/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>4.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>16 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="初等概念名词解释"><a href="#初等概念名词解释" class="headerlink" title="初等概念名词解释"></a>初等概念名词解释</h1><p>在接近学完初级的机器学习后，我意识到单纯的看MindSpore文档以及看Youtube视频是远远不够的，我必须系统的学习一些概念知识以避免在后面的学习中云里雾里，故就有了这一章，在这一章中几乎全是对概念的解释，他们的来源广泛，传送门我都会贴在此处，供查阅：</p>
+<blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cucnVhbnlpZmVuZy5jb20vYmxvZy8yMDE3LzA3L25ldXJhbC1uZXR3b3JrLmh0bWw=">神经网络入门 - 阮一峰的网络日志 (ruanyifeng.com)<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2V4YWNpdHkvZGVlcGxlYXJuaW5nYm9vay1jaGluZXNl">https://github.com/exacity/deeplearningbook-chinese<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<span id="more"></span>
+<h2 id="感知机（Perceptron）"><a href="#感知机（Perceptron）" class="headerlink" title="感知机（Perceptron）"></a>感知机（Perceptron）</h2><p><img src="https://s2.loli.net/2024/06/10/bkVr3Lymea1OAnw.png" alt="img"></p>
+<p>​    上图的圆圈就代表一个感知器。它接受多个输入（x1，x2，x3…），产生一个输出（output），好比神经末梢感受各种外部环境的变化，最后产生电信号。</p>
+<p>​    感知机是输出传入参数的一个函数变换，大多数情况下他是(最初涉及)</p>
+<script type="math/tex; mode=display">
+output = \sigma(w_1*a_1 +\cdots +w_n*a_n + b)</script><p>其中<script type="math/tex">\sigma</script>​函数表达式如下</p>
+<script type="math/tex; mode=display">
+σ(z) = 1 / (1 + e^{-z})</script><h2 id="表示学习（Representation-Learning）"><a href="#表示学习（Representation-Learning）" class="headerlink" title="表示学习（Representation Learning）"></a>表示学习（Representation Learning）</h2><p>使用机器学习来发掘表示本身，而不仅仅把表示映射到输出,学习到的表示往往比手动设计的表示表现得更好。并且不需要人工干预就能迅速适应新的任务。</p>
+<h2 id="变差因素"><a href="#变差因素" class="headerlink" title="变差因素"></a>变差因素</h2><p>在此背景下，‘‘因素’’这个词仅指代影响的不同来源；因素通常不是乘性组合。这些因素通常是不能被直接观察到的量。相反，它们可能是现实世界中观察不到的物体或者不可观测的力，但会影响可观测的量。为了对观察到的数据提供有用的简化解释或推断其原因，它们还可能以概念的形式存在于人类的思维中。</p>
+<p>它们可以被看作数据的概念或者抽象，帮助我们了解这些数据的丰富多样性。</p>
+<h2 id="可见层"><a href="#可见层" class="headerlink" title="可见层"></a>可见层</h2><p>也就是神经网路的输入层，这样命名的原因是因为它包含我们能观察到的变量。</p>
+<h2 id="隐藏层"><a href="#隐藏层" class="headerlink" title="隐藏层"></a>隐藏层</h2><p>也就是神经网路的中间层。因为它们的值不在数据中给出，所以将这些层称为‘‘隐藏”;模型必须确定哪些概念有利于解释观察数据中的关系。这里的图像是每个隐藏单元表示的特征的可视化。这里也是分形的思想运用的层次。</p>
+<h2 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h2><p>输出神经网路的判断也称Object Identify</p>
+<h2 id="前馈深度网络"><a href="#前馈深度网络" class="headerlink" title="前馈深度网络"></a>前馈深度网络</h2><h3 id="多层感知机（Multilayer-Perceptron）"><a href="#多层感知机（Multilayer-Perceptron）" class="headerlink" title="多层感知机（Multilayer Perceptron）"></a>多层感知机（Multilayer Perceptron）</h3><p>多层感知机仅仅是一个将一组输入值映射到输出值的数学函数。该函数由许多较简单的函数复合而成。我们可以认为不同数学函数的每一次应用都为输入提供了新的表示。</p>
+<h2 id="为什么需要使用非线性函数"><a href="#为什么需要使用非线性函数" class="headerlink" title="为什么需要使用非线性函数"></a>为什么需要使用非线性函数</h2><p>这是由于线性模型的局限性，一个很经典的例子是，线性模型是无法学习异或函数的。</p>
+<h2 id="分布式表示"><a href="#分布式表示" class="headerlink" title="分布式表示"></a>分布式表示</h2><p>其思想是：系统的每一个输入都应该由多个特征表示，并且每一个特征都应该参与到多个可能输入的表示。这显然也与神经网络每一层layer与layer之间的dense有关联</p>
+<h2 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h2><p>激活函数是神经网络中的一个重要组件，用于对输入信号进行非线性变换，他决定了一个神经元是否被激活，或者说神经元的输出是什么。</p>
+<p>激活函数在数学上表示为一个非线性的函数。下面是一些常见的激活函数</p>
+<h3 id="Sigmoid函数"><a href="#Sigmoid函数" class="headerlink" title="Sigmoid函数"></a>Sigmoid函数</h3><script type="math/tex; mode=display">σ(x) = 1 / (1 + e^{-x})</script><p>输出介于0到1之间，常用于二分类任务，但容易在深层网络中造成梯度消失的问题</p>
+<p><img src="https://s2.loli.net/2024/08/26/DxICv7oeaSA5hrz.png" alt="Sigmoid"></p>
+<h3 id="Tanh函数"><a href="#Tanh函数" class="headerlink" title="Tanh函数"></a>Tanh函数</h3><p>输出值在-1到1之间，相对于Sigmoid函数，其输出均值为0，但同样存在梯度消失的问题。</p>
+<script type="math/tex; mode=display">tanh(x) =  (e^x - e^{-x}) / (e^x + e^{-x})</script><p><img src="https://s2.loli.net/2024/08/26/fs2bXCkaleBDYQS.png" alt="Tanh"></p>
+<h3 id="ReLU-Rectified-Linear-Unit函数"><a href="#ReLU-Rectified-Linear-Unit函数" class="headerlink" title="ReLU (Rectified Linear Unit函数)"></a>ReLU (Rectified Linear Unit函数)</h3><p>最常见的激活函数之一</p>
+<p>输出非负值，计算简单，能够缓解梯度消失问题，但可能存在“死亡ReLU”现象（即某些神经元在训练过程中永远不被激活）</p>
+<script type="math/tex; mode=display">ReLU(x) = max(0 ,x)</script><h3 id="Leaky-ReLU函数"><a href="#Leaky-ReLU函数" class="headerlink" title="Leaky ReLU函数"></a>Leaky ReLU函数</h3><p>ReLU的改进版本，允许负值以一个小的斜率通过，减少死亡ReLU中的死亡现象。</p>
+<script type="math/tex; mode=display">Leaky\ ReLU(x) = max(\alpha x ,x)</script><p>其中$\alpha$ 是一个较小的常数</p>
+<h3 id="Softmax函数"><a href="#Softmax函数" class="headerlink" title="Softmax函数"></a>Softmax函数</h3><p>通常用于多分类问题的输出层，将神经元的输出转换为概率分布，输出值的总和为1。</p>
+<script type="math/tex; mode=display">Softmax(x_i) = e^{x_i} / \sum e^{x_j}</script><h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><p>用于量化真实值与预测值之间的差距的函数，它量化了模型预测的错误程度，数值越小表示模型的预测越接近真实值，反之则说明预测误差较大。</p>
+<h3 id="1回归问题中的损失函数"><a href="#1回归问题中的损失函数" class="headerlink" title="1回归问题中的损失函数"></a>1<strong>回归问题中的损失函数</strong></h3><ul>
+<li><p>均方误差（Mean Squared Error, MSE）：计算预测值与真实值之间差值的平方和的平均值。MSE是回归问题中最常用的损失函数。</p>
+<ul>
+<li>公式：$MSE = (1/n) * Σ (y<em>{pred} - y</em>{true})^2$</li>
+</ul>
+</li>
+<li><p>平均绝对误差（Mean Absolute Error, MAE）</p>
+<p>：计算预测值与真实值之间绝对差值的平均值。</p>
+<ul>
+<li>公式：$MAE = (1/n) * Σ |y<em>{pred} - y</em>{true}|$</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-分类问题中的损失函数"><a href="#2-分类问题中的损失函数" class="headerlink" title="2. 分类问题中的损失函数"></a>2. <strong>分类问题中的损失函数</strong></h3><ul>
+<li><p>交叉熵损失（Cross-Entropy Loss）</p>
+<p>：用于分类任务，特别是在多分类问题中常用。它衡量模型输出的概率分布与真实分布之间的差异。</p>
+<ul>
+<li><p>对于二分类问题，二元交叉熵损失的公式为：</p>
+<ul>
+<li><p>公式：</p>
+</li>
+<li><script type="math/tex; mode=display">
+Binary\ Cross-Entropy\ Loss = - (y_{true} * log(y_{pred}) + (1 - y_{true}) * log(1 - y_{pred}))</script></li>
+</ul>
+</li>
+<li><p>对于多分类问题，使用Softmax和交叉熵损失的组合：</p>
+<ul>
+<li><p>公式：</p>
+</li>
+<li><script type="math/tex; mode=display">
+Categorical\ Cross-Entropy\ Loss = - \sum y_{true} * log(y_{pred})</script></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-对比损失（Hinge-Loss）"><a href="#3-对比损失（Hinge-Loss）" class="headerlink" title="3. 对比损失（Hinge Loss）"></a>3. <strong>对比损失（Hinge Loss）</strong></h3><ul>
+<li>主要用于支持向量机（SVM）等模型，目的是最大化分类边界。Hinge Loss通过惩罚错误分类点来优化分类模型。</li>
+<li>公式：<script type="math/tex">Hinge Loss = max(0, 1 - y_{true} * y_{pred})</script></li>
+</ul>
+<h3 id="4-自定义损失函数"><a href="#4-自定义损失函数" class="headerlink" title="4. 自定义损失函数"></a>4. <strong>自定义损失函数</strong></h3><ul>
+<li>在某些复杂场景中，标准的损失函数可能无法满足需求。此时，研究人员可以根据具体需求定义自适应的损失函数。</li>
+</ul>
+<p>通过最小化损失函数的值，模型可以逐渐提高其在数据上的表现。损失函数的选择应与任务类型及目标密切相关，从而能够准确反映模型性能。</p>
+<h2 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h2><h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><h2 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h2><h2 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h2><h3 id="主对角线"><a href="#主对角线" class="headerlink" title="主对角线"></a>主对角线</h3><p>即满足<script type="math/tex">a = \{a_{i,j}|i=j\}</script>的元素构成的线，特殊的<script type="math/tex">n\not =m</script></p>
+<p><img src="https://s2.loli.net/2024/06/10/7WA9zDuB2UYrlKF.png" alt="image-20240609143044969"></p>
+<h3 id="转置"><a href="#转置" class="headerlink" title="转置"></a>转置</h3><p>即矩阵对主对角线的镜像，特俗的有<script type="math/tex">n\not = m</script></p>
+<p><img src="https://s2.loli.net/2024/06/10/vtux96qNrkAH8jZ.png" alt="image-20240609143213322"></p>
+<h3 id="元素对应乘积（Hadamard-乘积）"><a href="#元素对应乘积（Hadamard-乘积）" class="headerlink" title="元素对应乘积（Hadamard 乘积）"></a>元素对应乘积（Hadamard 乘积）</h3><p>记为<script type="math/tex">A\odot B</script></p>
+<h3 id="点积"><a href="#点积" class="headerlink" title="点积"></a>点积</h3><p>两个相同维数的向量x和y的点积（dot product）可看作是矩阵乘积<script type="math/tex">A^\top B</script>​。我们可以把矩阵乘积C=AB中计算Cij的步骤看作是A的第i行和B的第j列之间的点积。</p>
+<p>矩阵的乘法是不满足交换律的，但是矩阵的点积是满足的。</p>
+<script type="math/tex; mode=display">
+x^\top y = y^\top x</script><p>矩阵乘积转置的简单形式</p>
+<script type="math/tex; mode=display">
+(AB)^\top = B^\top A^\top</script><p>注意顺序是不能更改的因为矩阵乘法不满足交换律</p>
+<h3 id="单位矩阵"><a href="#单位矩阵" class="headerlink" title="单位矩阵"></a>单位矩阵</h3><p>单位矩阵指主对角线上的值都为1，其他地方都为零的矩阵。</p>
+<p>我们将保持n维向量不变的单位矩阵记作<script type="math/tex">I_n</script>。</p>
+<h3 id="逆矩阵"><a href="#逆矩阵" class="headerlink" title="逆矩阵"></a>逆矩阵</h3><p>很朴素的定义，需要注意的是由于矩阵乘法不满足交换律，因此我们再说一个矩阵的逆的时候通常是说矩阵的左逆。</p>
+<p>对于方阵而言，它的左逆和右逆是相等的</p>
+<h3 id="线性相关与生成子空间"><a href="#线性相关与生成子空间" class="headerlink" title="线性相关与生成子空间"></a>线性相关与生成子空间</h3><p>如果逆矩阵<script type="math/tex">A^{-1}</script>​存在。那么式(2.11)肯定对于每一个向量b恰好存在一个解。但是，对于方程组而言，对于向量b的某些值，有可能不存在解，或者存在无限多个解。存在多于一个解但是少于无限多个解的情况是不可能发生的；因为如果x和y都是某方程组的解，则x,y则构成了一个张成空间。</p>
+<p>为了分析方程有多少个解，我们可以将A的列向量看作从原点（origin）（元素都是零的向量）出发的不同方向，确定有多少种方法可以到达向量b。在这个观点下，向量x中的每个元素表示我们应该沿着这些方向走多远，即xi表示我们需要沿着第i个向量的方向走多远：</p>
+<script type="math/tex; mode=display">
+Ax = \sum _i x_i A_{:,i}</script><p>这样的操作我们称为线性组合。形式上，一组向量的线性组合是指每个向量乘以对应标量系数之后的和，即：</p>
+<script type="math/tex; mode=display">
+\sum _i c_i v^{(i)}</script><p>一组向量的生成子空间（span）是原始向量线性组合后所能抵达的点的集合。</p>
+<p>确定Ax=b是否有解相当于确定向量b是否在A列向量的生成子空间中。这个特殊的生成子空间被称为A的列空间（column space）或者A的值域（range）。</p>
+<p>为了使方程Ax=b对于任意向量<script type="math/tex">b\in \mathbb{R}^m</script>都存在解，我们要求A的列空间构成整个<script type="math/tex">\mathbb{R}^m</script>。如果<script type="math/tex">\mathbb{R}^m</script>中的某个点不在A的列空间中，那么该点对应的b会使得该方程没有解。矩阵A的列空间是整个<script type="math/tex">\mathbb{R}^m</script>的要求，意味着A至少有m列，即n&gt;=m。否则，A列空间的维数会小于m。例如，假设A是一个<script type="math/tex">3\times 2</script>的矩阵。目标b是3维的，但是x只有2维。所以无论如何修改x的值，也只能描绘出<script type="math/tex">\mathbb{R}^3</script>空间中的二维平面。当且仅当向量b在该二维平面中时，该方程有解。</p>
+<p>不等式n&gt;=m仅是方程对每一点都有解的必要条件。这不是一个充分条件，因为有些列向量可能是冗余的。假设有一个<script type="math/tex">\mathbb{R}^{2\times2}</script>中的矩阵，它的两个列向量是相同的。那么它的列空间和它的一个列向量作为矩阵的列空间是一样的。换言之，虽然该矩阵有2列，但是它的列空间仍然只是一条线，不能涵盖整个<script type="math/tex">\mathbb{R}^2</script>空间。</p>
+<p>正式地说，这种冗余被称为线性相关（linear dependence）。如果一组向量中的任意一个向量都不能表示成其他向量的线性组合，那么这组向量称为线性无关（linearly independent）。如果某个向量是一组向量中某些向量的线性组合，那么我们将这个向量加入这组向量后不会增加这组向量的生成子空间。这意味着，如果一个矩阵的列空间涵盖整个<script type="math/tex">\mathbb{R}^m</script>，那么该矩阵必须包含至少一组m个线性无关的向量。这是对于每一个向量b的取值都有解的充分必要条件。值得注意的是，这个条件是说该向量集恰好有m个线性无关的列向量，而不是至少m个。不存在一个m维向量的集合具有多于m个彼此线性不相关的列向量，但是一个有多于m个列向量的矩阵有可能拥有不止一个大小为m的线性无关向量集。</p>
+<p>要想使矩阵可逆，我们还需要保证对于每一个b值至多有一个解。为此，我们需要确保该矩阵至多有m个列向量。否则，该方程会有不止一个解。</p>
+<h3 id="奇异矩阵（singular-square）"><a href="#奇异矩阵（singular-square）" class="headerlink" title="奇异矩阵（singular square）"></a>奇异矩阵（singular square）</h3><p>该矩阵必须是一个方阵（square），即m=n，并且所有列向量都是线性无关的。一个列向量线性相关的方阵被称为奇异的（singular）。</p>
+<h3 id="矩阵右乘"><a href="#矩阵右乘" class="headerlink" title="矩阵右乘"></a>矩阵右乘</h3><script type="math/tex; mode=display">
+AA^{-1}=I</script><h3 id="范数（norm）"><a href="#范数（norm）" class="headerlink" title="范数（norm）"></a>范数（norm）</h3><p>用来衡量一个向量的大小。机器学习中常用范数衡量向量大小。形式上<script type="math/tex">L^p</script>定义如下</p>
+<script type="math/tex; mode=display">
+||x||_p = \left( \sum _i |x_i|^p \right) ^{\frac{1}{p}}</script><p>范数（包括Lp范数）是将向量映射到非负值的函数</p>
+<p>严格的讲，范数是满足以下性质的函数</p>
+<ul>
+<li>f(x) = 0 =&gt; x=0</li>
+<li>f(x+y) &lt;=f(x) + f(y) （三角不等式）</li>
+<li>对<script type="math/tex">\forall \alpha \in \mathbb{R},f(\alpha x) = |\alpha|f(x)</script></li>
+</ul>
+<p>当p= 2时，<script type="math/tex">L^2</script>范数被称为欧几里得范数（Euclidean norm）。它表示从原点出发到向量x确定的点的欧几里得距离。<script type="math/tex">L^2</script>范数在机器学习中出现地十分频繁，经常简化表示为∥x∥，略去了下标2。平方<script type="math/tex">L^2</script>范数也经常用来衡量向量的大小，可以简单地通过点积<script type="math/tex">x ^\top x</script>计算。</p>
+<p>但是在很多情况下，平方<script type="math/tex">L^2</script>范数也可能不受欢迎，因为它在原点附近增长得十分缓慢。在某些机器学习应用中，区分恰好是零的元素和非零但值很小的元素是很重要的。在这些情况下，我们转而使用在各个位置斜率相同，同时保持简单的数学形式的函数：<script type="math/tex">L^1</script>范数。<script type="math/tex">L^1</script>范数可以简化如下：</p>
+<script type="math/tex; mode=display">
+||x||_1 = \sum _i |x_i|</script><p>有时候我们会统计向量中非零元素的个数来衡量向量的大小。有些作者将这种函数称为“<script type="math/tex">L^0</script>范数’’，但是这个术语在数学意义上是不对的</p>
+<p>另外一个经常在机器学习中出现的范数是<script type="math/tex">L^\inf</script>范数，也被称为最大范数（maxnorm）。这个范数表示向量中具有最大幅值的元素的绝对值：</p>
+<script type="math/tex; mode=display">
+||x||_1 = \max _i |x_i|</script><p>有时候我们可能也希望衡量矩阵的大小。在深度学习中，最常见的做法是使用Frobenius范数（Frobenius norm），</p>
+<script type="math/tex; mode=display">
+||A||_F = \sqrt{\sum _{i,j} A^2_{i,j}}</script><p>两个向量的点集可以用范数来表示，具体的</p>
+<script type="math/tex; mode=display">
+x^\top y = ||x||_2 ||y||_2 cos\theta</script><script type="math/tex; mode=display">\theta$$表示x,y之间的夹角
+
+### 对角矩阵
+
+只在主对角线上含有非零元素，，其他位置都是零。用diag($$v$$)表示一个对角矩阵。
+
+计算乘法diag(v)x，我们只需要将x中的每个元素xi放大vi倍。换言之，diag(v)x=v⊙x
+
+对角方阵的逆矩阵存在，当且仅当对角元素都是非零值，在这种情况下，diag(v)1=diag([1/v1;.... ;1/vn]⊤)。
+
+非方阵的对角矩阵没有逆矩阵
+
+### 对称矩阵
+
+对称矩阵是矩阵的转置和自己相等的矩阵</script><p>A = A ^\top</p>
+<script type="math/tex; mode=display">
+
+### 单位矩阵
+
+具有单位范数的矩阵
+
+如果$$x^\top y=0$$，那么向量x和向量y互相正交（orthogonal）。如果两个向量都有非零范数，那么这两个向量之间的夹角是90度。在Rn中，至多有n个范数非零向量互相正交。如果这些向量不仅互相正交，并且范数都为1，那么我们称它们是标准正交（orthonormal）。
+
+正交矩阵（orthogonal matrix）是指行向量和列向量是分别标准正交的方阵，更具体的，他们是满足以下条件的矩阵</script><p>A^\top A = A ^\top A = I.</p>
+<script type="math/tex; mode=display">
+这样意味着</script><p>A^{-1} = A^\top</p>
+<script type="math/tex; mode=display">
+
+### 特征分解
+
+特征分解（eigendecomposition）是使用最广的矩阵分解之一，即我们将矩阵分解成一组特征向量和特征值。
+
+方阵A的特征向量（eigenvector）是指与A相乘后相当于对该向量进行缩放的非零向量v：</script><p>A v = \lambda v</p>
+<script type="math/tex; mode=display">
+标量$\lambda$被称为这个特征向量对应的特征值（eigenvalue）。
+
+（类似地，我们也可以定义左特征向量（left eigenvector）$$v^⊤A=\lambda v^⊤$$，但是通常我们更关注右特征向量（right eigenvector））。
+
+所有特征值都是正数的矩阵被称为正定（positive definite）；所有特征值都是非负数的矩阵被称为半正定（positive semidefinite）。同样地，所有特征值都是负数的矩阵被称为负定（negative definite）；所有特征值都是非正数的矩阵被称为半负定（negative semidefinite）。
+
+然而，我们也常常希望将矩阵分解（decompose）成特征值和特征向量。这样可以帮助我们分析矩阵的特定性质，就像质因数分解有助于我们理解整数。
+
+矩阵A的特征分解可以记作</script><p>A = V diag(\lambda) V^{-1}</p>
+<p>$$<br>不是每一个矩阵都可以分解成特征值和特征向量。在某些情况下，特征分解存在，但是会涉及复数而非实数。</p>
+<p>其中Q是A的特征向量组成的正交矩阵，是对角矩阵。特征值<script type="math/tex">\lambda_{i;i}</script>对应的特征向量是矩阵Q的第i列，记作Q:;i。因为Q是正交矩阵，我们可以将A看作沿方向v(i)延展i倍的空间</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Concept/article.html" title="MindSpore专题——第〇章、概念">https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Concept/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/MindSpore/" rel="tag"># MindSpore</a>
+              <a href="/tags/%E7%9B%AE%E5%BD%95/" rel="tag"># 目录</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/special_subject/MindSpore/Chapters/First_Install/article.html" rel="prev" title="MindSpore专题——第一章、安装">
+                  <i class="fa fa-angle-left"></i> MindSpore专题——第一章、安装
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/special_subject/MindSpore/MindSpore%E5%AD%A6%E4%B9%A0%E7%9B%AE%E5%BD%95/article.html" rel="next" title="MindSpore专题">
+                  MindSpore专题 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>English</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/special_subject/MindSpore/Chapters/Concept/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/special_subject/MindSpore/Chapters/Concept/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/special_subject/MindSpore/Chapters/Concept/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/special_subject/MindSpore/Chapters/Concept/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"en","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/en/2024/special_subject/MindSpore/Chapters/Concept/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

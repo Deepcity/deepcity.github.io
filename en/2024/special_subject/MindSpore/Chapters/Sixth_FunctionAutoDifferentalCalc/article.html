@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="函数式自动微分 神经网络的训练主要使用反向传播算法，模型预测值（logits）与正确标签（label）送入损失函数（loss function）获得loss，然后进行反向传播计算，求得梯度（gradients），最终更新至模型参数（parameters）。自动微分能够计算可导函数在某点处的导数值，是反向传播算法的一般化。自动微分主要解决的问题是将一个复杂的数学运算分解为一系列简单的基本运算，该功能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MindSpore专题——第六章——函数式微分">
+<meta property="og:url" content="https://deepcity.github.io/en/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="函数式自动微分 神经网络的训练主要使用反向传播算法，模型预测值（logits）与正确标签（label）送入损失函数（loss function）获得loss，然后进行反向传播计算，求得梯度（gradients），最终更新至模型参数（parameters）。自动微分能够计算可导函数在某点处的导数值，是反向传播算法的一般化。自动微分主要解决的问题是将一个复杂的数学运算分解为一系列简单的基本运算，该功能">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.loli.net/2024/06/07/MLN1Ap2wslU4SQB.jpg">
+<meta property="og:image" content="https://deepcity.github.io/en/AppData/Roaming/Typora/typora-user-images/image-20240607181215798.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/07/SJ5Rf7m6cXFs8yN.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/07/iqHnjI12DSKR6P7.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/07/MAOZxqKodRSW6uy.jpg">
+<meta property="og:image" content="https://s2.loli.net/2024/06/07/XvLsuFKjBe39AaD.png">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/a9702eeec5a8eb416883af66665ac11bd8151f0f">
+<meta property="article:published_time" content="2024-08-14T11:47:58.000Z">
+<meta property="article:modified_time" content="2024-08-16T08:59:11.000Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="MindSpore">
+<meta property="article:tag" content="目录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/06/07/MLN1Ap2wslU4SQB.jpg">
+
+
+<link rel="canonical" href="https://deepcity.github.io/en/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html","path":"en/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html","title":"MindSpore专题——第六章——函数式微分"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MindSpore专题——第六章——函数式微分 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Calendar</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E8%87%AA%E5%8A%A8%E5%BE%AE%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">函数式自动微分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%B0%E5%BA%95%E4%BB%A3%E8%A1%A8%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text">神经网络到底代表了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cost-Function%EF%BC%88Maybe-also-loss-function-%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">Cost Function（Maybe also loss function?）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D-Gradient-Descent"><span class="nav-number">3.1.</span> <span class="nav-text">梯度下降 (Gradient Descent)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="nav-number">4.</span> <span class="nav-text">反向传播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mini-batches"><span class="nav-number">5.</span> <span class="nav-text">Mini-batches</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Backpropagation"><span class="nav-number">6.</span> <span class="nav-text">Backpropagation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%9B%BE"><span class="nav-number">7.</span> <span class="nav-text">函数与计算图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E5%88%86%E5%87%BD%E6%95%B0%E4%B8%8E%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97"><span class="nav-number">8.</span> <span class="nav-text">微分函数与梯度计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Stop-Gradient"><span class="nav-number">8.1.</span> <span class="nav-text">Stop Gradient</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Auxiliary-data"><span class="nav-number">8.2.</span> <span class="nav-text">Auxiliary data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97"><span class="nav-number">8.3.</span> <span class="nav-text">神经网络梯度计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E8%BE%93%E5%87%BA%EF%BC%88%E5%8D%95%E6%AC%A1%EF%BC%89"><span class="nav-number">8.4.</span> <span class="nav-text">总结输出（单次）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%80%BC%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1"><span class="nav-number">9.</span> <span class="nav-text">二值交叉熵损失</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E7%86%B5%E6%9D%A5%E7%9C%8B%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1"><span class="nav-number">9.1.</span> <span class="nav-text">从熵来看交叉熵损失</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E9%87%8F"><span class="nav-number">9.1.1.</span> <span class="nav-text">信息量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%86%B5"><span class="nav-number">9.1.2.</span> <span class="nav-text">熵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E7%86%B5-%EF%BC%88Relative-entropy%EF%BC%89-KL%E6%95%A3%E5%BA%A6"><span class="nav-number">9.1.3.</span> <span class="nav-text">相对熵 （Relative entropy）&#x2F;  KL散度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E7%86%B5-Cross-Entropy"><span class="nav-number">9.1.4.</span> <span class="nav-text">交叉熵 Cross Entropy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E4%BA%A4%E5%8F%89%E7%86%B5%E5%81%9Aloss%E5%87%BD%E6%95%B0"><span class="nav-number">9.2.</span> <span class="nav-text">为什么要用交叉熵做loss函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E7%86%B5%E5%9C%A8%E5%8D%95%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">9.3.</span> <span class="nav-text">交叉熵在单分类问题中的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E7%86%B5%E5%9C%A8%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">9.4.</span> <span class="nav-text">交叉熵在多分类问题中的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E7%9C%8B%E4%BA%A4%E5%8F%89%E7%86%B5"><span class="nav-number">9.5.</span> <span class="nav-text">从最大似然看交叉熵</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%92%8C%E7%9B%B8%E5%AF%B9%E7%86%B5%E7%AD%89%E4%BB%B7"><span class="nav-number">9.5.1.</span> <span class="nav-text">和相对熵等价</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%92%8C%E4%BA%A4%E5%8F%89%E7%86%B5%E7%AD%89%E4%BB%B7"><span class="nav-number">9.5.2.</span> <span class="nav-text">和交叉熵等价</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%88%86%E7%B1%BB%E4%BA%A4%E5%8F%89%E7%86%B5"><span class="nav-number">9.6.</span> <span class="nav-text">多分类交叉熵</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cross-Entropy-Loss"><span class="nav-number">9.6.1.</span> <span class="nav-text">Cross Entropy Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PyTorch%E4%B8%AD%E7%9A%84Cross-Entropy"><span class="nav-number">9.6.2.</span> <span class="nav-text">PyTorch中的Cross Entropy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E5%88%86%E7%B1%BB%E4%BA%A4%E5%8F%89%E7%86%B5"><span class="nav-number">9.7.</span> <span class="nav-text">二分类交叉熵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">9.8.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E5%BD%92%E9%97%AE%E9%A2%98"><span class="nav-number">10.</span> <span class="nav-text">回归问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1"><span class="nav-number">11.</span> <span class="nav-text">最大似然估计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">11.1.</span> <span class="nav-text">原理</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MindSpore专题——第六章——函数式微分 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MindSpore专题——第六章——函数式微分<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9zcGVjaWFsX3N1YmplY3QvTWluZFNwb3JlL0NoYXB0ZXJzL1NpeHRoX0Z1bmN0aW9uQXV0b0RpZmZlcmVudGFsQ2FsYy5tZA==" title="Edit this post"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-08-14 19:47:58" itemprop="dateCreated datePublished" datetime="2024-08-14T19:47:58+08:00">2024-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-08-16 16:59:11" itemprop="dateModified" datetime="2024-08-16T16:59:11+08:00">2024-08-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/" itemprop="url" rel="index"><span itemprop="name">Mindspore</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基本概念</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline: </span>
+  
+    <a title="waline" href="/en/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/en/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>8.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>30 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="函数式自动微分"><a href="#函数式自动微分" class="headerlink" title="函数式自动微分"></a>函数式自动微分</h2><blockquote>
+<p>神经网络的训练主要使用反向传播算法，模型预测值（logits）与正确标签（label）送入损失函数（loss function）获得loss，然后进行反向传播计算，求得梯度（gradients），最终更新至模型参数（parameters）。自动微分能够计算可导函数在某点处的导数值，是反向传播算法的一般化。自动微分主要解决的问题是将一个复杂的数学运算分解为一系列简单的基本运算，该功能对用户屏蔽了大量的求导细节和过程，大大降低了框架的使用门槛。</p>
+</blockquote>
+<span id="more"></span>
+<blockquote>
+<p>MindSpore使用函数式自动微分的设计理念，提供更接近于数学语义的自动微分接口<code>grad</code>和<code>value_and_grad</code>。下面我们使用一个简单的单层线性变换模型进行介绍。</p>
+</blockquote>
+<p>这里总算是提到了反向传播，最近我看到了一系列视频有关Machine Learning，传送门如下：</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1JbGczZ0dld1E1VQ==">🔴 World of Warships / USS Des Moines cut (youtube.com)<i class="fa fa-external-link-alt"></i></span></p>
+<p>如果你试图看下去的话，可能会发现，事情好像突然变难了，似乎一群从未见过的知识组合在了一起，神经网络就像一个黑箱连着另一个黑箱，而你根本不知道如何优化它，使得黑箱在给定的输入下输出正确答案</p>
+<h2 id="神经网络到底代表了什么"><a href="#神经网络到底代表了什么" class="headerlink" title="神经网络到底代表了什么"></a>神经网络到底代表了什么</h2><p>首先让我们定义什么是神经：他是一个携带一个浮点数的结构，然后让我们看向神经网络</p>
+<p><img src="https://s2.loli.net/2024/06/07/MLN1Ap2wslU4SQB.jpg" alt="R"></p>
+<p>对于每一个点，我们从最后看起，显然，他们代表0-9，更准确的说，他们代表0-9的图像。为什么这样的网络是生效的呢？</p>
+<p><strong><em>因为分形思想</em></strong>，我们将一段连续的图像区分为一段一段，比如9是⚪在上而线条在下。4由多端线段1组成。而⚪和线条又可以继续再分，我们可以将神经网络中的每一个节点代表的数据想象成这种规律图案的集合。他们之间的传递就是图案在网络中不断组合。这也是为什么在网络中使用全连接的原因，因为每一个图案都能与其他任何图案组合。最终我们使图案变成了不断分形像素的组合。</p>
+<p>但如何做到这一点呢？ 考虑我们前面提到的参数，权值。</p>
+<p><img src="./../../../../../AppData/Roaming/Typora/typora-user-images/image-20240607181215798.png" alt="image-20240607181215798"></p>
+<p>这张图相信有很多人见过类似的图，实际上权值代表的就是神经网络之间的连线，假设我们让正权值在下表中为绿负权值在下表中为红，我们将这样描述一条“线段”：一段由红色包围的长条状绿色区域这样我们就能得出，如果这段线条是成立得话，比如确实原图这里存在一条线段，我们得到的这个神经节点上得值就会很接近1，否则就会很接近零。这就是权值得意义。但同时，我们会注意到神经得值是许多这样计算的累和，因此我们需要一个bias，偏差值将其计算到到0-1。</p>
+<p>注意这里得权值和偏差值均是变量，是训练出来的。并且注意，我们并不知道机器是如何分形得，这取决于学习数据和使用的算法，以上只为举例理解。</p>
+<p>如果将最初得神经网络拿去使用，你只会得到一大堆垃圾数据。我们都知道神经网络存在“进化”过程，但他是如何知道自己错得有多离谱的呢？</p>
+<h2 id="Cost-Function（Maybe-also-loss-function-）"><a href="#Cost-Function（Maybe-also-loss-function-）" class="headerlink" title="Cost Function（Maybe also loss function?）"></a>Cost Function（Maybe also loss function?）</h2><p>初略的定义是他是输出的张量与正确的张量的差值平方和，比如，机器输出了一个全是0.5的10个数的张量，而正确答案是其中之一，那么</p>
+<script type="math/tex; mode=display">
+\text{Cost} = (1-0.5) + 0.5*9</script><p>显然这个数字更接近0，说明结果更加准确</p>
+<p>考虑如何让模型表现得更好，显然是需要找到一组参数，使得每次输出的cost值最小。我们可以考虑这样一种方式，以参数作为输入，cost的值作为输出，而训练数据则是参数。</p>
+<h3 id="梯度下降-Gradient-Descent"><a href="#梯度下降-Gradient-Descent" class="headerlink" title="梯度下降 (Gradient Descent)"></a>梯度下降 (Gradient Descent)</h3><p>似乎难以理解，假设我们只有一个参数cost=f(c)，c是唯一的参数。于是变为了函数的最值问题，只需要求导数然后慢慢移动我们的初始点。很显然，一个函数在常数域上可能存在多个极大值而只有一个最大值。当我们从一个点出发寻找最大值时，很有可能（概率学上讲应该是绝对）我们只会找到一个极大值。即在神经网络中，我们不能保证我们的参数是最优的，只能保证我们的参数是局部最优的（这取决于我们的起始点）。</p>
+<p>变到多维，我们意识到，一个数的导数是否只有正或负两种信息有效（代表是应该增加这个数还是减少这个数）。假定两个变量在一个点上的导数其中一个是另一个的三倍，这至少说明在该点的邻域内，这一变量应该减少的更多是正确的。（可能有一些函数存在极端的尖点导致错误，但这在神经网络中是低概率的，掌控好更改数据的大小即可）。</p>
+<p>一个简单的例子是，维护好一个<script type="math/tex">\nabla C</script>矩阵，一阶导数对应的值高则其增加，反之则减少。</p>
+<h2 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h2><p>从特殊到一般，我们先观察这样一个样例</p>
+<p><img src="https://s2.loli.net/2024/06/07/SJ5Rf7m6cXFs8yN.png" alt="image-20240607205110764"></p>
+<p>显然我们需要增加2，并且如果给我们要做的事情做出一个排序，增加2显然排在减少8之前。</p>
+<p>因此，让我们继续看增加2所涉及的值</p>
+<ol>
+<li>更改偏差值</li>
+<li>更改权值（根据节点值）</li>
+<li>更改上一层节点的值（根据权值）</li>
+</ol>
+<p>我们对权值和边权同时改变，并统计下一层节点需要的变化对上一层的节点影响的累和</p>
+<p>通过多组数据得出权值的总共改变值改变值。这就是随机梯度下降（Stochastic gradient descent）</p>
+<p>下面简单讲一讲其他的名词解释</p>
+<h2 id="Mini-batches"><a href="#Mini-batches" class="headerlink" title="Mini-batches"></a>Mini-batches</h2><p>和他的名字一样，这个技术就是将训练数据分为几组以提高收敛参数的效率</p>
+<h2 id="Backpropagation"><a href="#Backpropagation" class="headerlink" title="Backpropagation"></a>Backpropagation</h2><p>反向传播是一种梯度下降法的应用，通过链式法则计算损失函数相对于每个权重的梯度，然后利用这些梯度来更新权重。</p>
+<h2 id="函数与计算图"><a href="#函数与计算图" class="headerlink" title="函数与计算图"></a>函数与计算图</h2><p><img src="https://s2.loli.net/2024/06/07/iqHnjI12DSKR6P7.png" alt="compute-graph"></p>
+<blockquote>
+<p>计算图是用图论语言表示数学函数的一种方式，也是深度学习框架表达神经网络模型的统一方法。我们将根据下面的计算图构造计算函数和神经网络。</p>
+<p>在这个模型中，𝑥为输入，𝑦为正确值，𝑤和𝑏是我们需要优化的参数。</p>
+</blockquote>
+<ol>
+<li>𝑥为输入</li>
+<li>𝑦为正确值</li>
+<li>𝑤和𝑏是我们需要优化的参数</li>
+</ol>
+<p>即对应了原始数据，输出结果，权重和偏差</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = ops.ones(<span class="number">5</span>, mindspore.float32)  <span class="comment"># input tensor</span></span><br><span class="line">y = ops.zeros(<span class="number">3</span>, mindspore.float32)  <span class="comment"># expected output</span></span><br><span class="line">w = Parameter(Tensor(np.random.randn(<span class="number">5</span>, <span class="number">3</span>), mindspore.float32), name=<span class="string">&#x27;w&#x27;</span>) <span class="comment"># weight</span></span><br><span class="line">b = Parameter(Tensor(np.random.randn(<span class="number">3</span>,), mindspore.float32), name=<span class="string">&#x27;b&#x27;</span>) <span class="comment"># bias</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们根据计算图描述的计算过程，构造计算函数。 其中，<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL29wcy9taW5kc3BvcmUub3BzLmJpbmFyeV9jcm9zc19lbnRyb3B5X3dpdGhfbG9naXRzLmh0bWw=">binary_cross_entropy_with_logits<i class="fa fa-external-link-alt"></i></span> 是一个损失函数，计算预测值和目标值之间的二值交叉熵损失。</p>
+</blockquote>
+<p>解释一下Parameter(): <strong>Parameter</strong> 是 Tensor 的子类，当它们被绑定为Cell的属性时，会自动添加到其参数列表中，并且可以通过Cell的某些方法获取，例如 cell.get_<strong>parameter</strong>s() 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">function</span>(<span class="params">x, y, w, b</span>):</span><br><span class="line">    z = ops.matmul(x, w) + b</span><br><span class="line">    loss = ops.binary_cross_entropy_with_logits(z, y, ops.ones_like(z), ops.ones_like(z))</span><br><span class="line">    <span class="keyword">return</span> loss</span><br><span class="line"></span><br><span class="line">loss = function(x, y, w, b)</span><br><span class="line"><span class="built_in">print</span>(loss)</span><br></pre></td></tr></table></figure>
+<p>这里有复杂概念<a href="#二值交叉熵损失"><em>二值交叉熵损失</em></a>，如果你不想深究只需要这是一个对参数的函数，当这个函数值最低时，整体参数就是一个准确率较高的局部最优解即可。</p>
+<h2 id="微分函数与梯度计算"><a href="#微分函数与梯度计算" class="headerlink" title="微分函数与梯度计算"></a>微分函数与梯度计算</h2><blockquote>
+<p> 为了优化模型参数，需要求参数对loss的导数：<script type="math/tex">\frac{𝜕loss}{𝜕𝑤}</script>和<script type="math/tex">\frac{𝜕loss}{𝜕𝑏}</script>，此时我们调用<code>mindspore.grad</code>函数，来获得<code>function</code>的微分函数。</p>
+<p>这里使用了<code>grad</code>函数的两个入参，分别为：</p>
+<ul>
+<li><code>fn</code>：待求导的函数。</li>
+<li><code>grad_position</code>：指定求导输入位置的索引。</li>
+</ul>
+<p>由于我们对<script type="math/tex">𝑤</script>和<script type="math/tex">𝑏</script>​求导，因此配置其在<code>function</code>入参对应的位置<code>(2, 3)</code>。</p>
+<p><em>使用<code>grad</code>获得微分函数是一种函数变换，即输入为函数，输出也为函数。</em></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grad_fn = mindspore.grad(function, (<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">grads = grad_fn(x, y, w, b)</span><br><span class="line"><span class="built_in">print</span>(grads)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(Tensor(shape=[5, 3], dtype=Float32, value=</span><br><span class="line">[[ 8.17961693e-02,  1.48393542e-01,  6.00685179e-03],</span><br><span class="line"> [ 8.17961693e-02,  1.48393542e-01,  6.00685179e-03],</span><br><span class="line"> [ 8.17961693e-02,  1.48393542e-01,  6.00685179e-03],</span><br><span class="line"> [ 8.17961693e-02,  1.48393542e-01,  6.00685179e-03],</span><br><span class="line"> [ 8.17961693e-02,  1.48393542e-01,  6.00685179e-03]]), Tensor(shape=[3], dtype=Float32, value= [ 8.17961693e-02,  1.48393542e-01,  6.00685179e-03]))</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>执行微分函数，即可获得<script type="math/tex">𝑤</script>、<script type="math/tex">𝑏</script>​对应的梯度。可以注意到w,b的梯度与最初始的梯度是一致的。</p>
+<h3 id="Stop-Gradient"><a href="#Stop-Gradient" class="headerlink" title="Stop Gradient"></a>Stop Gradient</h3><blockquote>
+<p>通常情况下，求导时会求loss对参数的导数，因此函数的输出只有loss一项。<strong>当我们希望函数输出多项时，微分函数会求所有输出项对参数的导数</strong>。此时如果想实现对某个输出项的梯度截断，或消除某个Tensor对梯度的影响，需要用到Stop Gradient操作。</p>
+<p>这里我们将<code>function</code>改为同时输出loss和z的<code>function_with_logits</code>，获得微分函数并执行。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">function_with_logits</span>(<span class="params">x, y, w, b</span>):</span><br><span class="line">    z = ops.matmul(x, w) + b</span><br><span class="line">    loss = ops.binary_cross_entropy_with_logits(z, y, ops.ones_like(z), ops.ones_like(z))</span><br><span class="line">    <span class="keyword">return</span> loss, z</span><br><span class="line"></span><br><span class="line">grad_fn = mindspore.grad(function_with_logits, (<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">grads = grad_fn(x, y, w, b)</span><br><span class="line"><span class="built_in">print</span>(grads)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">function_stop_gradient</span>(<span class="params">x, y, w, b</span>):</span><br><span class="line">    z = ops.matmul(x, w) + b</span><br><span class="line">    loss = ops.binary_cross_entropy_with_logits(z, y, ops.ones_like(z), ops.ones_like(z))</span><br><span class="line">    <span class="keyword">return</span> loss, ops.stop_gradient(z)</span><br><span class="line"></span><br><span class="line">grad_fn = mindspore.grad(function_stop_gradient, (<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">grads = grad_fn(x, y, w, b)</span><br><span class="line"><span class="built_in">print</span>(grads)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>ops.stop_gradient(z)</code>:重点在该函数，表示屏蔽了z对梯度的影响，即仍只求参数对loss的导数。</p>
+<p>这里解释一下一些api的含义</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mindspore.grad(fn, grad_position=<span class="number">0</span>, weights=<span class="literal">None</span>, has_aux=<span class="literal">False</span>, return_ids=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL21pbmRzcG9yZS9taW5kc3BvcmUuZ3JhZC5odG1sP2hpZ2hsaWdodD1ncmFkI21pbmRzcG9yZS5ncmFk">MindSpore<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mindspore.numpy.matmul(x1, x2, dtype=None)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL251bXB5L21pbmRzcG9yZS5udW1weS5tYXRtdWwuaHRtbD9oaWdobGlnaHQ9bWF0bXVsI21pbmRzcG9yZS5udW1weS5tYXRtdWw=">MindSpore<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+<h3 id="Auxiliary-data"><a href="#Auxiliary-data" class="headerlink" title="Auxiliary data"></a>Auxiliary data</h3><p>Auxiliary data意为辅助数据，是函数除第一个输出项外的其他输出。通常我们会将函数的loss设置为函数的第一个输出，其他的输出即为辅助数据。</p>
+<p><code>grad</code>和<code>value_and_grad</code>提供<code>has_aux</code>参数，当其设置为<code>True</code>时，可以自动实现前文手动添加<code>stop_gradient</code>的功能，满足返回辅助数据的同时不影响梯度计算的效果。</p>
+<p>下面仍使用<code>function_with_logits</code>，配置<code>has_aux=True</code>，并执行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grad_fn = mindspore.grad(function_with_logits, (<span class="number">2</span>, <span class="number">3</span>), has_aux=<span class="literal">True</span>)</span><br><span class="line">grads, (z,) = grad_fn(x, y, w, b)</span><br><span class="line"><span class="built_in">print</span>(grads, z)</span><br></pre></td></tr></table></figure>
+<h3 id="神经网络梯度计算"><a href="#神经网络梯度计算" class="headerlink" title="神经网络梯度计算"></a>神经网络梯度计算</h3><blockquote>
+<p> 前述章节主要根据计算图对应的函数介绍了MindSpore的函数式自动微分，但我们的神经网络构造是继承自面向对象编程范式的<code>nn.Cell</code>。接下来我们通过<code>Cell</code>构造同样的神经网络，利用函数式自动微分来实现反向传播。</p>
+<p>首先我们继承<code>nn.Cell</code>构造单层线性变换神经网络。这里我们直接使用前文的𝑤、𝑏作为模型参数，使用<code>mindspore.Parameter</code>进行包装后，作为内部属性，并在<code>construct</code>内实现相同的Tensor操作。</p>
+</blockquote>
+<p>这里出现了反向传播方法,并且是包装好的,建议读者仔细看一下代码并尝试自己运行一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义神经网络模型</span></span><br><span class="line"><span class="comment"># Define model</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Network</span>(nn.Cell):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.w = w</span><br><span class="line">        <span class="variable language_">self</span>.b = b</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">construct</span>(<span class="params">self, x</span>):</span><br><span class="line">        z = ops.matmul(x, <span class="variable language_">self</span>.w) + <span class="variable language_">self</span>.b</span><br><span class="line">        <span class="keyword">return</span> z</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Instantiate model</span></span><br><span class="line">model = Network()</span><br><span class="line"><span class="comment"># Instantiate loss function</span></span><br><span class="line">loss_fn = nn.BCEWithLogitsLoss()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Define forward function</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">forward_fn</span>(<span class="params">x, y</span>):</span><br><span class="line">    z = model(x)</span><br><span class="line">    loss = loss_fn(z, y)</span><br><span class="line">    <span class="keyword">return</span> loss</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 注入损失函数</span></span><br><span class="line">grad_fn = mindspore.value_and_grad(forward_fn, <span class="literal">None</span>, weights=model.trainable_params())</span><br><span class="line">loss, grads = grad_fn(x, y)</span><br><span class="line"><span class="built_in">print</span>(grads)</span><br></pre></td></tr></table></figure>
+<h3 id="总结输出（单次）"><a href="#总结输出（单次）" class="headerlink" title="总结输出（单次）"></a>总结输出（单次）</h3><blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">0.92031693</span><br><span class="line">(Tensor(shape=[5, 3], dtype=Float32, value=</span><br><span class="line">[[ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01]]), Tensor(shape=[3], dtype=Float32, value= [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01]))</span><br><span class="line">计算多个参数的导数</span><br><span class="line">(Tensor(shape=[5, 3], dtype=Float32, value=</span><br><span class="line">[[ 1.23408186e+00,  1.21728730e+00,  1.13000238e+00],</span><br><span class="line"> [ 1.23408186e+00,  1.21728730e+00,  1.13000238e+00],</span><br><span class="line"> [ 1.23408186e+00,  1.21728730e+00,  1.13000238e+00],</span><br><span class="line"> [ 1.23408186e+00,  1.21728730e+00,  1.13000238e+00],</span><br><span class="line"> [ 1.23408186e+00,  1.21728730e+00,  1.13000238e+00]]), Tensor(shape=[3], dtype=Float32, value= [ 1.23408186e+00,  1.21728730e+00,  1.13000238e+00]))</span><br><span class="line">消除部分张量对梯度的影响</span><br><span class="line">(Tensor(shape=[5, 3], dtype=Float32, value=</span><br><span class="line">[[ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01]]), Tensor(shape=[3], dtype=Float32, value= [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01]))</span><br><span class="line">Auxiliary data 辅助数据测试</span><br><span class="line">(Tensor(shape=[5, 3], dtype=Float32, value=</span><br><span class="line">[[ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01]]), Tensor(shape=[3], dtype=Float32, value= [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01])) [ 0.8580145   0.62723386 -0.44728255]      </span><br><span class="line">开始实测网络模型的反向传播</span><br><span class="line">(Tensor(shape=[5, 3], dtype=Float32, value=</span><br><span class="line">[[ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01],</span><br><span class="line"> [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01]]), Tensor(shape=[3], dtype=Float32, value= [ 2.34081909e-01,  2.17287347e-01,  1.30002365e-01]))</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>可见，除了在计算z的导数对梯度的影响情况下，均保持了相同的输出，并且可以观察到w,b的权值</p>
+<h2 id="二值交叉熵损失"><a href="#二值交叉熵损失" class="headerlink" title="二值交叉熵损失"></a>二值交叉熵损失</h2><p><strong><em>以下的对数均为自然对数</em></strong></p>
+<p>Binary cross entropy 二元<span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3dpa2kv5Lqk5Y+J54a1">交叉熵<i class="fa fa-external-link-alt"></i></span>是二分类问题中常用的一个Loss损失函数，在常见的机器学习模块中都有实现。就二元交叉熵这个损失函数的原理，简单地进行解释。下面是二元交叉熵损失函数的公式</p>
+<script type="math/tex; mode=display">
+L=-\frac1N \sum_{i=1}^{N}[y_ilog(p_i)+(1-y_i)log(1-p_i)]</script><p>先不尝试理解他，先看看他是如何运作的</p>
+<p><img src="https://s2.loli.net/2024/06/07/MAOZxqKodRSW6uy.jpg" alt="img"></p>
+<script type="math/tex; mode=display">
+L=\frac13[(1*log0.8+(1-1)*log(1-0.8))+(0*log0.2+(1-0)*log(1-0.2))+(0*log0.4+(1-0)*log(1-0.4))]=0.319 \\</script><p>对于以上的案例计算损失函数，结果是0.31903</p>
+<h3 id="从熵来看交叉熵损失"><a href="#从熵来看交叉熵损失" class="headerlink" title="从熵来看交叉熵损失"></a>从熵来看交叉熵损失</h3><h4 id="信息量"><a href="#信息量" class="headerlink" title="信息量"></a>信息量</h4><p>信息量来衡量一个事件的不确定性，一个事件发生的概率越大，不确定性越小，则其携带的信息量就越小。</p>
+<p>设<script type="math/tex">X</script>是一个离散型随机变量，其取值为集合<script type="math/tex">X = {x_0,x_1,\dots,x_n}</script>，则其概率分布函数为<script type="math/tex">p(x) = Pr(X = x),x \in X</script>，则定义事件<script type="math/tex">X=x_0</script>的信息量为：</p>
+<script type="math/tex; mode=display">
+I(x_0) = -\log(p(x_0))</script><p>当<script type="math/tex">p(x_0) = 1</script>时，其携带的信息量为0。</p>
+<h4 id="熵"><a href="#熵" class="headerlink" title="熵"></a>熵</h4><p>熵用来衡量一个系统的混乱程度，代表系统中信息量的总和；熵值越大，表明这个系统的不确定性就越大。具体而数学的讲，熵就是一个系统中所有信息量的期望。</p>
+<p>信息量是衡量某个事件的不确定性，而熵是衡量一个系统（所有事件）的不确定性。</p>
+<p>熵的计算公式</p>
+<script type="math/tex; mode=display">
+H(x) = -\sum_{i=1}^np(x_i)\log(p(x_i))</script><p>比较特殊的有二项分布熵</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray}
+H(X)&=&-\sum_{i=1}^n p(x_i)log(p(x_i))\\
+&=&-p(x)log(p(x))-(1-p(x))log(1-p(x))
+\end{eqnarray}</script><p><em>熵也有其他类型的计算公式，这里是信息学上的定义</em></p>
+<p>其中<script type="math/tex">p(x)</script>为这件事发生的概率，<script type="math/tex">-log(p(x_i))</script>是事件<script type="math/tex">x_i</script>所携带的信息量。</p>
+<p>可以看出，熵是信息量的期望值，是一个随机变量（一个系统，事件所有可能性）不确定性的度量。熵值越大，随机变量的取值就越难确定，系统也就越不稳定；熵值越小，随机变量的取值也就越容易确定，系统越稳定。</p>
+<h4 id="相对熵-（Relative-entropy）-KL散度"><a href="#相对熵-（Relative-entropy）-KL散度" class="headerlink" title="相对熵 （Relative entropy）/  KL散度"></a>相对熵 （Relative entropy）/  KL散度</h4><p>wiki对相对熵的定义如下：<code>In the context of machine learning, DKL(P‖Q) is often called the information gain achieved if P is used instead of Q.</code></p>
+<p>即如果用P来描述目标问题，而不是用Q来描述目标问题，得到的信息增量。</p>
+<p>在机器学习中，P往往用来表示样本的真实分布，比如[1,0,0]表示当前样本属于第一类。Q用来表示模型所预测的分布，比如[0.7,0.2,0.1]直观的理解就是如果用P来描述样本，那么就非常完美。而用Q来描述样本，虽然可以大致描述，但是不是那么的完美，信息量不足，需要额外的一些“信息增量”才能达到和P一样完美的描述。如果我们的Q通过反复训练，也能完美的描述样本，那么就不再需要额外的“信息增量”，Q等价于P。</p>
+<p>总结：相对熵也称为KL散度(Kullback-Leibler divergence)，表示同一个随机变量的两个不同分布间的距离。</p>
+<p>设 <script type="math/tex">p(x),𝑞(𝑥)</script>分别是 离散随机变量<script type="math/tex">X</script>的两个概率分布，则<script type="math/tex">p</script>对<script type="math/tex">q</script>的相对熵是：</p>
+<script type="math/tex; mode=display">
+D_{KL}(p \parallel q) = \sum_i p(x_i) log(\frac{p(x_i)}{q(x_i)})</script><p>相对熵具有以下性质：</p>
+<ul>
+<li>如果p(x)和q(x)的分布相同，则其相对熵等于0</li>
+<li><script type="math/tex">D_{KL}(p∥q)≠D_{KL}(q∥p)𝐷_{𝐾𝐿}(𝑝∥𝑞)≠𝐷_{𝐾𝐿}(𝑞∥𝑝)</script>，也就是相对熵不具有对称性。</li>
+<li><script type="math/tex; mode=display">D_{KL}(p∥q)≥0</script></li>
+</ul>
+<p>总的来说，相对熵是用来衡量同一个随机变量的两个不同分布之间的距离。<strong>在实际应用中，假如p(x)是目标真实的分布，而q(x)是预测得来的分布，为了让这两个分布尽可能的相同的，就需要最小化KL散度。</strong></p>
+<h4 id="交叉熵-Cross-Entropy"><a href="#交叉熵-Cross-Entropy" class="headerlink" title="交叉熵 Cross Entropy"></a>交叉熵 Cross Entropy</h4><p>设<script type="math/tex">p(x),q(x)</script>分别是 离散随机变量<script type="math/tex">X</script>的两个概率分布，其中<script type="math/tex">p(x)</script>是目标分布，<script type="math/tex">p</script>和<script type="math/tex">q</script>的交叉熵可以看做是，使用分布<script type="math/tex">q(x)</script>表示目标分布<script type="math/tex">p(x)</script>的困难程度</p>
+<script type="math/tex; mode=display">
+H(p,q) = \sum_ip(x_i)log\frac{1}{\log q(x_i)} = -\sum_ip(x_i)\log q(x_i)</script><p>将熵、相对熵以及交叉熵的公式放到一起，</p>
+<script type="math/tex; mode=display">
+\begin{align}
+H(p) &= -\sum_{i}p(x_i) \log p(x_i) \\
+D_{KL}(p \parallel q) &= \sum_{i}p(x_i)\log \frac{p(x_i)}{q(x_i)} = \sum_i (p(x_i)\log p(x_i) - p(x_i) \log q(x_i)) \\
+H(p,q) &=  -\sum_ip(x_i)\log q(x_i)
+\end{align}</script><p>通过上面三个公式就可以得到</p>
+<script type="math/tex; mode=display">
+D_{KL}(p,q) = H(p,q)- H(p)</script><p>其中，前一项<script type="math/tex">H(p,q)</script>就是<script type="math/tex">p,q</script>的交叉熵。在机器学习中，目标的分布<script type="math/tex">p(x)</script>通常是训练数据的分布是固定，即是<script type="math/tex">H(p)</script>是一个常量。这样两个分布的交叉熵<script type="math/tex">H(p,q)</script>也就等价于最小化这两个分布的相对熵<script type="math/tex">D_{KL}(p \parallel q)</script></p>
+<p>设<script type="math/tex">p(x)</script>是目标分布（训练数据的分布），我们的目标的就让训练得到的分布<script type="math/tex">q(x)</script>尽可能的接近<script type="math/tex">p(x)</script>，这时候就可以最小化<script type="math/tex">D_{KL}(p∥q)</script>，等价于最小化交叉熵<script type="math/tex">H(p,q)</script>​。</p>
+<h3 id="为什么要用交叉熵做loss函数"><a href="#为什么要用交叉熵做loss函数" class="headerlink" title="为什么要用交叉熵做loss函数"></a>为什么要用交叉熵做loss函数</h3><p>在线性回归问题中，常常使用MSE（Mean Squared Error）作为loss函数，比如：</p>
+<script type="math/tex; mode=display">
+loss = \frac{1}{2m}\sum_{i=1}^m(y_i-\hat{y_i})^2</script><p>这里的m表示m个样本的，loss为m个样本的loss均值。<br>MSE在<a href="# 回归问题">线性回归问题</a>中比较好用，那么在逻辑分类问题中还是如此么？</p>
+<h3 id="交叉熵在单分类问题中的使用"><a href="#交叉熵在单分类问题中的使用" class="headerlink" title="交叉熵在单分类问题中的使用"></a>交叉熵在单分类问题中的使用</h3><p>这里的单类别是指，每一张图像样本只能有一个类别，比如只能是狗或只能是猫。<br>交叉熵在单分类问题上基本是标配的方法</p>
+<script type="math/tex; mode=display">
+loss=-\sum_{i=1}^{n}y_ilog(\hat{y_i})</script><p>上式为一张样本的loss计算方法。n代表着n种类别。<br>举例说明,比如有如下样本</p>
+<p>对应的标签和预测值</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>*</th>
+<th>猫</th>
+<th>青蛙</th>
+<th>老鼠</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Label</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Pred</td>
+<td>0.3</td>
+<td>0.6</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<script type="math/tex; mode=display">
+\begin{eqnarray}
+loss&=&-(0\times log(0.3)+1\times log(0.6)+0\times log(0.1)\\
+&=&-log(0.6)
+\end{eqnarray}</script><p>对应的一个batch的loss就是</p>
+<script type="math/tex; mode=display">
+loss=-\frac{1}{m}\sum_{j=1}^m\sum_{i=1}^{n}y_{ji}log(\hat{y_{ji}})</script><p>m为当前batch的样本数</p>
+<h3 id="交叉熵在多分类问题中的使用"><a href="#交叉熵在多分类问题中的使用" class="headerlink" title="交叉熵在多分类问题中的使用"></a>交叉熵在多分类问题中的使用</h3><p>这里的多类别是指，每一张图像样本可以有多个类别，比如同时包含一只猫和一只狗<br>和单分类问题的标签不同，多分类的标签是n-hot。<br>比如下面这张样本图，即有青蛙，又有老鼠，所以是一个多分类问题</p>
+<p>栗子</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>*</th>
+<th>猫</th>
+<th>青蛙</th>
+<th>老鼠</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Label</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Pred</td>
+<td>0.1</td>
+<td>0.7</td>
+<td>0.8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>值得注意的是，这里的Pred不再是通过softmax计算的了，这里采用的是sigmoid。将每一个节点的输出归一化到[0,1]之间。所有Pred值的和也不再为1。换句话说，就是每一个Label都是独立分布的，相互之间没有影响。所以交叉熵在这里是单独对每一个节点进行计算，每一个节点只有两种可能值，所以是一个二项分布。前面说过对于二项分布这种特殊的分布，熵的计算可以进行简化。</p>
+<p>同样的，交叉熵的计算也可以简化，即</p>
+<script type="math/tex; mode=display">
+loss =-ylog(\hat{y})-(1-y)log(1-\hat{y})</script><p>注意，上式只是针对一个节点的计算公式。这一点一定要和单分类loss区分开来。<br>例子中可以计算为：</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray}
+loss_猫 &=&-0\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\
+loss_蛙 &=&-1\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\
+loss_鼠 &=&-1\times log(0.8)-(1-1)log(1-0.8)=-log(0.8)
+\end{eqnarray}</script><p>单张样本的loss即为<br>每一个batch的loss就是：</p>
+<script type="math/tex; mode=display">
+loss =\sum_{j=1}^{m}\sum_{i=1}^{n}-y_{ji}log(\hat{y_{ji}})-(1-y_{ji})log(1-\hat{y_{ji}})</script><p>式中m为当前batch中的样本量，n为类别数。</p>
+<h3 id="从最大似然看交叉熵"><a href="#从最大似然看交叉熵" class="headerlink" title="从最大似然看交叉熵"></a>从<a href="# 最大似然估计">最大似然</a>看交叉熵</h3><p>设有一组训练样本$X= {x_1,x_2,\cdots,x_m}$ ,该样本的分布为$p(x)$ 。假设使用$\theta$ 参数化模型得到$q(x;\theta)$ ，现用这个模型来估计$X$ 的概率分布，得到似然函数</p>
+<script type="math/tex; mode=display">
+L(\theta) = q(X; \theta) = \prod_i^mq(x_i;\theta)</script><p>最大似然估计就是求得$\theta$ 使得$L(\theta)$ 的值最大，也就是</p>
+<script type="math/tex; mode=display">
+\theta_{ML} = arg \max_{\theta} \prod_i^mq(x_i;\theta)</script><p>对上式的两边同时取$\log$ ，等价优化$\log$ 的最大似然估计即<code>log-likelyhood</code> ，最大对数似然估计</p>
+<script type="math/tex; mode=display">
+\theta_{ML} = arg \max_\theta \sum_i^m \log q(x_i;\theta)</script><p>对上式的右边进行缩放并不会改变$arg \max$ 的解，上式的右边除以样本的个数$m$</p>
+<script type="math/tex; mode=display">
+\theta_{ML} = arg \max_\theta \frac{1}{m}\sum_i^m\log q(x_i;\theta)</script><h4 id="和相对熵等价"><a href="#和相对熵等价" class="headerlink" title="和相对熵等价"></a>和相对熵等价</h4><p>上式的最大化$\theta_{ML}$ 是和没有训练样本没有关联的，就需要某种变换使其可以用训练的样本分布来表示，因为训练样本的分布可以看作是已知的，也是对最大化似然的一个约束条件。</p>
+<p>注意上式的</p>
+<script type="math/tex; mode=display">
+\frac{1}{m}\sum_i^m\log q(x_i;\theta)</script><p>相当于<strong>求随机变量$X$ 的函数$\log (X;\theta)$ 的均值</strong> ，根据大数定理，<strong>随着样本容量的增加，样本的算术平均值将趋近于随机变量的期望。</strong> 也就是说</p>
+<script type="math/tex; mode=display">
+\frac{1}{m}\sum_i^m \log q(x_i;\theta) \rightarrow E_{x\sim P}(\log q(x;\theta))</script><p>其中$E_{X\sim P}$ 表示符合样本分布$P$ 的期望，这样就将最大似然估计使用真实样本的期望来表示</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \theta_{ML} &= arg \max_{\theta} E_{x\sim P}({\log q(x;\theta)}) \\ &= arg \min_{\theta} E_{x \sim P}(- \log q(x;\theta)) \end{aligned}</script><p>对右边取负号，将最大化变成最小化运算。</p>
+<blockquote>
+<p>上述的推导过程，可以参考 《Deep Learning》 的第五章。 但是，在书中变为期望的只有一句话，将式子的右边除以样本数量$m$ 进行缩放，从而可以将其变为$E_{x \sim p}\log q(x;\theta)$，没有细节过程，也可能是作者默认上面的变换对读者是一直。 确实是理解不了，查了很多文章，都是对这个变换的细节含糊其辞。一个周，对这个点一直耿耿于怀，就看了些关于概率论的科普书籍，其中共有介绍大数定理的：<strong>当样本容量趋于无穷时，样本的均值趋于其期望</strong>。</p>
+<p>针对上面公式，除以$m$后，$\frac{1}{m}\sum<em>i^m\log q(x_i;\theta)$ ，确实是关于随机变量函数$\log q(x)$ 的算术平均值，而$x$ 是训练样本其分布是已知的$p(x)$ ，这样就得到了$E</em>{x \sim p}(\log q(x))$ 。</p>
+</blockquote>
+<script type="math/tex; mode=display">
+\begin{aligned} D_{KL}(p \parallel q) &= \sum_i p(x_i) log(\frac{p(x_i)}{q(x_i)})\\ &= E_{x\sim p}(\log \frac{p(x)}{q(x)}) \\ &= E_{x \sim p}(\log p(x) - \log q(x)) \\ &= E_{x \sim p}(\log p(x)) - E_{x \sim p} (\log q(x)) \end{aligned}</script><p>由于$E<em>{x \sim p} (\log p(x))$ 是训练样本的期望，是个固定的常数，在求最小值时可以忽略，所以最小化$D</em>{KL}(p \parallel q)$ 就变成了最小化$-E_{x\sim p}(\log q(x))$ ，这和最大似然估计是等价的。</p>
+<h4 id="和交叉熵等价"><a href="#和交叉熵等价" class="headerlink" title="和交叉熵等价"></a>和交叉熵等价</h4><p>最大似然估计、相对熵、交叉熵的公式如下</p>
+<script type="math/tex; mode=display">
+\begin{aligned}\theta_{ML} &= -arg \min_\theta E_{x\sim p}\log q(x;\theta) \\D_{KL} &= E_{x \sim p}\log p(x) - E_{x \sim p} \log q(x) \\H(p,q) &= -\sum_i^m p(x_i) \log q(x_i) = -E_{x \sim p} \log q(x)\end{aligned}\begin{aligned}\theta_{ML} &= arg \min_\theta E_{x\sim p}\log q(x;\theta) \\D_{KL} &= E_{x \sim p}\log p(x) - E_{x \sim p} \log q(x) \\H(p,q) &= -\sum_i^m p(x_i) \log q(x_i) = -E_{x \sim p} \log q(x)\end{aligned}</script><p>从上面可以看出，最小化交叉熵，也就是最小化$D<em>{KL}$ ，从而预测的分布$q(x)$ 和训练样本的真实分布$p(x)$ 最接近。而最小化$D</em>{KL}$ 和最大似然估计是等价的。</p>
+<h3 id="多分类交叉熵"><a href="#多分类交叉熵" class="headerlink" title="多分类交叉熵"></a>多分类交叉熵</h3><p>多分类任务中输出的是目标属于<strong>每个类别的概率，所有类别概率的和为1，其中概率最大的类别就是目标所属的分类。</strong> 而<code>softmax</code> 函数能将一个向量的每个分量映射到$[0,1]$ 区间，并且对整个向量的输出做了归一化，保证所有分量输出的和为1，正好满足多分类任务的输出要求。所以，在多分类中，在最后就需要将提取的到特征经过<code>softmax</code>函数的，输出为每个类别的概率，然后再使用<strong>交叉熵</strong> 作为损失函数。</p>
+<p><code>softmax</code>函数定义如下：</p>
+<script type="math/tex; mode=display">
+S_i = \frac{e^{z_i}}{\sum^n_{i=1}e^{z_i}}</script><p>其中，输入的向量为$z_i(i = 1,2,\dots,n)$ 。</p>
+<p>更直观的参见下图</p>
+<p><img src="https://s2.loli.net/2024/06/07/XvLsuFKjBe39AaD.png" alt="img"></p>
+<p>通过前面的特征提取到的特征向量为$(z_1,z_2,\dots,z_k)$ ，将向量输入到<code>softmax</code>函数中，即可得到目标属于每个类别的概率，概率最大的就是预测得到的目标的类别。</p>
+<h4 id="Cross-Entropy-Loss"><a href="#Cross-Entropy-Loss" class="headerlink" title="Cross Entropy Loss"></a>Cross Entropy Loss</h4><p>使用<code>softmax</code>函数可以将特征向量映射为所属类别的概率，可以看作是预测类别的概率分布$q(c_i)$ ，有</p>
+<script type="math/tex; mode=display">
+q(c_i) = \frac{e^{z_i}}{\sum^n_{i=1}e^{z_i}}</script><p>其中$c_i$ 为某个类别。</p>
+<p>设训练数据中类别的概率分布为$p(c_i)$ ，那么目标分布$p(c_i)$ 和预测分布$q(c_i)$的交叉熵为</p>
+<script type="math/tex; mode=display">H(p,q) =-\sum_ip(c_i)\log q(c_i)</script><p>每个训练样本所属的类别是已知的，并且每个样本只会属于一个类别（概率为1），属于其他类别概率为0。具体的，可以假设有个三分类任务，三个类分别是：猫，猪，狗。现有一个训练样本类别为猫，则有：</p>
+<script type="math/tex; mode=display">\begin{align} p(cat) & = 1 \\ p(pig) &= 0 \\ p(dog) & = 0 \end{align}</script><p>通过预测得到的三个类别的概率分别为：$q(cat) = 0.6,q(pig) = 0.2,q(dog) = 0.2$ ，计算$p$ 和$q$ 的交叉熵为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} H(p,q) &= -(p(cat) \log q(cat) + p(pig) + \log q(pig) + \log q(dog)) \\ &= - (1 \cdot \log 0.6 + 0 \cdot \log 0.2 +0 \cdot \log 0.2) \\ &= - \log 0.6 \\ &= - \log q(cat) \end{aligned}</script><p>利用这种特性，可以将样本的类别进行重新编码，就可以简化交叉熵的计算，这种编码方式就是<strong>one-hot</strong> 编码。以上面例子为例，</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \text{cat} &= (1 0 0) \\ \text{pig} &= (010) \\ \text{dog} &= (001) \end{aligned}</script><p>通过这种编码方式，在计算交叉熵时，只需要计算和训练样本对应类别预测概率的值，其他的项都是$0 \cdot \log q(c_i) = 0$ 。</p>
+<p>具体的，交叉熵计算公式变成如下：</p>
+<script type="math/tex; mode=display">
+(p,q) = - \log q(c_i)</script><p>其中$c_i$ 为训练样本对应的类别，上式也被称为<strong>负对数似然（negative log-likelihood,nll）</strong>。</p>
+<h4 id="PyTorch中的Cross-Entropy"><a href="#PyTorch中的Cross-Entropy" class="headerlink" title="PyTorch中的Cross Entropy"></a>PyTorch中的Cross Entropy</h4><p>PyTorch中实现交叉熵损失的有三个函数<code>torch.nn.CrossEntropyLoss</code>，<code>torch.nn.LogSoftmax</code>以及<code>torch.nn.NLLLoss</code>。</p>
+<ul>
+<li><code>torch.nn.functional.log_softmax</code> 比较简单，输入为$n$维向量，指定要计算的维度<code>dim</code>，输出为$log(Softmax(x))$。其计算公式如下：</li>
+</ul>
+<script type="math/tex; mode=display">
+\text{LogSoftmax}(x_i) = \log (\frac{\exp(x_i)}{\sum_j \exp(x_j)})</script><p>没有额外的处理，就是对输入的$n$维向量的每个元素进行上述运算。</p>
+<ul>
+<li><code>torch.nn.functional.nll_loss</code> 负对数似然损失（Negative Log Likelihood Loss)，用于多分类，其输入的通常是<code>torch.nn.functional.log_softmax</code>的输出值。其函数如下</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.functional.nll_loss(<span class="built_in">input</span>, target, weight=<span class="literal">None</span>, size_average=<span class="literal">None</span>, ignore_index=-<span class="number">100</span>, reduce=<span class="literal">None</span>, reduction=<span class="string">&#x27;mean&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><code>input</code> 也就是<code>log_softmax</code>的输出值，各个类别的对数概率。<code>target</code> 目标正确类别,<code>weight</code> 针对类别不平衡问题，可以为类别设置不同的权值；<code>ignore_index</code> 要忽略的类别，不参与loss的计算；比较重要的是<code>reduction</code> 的值，有三个取值：<code>none</code> 不做处理，输出的结果为向量；<code>mean</code> 将<code>none</code>结果求均值后输出；<code>sum</code> 将<code>none</code> 结果求和后输出。</p>
+<ul>
+<li><code>torch.nn.CrossEntropyLoss</code>就是上面两个函数的组合<code>nll_loss(log_softmax(input))</code>。</li>
+</ul>
+<h3 id="二分类交叉熵"><a href="#二分类交叉熵" class="headerlink" title="二分类交叉熵"></a>二分类交叉熵</h3><p>多分类中使用<code>softmax</code>函数将最后的输出映射为每个类别的概率，而在二分类中则通常使用<code>sigmoid</code> 将输出映射为正样本的概率。这是因为二分类中，只有两个类别：{正样本，负样本}，只需要求得正样本的概率$q$,则$1-q$ 就是负样本的概率。这也是多分类和二分类不同的地方。</p>
+<p>$\text{sigmoid}$ 函数的表达式如下：</p>
+<script type="math/tex; mode=display">
+\sigma(z) = \frac{1}{1 + e^{-z}}</script><p>sigmoid的输入为$z$ ，其输出为$(0,1)$ ，可以表示分类为正样本的概率。</p>
+<p>二分类的交叉熵可以看作是交叉熵损失的一个特列，交叉熵为</p>
+<script type="math/tex; mode=display">
+\text{$Cross\_Entorpy$}(p,q) = -\sum_i^m p(x_i) \log q(x_i)</script><p>这里只有两个类别$x \in {x_1,x_2}$ ，则有</p>
+<script type="math/tex; mode=display">
+\begin{aligned}\text{$Cross\_Entorpy$}(p,q) &= -(p(x_1) \log q(x_1) + p(x_2) \log q(x_2)) \end{aligned}</script><p>因为只有两个选择，则有$p(x_1) + p(x_2) = 1,q(x_1) + q(x_2) = 1$ 。设，训练样本中$x_1$的概率为$p$，则$x_2$为$1-p$; 预测的$x_1$的概率为$q$，则$x_2$的预测概率为$1 - q$ 。则上式可改写为</p>
+<script type="math/tex; mode=display">
+\text{$Cross\_Entropy$}(p,q) = -(p \log q + (1-p) \log (1-q))</script><p>也就是二分类交叉熵的损失函数。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>相对熵可以用来度量两个分布相似性，假设分布$p$是训练样本的分布，$q$是预测得到的分布。分类训练的过程实际上就是最小化$D_{KL}(p \parallel q)$，由于由于交叉熵</p>
+<script type="math/tex; mode=display">
+H(p,q)= D_{KL}(p \parallel q) + H(p)</script><p>其中,$H(p)$是训练样本的熵，是一个已知的常量，这样最小化相对熵就等价于最小化交叉熵。</p>
+<p>从最大似然估计转化为最小化负对数似然</p>
+<script type="math/tex; mode=display">
+\theta_{ML} = -arg \min_\theta E_{x\sim p}\log q(x;\theta)</script><p>也等价于最小化相对熵。</p>
+<h2 id="回归问题"><a href="#回归问题" class="headerlink" title="回归问题"></a>回归问题</h2><p>回归：人们在测量事物的时候因为客观条件所限，求得的都是测量值，而不是事物真实的值，为了能够得到真实值，无限次的进行测量，最后通过这些测量数据计算<strong>回归到真实值</strong>，这就是回归的由来。</p>
+<p>回归分析的主要算法包括：</p>
+<ol>
+<li>线性回归(Linear Regression)</li>
+<li>逻辑回归（Logistic regressions）</li>
+<li>多项式回归(Polynomial Regression)</li>
+<li>逐步回归(Step Regression)</li>
+<li>岭回归(Ridge Regression)</li>
+<li>套索回归(Lasso Regression)</li>
+<li>弹性网回归(ElasticNet)</li>
+</ol>
+<h2 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h2><p>wiki定义：<code>在统计学中，最大似然估计（英语：maximum likelihood estimation，简作MLE），也称极大似然估计，是用来估计一个概率模型的参数的一种方法。</code></p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>给定一个概率分布𝐷，已知其<span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3dpa2kv5qaC546H5a+G5bqm5Ye95pWw">概率密度函数<i class="fa fa-external-link-alt"></i></span>（连续分布）或<span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3dpa2kv5qaC546H6LSo6YeP5Ye95pWw">概率质量函数<i class="fa fa-external-link-alt"></i></span>（离散分布）为𝑓𝐷，以及一个分布参数𝜃，我们可以从这个分布中抽出一个具有𝑛个值的采样𝑋1,𝑋2,…,𝑋𝑛，利用𝑓𝐷计算出其<span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3dpa2kv5Ly854S25Ye95pWw">似然函数<i class="fa fa-external-link-alt"></i></span>：</p>
+<p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/a9702eeec5a8eb416883af66665ac11bd8151f0f" alt="{\displaystyle {\mbox{L}}(\theta \mid x_{1},\dots ,x_{n})=f_{\theta }(x_{1},\dots ,x_{n}).}"></p>
+<p>若𝐷是离散分布，𝑓𝜃即是在参数为𝜃时观测到这一采样的概率；若其是连续分布，𝑓𝜃则为𝑋1,𝑋2,…,𝑋𝑛联合分布的概率密度函数在观测值处的取值。一旦我们获得𝑋1,𝑋2,…,𝑋𝑛，我们就能求得一个关于𝜃的估计。最大似然估计会寻找关于𝜃的最可能的值（即，在所有可能的𝜃取值中，寻找一个值使这个采样的“可能性”最大化）。从数学上来说，我们可以在𝜃的所有可能取值中寻找一个值使得似然<span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3dpa2kv5Ye95pWw">函数<i class="fa fa-external-link-alt"></i></span>取到最大值。这个使可能性最大的<script type="math/tex">\hat 𝜃</script>值即称为𝜃的<strong>最大似然估计</strong>。由定义，最大似然估计是样本的函数。</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3dpa2kv5pyA5aSn5Ly854S25Lyw6K6h">最大似然估计 - 维基百科，自由的百科全书 (wikipedia.org)<i class="fa fa-external-link-alt"></i></span></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html" title="MindSpore专题——第六章——函数式微分">https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/MindSpore/" rel="tag"># MindSpore</a>
+              <a href="/tags/%E7%9B%AE%E5%BD%95/" rel="tag"># 目录</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/special_subject/MindSpore/Chapters/TransformerStructure/article.html" rel="prev" title="MindSpore专题——番外、Trans Fore模型">
+                  <i class="fa fa-angle-left"></i> MindSpore专题——番外、Trans Fore模型
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html" rel="next" title="MindSpore专题——第三章——张量">
+                  MindSpore专题——第三章——张量 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>English</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"en","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/en/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

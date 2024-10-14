@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="卷积神经网络CNN 卷积神经网络（Convolutional Neural Networks, CNN）的复杂性和灵活性使其成为深度学习领域的核心研究主题之一。  背景卷积神经网络的灵感源自人类视觉系统，特别是视觉皮层中的神经元结构。自Hubel和Wiesel在1962年的开创性工作以来，这一理念已经引发了一系列研究和发展。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNN卷积神经网络">
+<meta property="og:url" content="https://deepcity.github.io/ja/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="卷积神经网络CNN 卷积神经网络（Convolutional Neural Networks, CNN）的复杂性和灵活性使其成为深度学习领域的核心研究主题之一。  背景卷积神经网络的灵感源自人类视觉系统，特别是视觉皮层中的神经元结构。自Hubel和Wiesel在1962年的开创性工作以来，这一理念已经引发了一系列研究和发展。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://s2.loli.net/2024/08/29/MKE4wicUudT8CZ1.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/29/zXAZaWs4tF7PObV.png">
+<meta property="og:image" content="https://developer.qcloudimg.com/http-save/yehe-9008468/025aa52f9c133ebcb4ed9481a54a1f22.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/29/8EvioflpSb3jL69.png">
+<meta property="og:image" content="https://developer.qcloudimg.com/http-save/yehe-9008468/86ec7230226837f73b3864aff30aa71c.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/29/7Rz5wdh8H3f2isb.png">
+<meta property="article:published_time" content="2024-09-03T13:52:12.000Z">
+<meta property="article:modified_time" content="2024-10-02T08:47:32.793Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="CNN">
+<meta property="article:tag" content="卷积神经网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/08/29/MKE4wicUudT8CZ1.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ja/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ja","comments":true,"permalink":"https://deepcity.github.io/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html","path":"ja/2024/CNN卷积神经网络/article.html","title":"CNN卷积神经网络"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CNN卷积神经网络 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="検索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>プロフィール</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>タグ</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>スケジュール</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>サイトマップ</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>検索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="検索…" spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN"><span class="nav-number">1.</span> <span class="nav-text">卷积神经网络CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E5%A4%A7%E8%A7%82"><span class="nav-number">1.2.</span> <span class="nav-text">结构大观</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">1.3.</span> <span class="nav-text">卷积神经网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%B7%E7%A7%AF"><span class="nav-number">1.3.1.</span> <span class="nav-text">什么是卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E6%93%8D%E4%BD%9C%E7%9A%84%E9%99%84%E5%8A%A0%E4%B8%8E%E5%8F%98%E4%BD%93"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">卷积操作的附加与变体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%B7%E7%A7%AF%E6%A0%B8%EF%BC%8C%E7%89%B9%E5%BE%81%E6%98%A0%E5%B0%84"><span class="nav-number">1.3.2.</span> <span class="nav-text">什么是卷积核，特征映射</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%9F%E5%8F%97%E9%87%8E"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">感受野</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E6%A0%B8%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%EF%BC%8C%E6%9C%89%E4%BD%95%E5%85%B3%E7%B3%BB"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">卷积核的大小如何设置，有何关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E9%80%9A%E9%81%93%E5%8D%B7%E7%A7%AF"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">多通道卷积</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%95%BF%E4%B8%8E%E5%A1%AB%E5%85%85"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">步长与填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E6%B4%9E%E5%8D%B7%E7%A7%AF"><span class="nav-number">1.3.2.5.</span> <span class="nav-text">空洞卷积</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%8D%B7%E7%A7%AF"><span class="nav-number">1.3.3.</span> <span class="nav-text">分组卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.4.</span> <span class="nav-text">激活函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%A0%E5%8C%96%E5%B1%82"><span class="nav-number">1.3.5.</span> <span class="nav-text">池化层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E6%B1%A0%E5%8C%96"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">最大池化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B3%E5%9D%87%E6%B1%A0%E5%8C%96"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">平均池化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%B9%B3%E5%9D%87%E6%B1%A0%E5%8C%96"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">全局平均池化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%A0%E5%8C%96%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F%E5%92%8C%E6%AD%A5%E9%95%BF"><span class="nav-number">1.3.5.4.</span> <span class="nav-text">池化窗口大小和步长</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%A0%E5%8C%96%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88"><span class="nav-number">1.3.5.5.</span> <span class="nav-text">池化的替代方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%A0%E5%8C%96%E5%B1%82%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.3.5.6.</span> <span class="nav-text">池化层的选择</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E5%B1%82"><span class="nav-number">1.3.6.</span> <span class="nav-text">归一化层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E5%BD%92%E4%B8%80%E5%8C%96"><span class="nav-number">1.3.6.1.</span> <span class="nav-text">批量归一化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%82%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%88LN%EF%BC%89"><span class="nav-number">1.3.6.2.</span> <span class="nav-text">层归一化（LN）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%BD%92%E4%B8%80%E5%8C%96"><span class="nav-number">1.3.6.3.</span> <span class="nav-text">实例归一化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E5%BD%92%E4%B8%80%E5%8C%96"><span class="nav-number">1.3.6.4.</span> <span class="nav-text">组归一化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E5%B1%82%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.3.6.5.</span> <span class="nav-text">归一化层的选择</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">训练与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E9%9B%86%E7%9A%84%E5%87%86%E5%A4%87%E4%B8%8E%E5%A2%9E%E5%BC%BA"><span class="nav-number">1.4.1.</span> <span class="nav-text">训练集的准备与增强</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.2.</span> <span class="nav-text">损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE-MSE"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">均方误差(MSE)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B3%E6%BB%91L1%E6%8D%9F%E5%A4%B1"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">平滑L1损失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">交叉熵损失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">优化损失函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%99%A8"><span class="nav-number">1.4.3.</span> <span class="nav-text">优化器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D-SGD"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">随机梯度下降(SGD)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E9%80%82%E5%BA%94%E4%BC%98%E5%8C%96%E5%99%A8"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">自适应优化器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%8E%87%E8%B0%83%E6%95%B4"><span class="nav-number">1.4.4.</span> <span class="nav-text">学习率调整</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E5%AD%A6%E4%B9%A0%E7%8E%87"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">固定学习率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%8E%87%E8%B0%83%E5%BA%A6"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">学习率调度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A2%84%E5%AE%9A%E8%B0%83%E6%95%B4"><span class="nav-number">1.4.4.2.1.</span> <span class="nav-text">预定调整</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96%E6%8A%80%E5%B7%A7"><span class="nav-number">1.4.5.</span> <span class="nav-text">正则化技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E5%92%8C%E8%B0%83%E4%BC%98"><span class="nav-number">1.4.6.</span> <span class="nav-text">模型评估和调优</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E4%B8%8ECNN%E6%A8%A1%E5%9E%8B%E7%BC%96%E5%86%99"><span class="nav-number">1.5.</span> <span class="nav-text">实践与CNN模型编写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E8%AF%8D%E4%B8%BA%E4%BD%95%E8%A6%81%E6%95%B0%E6%8D%AE%E5%8C%96%EF%BC%8C%E6%80%8E%E6%A0%B7%E6%95%B0%E6%8D%AE%E5%8C%96%E7%9A%84%EF%BC%9F"><span class="nav-number">1.5.1.</span> <span class="nav-text">字词为何要数据化，怎样数据化的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85"><span class="nav-number">1.5.2.</span> <span class="nav-text">需要准备的第三方包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%89%80%E9%9C%80%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">下载所需数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%84%E5%BB%BA"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">模型构建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E5%B1%82"><span class="nav-number">1.5.2.3.1.</span> <span class="nav-text">卷积层</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">1.5.2.3.2.</span> <span class="nav-text">神经网络层</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%8E%E9%A2%84%E6%B5%8B%E5%87%BD%E6%95%B0"><span class="nav-number">1.5.2.4.</span> <span class="nav-text">训练与预测函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E5%87%BD%E6%95%B0"><span class="nav-number">1.5.2.4.1.</span> <span class="nav-text">训练函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E5%87%BD%E6%95%B0"><span class="nav-number">1.5.2.4.2.</span> <span class="nav-text">验证函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%95%AA%E5%A4%96"><span class="nav-number">1.5.2.4.3.</span> <span class="nav-text">番外</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%E4%B8%8E%E5%8F%82%E6%95%B0%E4%BF%9D%E5%AD%98"><span class="nav-number">1.5.2.5.</span> <span class="nav-text">日志记录与参数保存</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.6.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">タグ</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CNN卷积神经网络 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CNN卷积神经网络<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9DTk7ljbfnp6/npZ7nu4/nvZHnu5wubWQ=" title="この記事を編集する"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">投稿日</span>
+
+      <time title="作成日：2024-09-03 21:52:12" itemprop="dateCreated datePublished" datetime="2024-09-03T21:52:12+08:00">2024-09-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">編集日</span>
+      <time title="修正日：2024-10-02 16:47:32" itemprop="dateModified" datetime="2024-10-02T16:47:32+08:00">2024-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">カテゴリ</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">数据分析</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">基础模型</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閲覧数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閲覧数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/ja/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ja/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="単語数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">単語数：</span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="読書の時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">読書の時間 &asymp;</span>
+      <span>19 分</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="卷积神经网络CNN"><a href="#卷积神经网络CNN" class="headerlink" title="卷积神经网络CNN"></a>卷积神经网络CNN</h1><blockquote>
+<p>卷积神经网络（Convolutional Neural Networks, CNN）的复杂性和灵活性使其成为深度学习领域的核心研究主题之一。</p>
+</blockquote>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>卷积神经网络的灵感源自<strong>人类视觉系统</strong>，特别是<strong>视觉皮层中的神经元结构</strong>。自Hubel和Wiesel在1962年的开创性工作以来，这一理念已经引发了一系列研究和发展。</p>
+<span id="more"></span>
+<p><strong>早期发展</strong>: 由Yann LeCun等人在上世纪80年代末到90年代初开发的LeNet-5被视为第一个成功的卷积神经网络。LeNet-5在手写数字识别方面取得了令人印象深刻的结果。</p>
+<p><strong>现代崛起</strong>: 随着硬件的快速进展和<span class="exturl" data-url="aHR0cHM6Ly9jbG91ZC50ZW5jZW50LmNvbS9zb2x1dGlvbi9iaWdkYXRhP2Zyb21fY29sdW1uPTIwMDY1JmZyb209MjAwNjU=">大数据<i class="fa fa-external-link-alt"></i></span>的涌现，CNN在21世纪初开始重新崛起，并在各个领域实现了突破性进展。</p>
+<p>CNN的重要性不仅体现在其精度和效率上，而且还体现在其理论洞见上。例如，卷积层通过共享权重减少了参数数量，这有助于更有效地训练模型，还增强了模型对平移不变性的理解。</p>
+<h2 id="结构大观"><a href="#结构大观" class="headerlink" title="结构大观"></a>结构大观</h2><ol>
+<li><p>卷积层</p>
+<p>通过卷积操作检测图像的局部特征。</p>
+</li>
+<li><p>激活函数</p>
+<p>引入非线性函数，增加模型的表达能力。</p>
+</li>
+<li><p>池化层</p>
+<p>减少特征维度，增加模型的鲁棒性。</p>
+</li>
+<li><p>全连接层</p>
+<p>在处理空间特征后，全连接层用于进行分类或回归。</p>
+</li>
+</ol>
+<p>卷积神经网络的这些组件协同工作，使得CNN能够从原始像素中自动学习有意义的特征层次结构。随着深度增加，这些特征从基本形状和纹理逐渐抽象为复杂的对象和场景表现。<img src="https://s2.loli.net/2024/08/29/MKE4wicUudT8CZ1.png" alt="img"></p>
+<h2 id="卷积神经网络层"><a href="#卷积神经网络层" class="headerlink" title="卷积神经网络层"></a>卷积神经网络层</h2><p>卷积神经网络由多个层组成，每个层具有特定的目的和功能。这一部分将探讨<strong>卷积操作、激活函数、池化层、归一化层</strong>基本概念。</p>
+<h3 id="什么是卷积"><a href="#什么是卷积" class="headerlink" title="什么是卷积"></a>什么是卷积</h3><p><img src="https://s2.loli.net/2024/08/29/zXAZaWs4tF7PObV.png" alt="img"></p>
+<p>卷积操作可以理解为一个线性压缩的过程，通过卷积运算（对应元素相乘后求和）使得一个高维举矩阵降维。</p>
+<script type="math/tex; mode=display">
+(I∗K)(i,j)=∑_m∑_nI(i−m,j−n)×K(m,n)\\
+I是输入图像\\
+K是卷积核\\
+(i,j)是输出特征图的位置\\
+(m,n)是卷积核中元素的位置\\
+∗ 表示卷积操作。</script><h4 id="卷积操作的附加与变体"><a href="#卷积操作的附加与变体" class="headerlink" title="卷积操作的附加与变体"></a>卷积操作的附加与变体</h4><ol>
+<li><strong>标准卷积</strong>：最基本的卷积操作，涉及将卷积核覆盖在输入图像的局部区域上，对应元素相乘后求和。</li>
+<li><strong>步长（Stride）</strong>：步长定义了卷积核在输入图像上滑动的间隔。步长为1意味着卷积核每次移动一个像素；步长更大则可以减少输出特征图的空间尺寸。</li>
+<li><strong>填充（Padding）</strong>：在输入图像的边缘添加额外的零（零填充）或通过其他方式扩展输入图像，以控制输出特征图的大小。这有助于保留输入图像的边缘信息。</li>
+<li><strong>扩张卷积（Dilated Convolution）</strong>：在扩张卷积中，卷积核的元素之间插入了间隙，这使得卷积核可以覆盖更大的输入区域，同时仍然保持较小的参数数量。</li>
+<li><strong>分组卷积（Grouped Convolution）</strong>：在深度可分离卷积（Depthwise Separable Convolution）中，输入通道被分成多个组，每组使用独立的卷积核。这种方法可以减少参数数量和计算量。</li>
+<li><strong>转置卷积（Transposed Convolution）</strong>：也称为分数步长卷积（Fractionally-strided Convolution），用于上采样，即增加特征图的空间尺寸。它通过对卷积核应用反向步幅来实现。</li>
+<li><strong>多尺度卷积（Multi-scale Convolution）</strong>：在某些网络结构中，输入图像的不同尺度版本被同时应用于卷积核，以捕获不同尺度的特征。</li>
+<li><strong>空洞卷积（Atrous Convolution）</strong>：在空洞卷积中，卷积核的元素之间可以有更大的间隙，这允许网络以更低的计算成本捕获更广泛的上下文信息。</li>
+<li><strong>卷积变体</strong>：除了标准卷积，还有许多变体，如1x1卷积，用于在深度方向上进行线性变换，以及分离卷积等。</li>
+<li><strong>激活函数</strong>：在卷积操作之后，通常会应用一个非线性激活函数，如ReLU，以增加模型的非线性能力。</li>
+</ol>
+<h3 id="什么是卷积核，特征映射"><a href="#什么是卷积核，特征映射" class="headerlink" title="什么是卷积核，特征映射"></a>什么是卷积核，特征映射</h3><p>卷积核是一个小型的矩阵，通过在输入上滑动来生成特征映射。每个卷积核都能捕获不同的特征，例如边缘、角点等。</p>
+<p><img src="https://developer.qcloudimg.com/http-save/yehe-9008468/025aa52f9c133ebcb4ed9481a54a1f22.png" alt="img"></p>
+<p>输出特征图m与输入图片n维度关系是</p>
+<script type="math/tex; mode=display">
+m = n - k + 1\ (k为卷积核维度)</script><p>这是一个十分简化的公式，它假定输入图片与卷积核均为方阵。但对于非方阵来说，实际上相当于将n,m以对应行列数代换即可。此处仅适用于步长为1，步长不为1的情况需要考虑是否有填充零。</p>
+<h4 id="感受野"><a href="#感受野" class="headerlink" title="感受野"></a>感受野</h4><p><strong>感受野（Receptive Field）</strong>是神经网络中一个重要的概念，特别是在卷积神经网络（CNN）中。它指的是<strong>网络中一个神经元能够“看到”或影响的输入数据的空间范围。</strong>换句话说，它是输入图像中一个给定的像素点到网络中某个特定神经元的映射区域，这个区域包含了该神经元进行特征检测所需的所有像素。</p>
+<h4 id="卷积核的大小如何设置，有何关系"><a href="#卷积核的大小如何设置，有何关系" class="headerlink" title="卷积核的大小如何设置，有何关系"></a>卷积核的大小如何设置，有何关系</h4><p>卷积核的大小影响了它能捕获的特征的尺度。较小的卷积核可以捕获更细致的特征，而较大的卷积核可以捕获更广泛的特征。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 使用3x3的卷积核</span><br><span class="line">conv_layer_small = nn.<span class="title class_">Conv2</span>d(<span class="number">3</span>, <span class="number">64</span>, <span class="number">3</span>)</span><br><span class="line"># 使用5x5的卷积核</span><br><span class="line">conv_layer_large = nn.<span class="title class_">Conv2</span>d(<span class="number">3</span>, <span class="number">64</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="多通道卷积"><a href="#多通道卷积" class="headerlink" title="多通道卷积"></a>多通道卷积</h4><p>在多通道输入下进行卷积，每个输入通道与一个卷积核进行卷积，然后所有的结果相加。这允许模型从不同的通道捕获不同的特征。</p>
+<h4 id="步长与填充"><a href="#步长与填充" class="headerlink" title="步长与填充"></a>步长与填充</h4><p>设定不同的步长</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用步长为<span class="number">2</span></span><br><span class="line">cov_layer_stride2=nn.<span class="title class_">Conv2</span>d(<span class="number">3</span>,<span class="number">64</span>,<span class="number">3</span>,stride=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>填充通过在输入边缘添加零来控制输出的尺寸。这有助于控制信息在卷积操作中的丢失。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用填充<span class="number">1</span>，使得输出尺寸与输入尺寸相同（假设步长为<span class="number">1</span>）</span><br><span class="line">conv_layer_padding1 = nn.<span class="title class_">Conv2</span>d(<span class="number">3</span>, <span class="number">64</span>, <span class="number">3</span>, padding=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="空洞卷积"><a href="#空洞卷积" class="headerlink" title="空洞卷积"></a>空洞卷积</h4><p>空洞卷积也称扩展卷积或带空间及,它通过在卷积核的元素之间插入空间采样点(通常是0)来扩大卷积核的感受野。</p>
+<p>这种方法允许网络在保持相同参数量和计算量的情况下捕获更广泛的上下文信息，特别适用于需要大感受野的场景，如语义分割、目标检测等任务。</p>
+<h3 id="分组卷积"><a href="#分组卷积" class="headerlink" title="分组卷积"></a>分组卷积</h3><p>分组卷积通过将输入通道分组并对每组使用不同的卷积核来扩展卷积操作。这增加了模型的容量，并使其能够学习更复杂的表示。</p>
+<p>在分组卷积中，输入特征图（Feature Maps）和卷积核被分成多个组（groups），每组独立进行卷积运算。具体来说，如果输入特征图的尺寸是 $W×H×C_1$，并且我们设定要将其分为 $g$ 个组，那么每组的输入特征通道数为 $\frac{C_1}{g}$。相应地，每个卷积核也被分为 $g$组，每组卷积核的尺寸变为$k\times k \times \frac{C_1}{g}$，$C_2$表示输出通道的通道数，并且每组有 $\frac{C_2}{g}$个卷积核，最终每组生成 $\frac{C_2}{g}$个输出特征图 。</p>
+<ol>
+<li>在进行分组卷积后输出的特征图的通道数并没有改变</li>
+<li>在进行分组卷积后,在同等的卷积核数量下,参数减少到了原来的$\frac{1}{g}$</li>
+</ol>
+<h3 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h3><p><img src="https://s2.loli.net/2024/08/29/8EvioflpSb3jL69.png" alt="img"></p>
+<h3 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h3><p><strong>池化层（Pooling Layer）</strong>在卷积神经网络中扮演了重要角色，通常用于降低特征映射的维度，从而减少计算需求，并增加特征检测器的感受野。</p>
+<h4 id="最大池化"><a href="#最大池化" class="headerlink" title="最大池化"></a>最大池化</h4><p><img src="https://developer.qcloudimg.com/http-save/yehe-9008468/86ec7230226837f73b3864aff30aa71c.png" alt="img">最大池化是最常用的池化技术之一。它通过选择窗口中的最大值来降低特征映射的尺寸。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义2x2的最大池化层</span><br><span class="line">max_pooling = nn.<span class="title class_">MaxPool2</span>d(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>最大池化的主要优点是它能保留窗口中的最显著特征。然而，它会丢失一些细节信息。</p>
+<h4 id="平均池化"><a href="#平均池化" class="headerlink" title="平均池化"></a>平均池化</h4><p>与最大池化不同，平均池化使用窗口中所有值的平均值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义2x2的平均池化层</span><br><span class="line">average_pooling = nn.<span class="title class_">AvgPool2</span>d(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>平均池化可以减轻最大池化可能导致的过于突出某些特征的问题，但可能会淡化一些重要特征。</p>
+<h4 id="全局平均池化"><a href="#全局平均池化" class="headerlink" title="全局平均池化"></a>全局平均池化</h4><p>全局平均池化是一种更复杂的池化策略，它计算整个特征映射的平均值。这常用于网络的最后一层，直接用于分类。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义全局平均池化层</span><br><span class="line">global_average_pooling = nn.<span class="title class_">AdaptiveAvgPool2</span>d(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="池化窗口大小和步长"><a href="#池化窗口大小和步长" class="headerlink" title="池化窗口大小和步长"></a>池化窗口大小和步长</h4><p>池化窗口的大小和步长会直接影响输出的尺寸。较大的窗口和步长会更显著地降低尺寸。</p>
+<h4 id="池化的替代方案"><a href="#池化的替代方案" class="headerlink" title="池化的替代方案"></a>池化的替代方案</h4><p>池化层已经有了一些现代替代方案，例如使用卷积层的步长大于1，或使用空洞卷积。这些方法可能提供更好的特征保存。</p>
+<h4 id="池化层的选择"><a href="#池化层的选择" class="headerlink" title="池化层的选择"></a>池化层的选择</h4><p>选择特定类型的池化层取决于任务需求和特定数据特性。深入理解各种池化技术如何工作，可以帮助深入理解它们是如何影响模型性能的。</p>
+<h3 id="归一化层"><a href="#归一化层" class="headerlink" title="归一化层"></a>归一化层</h3><p><img src="https://s2.loli.net/2024/08/29/7Rz5wdh8H3f2isb.png" alt="img"></p>
+<p>归一化层在训练深度神经网络时扮演了关键角色，主要用于改善训练的稳定性和速度。通过将输入数据缩放到合适的范围，归一化层有助于缓解训练过程中的<strong>梯度消失</strong>和<strong>梯度爆炸</strong>问题。</p>
+<h4 id="批量归一化"><a href="#批量归一化" class="headerlink" title="批量归一化"></a>批量归一化</h4><p>通过对每个特征通道的输入进行归一化,将输入所梵高零均值和单位方差。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义批量归一化层</span><br><span class="line">batch_norm = nn.<span class="title class_">BatchNorm2</span>d(num_features=<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>优势与劣势</strong></p>
+<ul>
+<li><strong>优势</strong>：它允许更高的学习率，提供了一些正则化效果，通常导致更快的训练。</li>
+<li><strong>劣势</strong>：在小批量上的统计估计可能会导致训练和推理间的不一致。</li>
+</ul>
+<h4 id="层归一化（LN）"><a href="#层归一化（LN）" class="headerlink" title="层归一化（LN）"></a>层归一化（LN）</h4><p>层归一化是在单个样本上对所有特征进行归一化的变体。它在句子处理和循环神经网络中特别流行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义层归一化</span><br><span class="line">layer_norm = nn.<span class="title class_">LayerNorm</span>(normalized_shape=<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+<p>LN的计算方法是对一个样本内所有神经元的输出进行归一化处理，使得这一层的输出具有稳定的均值和方差。具体来说，对于一个隐藏层中的所有激活值$a_i^l$，LN首先计算这些激活值的均值 μ和标准差 σ，然后利用以下公式进行归一化：</p>
+<script type="math/tex; mode=display">
+\mu = \frac{1}{H} \sum_{i=1}^{H} a_i</script><script type="math/tex; mode=display">
+\sigma^2 = \frac{1}{H} \sum_{i=1}^{H} (a_i - \mu)^2</script><p>H表示该层的隐藏单元数。诡异话后通过可学习参数$\gamma\  \beta$进行缩放和平移，以适应数据分布</p>
+<script type="math/tex; mode=display">
+\text{output}_i = \gamma \hat{a}_i + \beta</script><h4 id="实例归一化"><a href="#实例归一化" class="headerlink" title="实例归一化"></a>实例归一化</h4><p>实例归一化主要用于样式转换任务，归一化是在每个样本的每个通道上独立进行的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义实例归一化</span><br><span class="line">instance_norm = nn.<span class="title class_">InstanceNorm2</span>d(num_features=<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="组归一化"><a href="#组归一化" class="headerlink" title="组归一化"></a>组归一化</h4><p>组归一化是批量归一化和层归一化之间的一种折衷方案，将通道分为不同的组，并在每个组内进行归一化。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义组归一化</span><br><span class="line">group_norm = nn.<span class="title class_">GroupNorm</span>(num_groups=<span class="number">32</span>, num_channels=<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="归一化层的选择"><a href="#归一化层的选择" class="headerlink" title="归一化层的选择"></a>归一化层的选择</h4><p>归一化层的选择应基于特定的任务和模型架构。例如，在视觉任务中，批量归一化可能是首选，而在NLP任务中，层归一化可能更有用。</p>
+<h2 id="训练与优化"><a href="#训练与优化" class="headerlink" title="训练与优化"></a>训练与优化</h2><h3 id="训练集的准备与增强"><a href="#训练集的准备与增强" class="headerlink" title="训练集的准备与增强"></a>训练集的准备与增强</h3><p>有效的训练数据是深度学习成功的基础。为了使卷积神经网络有效学习，训练集的选择和增强至关重要。</p>
+<p><strong>数据预处理</strong></p>
+<p>预处理是训练集准备的关键步骤，包括：</p>
+<ul>
+<li><strong>标准化</strong>：将输入缩放到0-1范围。</li>
+<li><strong>中心化</strong>：减去均值，使数据以0为中心。</li>
+<li><strong>数据清洗</strong>：消除不一致和错误的数据。</li>
+</ul>
+<p><strong>数据增强</strong></p>
+<p>数据增强是一种通过应用随机变换增加数据量的技术，从而增加模型的泛化能力。</p>
+<p><strong>常见增强技巧</strong></p>
+<ul>
+<li><strong>图像旋转、缩放和剪裁</strong></li>
+<li><strong>颜色抖动</strong></li>
+<li><strong>随机噪声添加</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用PyTorch进行多种图像增强</span></span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms</span><br><span class="line">transform = transforms.Compose([</span><br><span class="line">    transforms.RandomRotation(<span class="number">10</span>),</span><br><span class="line">    transforms.RandomResizedCrop(<span class="number">224</span>),</span><br><span class="line">    transforms.ColorJitter(brightness=<span class="number">0.2</span>, contrast=<span class="number">0.2</span>, saturation=<span class="number">0.2</span>, hue=<span class="number">0.1</span>)</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p><strong>训练集分割</strong></p>
+<p>通常将数据分为训练集、验证集和测试集，以确保模型不会过拟合。</p>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>损失函数衡量模型预测与真实目标之间的差距。选择适当的损失函数是优化模型性能的关键步骤。</p>
+<h4 id="均方误差-MSE"><a href="#均方误差-MSE" class="headerlink" title="均方误差(MSE)"></a>均方误差(MSE)</h4><p>衡量预测值与真实值之间的平方差</p>
+<p>常用于连续值预测</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义<span class="variable constant_">MSE</span>损失</span><br><span class="line">mse_loss = nn.<span class="title class_">MSELoss</span>()</span><br></pre></td></tr></table></figure>
+<h4 id="平滑L1损失"><a href="#平滑L1损失" class="headerlink" title="平滑L1损失"></a>平滑L1损失</h4><ul>
+<li><strong>平滑L1损失</strong>：减少异常值的影响。</li>
+</ul>
+<h4 id="交叉熵损失"><a href="#交叉熵损失" class="headerlink" title="交叉熵损失"></a>交叉熵损失</h4><ul>
+<li><strong>交叉熵损失</strong>：衡量预测概率分布与真实分布之间的差异。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义交叉熵损失</span><br><span class="line">cross_entropy_loss = nn.<span class="title class_">CrossEntropyLoss</span>()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>二分交叉熵损失：特别用于二分类任务</li>
+<li>多标签损失：用于多标签分类问题</li>
+</ul>
+<h4 id="优化损失函数"><a href="#优化损失函数" class="headerlink" title="优化损失函数"></a>优化损失函数</h4><p>选择适当的损失函数不仅取决于任务类型，还与模型架构、数据分布和特定的业务指标有关。有时，自定义损失函数可能是必要的，以便捕捉特定问题的核心挑战。</p>
+<h3 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h3><p>优化器用于更新神经网络的权重，以便最小化损失函数。每种优化器都有其特定的数学原理和应用场景。</p>
+<h4 id="随机梯度下降-SGD"><a href="#随机梯度下降-SGD" class="headerlink" title="随机梯度下降(SGD)"></a>随机梯度下降(SGD)</h4><p>SGD是最基本的优化算法。</p>
+<ul>
+<li><strong>基本SGD</strong>: 按照负梯度方向更新权重。</li>
+<li><strong>带动量的SGD</strong>: 引入动量项，积累之前的梯度，以便更平稳地收敛。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义带动量的<span class="variable constant_">SGD</span>优化器</span><br><span class="line">optimizer_sgd_momentum = torch.<span class="property">optim</span>.<span class="title function_">SGD</span>(model.<span class="title function_">parameters</span>(), lr=<span class="number">0.01</span>, momentum=<span class="number">0.9</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="自适应优化器"><a href="#自适应优化器" class="headerlink" title="自适应优化器"></a>自适应优化器</h4><p>自适应优化器能自动调整学习率。</p>
+<ul>
+<li><strong>Adam</strong>: 结合了Momentum和RMSProp的优点。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义<span class="title class_">Adam</span>优化器</span><br><span class="line">optimizer_adam = torch.<span class="property">optim</span>.<span class="title class_">Adam</span>(model.<span class="title function_">parameters</span>(), lr=<span class="number">0.001</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Adagrad、RMSprop等</strong>: 针对不同参数有不同的学习率。</li>
+</ul>
+<p><strong>优化器选择注意事项</strong></p>
+<ul>
+<li><strong>任务相关性</strong>: 不同优化器在不同任务和数据上可能有不同的效果。</li>
+<li><strong>超参数调优</strong>: 如学习率、动量等可能需要调整。</li>
+</ul>
+<h3 id="学习率调整"><a href="#学习率调整" class="headerlink" title="学习率调整"></a>学习率调整</h3><p>学习率是优化器中的关键超参数，其调整对模型训练有深远影响。</p>
+<h4 id="固定学习率"><a href="#固定学习率" class="headerlink" title="固定学习率"></a><strong>固定学习率</strong></h4><p>最简单的方法是使用固定学习率。但可能不够灵活。</p>
+<h4 id="学习率调度"><a href="#学习率调度" class="headerlink" title="学习率调度"></a><strong>学习率调度</strong></h4><p>更复杂的方法是在训练过程中动态调整学习率。</p>
+<h5 id="预定调整"><a href="#预定调整" class="headerlink" title="预定调整"></a><strong>预定调整</strong></h5><ul>
+<li><strong>步骤下降</strong>: 在固定步骤处降低学习率。</li>
+<li><strong>余弦退火</strong>: 周期性调整学习率。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>定义余弦退火调度器</span><br><span class="line">scheduler = torch.<span class="property">optim</span>.<span class="property">lr_scheduler</span>.<span class="title class_">CosineAnnealingLR</span>(optimizer_adam, T_max=<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="正则化技巧"><a href="#正则化技巧" class="headerlink" title="正则化技巧"></a>正则化技巧</h3><p>正则化是防止过拟合和提高模型泛化能力的关键技术。</p>
+<p><strong>L1和L2正则化</strong></p>
+<ul>
+<li><strong>L1正则化</strong>：倾向于产生稀疏权重，有助于特征选择。</li>
+<li><strong>L2正则化</strong>：减小权重，使模型更平滑。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 使用<span class="title class_">PyTorch</span>添加<span class="variable constant_">L1</span>和<span class="variable constant_">L2</span>正则化</span><br><span class="line">l1_lambda = <span class="number">0.0005</span></span><br><span class="line">l2_lambda = <span class="number">0.0001</span></span><br><span class="line">loss = loss + l1_lambda * torch.<span class="title function_">norm</span>(weights, <span class="number">1</span>) + l2_lambda * torch.<span class="title function_">norm</span>(weights, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>Dropout</strong></p>
+<p>随机关闭一部分神经元，使模型更鲁棒。</p>
+<ul>
+<li><strong>普通Dropout</strong>：随机丢弃神经元。</li>
+<li><strong>Spatial Dropout</strong>：在卷积层中随机丢弃整个特征图。</li>
+</ul>
+<p><strong>Batch Normalization</strong></p>
+<p>通过标准化层输入，加速训练并减轻初始化的敏感性。</p>
+<p><strong>数据增强</strong></p>
+<p>如前所述，数据增强是一种重要的正则化手段。</p>
+<h3 id="模型评估和调优"><a href="#模型评估和调优" class="headerlink" title="模型评估和调优"></a>模型评估和调优</h3><p>模型评估是衡量模型性能的过程，调优则是改进性能。</p>
+<p><strong>交叉验证</strong></p>
+<p>使用交叉验证来估计模型的泛化能力。</p>
+<ul>
+<li><strong>k-折交叉验证</strong>：将数据分为k个部分，轮流使用其中一个作为验证集。</li>
+</ul>
+<p><strong>调参技巧</strong></p>
+<ul>
+<li><strong>网格搜索</strong>：尝试不同超参数组合。</li>
+<li><strong>随机搜索</strong>：随机选择超参数，更高效。</li>
+</ul>
+<p><strong>早停技巧</strong></p>
+<p>如果验证损失不再下降，则停止训练，以防止过拟合。</p>
+<p><strong>模型集成</strong></p>
+<p>通过结合多个模型来提高性能。</p>
+<ul>
+<li><strong>Bagging</strong>：训练多个模型并平均预测。</li>
+<li><strong>Boosting</strong>：在先前模型的错误上训练新模型。</li>
+<li><strong>Stacking</strong>：使用新模型组合其他模型的预测。</li>
+</ul>
+<h2 id="实践与CNN模型编写"><a href="#实践与CNN模型编写" class="headerlink" title="实践与CNN模型编写"></a>实践与CNN模型编写</h2><p>下面使用CNN编写一个简单的句子分类器</p>
+<h3 id="字词为何要数据化，怎样数据化的？"><a href="#字词为何要数据化，怎样数据化的？" class="headerlink" title="字词为何要数据化，怎样数据化的？"></a>字词为何要数据化，怎样数据化的？</h3><p>字词需要数据化，因为计算机和机器学习模型只能处理数值型数据。数据化（也称为特征提取或向量化）是将原始文本转换为模型可以理解和处理的数值形式的过程。以下是将字词数据化的常见步骤：</p>
+<ol>
+<li><p><strong>分词（Tokenization）</strong></p>
+<p>将句子分解成单独的单词或标记（tokens），这些单词或标记是数据化的基本单位。</p>
+</li>
+<li><p><strong>构建词汇表（Vocabulary）</strong></p>
+<p>从训练数据中提取所有唯一的单词，并为每个单词分配一个唯一的索引或ID。</p>
+</li>
+<li><p><strong>词嵌入（Word Embedding）</strong></p>
+<p>使用预训练的词向量模型（如word2vec、GloVe或BERT）将每个单词转换为固定大小的向量。这些向量捕捉了单词的语义和语法特征。</p>
+</li>
+<li><p><strong>索引化（Indexing）</strong></p>
+<p>由于句子长度可能不同，通常需要将句子填充到相同的长度，以便能够批量处理。这通常涉及到在句子末尾添加特殊的“填充”标记。</p>
+</li>
+<li><p><strong>序列化（Sequencing）</strong></p>
+<p>将填充后的句子转换为数值序列，每个位置对应一个单词的数值索引或词嵌入向量。</p>
+</li>
+<li><p><strong>特殊标记（Special Tokens）</strong></p>
+<p>在某些模型中，可能会使用特殊的开始（如<code>&lt;BOS&gt;</code>）和结束（如<code>&lt;EOS&gt;</code>）标记来标记句子的开始和结束。</p>
+</li>
+<li><p><strong>转换为张量（Tensorization）</strong></p>
+<p>将数值序列转换为可以被深度学习框架处理的张量（多维数组）</p>
+</li>
+<li><p><strong>上下文化（Contextualization）</strong></p>
+<p>在某些模型中，如Transformer或BERT，单词的表示不是静态的，而是根据它们在句子中的上下文动态生成的。</p>
+</li>
+<li><p><strong>归一化（Normalization）</strong></p>
+<p>有时，为了提高模型性能，会将词嵌入向量进行归一化处理，使它们具有单位长度。</p>
+</li>
+</ol>
+<h3 id="需要准备的第三方包"><a href="#需要准备的第三方包" class="headerlink" title="需要准备的第三方包"></a>需要准备的第三方包</h3><h4 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h4><p>旧版依赖安装已废弃，请阅读CNN补充-pyTorch中有关异常处理的安装问题中的版本控制处理。</p>
+<blockquote>
+<ol>
+<li>Numpy：适用于多维数组方面的数学运算</li>
+<li>pyTorch：深度学习框架库，提供了构建和训练神经网络所需的工具与函数</li>
+</ol>
+<p>使用pip安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install numpy # 安装numpy</span><br><span class="line">pip install torch # 安装pyTorch</span><br></pre></td></tr></table></figure>
+<p>验证是否安装成功</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="built_in">print</span>(numpy.__version__)</span><br><span class="line"><span class="built_in">print</span>(torch.__version__)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> numpy</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(numpy.__version__)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">1.26</span><span class="number">.4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(torch.__version__)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2.4</span><span class="number">.0</span>+cpu</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="下载所需数据集"><a href="#下载所需数据集" class="headerlink" title="下载所需数据集"></a>下载所需数据集</h4><p>分别是情感分析数据集（MR, SST-1, SST-2）或问题分类数据集（TREC）。</p>
+<p>以下内容与GithubCNN-NLP学习系列内容重复，等待整理或异步GithubCNN-NLP学习</p>
+<h4 id="模型构建"><a href="#模型构建" class="headerlink" title="模型构建"></a>模型构建</h4><h5 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h5><h5 id="神经网络层"><a href="#神经网络层" class="headerlink" title="神经网络层"></a>神经网络层</h5><p>……</p>
+<h4 id="训练与预测函数"><a href="#训练与预测函数" class="headerlink" title="训练与预测函数"></a>训练与预测函数</h4><h5 id="训练函数"><a href="#训练函数" class="headerlink" title="训练函数"></a>训练函数</h5><h5 id="验证函数"><a href="#验证函数" class="headerlink" title="验证函数"></a>验证函数</h5><h5 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h5><ol>
+<li>一般在同文件中写入所有模型所需函数，例如预测函数（单测试数据输出）、参数保存函数</li>
+</ol>
+<p>……</p>
+<h4 id="日志记录与参数保存"><a href="#日志记录与参数保存" class="headerlink" title="日志记录与参数保存"></a>日志记录与参数保存</h4><p>…….</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><span class="exturl" data-url="aHR0cHM6Ly9jbG91ZC50ZW5jZW50LmNvbS9kZXZlbG9wZXIvYXJ0aWNsZS8yMzQ4NDgx">头疼！卷积神经网络是什么？CNN结构、训练与优化一文全解-腾讯云开发者社区-腾讯云 (tencent.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><a href="Classic\Convolutional Neural Networks for Sentence Classification.pdf">Convolutional Neural Networks for Sentence Classification.pdf</a> </li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    寄付
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat 支払う">
+        <span>WeChat 支払う</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>著者： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>記事へのリンク：</strong>
+      <a href="https://deepcity.github.io/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html" title="CNN卷积神经网络">https://deepcity.github.io/2024/CNN卷积神经网络/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>著作権表示： </strong>このブログ内のすべての記事は、特別な記載がない限り <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> の下のライセンスで保護されています。
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>他の公開チャンネルへようこそ</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CNN/" rel="tag"># CNN</a>
+              <a href="/tags/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag"># 卷积神经网络</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/PyTorch%E5%AE%9E%E6%88%98-CV-classification/article.html" rel="prev" title="PyTorch实战-CV-classification">
+                  <i class="fa fa-angle-left"></i> PyTorch实战-CV-classification
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/%E8%8B%B1%E8%AF%AD%E5%AE%9E%E8%B7%B5%E8%A1%A5%E5%85%85%E8%AE%B0%E5%BD%95/article.html" rel="next" title="英语实践补充记录">
+                  英语实践补充记录 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>日本語</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="単語の総数">86k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">5:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="合計閲覧者数">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="閲覧合計数">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ja","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ja/2024/CNN%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
