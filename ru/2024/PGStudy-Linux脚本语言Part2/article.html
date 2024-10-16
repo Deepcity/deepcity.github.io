@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Поиск...","empty":"По запросу ничего не найдено: ${query}","hits_time":"${hits} результатов найдено за ${time} мс","hits":"${hits} результатов найдено"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Shell Script 在Part1基本讲述了对Script的语法结构，但LinuxScript并不单纯只是Script本身，而是与其“梦幻联动”的Linux命令，高级语言，软件结构设计。因此在ShellScript的学习中注定是间断的，学习不同知识点的过程。这里对Part1中的点做一些实验与解答 QA Q: Part1中提到了对其他文件的调用，那么在文件中调用其他脚本变量是否是共享的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PGStudy-Linux脚本语言Part2">
+<meta property="og:url" content="https://deepcity.github.io/ru/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="Shell Script 在Part1基本讲述了对Script的语法结构，但LinuxScript并不单纯只是Script本身，而是与其“梦幻联动”的Linux命令，高级语言，软件结构设计。因此在ShellScript的学习中注定是间断的，学习不同知识点的过程。这里对Part1中的点做一些实验与解答 QA Q: Part1中提到了对其他文件的调用，那么在文件中调用其他脚本变量是否是共享的">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:image" content="https://s2.loli.net/2024/10/16/TAdUEBNMyGPm3ps.png">
+<meta property="article:published_time" content="2024-10-16T12:40:38.000Z">
+<meta property="article:modified_time" content="2024-10-16T12:42:46.658Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="研究生学习">
+<meta property="article:tag" content="脚本">
+<meta property="article:tag" content="c">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/10/16/TAdUEBNMyGPm3ps.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ru/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ru","comments":true,"permalink":"https://deepcity.github.io/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html","path":"ru/2024/PGStudy-Linux脚本语言Part2/article.html","title":"PGStudy-Linux脚本语言Part2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PGStudy-Linux脚本语言Part2 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Показать/скрыть меню" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Поиск" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Главная</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>О сайте</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Тэги</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Категории</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Архив</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Планировщик</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Карта сайта</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Страница 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Поиск
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Поиск..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Содержание
+        </li>
+        <li class="sidebar-nav-overview">
+          Обзор
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#shell-script"><span class="nav-number">1.</span> <span class="nav-text">Shell Script</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#qa"><span class="nav-number">1.1.</span> <span class="nav-text">QA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#q-part1%E4%B8%AD%E6%8F%90%E5%88%B0%E4%BA%86%E5%AF%B9%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6%E7%9A%84%E8%B0%83%E7%94%A8%E9%82%A3%E4%B9%88%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%AD%E8%B0%83%E7%94%A8%E5%85%B6%E4%BB%96%E8%84%9A%E6%9C%AC%E5%8F%98%E9%87%8F%E6%98%AF%E5%90%A6%E6%98%AF%E5%85%B1%E4%BA%AB%E7%9A%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">Q:
+Part1中提到了对其他文件的调用，那么在文件中调用其他脚本变量是否是共享的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q-%E4%BD%BF%E7%94%A8-.script-%E5%92%8C-.-script-%E8%B0%83%E7%94%A8%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E6%9C%89%E5%8C%BA%E5%88%AB%E5%90%97"><span class="nav-number">1.1.2.</span> <span class="nav-text">Q: 使用
+.&#x2F;script 和 . script
+调用脚本文件有区别吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q-%E5%9C%A8part1%E4%B8%AD%E4%BD%BF%E7%94%A8%E4%BA%86%E5%BE%88%E5%A4%9A%E8%BF%99%E6%A0%B7%E7%9A%84%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E8%83%BD%E8%AE%B2%E4%B8%80%E8%AE%B2%E8%BF%99%E4%BA%9B%E7%AC%A6%E5%8F%B7%E7%9A%84%E7%89%B9%E6%AE%8A%E5%90%AB%E4%B9%89%E5%90%97"><span class="nav-number">1.1.3.</span> <span class="nav-text">Q:
+在Part1中使用了很多(),{},’’,””,$这样的特殊符号，能讲一讲这些符号的特殊含义吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q-part1%E4%B8%AD%E7%AE%80%E5%8D%95%E6%8F%90%E5%88%B0%E4%BA%86%E9%87%8D%E5%AE%9A%E5%90%91%E6%9C%89%E6%9B%B4%E5%A4%9A%E4%BE%8B%E5%AD%90%E5%90%97"><span class="nav-number">1.1.4.</span> <span class="nav-text">Q:
+Part1中简单提到了重定向，有更多例子吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q-%E5%AD%A6%E4%BA%86%E8%BF%99%E4%B9%88%E5%A4%9A%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E5%B8%A6%E5%8F%82%E8%84%9A%E6%9C%AC"><span class="nav-number">1.1.5.</span> <span class="nav-text">Q:
+学了这么多脚本命令，如何写一个带参脚本？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.2.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">Архив</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">Категории</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">Тэги</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ru">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PGStudy-Linux脚本语言Part2 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PGStudy-Linux脚本语言Part2<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9QR1N0dWR5LUxpbnV46ISa5pys6K+t6KiAUGFydDIubWQ=" title="Редактировать запись"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Размещено</span>
+      
+
+      <time title="Создано: 2024-10-16 20:40:38 / Изменено: 20:42:46" itemprop="dateCreated datePublished" datetime="2024-10-16T20:40:38+08:00">2024-10-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">В категории</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/PGStudy/" itemprop="url" rel="index"><span itemprop="name">PGStudy</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Просмотров" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Просмотров: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline: </span>
+  
+    <a title="waline" href="/ru/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ru/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Кол-во символов в статье">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Кол-во символов в статье: </span>
+      <span>2.6k</span>
+    </span>
+    <span class="post-meta-item" title="Время чтения">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Время чтения &asymp;</span>
+      <span>10 мин.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="shell-script">Shell Script</h1>
+<p>在Part1基本讲述了对Script的语法结构，但LinuxScript并不单纯只是Script本身，而是与其“梦幻联动”的Linux命令，高级语言，软件结构设计。因此在ShellScript的学习中注定是间断的，学习不同知识点的过程。这里对Part1中的点做一些实验与解答</p>
+<h2 id="qa">QA</h2>
+<h3
+id="q-part1中提到了对其他文件的调用那么在文件中调用其他脚本变量是否是共享的">Q:
+Part1中提到了对其他文件的调用，那么在文件中调用其他脚本变量是否是共享的</h3>
+<p>A:
+很多时候是共享的，也需要他们共享，但取决于需求，调用文件的shell有时不受影响，见下一个QA。以下操作默认使用./script_filename调用脚本</p>
+<p>创建两个脚本文件script1 script2，分别写入以下内容</p>
+<span id="more"></span>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">/bin/bash</span></span><br><span class="line"></span><br><span class="line">my_var=data</span><br><span class="line">./script2</span><br><span class="line"></span><br><span class="line">echo $my_var</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">/bin/bash</span></span><br><span class="line"></span><br><span class="line">echo $my_var</span><br><span class="line"></span><br><span class="line">my_var=data_modified</span><br></pre></td></tr></table></figure>
+<p>可见输出</p>
+<blockquote>
+<p>data</p>
+</blockquote>
+<p>可见变量并不传递</p>
+<p>问问chatgpt如何解释</p>
+<blockquote>
+<p>在Linux中，脚本文件通常不共享变量。每个脚本文件在执行时都有自己的命名空间，这意味着变量是局部的，仅在定义它们的脚本中可用。如果你发现一个脚本能够访问另一个脚本的变量，可能是由于以下原因之一：</p>
+<ol type="1">
+<li><strong>环境变量</strong>：如果变量被设置为环境变量，那么它在所有子进程中都是可见的。例如，如果你在一个脚本中使用<code>export VAR=value</code>，那么这个变量<code>VAR</code>将被设置为环境变量，任何从该脚本启动的子进程（包括其他脚本）都能访问它。</li>
+<li><strong>命令行参数</strong>：一个脚本可以通过命令行参数将数据传递给另一个脚本。例如，脚本A可以通过<code>./scriptB.sh "$VAR"</code>将变量<code>VAR</code>的值传递给脚本B。</li>
+<li><strong>输入重定向</strong>：一个脚本可以将输出重定向到另一个脚本的输入中，这样第二个脚本就可以读取第一个脚本的输出作为输入数据。</li>
+<li><strong>文件</strong>：一个脚本可以将变量写入文件，然后另一个脚本可以从同一个文件中读取这个变量。</li>
+<li><strong>命名管道（FIFO）或套接字</strong>：脚本可以使用命名管道或套接字进行进程间通信。</li>
+<li><strong>数据库或共享内存</strong>：更复杂的脚本可能会使用数据库或共享内存来存储和访问数据。</li>
+<li><strong>函数调用</strong>：如果两个脚本是同一个脚本文件的一部分，或者一个脚本调用了另一个脚本的函数，那么它们可以共享局部变量。</li>
+<li><strong>导出和导入</strong>：在某些情况下，脚本可能会使用特定的命令来导出和导入变量，例如使用<code>source</code>或<code>.</code>命令来执行另一个脚本，这样被执行脚本中的变量就会在调用它的脚本中可用。</li>
+</ol>
+</blockquote>
+<p>gpt回答的很严谨</p>
+<h3 id="q-使用-.script-和-.-script-调用脚本文件有区别吗">Q: 使用
+<code>./script</code> 和 <code>. script</code>
+调用脚本文件有区别吗？</h3>
+<p>A: 是有区别的，实际上. 与 source命令是等同的，而./
+反而是完全不同的</p>
+<ol type="1">
+<li><strong>使用 <code>. script</code></strong>：
+<ul>
+<li>当你使用 <code>. script</code>时，你实际上是在当前 shell
+中执行该脚本。这意味着新脚本会在当前 shell 的上下文中运行，它将继承当前
+shell 的所有环境变量和 shell 变量。</li>
+<li>任何在新脚本中定义或修改的变量都会反映在当前 shell
+中，因为它们共享同一个命名空间。</li>
+<li>这种方式类似于 C 语言中的 <code>source</code>
+函数，它允许新脚本中的更改（如变量赋值）影响到调用它的 shell 环境。</li>
+</ul></li>
+<li><strong>使用 <code>./script</code></strong>：
+<ul>
+<li>当你使用 <code>./script</code>时，shell 会创建一个新的子 shell
+来执行该脚本。这意味着新脚本会在一个子 shell
+的上下文中运行，它将继承当前 shell 的环境变量，但不会继承 shell
+变量。</li>
+<li>任何在新脚本中定义或修改的 shell 变量都不会反映在当前 shell
+中，因为它们在子 shell 的命名空间中。</li>
+<li>这种方式类似于在一个新的 shell 实例中执行脚本，它不会影响调用它的
+shell 环境的变量。</li>
+</ul></li>
+</ol>
+<h3
+id="q-在part1中使用了很多这样的特殊符号能讲一讲这些符号的特殊含义吗">Q:
+在Part1中使用了很多(),{},’’,””,$这样的特殊符号，能讲一讲这些符号的特殊含义吗？</h3>
+<p>A:
+有一个问题在于，为什么需要用“$variable_name”而不是直接$variable_name，这个原因实际上和Linux的命令有关，我们来试一下以下情况：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">假设变量包含空格</span></span><br><span class="line">file_name=&quot;my file.txt&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">加引号的情况</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="string">&quot;<span class="variable">$file_name</span>&quot;</span> <span class="built_in">echo</span> <span class="variable">$file_name</span>  <span class="comment"># 输出为：my file.txt</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不加引号的情况</span></span><br><span class="line">command &gt; $file_name echo $file_name  # 输出为：my file.tx</span><br></pre></td></tr></table></figure>
+<p>这种情况下第五行就会报错，而且仅仅输出一行字符串，这种情况称为参数扩展</p>
+<ol type="1">
+<li><p><strong>单引号 (<code>'</code>)</strong>：</p>
+<ul>
+<li>用于定义字符串常量。在单引号中，所有的字符都被视为字面量，即使是通常有特殊含义的字符（如
+<code>$</code>、``<code>、</code>` 等）也不会被解释。</li>
+<li>例子：<code>'Kimi says: "Hello, World!"'</code></li>
+</ul></li>
+<li><p><strong>双引号 (<code>"</code>)</strong>：</p>
+<ul>
+<li>用于定义字符串变量。在双引号中，某些特殊字符（如
+<code>$</code>、``<code>、</code>`、<code>!</code>
+等）会被解释为特殊字符，允许变量替换和命令替换。</li>
+<li>例子：<code>"Kimi says: $GREETING"</code></li>
+<li>注意：双引号允许转义字符（如 <code>\t</code>
+表示制表符），但不会转义 <code>$</code>、``` 等特殊字符。</li>
+</ul></li>
+<li><p><strong>花括号 (<code>&#123;&#125;</code>)</strong>：</p>
+<ul>
+<li><p>用于命令替换。花括号允许命令的输出替换为花括号内的内容。</p>
+<p>例子：<code>echo Hello &#123;World,Moonshot&#125; AI</code> 会输出
+<code>Hello World, Moonshot AI</code>。</p></li>
+<li><p>花括号也用于定义变量名的范围，当变量名包含特殊字符或以数字开头时。</p>
+<p>例子：<code>declare -A arr=&#123;a..3&#125;</code> 创建一个关联数组，其索引从
+<code>a</code> 到 <code>c</code>。</p></li>
+</ul></li>
+<li><p><strong>圆括号 (<code>()</code>)</strong>：</p>
+<ul>
+<li><p>用于数学运算和子 shell 的定义。</p></li>
+<li><p>在数学运算中，圆括号用于改变运算的优先级。</p>
+<p>例子：<code>(( 3 + 2 * 5 ))</code> 会先计算
+<code>2 * 5</code>，然后再加上 <code>3</code>。</p></li>
+<li><p>在定义子 shell 时，圆括号允许命令在子 shell
+中执行，这意味着它们不会影响当前 shell 的环境。</p>
+<p>例子：<code>(echo "Hello")</code> 会在子 shell 中执行
+<code>echo</code> 命令。</p></li>
+</ul></li>
+</ol>
+<p>以上是一些基本情况，但是仍然有很复杂的情况是难以理解的，如下</p>
+<ol type="1">
+<li><p><strong>在<code>“”</code>中的<code>‘’</code></strong></p>
+<p>在单独使用<code>‘$var_name’</code>时，整体是当作字符串输出的，而不会替换变量，但是当我们使用嵌套结构的时候就会发现</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">opt=prefix=/root</span><br><span class="line">echo &#x27;$opt&#x27;</span><br><span class="line">str1=&quot;opt &#x27;$opt&#x27;&quot; ## 这里会替换为值</span><br><span class="line">echo &quot;$str1&quot;</span><br></pre></td></tr></table></figure>
+<p>这样的代码回事的$opt调用它的值</p></li>
+</ol>
+<h3 id="q-part1中简单提到了重定向有更多例子吗">Q:
+Part1中简单提到了重定向，有更多例子吗？</h3>
+<p>A:</p>
+<ol type="1">
+<li><p><code>&gt;</code>与<code>&gt;&gt;</code>的区别</p>
+<p>前者重写文件，后者追加文件</p></li>
+<li><p><code>2&gt;</code>是什么？</p>
+<p>这是一个很简单理解的符号，2一般代表异常输出流，因此这里的2&gt;代表异常输出流重定向</p></li>
+<li><p><code>&gt;</code>与<code>2&gt;</code>的合并用法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">command &gt; file.txt 2&gt;&amp;1  # 将标准输出和错误都保存到file.txt中</span><br></pre></td></tr></table></figure></li>
+<li><p>一种多行重定向的方法</p>
+<p><strong><code>&lt;&lt;</code></strong>：从命令行或脚本中读取多行输入，直到指定的结束标记</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF</span><br><span class="line">This is a multi-line input.</span><br><span class="line">It ends when &quot;EOF&quot; is encountered.</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="q-学了这么多脚本命令如何写一个带参脚本">Q:
+学了这么多脚本命令，如何写一个带参脚本？</h3>
+<p>A: 首先来看看前面提到的相关知识</p>
+<ol type="1">
+<li><p>1，2，3，4属于位置参数变量，他们根据位置来确定传入参数</p>
+<p>一个简单的示例如下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">echo &quot;First parameter: $1&quot;</span><br><span class="line">echo &quot;Second parameter: $2&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>#./script.sh arg1 arg2</p>
+<p>First parameter: arg1 Second parameter: arg2</p>
+</blockquote></li>
+<li><p>@,*都表示所有参数，前面的为独立的参数变量，后面的为整体的参数变量</p>
+<p>如下面这个例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">echo &quot;Using \&quot;\$@\&quot;:&quot;</span><br><span class="line">for arg in &quot;$@&quot;; do</span><br><span class="line">    echo &quot;$arg&quot;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;Using \&quot;\$*\&quot;:&quot;</span><br><span class="line">for arg in &quot;$*&quot;; do</span><br><span class="line">    echo &quot;$arg&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p><strong>值得注意的是这里如果不用“”将@*括起来就会发生参数扩展，导致两者输出一样
+</strong></p></li>
+<li><p>#,0这两个参数分别代表参数的个数以及脚本的名字</p></li>
+</ol>
+<p>下面是一些额外的知识点</p>
+<ul>
+<li><p>对脚本中的选项处理有一种常见的方法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for option</span><br><span class="line">do</span><br><span class="line">    ...</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>这种形式会将脚本参数一个一个赋值给option</p>
+<p>以下是一个简单的脚本示例</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for option</span><br><span class="line">do</span><br><span class="line">    echo &quot;$option&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure></li>
+<li><p>对经典option的探究——以nginx为例</p>
+<p>在nginx中有很多经典的代码思维，这里以nginx最先调用的option文件为例</p>
+<p>其在设置了许多变量后处理了参数选项，其中一部分代码如下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">for option</span><br><span class="line">do</span><br><span class="line">    opt=&quot;$opt `echo $option | sed -e \&quot;s/\(--[^=]*=\)\(.* .*\)/\1&#x27;\2&#x27;/\&quot;`&quot;</span><br><span class="line"></span><br><span class="line">    case &quot;$option&quot; in</span><br><span class="line">        -*=*) value=`echo &quot;$option&quot; | sed -e &#x27;s/[-_a-zA-Z0-9]*=//&#x27;` ;;</span><br><span class="line">           *) value=&quot;&quot; ;;</span><br><span class="line">    esac</span><br><span class="line">    case &quot;$option&quot; in</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line"> done</span><br></pre></td></tr></table></figure>
+<p>可见其主要由三部分构成，运用了很多正则表达式</p>
+<p>这里提一下sed命令：</p>
+<figure>
+<img src="https://s2.loli.net/2024/10/16/TAdUEBNMyGPm3ps.png"
+alt="sed" />
+<figcaption aria-hidden="true">sed</figcaption>
+</figure>
+<p>这里仅仅用到了sed的-e参数，通过脚本来处理输入的文本文件，这里还用到了另一种技术，管道pipeline，这里就不多赘述，对于所使用的正则表达式，可以不用学，gpt很好生成。</p>
+<p>这里的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opt=&quot;$opt `echo $option | sed -e \&quot;s/\(--[^=]*=\)\(.* .*\)/\1&#x27;\2&#x27;/\&quot;`&quot;</span><br></pre></td></tr></table></figure>
+<p>即捕获命令中—arg-name=arg-value，并在arg_value中含有空格时也能保持参数的完整，并将其通过<code>‘--arg-name=arg-value’</code>的形式保存为列表通过</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> NGX_CONFIGURE <span class="string">&quot; --add-module=./src/prefixfilter&quot;</span></span></span><br></pre></td></tr></table></figure>
+<p>的形式输出到c的头文件中与c语言交互</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">case &quot;$option&quot; in</span><br><span class="line">        -*=*) value=`echo &quot;$option&quot; | sed -e &#x27;s/[-_a-zA-Z0-9]*=//&#x27;` ;;</span><br><span class="line">           *) value=&quot;&quot; ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<p>这一部分将option提出value，并在后面</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--prefix=)                       NGX_PREFIX=&quot;!&quot;            	;;</span><br></pre></td></tr></table></figure>
+<p>这样赋值变量</p></li>
+</ul>
+<p>准备结束，开始写一个自己的命令吧（与c语言交互</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">opt=&quot;&quot;</span><br><span class="line">name=&quot;&quot;</span><br><span class="line">for option</span><br><span class="line">do</span><br><span class="line">    opt=&quot;$opt $(echo $option | sed -e &quot;s/\(--[^=]*=\)\(.* .*\)/\1&#x27;\2&#x27;/&quot;)&quot;</span><br><span class="line"></span><br><span class="line">    case &quot;$option&quot; in</span><br><span class="line">        -*=*) value=$(echo &quot;$option&quot; | sed -e &#x27;s/[-_a-zA-Z0-9]*=//&#x27;) ;;</span><br><span class="line">           *) value=&quot;&quot; ;;</span><br><span class="line">    esac</span><br><span class="line"></span><br><span class="line">    case &quot;$option&quot; in</span><br><span class="line">        --with-respect=*) with_respect=$value ;;</span><br><span class="line">        --name=*)         name=$value ;;</span><br><span class="line">    esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">TEST_H=&quot;./test.h&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;#define ARGS \&quot;$&#123;opt[0]&#125;\&quot;&quot; &gt; $TEST_H</span><br><span class="line">echo &quot;#define NAME \&quot;$name\&quot;&quot; &gt;&gt; $TEST_H</span><br><span class="line">echo &quot;#define WITH_RESPECT \&quot;$with_respect\&quot;&quot; &gt;&gt; $TEST_H</span><br><span class="line"></span><br><span class="line">gcc test.c -o test &amp;&amp; ./test</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*test.h*/</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*test.c*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;test.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> args, <span class="type">char</span>* argv)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Program running with ——&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(ARGS);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(WITH_RESPECT==<span class="string">&quot;yes&quot;</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Dear &quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(NAME);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从这里也能看出来c中有种说明式头文件是从何儿来了，😀：）</p>
+<p>这是一个非常简单且拙劣的脚本，nginx部分可供参考，但对于作者自己构建的代码，实际上可以通过更简单的，比如直接调用c的main传参实现，这里为讲述脚本与c之间的参数传递。以上</p>
+<h2 id="参考文献">参考文献</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ251Lm9yZy9zYXZhbm5haC1jaGVja291dHMvZ251L2Jhc2gvbWFudWFsL2Jhc2guaHRtbA==">Bash
+Reference Manual (gnu.org)<i class="fa fa-external-link-alt"></i></span></li>
+<li>Kimi ai 、chatgpt（由作者prompt，并审查正确性）</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Донат
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Автор записи:  </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>Ссылка на запись: </strong>
+      <a href="https://deepcity.github.io/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html" title="PGStudy-Linux脚本语言Part2">https://deepcity.github.io/2024/PGStudy-Linux脚本语言Part2/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Информация об авторских правах:  </strong>Все записи на этом сайте защищены лицензией <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span>, если не указано дополнительно.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Добро пожаловать на другие мои издательские каналы</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F%E5%AD%A6%E4%B9%A0/" rel="tag"># 研究生学习</a>
+              <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+              <a href="/tags/c/" rel="tag"># c</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part/article.html" rel="prev" title="PGStudy-Linux脚本语言Part">
+                  <i class="fa fa-angle-left"></i> PGStudy-Linux脚本语言Part
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>Английский</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Выберите язык">
+      
+        <option value="zh-CN" data-href="/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Общее кол-во символов">89k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Общее время чтения">5:23</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Всего посетителей">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Всего просмотров">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Генератор — <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="В начало">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ru","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ru/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
