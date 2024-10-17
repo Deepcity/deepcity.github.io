@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="CMake 概念 Cmake是一个跨平台的编译工具，用简单的命令取代繁琐的Makefile文件编写 Grammar Feature  基本语法格式为：指令(参数1, 参数2…) 指令是大小写无关的，参数，变量是大小写相关的 变量使用$&#123;&#125;方式取值，但在IF控制语句中直接使用变量名  Cmake中重要指令与常用变量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PGStudy-CMake简单了解以及模块化编程">
+<meta property="og:url" content="https://deepcity.github.io/ja/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="CMake 概念 Cmake是一个跨平台的编译工具，用简单的命令取代繁琐的Makefile文件编写 Grammar Feature  基本语法格式为：指令(参数1, 参数2…) 指令是大小写无关的，参数，变量是大小写相关的 变量使用$&#123;&#125;方式取值，但在IF控制语句中直接使用变量名  Cmake中重要指令与常用变量">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2024-10-17T05:33:25.000Z">
+<meta property="article:modified_time" content="2024-10-17T05:35:48.700Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="CMake">
+<meta property="article:tag" content="Shell">
+<meta property="article:tag" content="C&#x2F;CPP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ja/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ja","comments":true,"permalink":"https://deepcity.github.io/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html","path":"ja/2024/PGStudy-CMake简单了解以及模块化编程/article.html","title":"PGStudy-CMake简单了解以及模块化编程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PGStudy-CMake简单了解以及模块化编程 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="検索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>プロフィール</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>タグ</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>スケジュール</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>サイトマップ</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>検索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="検索…" spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cmake"><span class="nav-number">1.</span> <span class="nav-text">CMake</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grammar-feature"><span class="nav-number">1.2.</span> <span class="nav-text">Grammar Feature</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cmake%E4%B8%AD%E9%87%8D%E8%A6%81%E6%8C%87%E4%BB%A4%E4%B8%8E%E5%B8%B8%E7%94%A8%E5%8F%98%E9%87%8F"><span class="nav-number">1.3.</span> <span class="nav-text">Cmake中重要指令与常用变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E8%A6%81%E6%8C%87%E4%BB%A4"><span class="nav-number">1.3.1.</span> <span class="nav-text">重要指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.2.</span> <span class="nav-text">常用参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cmake%E5%8F%82%E6%95%B0%E9%80%89%E9%A1%B9"><span class="nav-number">1.4.</span> <span class="nav-text">Cmake参数选项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E4%B8%8E%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4"><span class="nav-number">1.4.1.</span> <span class="nav-text">添加编译参数与预处理指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.5.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">タグ</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PGStudy-CMake简单了解以及模块化编程 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PGStudy-CMake简单了解以及模块化编程<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9QR1N0dWR5LUNNYWtl566A5Y2V5LqG6Kej5Lul5Y+K5qih5Z2X5YyW57yW56iLLm1k" title="この記事を編集する"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">投稿日</span>
+      
+
+      <time title="作成日：2024-10-17 13:33:25 / 修正日：13:35:48" itemprop="dateCreated datePublished" datetime="2024-10-17T13:33:25+08:00">2024-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">カテゴリ</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/PGStudy/" itemprop="url" rel="index"><span itemprop="name">PGStudy</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閲覧数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閲覧数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/ja/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ja/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="単語数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">単語数：</span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="読書の時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">読書の時間 &asymp;</span>
+      <span>6 分</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="cmake">CMake</h1>
+<h2 id="概念">概念</h2>
+<p>Cmake是一个跨平台的编译工具，用简单的命令取代繁琐的Makefile文件编写</p>
+<h2 id="grammar-feature">Grammar Feature</h2>
+<ol type="1">
+<li>基本语法格式为：<strong>指令(参数1, 参数2…)</strong></li>
+<li>指令是大小写无关的，参数，变量是大小写相关的</li>
+<li>变量使用<code>$&#123;&#125;</code>方式取值，但在IF控制语句中直接使用变量名</li>
+</ol>
+<h2 id="cmake中重要指令与常用变量">Cmake中重要指令与常用变量</h2>
+<span id="more"></span>
+<h3 id="重要指令">重要指令</h3>
+<ul>
+<li><p>==cmake_minimum_required== - 指定Cmake最小版本要求</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Cmake最小版本要求为3.22.0</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.22</span>.<span class="number">0</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>==project== - 定义工程名</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定工程名为Project_Name</span></span><br><span class="line"><span class="keyword">project</span>(Project_Name)</span><br></pre></td></tr></table></figure></li>
+<li><p>==set== - 显示定义的变量</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义SRC变量，其值为sayhello.cpp hello.cpp</span></span><br><span class="line"><span class="keyword">set</span>(SRC sayhello.cpp hello.cpp)</span><br></pre></td></tr></table></figure></li>
+<li><p>==include_directories== -
+向工程添加多个特定的头文件搜索路径，相当于g++的-l参数</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将/myinclude /include添加到头文件搜索路径</span></span><br><span class="line"><span class="keyword">include_directories</span>(./myinclude ./<span class="keyword">include</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>==link_directories== -
+项工程添加多个特定的库文件搜索路径，相当于g++编译时的-L参数</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将/mylib /lib 添加到库文件搜索路径</span></span><br><span class="line"><span class="keyword">link_directories</span>(./mylib ./lib)</span><br></pre></td></tr></table></figure></li>
+<li><p>==add_library== - 生成库文件</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过SRC生成libhello.so共享库</span></span><br><span class="line"><span class="keyword">add_library</span>(hello SHARED <span class="variable">$&#123;SRC&#125;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>==add_compaile_option== - 添加编译参数</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#添加编译参数 -Wall -std=c++11 -O2</span></span><br><span class="line"><span class="keyword">add_compile_options</span>(-Wall -std=c++<span class="number">11</span> -O2)</span><br></pre></td></tr></table></figure></li>
+<li><p>==add_executable== - 生成可执行文件</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译main.cpp 生成执行文件main</span></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure></li>
+<li><p>==target_link_libraries== - 为target添加所需要链接的共享库 –&gt;
+相当于g++编译时的-I参数</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将hello动态库文件链接到可执行文件main</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main hello)</span><br></pre></td></tr></table></figure></li>
+<li><p>==add_subdirectory== -
+向当前工程田间存放源文件的子目录，并可以指定中间二进制和目标二进制的存放位置</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加src子目录，src中需要有一个CMakeLists.txt</span></span><br><span class="line"><span class="keyword">add_subdirectory</span>(src)</span><br></pre></td></tr></table></figure></li>
+<li><p>==aux_source_directory== -
+发现一个目录下所有的源代码文件并将列表存储在一个变量中，这个指令临时被用来自动构建源文件列表</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义SRC变量，其值为当前目录下所有的源代码文件</span></span><br><span class="line"><span class="keyword">aux_source_directory</span>(. SRC)</span><br><span class="line"><span class="comment"># 编译SRC变量所代表的源代码文件，生成main可执行文件</span></span><br><span class="line"><span class="keyword">add_executable</span>(main <span class="variable">$&#123;SRC&#125;</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="常用参数">常用参数</h3>
+<ul>
+<li><p>==CMAKE_C_FLAGS== gcc编译选项</p></li>
+<li><p>==CMAKE_CXX_FLAGS== g++编译选项</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在CMAKE_CXX_FLAG变量后追加std=c++11</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>==CMAKE_BUILD_TYPE== 编译类型(DEBUG, RELEASE)</p></li>
+<li><p>==CMAKE_BINARY_DIR== 指Cmake的build的生成二进制文件夹</p></li>
+<li><p>==CMAKE_C_STANDARD== 指编译过程中C的标准</p></li>
+<li><p>==CMAKE_CXX_STANDARD== 指编译过程过程中的CPP标准</p></li>
+</ul>
+<h2 id="cmake参数选项">Cmake参数选项</h2>
+<h3 id="添加编译参数与预处理指令">添加编译参数与预处理指令</h3>
+<p>在makefile中，通过shell形式的configure与makefile的配合可以实现对可选模块与编译可选指令的支持，在Cmake中，通过option与一些其他命令同样可以做到对可选模块与编译指令的支持。</p>
+<ol type="1">
+<li><strong>添加编译参数：</strong></li>
+<li>使用<code>add_compile_options</code>命令。这个命令将添加到所有的目标上。例如：
+<code>cmake add_compile_options(-Wall)</code></li>
+<li>使用<code>target_compile_options</code>命令。这个命令只会添加到指定的目标上。例如：
+<code>cmake target_compile_options(target PRIVATE -Wall)</code> -
+<code>set(CMAKE_CXX_FLAGS "$&#123;CMAKE_CXX_FLAGS&#125; ...")</code>是另一种常见的添加编译参数的方法。这种方法直接修改了CMake的全局变量，所以它会影响到所有的目标。
+例如，如果你想添加<code>-Wall</code>编译选项，你可以这样写：
+<code>cmake set(CMAKE_CXX_FLAGS "$&#123;CMAKE_CXX_FLAGS&#125; -Wall")</code>
+这行代码的意思是，将<code>-Wall</code>添加到<code>CMAKE_CXX_FLAGS</code>变量中。<code>CMAKE_CXX_FLAGS</code>变量包含了C++编译器的编译选项。
+同样的，对于C编译器，你可以使用<code>CMAKE_C_FLAGS</code>：
+<code>cmake set(CMAKE_C_FLAGS "$&#123;CMAKE_C_FLAGS&#125; -Wall")</code>
+这种方法的一个缺点是，它会影响到所有的目标，而不仅仅是一个特定的目标。如果你只想为一个特定的目标添加编译选项，你应该使用<code>target_compile_options</code>命令。</li>
+<li><strong>添加预处理指令：</strong></li>
+<li>使用<code>add_definitions</code>命令。这个命令将添加到所有的目标上。例如：
+<code>cmake add_definitions(-DDEBUG)</code></li>
+<li>使用<code>target_compile_definitions</code>命令。这个命令只会添加到指定的目标上。例如：
+<code>cmake target_compile_definitions(target PRIVATE DEBUG)</code></li>
+</ol>
+<p>在上述两个例子中，<code>DEBUG</code>是一个预处理指令，它会在编译时被定义。</p>
+<p>注意，<code>PRIVATE</code>、<code>PUBLIC</code>、<code>INTERFACE</code>这些关键字的含义：</p>
+<ul>
+<li><code>PRIVATE</code>：只有目标自己会使用这些编译参数。</li>
+<li><code>PUBLIC</code>：目标自己和其他依赖这个目标的目标都会使用这些编译参数。</li>
+<li><code>INTERFACE</code>：只有其他依赖这个目标的目标会使用这些编译参数。</li>
+</ul>
+<p>下面将给出一个示例</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CMakeList.txt</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.22</span>)</span><br><span class="line"><span class="keyword">project</span>(HBM-<span class="keyword">Test</span>-C)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_C_STANDARD <span class="number">17</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(SRC_FILES hbm-<span class="keyword">test</span>.c</span><br><span class="line">        src/hbm-<span class="keyword">test</span>-bitmodifier.c</span><br><span class="line">        src/hbm-<span class="keyword">test</span>-bitmodifier.h</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选模块</span></span><br><span class="line"><span class="keyword">option</span>(WITH_ENCODE_FILE <span class="string">&quot;Compile with encode file support&quot;</span> <span class="keyword">OFF</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(WITH_ENCODE_FILE)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;Compiling with encode file support...&quot;</span>)</span><br><span class="line">    <span class="keyword">list</span>(APPEND SRC_FILES src/hbm-<span class="keyword">test</span>-<span class="keyword">file</span>.c src/hbm-<span class="keyword">test</span>-<span class="keyword">file</span>.h)</span><br><span class="line">    <span class="keyword">add_compile_definitions</span>(ENABLE_ENCODE_FILE)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(HBM-<span class="keyword">Test</span>-C <span class="variable">$&#123;SRC_FILES&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">configure_file</span>(./SimulationHBMFile.hex</span><br><span class="line">        <span class="string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/SimulationHBMFile.hex&quot;</span> COPYONLY)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*test.c*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;src/hbm-test-bitmodifier.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ENABLE_ENCODE_FILE</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;src/hbm-test-file.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">mem_block_test</span><span class="params">(<span class="type">uint64_t</span> *buf, <span class="type">uint64_t</span> count)</span> &#123;</span><br><span class="line">    set_mem_all_one(buf, count);</span><br><span class="line">    <span class="comment">// set_mem_all_zero(buf, count);</span></span><br><span class="line">    <span class="comment">// set_mem_cross_col(buf, count, 0 );</span></span><br><span class="line">    <span class="comment">// set_mem_cross_row(buf, count, 0);</span></span><br><span class="line">    <span class="comment">// set_mem_x_shape(buf, count, 0);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// fclose(file);</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ENABLE_ENCODE_FILE</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;HBM-Test-C: ENABLE_ENCODE_FILE\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    encode2file(buf,count,<span class="string">&quot;SimulationHBMFile.hex&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">uint64_t</span> buf_size = <span class="number">4</span> * <span class="number">1024</span>;</span><br><span class="line">    <span class="type">uint64_t</span> count = buf_size / <span class="keyword">sizeof</span>(<span class="type">uint64_t</span>);</span><br><span class="line">    <span class="type">uint64_t</span> *buf = (<span class="type">uint64_t</span> *) <span class="built_in">malloc</span>(buf_size); <span class="comment">/*模拟HBM内存映射*/</span></span><br><span class="line">    <span class="type">int</span> ret = mem_block_test(buf, count);          <span class="comment">/*执行压测接口*/</span></span><br><span class="line">    <span class="keyword">if</span> (ret != <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">&quot;fail\n&quot;</span>);          <span class="comment">/*判断压测接口返回值*/</span></span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;success\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(buf);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这段代码解耦了对内存映射的赋值与文件的赋值，甚至解耦了对不同模块的编译，对小型项目具有一定的参考意义，在CMake中仍存在很多特性这里并未提及，并且这里的代码也并不规范（这可能导致预处理的作用范围扩展）。但对初学者很好理解cmake如何使项目模块化。下面是一些命令行代码。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">处在项目文件CMakeLists.txt同级目录下</span></span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake .. -DWITH_ENCODE_FILE=$ENCODE_FILE</span><br><span class="line">cmake --build .</span><br><span class="line">./HBM-Test-C</span><br></pre></td></tr></table></figure>
+<p>如果希望用脚本进一步封装，一个我目前学习到的写法如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># start.sh</span><br><span class="line"></span><br><span class="line"># clean build dir</span><br><span class="line">rm -rf build</span><br><span class="line"></span><br><span class="line"># process option remaining for -*=* format options</span><br><span class="line">ENCODE_FILE=&quot;OFF&quot;</span><br><span class="line">for option</span><br><span class="line">do</span><br><span class="line">  case &quot;$option&quot; in</span><br><span class="line">    -*=*) value=`echo &quot;$option&quot; | sed -e &#x27;s/[-_a-zA-Z0-9]*=//&#x27;` ;;</span><br><span class="line">       *) value=&quot;&quot;</span><br><span class="line">  esac</span><br><span class="line">  case &quot;$option&quot; in</span><br><span class="line">    --with-encode-file) ENCODE_FILE=&quot;ON&quot;  ;;</span><br><span class="line">    --help)               help=yes          ;;</span><br><span class="line">  esac</span><br><span class="line">done</span><br><span class="line">if [ $help == &quot;yes&quot; ]</span><br><span class="line">  then</span><br><span class="line">    cat&lt;&lt;END</span><br><span class="line">    --with-encode-file    Encode buf&#x27;s data to SimulationHBMFile</span><br><span class="line">    --help                Print help lists</span><br><span class="line">END</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"># create build and run code</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake .. -DWITH_ENCODE_FILE=$ENCODE_FILE</span><br><span class="line">cmake --build .</span><br><span class="line">./HBM-Test-C</span><br></pre></td></tr></table></figure>
+<p>这里的代码为某个项目代码，并不能提供完整代码，请注意辨别，仅作示意。</p>
+<p>以上</p>
+<h2 id="参考文献">参考文献</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMWZ5NHkxYjdUQz9zcG1faWRfZnJvbT0zMzMuNzg4LnZpZGVvcG9kLmVwaXNvZGVzJnZkX3NvdXJjZT00MTk2ZDNhYjYzMWIxYTU0Nzk4NWNlMmIzZjI1ZDFlYSZwPTU=">基于vscode与cmake实现c/c++开发
+哔哩哔哩_bilibili<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC82NjEyODE4NTc=">【Cmake
+增加编译参数 】cmake增加编译参数和预处理指令的几种方法 - 知乎
+(zhihu.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li>chatgpt  kimi ai (由作者prompt并审查正确性)</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    寄付
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat 支払う">
+        <span>WeChat 支払う</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>著者： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>記事へのリンク：</strong>
+      <a href="https://deepcity.github.io/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html" title="PGStudy-CMake简单了解以及模块化编程">https://deepcity.github.io/2024/PGStudy-CMake简单了解以及模块化编程/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>著作権表示： </strong>このブログ内のすべての記事は、特別な記載がない限り <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> の下のライセンスで保護されています。
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>他の公開チャンネルへようこそ</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CMake/" rel="tag"># CMake</a>
+              <a href="/tags/Shell/" rel="tag"># Shell</a>
+              <a href="/tags/C-CPP/" rel="tag"># C/CPP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/PGStudy-Linux%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80Part2/article.html" rel="prev" title="PGStudy-Linux脚本语言Part2">
+                  <i class="fa fa-angle-left"></i> PGStudy-Linux脚本语言Part2
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>日本語</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="単語の総数">91k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">5:29</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="合計閲覧者数">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="閲覧合計数">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ja","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ja/2024/PGStudy-CMake%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">Архив</span>
         </a>
       </div>
@@ -166,7 +166,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-count">61</span>
         <span class="site-state-item-name">Тэги</span></a>
       </div>
   </nav>
@@ -205,6 +205,137 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/cf-edu165D/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/cf-edu165D/article.html" class="post-title-link" itemprop="url">cf-edu165D</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Размещено</span>
+      
+
+      <time title="Создано: 2024-08-14 19:45:21 / Изменено: 21:38:37" itemprop="dateCreated datePublished" datetime="2024-08-14T19:45:21+08:00">2024-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">В категории</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/%E6%95%B0%E5%AD%A6/%E5%8D%9A%E5%BC%88%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">博弈论</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline: </span>
+  
+    <a title="waline" href="/2024/cf-edu165D/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/cf-edu165D/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Кол-во символов в статье">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Кол-во символов в статье: </span>
+      <span>959</span>
+    </span>
+    <span class="post-meta-item" title="Время чтения">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Время чтения &asymp;</span>
+      <span>3 мин.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h2><p>爱丽丝和鲍勃正在商店里玩游戏。商店里有 <script type="math/tex">n</script> 件商品；每件商品有两个参数： <script type="math/tex">a_i</script> （爱丽丝的物品价格）和 <script type="math/tex">b_i</script> （鲍勃的物品价格）。</p>
+<p>爱丽丝希望选择一个商品子集（可能是空）并购买它们。之后，Bob 会执行以下操作：</p>
+<ul>
+<li>如果爱丽丝购买的物品少于 <script type="math/tex">k</script> ，则鲍勃可以免费拿走所有物品；</li>
+<li>否则，他会免费拿走爱丽丝购买的<script type="math/tex">k</script> 个物品（由鲍勃选择是哪个 <script type="math/tex">k</script> 个物品），至于其他选择的物品，鲍勃会从爱丽丝那里购买，并为 $i$ -个物品支付 <script type="math/tex">b_i</script>。</li>
+</ul>
+<p>爱丽丝的利润等于 <script type="math/tex">\sum\limits_{i \in S} b_i - \sum\limits_{j \in T} a_j</script> ，其中<script type="math/tex">S</script> 是鲍勃从爱丽丝处购买的物品集， <script type="math/tex">T</script> 是爱丽丝从商店购买的物品集。换句话说，爱丽丝的利润就是鲍勃支付给她的金额和她购买商品所花费的金额之间的差额。</p>
+<p>爱丽丝希望自己的利润最大化，而鲍勃希望爱丽丝的利润最小化。您的任务是计算在爱丽丝和鲍勃都采取最优行动的情况下爱丽丝的利润。</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9jb2RlZm9yY2VzLmNvbS9jb250ZXN0LzE5NjkvcHJvYmxlbS9E">Problem - D - Codeforces<i class="fa fa-external-link-alt"></i></span></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/cf-edu165D/article.html#more" rel="contents">
+                Далее... &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1288,13 +1419,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Общее кол-во символов">89k</span>
+    <span title="Общее кол-во символов">91k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Общее время чтения">5:23</span>
+    <span title="Общее время чтения">5:29</span>
   </span>
 </div>
 <div class="busuanzi-count">
