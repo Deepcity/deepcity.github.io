@@ -1418,7 +1418,59 @@ func main() {
   
   ```
 
+- 二叉树同Pattern搜索
+
+  ```go
+  package main
   
+  import (
+  	"fmt"
+  	"golang.org/x/tour/tree"
+  )
+  
+  // Walk 遍历树 t，并将树中所有的值发送到信道 ch。
+  func Walk(t *tree.Tree, ch chan int) {
+  	if t != nil {
+  		Walk(t.Left, ch)     // 递归遍历左子树
+  		ch <- t.Value       // 发送当前节点的值
+  		Walk(t.Right, ch)    // 递归遍历右子树
+  	}
+  }
+  
+  // Same 判断 t1 和 t2 是否包含相同的值。
+  func Same(t1, t2 *tree.Tree) bool {
+  	ch1 := make(chan int)
+  	ch2 := make(chan int)
+  
+  	go func() {
+  		Walk(t1, ch1)
+  		close(ch1) // 关闭通道
+  	}()
+  	go func() {
+  		Walk(t2, ch2)
+  		close(ch2) // 关闭通道
+  	}()
+  
+  	// 比较两个通道中的值
+  	for v1 := range ch1 {
+  		v2, ok := <-ch2
+  		if !ok || v1 != v2 { // 如果通道关闭或值不相等，返回 false
+  			return false
+  		}
+  	}
+  	_, ok := <-ch2 // 检查第二个通道是否还有值
+  	return !ok // 如果没有值，说明两个树相同
+  }
+  
+  func main() {
+  	t1 := tree.New(1)
+  	t2 := tree.New(1)
+  	t3 := tree.New(2)
+  
+  	fmt.Println(Same(t1, t2)) // 输出: true
+  	fmt.Println(Same(t1, t3)) // 输出: false
+  }
+  ```
 
 ## 参考资料
 
@@ -1427,4 +1479,5 @@ func main() {
 3. [Go 语言之旅 (go-zh.org)](https://tour.go-zh.org/welcome/1)
 4. [Go by Example](https://gobyexample.com/)
 5. [Effective Go - The Go Programming Language](https://go.dev/doc/effective_go)
+6. chatgpt and kimi ai
 

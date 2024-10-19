@@ -4,7 +4,7 @@ date: 2024-10-14 12:41:37
 categories:
 - 专题
 - PGStudy
-tags:  [研究生学习, Linux, 脚本]
+tags:  [Linux, 脚本]
 ---
 
 # Shell Script
