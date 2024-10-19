@@ -13,6 +13,8 @@ GFS与BigTable与MapReduce的关系
 
 <img src="https://s2.loli.net/2024/10/19/5YLKcvoRJQudyHV.png" alt="GFS与其他google系统的架构" style="zoom:33%;" />
 
+<!--more-->
+
 ## GFS如何保存一个文件
 
 - 先看对一个较小文件的信息保存
