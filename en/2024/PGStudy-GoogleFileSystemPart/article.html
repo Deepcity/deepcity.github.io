@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Google File System GFS与BigTable与MapReduce的关系  GFS如何保存一个文件  先看对一个较小文件的信息保存  设定block为1024Byte，将一个小文件分解成非常多block，每个block都用一个指针指着 再看对一个较大的文件的信息保存  可见与小文件的逻辑是相差无几的，区别在于由block扩大到了chunk即64MB，这里的文件显">
+    <meta name="description" content="Google File SystemGFS与BigTable与MapReduce的关系">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PGStudy-GoogleFileSystemPart">
 <meta property="og:url" content="https://deepcity.github.io/en/2024/PGStudy-GoogleFileSystemPart/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="Google File System GFS与BigTable与MapReduce的关系  GFS如何保存一个文件  先看对一个较小文件的信息保存  设定block为1024Byte，将一个小文件分解成非常多block，每个block都用一个指针指着 再看对一个较大的文件的信息保存  可见与小文件的逻辑是相差无几的，区别在于由block扩大到了chunk即64MB，这里的文件显">
+<meta property="og:description" content="Google File SystemGFS与BigTable与MapReduce的关系">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://s2.loli.net/2024/10/19/5YLKcvoRJQudyHV.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/19/V7EIa86wrUk3HuW.png">
@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/19/etWjsPyJIzScLUF.png">
 <meta property="og:image" content="https://deepcity.github.io/AppData/Roaming/Typora/typora-user-images/image-20241019195203246.png">
 <meta property="article:published_time" content="2024-10-19T12:44:28.000Z">
-<meta property="article:modified_time" content="2024-10-19T12:51:14.537Z">
+<meta property="article:modified_time" content="2024-10-19T12:53:36.875Z">
 <meta property="article:author" content="ThreeLanes">
 <meta property="article:tag" content="Google File System">
 <meta property="article:tag" content="存储系统">
@@ -158,7 +158,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#google-file-system"><span class="nav-number">1.</span> <span class="nav-text">Google File System</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gfs%E5%A6%82%E4%BD%95%E4%BF%9D%E5%AD%98%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">GFS如何保存一个文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96"><span class="nav-number">1.1.1.</span> <span class="nav-text">如何优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8F%91%E7%8E%B0%E6%96%87%E4%BB%B6%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8F"><span class="nav-number">1.1.2.</span> <span class="nav-text">如何发现文件的数据损坏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91chunksever%E6%8C%82%E6%8E%89%E5%B8%A6%E6%9D%A5%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%A4%B1"><span class="nav-number">1.1.3.</span> <span class="nav-text">如何减少ChunkSever挂掉带来的数据损失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%81%A2%E5%A4%8D%E6%8D%9F%E5%9D%8F%E7%9A%84chunk"><span class="nav-number">1.1.4.</span> <span class="nav-text">如何恢复损坏的chunk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8F%91%E7%8E%B0chunkserver%E7%9A%84status"><span class="nav-number">1.1.5.</span> <span class="nav-text">如何发现ChunkServer的Status</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E7%83%AD%E7%82%B9hotpot"><span class="nav-number">1.1.6.</span> <span class="nav-text">如何应对热点hotpot</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gfs%E5%A6%82%E4%BD%95%E8%AF%BB%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">GFS如何读一个文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gfs%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">GFS如何写一个文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.4.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Google-File-System"><span class="nav-number">1.</span> <span class="nav-text">Google File System</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GFS%E5%A6%82%E4%BD%95%E4%BF%9D%E5%AD%98%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">GFS如何保存一个文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96"><span class="nav-number">1.1.1.</span> <span class="nav-text">如何优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8F%91%E7%8E%B0%E6%96%87%E4%BB%B6%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8F"><span class="nav-number">1.1.2.</span> <span class="nav-text">如何发现文件的数据损坏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91ChunkSever%E6%8C%82%E6%8E%89%E5%B8%A6%E6%9D%A5%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%A4%B1"><span class="nav-number">1.1.3.</span> <span class="nav-text">如何减少ChunkSever挂掉带来的数据损失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%81%A2%E5%A4%8D%E6%8D%9F%E5%9D%8F%E7%9A%84chunk"><span class="nav-number">1.1.4.</span> <span class="nav-text">如何恢复损坏的chunk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8F%91%E7%8E%B0ChunkServer%E7%9A%84Status"><span class="nav-number">1.1.5.</span> <span class="nav-text">如何发现ChunkServer的Status</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E7%83%AD%E7%82%B9hotpot"><span class="nav-number">1.1.6.</span> <span class="nav-text">如何应对热点hotpot</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GFS%E5%A6%82%E4%BD%95%E8%AF%BB%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">GFS如何读一个文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GFS%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">GFS如何写一个文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.4.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -261,7 +261,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2024-10-19 20:44:28 / Modified: 20:51:14" itemprop="dateCreated datePublished" datetime="2024-10-19T20:44:28+08:00">2024-10-19</time>
+      <time title="Created: 2024-10-19 20:44:28 / Modified: 20:53:36" itemprop="dateCreated datePublished" datetime="2024-10-19T20:44:28+08:00">2024-10-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -305,7 +305,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>892</span>
+      <span>893</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -322,87 +322,77 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="google-file-system">Google File System</h1>
-<p>GFS与BigTable与MapReduce的关系</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="Google-File-System"><a href="#Google-File-System" class="headerlink" title="Google File System"></a>Google File System</h1><p>GFS与BigTable与MapReduce的关系</p>
 <p><img src="https://s2.loli.net/2024/10/19/5YLKcvoRJQudyHV.png" alt="GFS与其他google系统的架构" style="zoom:33%;" /></p>
-<h2 id="gfs如何保存一个文件">GFS如何保存一个文件</h2>
-<ul>
+<span id="more"></span>
+<h2 id="GFS如何保存一个文件"><a href="#GFS如何保存一个文件" class="headerlink" title="GFS如何保存一个文件"></a>GFS如何保存一个文件</h2><ul>
 <li><p>先看对一个较小文件的信息保存</p>
 <p><img src="https://s2.loli.net/2024/10/19/V7EIa86wrUk3HuW.png" alt="image-20241019171849346" style="zoom:33%;" /></p>
-<p>设定block为1024Byte，将一个小文件分解成非常多block，每个block都用一个指针指着</p></li>
+<p>设定block为1024Byte，将一个小文件分解成非常多block，每个block都用一个指针指着</p>
+</li>
 <li><p>再看对一个较大的文件的信息保存</p>
 <p><img src="https://s2.loli.net/2024/10/19/IxFVZXK62Ta58i9.png" alt="image-20241019192126915" style="zoom:33%;" /></p>
-<p>可见与小文件的逻辑是相差无几的，区别在于由block扩大到了chunk即64MB，这里的文件显然会在末尾多出64MB未使用完的额外开销</p></li>
+<p>可见与小文件的逻辑是相差无几的，区别在于由block扩大到了chunk即64MB，这里的文件显然会在末尾多出64MB未使用完的额外开销</p>
+</li>
 <li><p>如何保存一个超大的文件</p>
 <p>对于一个超大文件通常是无法直接在一台主机上进行保存的</p>
 <p><img src="https://s2.loli.net/2024/10/19/r18kgAzsdpDWnT4.png" alt="image-20241019192612010" style="zoom:33%;" /></p>
-<p>采用Master+ChunkServer组织架构保存大文件，这时缺点就出现了，对于任意的文件更改都需要ChunkSever去通知Master，产生了额外的开销</p></li>
+<p>采用Master+ChunkServer组织架构保存大文件，这时缺点就出现了，对于任意的文件更改都需要ChunkSever去通知Master，产生了额外的开销</p>
+</li>
 </ul>
-<h3 id="如何优化">如何优化</h3>
-<p>通过将Master的索引托管到ChunkServer中即可！Master中不需要每块记录的偏移量diskOffset，只需要记住在ChunkSever中的对应Chunk即可</p>
+<h3 id="如何优化"><a href="#如何优化" class="headerlink" title="如何优化"></a>如何优化</h3><p>通过将Master的索引托管到ChunkServer中即可！Master中不需要每块记录的偏移量diskOffset，只需要记住在ChunkSever中的对应Chunk即可</p>
 <p><img src="https://s2.loli.net/2024/10/19/2z6FcWhbepKN1BZ.png" alt="优化后" style="zoom:33%;" /></p>
-<p>这样就减少了对MetaData
-（元数据信息）以及Master与ChunkSever之间的通信</p>
-<h3 id="如何发现文件的数据损坏">如何发现文件的数据损坏</h3>
-<p><img src="https://s2.loli.net/2024/10/19/f9PeKajnSxIgzJc.png" alt="checksum" style="zoom:33%;" /></p>
+<p>这样就减少了对MetaData （元数据信息）以及Master与ChunkSever之间的通信</p>
+<h3 id="如何发现文件的数据损坏"><a href="#如何发现文件的数据损坏" class="headerlink" title="如何发现文件的数据损坏"></a>如何发现文件的数据损坏</h3><p><img src="https://s2.loli.net/2024/10/19/f9PeKajnSxIgzJc.png" alt="checksum" style="zoom:33%;" /></p>
 <p>关键点</p>
 <ul>
-<li>1 chunk = a list of blocks</li>
+<li>1 chunk = a list of blocks </li>
 <li>1 block = 64kb</li>
 <li>block 保存 检验和 （checksum）</li>
 <li>1 checksum = 32bit</li>
 <li>经典文件检验和的大小 1T / 64KB *32 bit = 64 MB</li>
 </ul>
-<h3
-id="如何减少chunksever挂掉带来的数据损失">如何减少ChunkSever挂掉带来的数据损失</h3>
-<ol type="1">
+<h3 id="如何减少ChunkSever挂掉带来的数据损失"><a href="#如何减少ChunkSever挂掉带来的数据损失" class="headerlink" title="如何减少ChunkSever挂掉带来的数据损失"></a>如何减少ChunkSever挂掉带来的数据损失</h3><ol>
 <li>创建副本——通常是3个</li>
-<li>如何选择一个副本的ChunkServer
-<ol type="1">
+<li>如何选择一个副本的ChunkServer<ol>
 <li>硬盘利用率低</li>
 <li>限制最新数据块的写入流量——保证hotpot时的workbalance</li>
 <li>跨机架跨中心：2+1——避免物理上的损坏</li>
-</ol></li>
 </ol>
-<h3 id="如何恢复损坏的chunk">如何恢复损坏的chunk</h3>
-<p>与Master沟通，寻找最近的chunk备份</p>
-<h3 id="如何发现chunkserver的status">如何发现ChunkServer的Status</h3>
-<p>每隔一段时间都发一个timestamp，在业界称之为“心跳”</p>
+</li>
+</ol>
+<h3 id="如何恢复损坏的chunk"><a href="#如何恢复损坏的chunk" class="headerlink" title="如何恢复损坏的chunk"></a>如何恢复损坏的chunk</h3><p>与Master沟通，寻找最近的chunk备份</p>
+<h3 id="如何发现ChunkServer的Status"><a href="#如何发现ChunkServer的Status" class="headerlink" title="如何发现ChunkServer的Status"></a>如何发现ChunkServer的Status</h3><p>每隔一段时间都发一个timestamp，在业界称之为“心跳”</p>
 <p>扩展的方式是在Masterping不通后仍然寻求其他chunkserver对不“心跳”的ping</p>
-<h3 id="如何应对热点hotpot">如何应对热点hotpot</h3>
-<p>通过构建热点平衡进程</p>
+<h3 id="如何应对热点hotpot"><a href="#如何应对热点hotpot" class="headerlink" title="如何应对热点hotpot"></a>如何应对热点hotpot</h3><p>通过构建热点平衡进程</p>
 <p>在热点平衡进程中记录以下信息</p>
 <ul>
-<li><p>chunk的stats，通常是access frequency等</p></li>
+<li><p>chunk的stats，通常是access frequency等</p>
+</li>
 <li><p>server的stats，通常是free space、free bandwidth等</p>
 <p><img src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241019194350534.png" alt="image-20241019194350534" style="zoom: 50%;" /></p>
 <p>通过这些信息来进行hotpot的处理</p>
-<ol type="1">
+<ol>
 <li>复制hotpot data2more chunk server</li>
 <li>基于chunk server 的disk与bandwidth的情况进行select</li>
-</ol></li>
+</ol>
+</li>
 </ul>
-<h2 id="gfs如何读一个文件">GFS如何读一个文件</h2>
-<p><img src="https://s2.loli.net/2024/10/19/etWjsPyJIzScLUF.png" alt="image-20241019194658647" style="zoom:50%;" /></p>
-<p>引入GFS client
-客户端进程，该进程工作于Application中负责与GFSserver交互</p>
-<ol type="1">
+<h2 id="GFS如何读一个文件"><a href="#GFS如何读一个文件" class="headerlink" title="GFS如何读一个文件"></a>GFS如何读一个文件</h2><p><img src="https://s2.loli.net/2024/10/19/etWjsPyJIzScLUF.png" alt="image-20241019194658647" style="zoom:50%;" /></p>
+<p>引入GFS client 客户端进程，该进程工作于Application中负责与GFSserver交互</p>
+<ol>
 <li>与Master交互取得Handle（根据文件信息</li>
 <li>与chunk server交互取得data （根据master提供的handle</li>
 </ol>
-<h2 id="gfs如何写一个文件">GFS如何写一个文件</h2>
-<p><img src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241019195203246.png" alt="GFS的写入" style="zoom:50%;" /></p>
-<ol type="1">
+<h2 id="GFS如何写一个文件"><a href="#GFS如何写一个文件" class="headerlink" title="GFS如何写一个文件"></a>GFS如何写一个文件</h2><p><img src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241019195203246.png" alt="GFS的写入" style="zoom:50%;" /></p>
+<ol>
 <li>Master并不负责读写，仅仅只与client交互提供文件所在信息</li>
-<li>master指定的primary chunk
-server并不是与client第一次交互的chunkserver，第一次交互的chunkserver由服务器距离远近决定</li>
+<li>master指定的primary chunk server并不是与client第一次交互的chunkserver，第一次交互的chunkserver由服务器距离远近决定</li>
 <li>primary chunk server仅仅指再cached后发write指令</li>
 <li>chunk server并不直接写入，而是先cache再写入</li>
 </ol>
-<h2 id="参考资料">参考资料</h2>
-<ol type="1">
-<li><span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1XTGFkN0NDZXhvOA==">深入浅出Google
-File System (youtube.com)<i class="fa fa-external-link-alt"></i></span></li>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1XTGFkN0NDZXhvOA==">深入浅出Google File System (youtube.com)<i class="fa fa-external-link-alt"></i></span></li>
 <li>Google file System paper</li>
 </ol>
 
