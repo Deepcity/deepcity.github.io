@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Big Table  简明定义：一个BigTable是一个稀疏的，分布的，永久的多维排序图。  如何在文件内快速查询  通过将文件中的内容按照内容分配一个一个key通过key对文件中的内容进行排序 Table &#x3D; a list of sroted &lt;key, value&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PGStudy-GoogleBigTablePart">
+<meta property="og:url" content="https://deepcity.github.io/ja/2024/PGStudy-GoogleBigTablePart/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="Big Table  简明定义：一个BigTable是一个稀疏的，分布的，永久的多维排序图。  如何在文件内快速查询  通过将文件中的内容按照内容分配一个一个key通过key对文件中的内容进行排序 Table &#x3D; a list of sroted &lt;key, value&gt;">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://deepcity.github.io/AppData/Roaming/Typora/typora-user-images/image-20241019201022132.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/19/TiaqNvruhwOHPlm.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/19/NlMrwWxYGs53O1f.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/24/FmRHzxYQZUObIoh.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/24/WF3QzEK72L8YP5j.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/24/Sj2yfeUbBsvOGVY.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/24/UGYlVXpho4QPtq6.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/24/Z2FXRPaDtyVdIQ4.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/24/RkWi8pfV3XUBCOv.png">
+<meta property="article:published_time" content="2024-10-24T09:12:53.000Z">
+<meta property="article:modified_time" content="2024-10-24T09:14:31.995Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="存储系统">
+<meta property="article:tag" content="计算机体系结构">
+<meta property="article:tag" content="论文">
+<meta property="article:tag" content="Google Big Table">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://deepcity.github.io/AppData/Roaming/Typora/typora-user-images/image-20241019201022132.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/ja/2024/PGStudy-GoogleBigTablePart/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"ja","comments":true,"permalink":"https://deepcity.github.io/2024/PGStudy-GoogleBigTablePart/article.html","path":"ja/2024/PGStudy-GoogleBigTablePart/article.html","title":"PGStudy-GoogleBigTablePart"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PGStudy-GoogleBigTablePart | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="検索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>プロフィール</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>タグ</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>スケジュール</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>サイトマップ</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>検索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="検索…" spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#big-table"><span class="nav-number">1.</span> <span class="nav-text">Big Table</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%87%E4%BB%B6%E5%86%85%E5%BF%AB%E9%80%9F%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.1.</span> <span class="nav-text">如何在文件内快速查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E5%AD%98%E4%B8%80%E4%B8%AA%E5%BE%88%E5%A4%A7%E7%9A%84%E8%A1%A8"><span class="nav-number">1.2.</span> <span class="nav-text">如何保存一个很大的表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E5%AD%98%E4%B8%80%E4%B8%AA%E8%B6%85%E5%A4%A7%E8%A1%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">如何保存一个超大表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%91%E8%A1%A8%E4%B8%AD%E5%86%99%E6%95%B0%E6%8D%AE"><span class="nav-number">1.3.</span> <span class="nav-text">如何向表中写数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%93%E5%86%85%E5%AD%98%E8%A1%A8%E8%BF%87%E5%A4%A7%E6%97%B6%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-number">1.3.1.</span> <span class="nav-text">当内存表过大时怎么办</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E8%A1%A8%E5%86%99%E5%85%A5%E6%97%B6%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%8F%91%E7%94%9F%E5%86%85%E5%AD%98%E4%B8%A2%E5%A4%B1"><span class="nav-number">1.3.2.</span> <span class="nav-text">内存表写入时，可能会发生内存丢失</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AF%BB%E6%95%B0%E6%8D%AE"><span class="nav-number">1.4.</span> <span class="nav-text">如何读数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bloomfilter%E5%8A%A0%E9%80%9F"><span class="nav-number">1.5.</span> <span class="nav-text">Bloomfilter加速</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BAbloomfilter"><span class="nav-number">1.5.1.</span> <span class="nav-text">如何构建Bloomfilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8bloomfilter%E8%BF%9B%E8%A1%8C%E6%9F%A5%E6%89%BE"><span class="nav-number">1.5.2.</span> <span class="nav-text">如何利用Bloomfilter进行查找</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#column-family"><span class="nav-number">1.6.</span> <span class="nav-text">Column Family</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.6.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">1.6.2.</span> <span class="nav-text">作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E8%A1%A8%E5%AD%98%E5%85%A5gfs"><span class="nav-number">1.7.</span> <span class="nav-text">如何将表存入GFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%E5%A4%A7%E8%A7%82"><span class="nav-number">1.8.</span> <span class="nav-text">最后大观</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.9.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">69</span>
+        <span class="site-state-item-name">タグ</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/PGStudy-GoogleBigTablePart/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PGStudy-GoogleBigTablePart | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PGStudy-GoogleBigTablePart<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9QR1N0dWR5LUdvb2dsZUJpZ1RhYmxlUGFydC5tZA==" title="この記事を編集する"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">投稿日</span>
+      
+
+      <time title="作成日：2024-10-24 17:12:53 / 修正日：17:14:31" itemprop="dateCreated datePublished" datetime="2024-10-24T17:12:53+08:00">2024-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">カテゴリ</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          、
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/PGStudy/" itemprop="url" rel="index"><span itemprop="name">PGStudy</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閲覧数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閲覧数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/ja/2024/PGStudy-GoogleBigTablePart/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/ja/2024/PGStudy-GoogleBigTablePart/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="単語数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">単語数：</span>
+      <span>1.3k</span>
+    </span>
+    <span class="post-meta-item" title="読書の時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">読書の時間 &asymp;</span>
+      <span>5 分</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="big-table">Big Table</h1>
+<ul>
+<li>简明定义：一个BigTable是一个稀疏的，分布的，永久的多维排序图。</li>
+</ul>
+<h2 id="如何在文件内快速查询">如何在文件内快速查询</h2>
+<p><img src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241019201022132.png" alt="表的构建" style="zoom:50%;" /></p>
+<p>通过将文件中的内容按照内容分配一个一个key通过key对文件中的内容进行排序</p>
+<p>Table = a list of sroted &lt;key, value&gt;</p>
+<span id="more"></span>
+<h2 id="如何保存一个很大的表">如何保存一个很大的表</h2>
+<p>提出一个概念 metadata of table —— 该表保存许多小表的索引</p>
+<p>即 Metadata of Table = a list of Tables Table = A list of sorted
+&lt;key, value&gt;</p>
+<p><img src="https://s2.loli.net/2024/10/19/TiaqNvruhwOHPlm.png" alt="matedata 与table的关系" style="zoom:50%;" /></p>
+<h3 id="如何保存一个超大表">如何保存一个超大表</h3>
+<p>重复的方式，通过SSTable的方式保存数据，使Table变为SSTable的metadata</p>
+<figure>
+<img src="https://s2.loli.net/2024/10/19/NlMrwWxYGs53O1f.png"
+alt="SSTable" />
+<figcaption aria-hidden="true">SSTable</figcaption>
+</figure>
+<p>通过SSTable进一步扩大表的容量</p>
+<h2 id="如何向表中写数据">如何向表中写数据</h2>
+<p><img src="https://s2.loli.net/2024/10/24/FmRHzxYQZUObIoh.png" alt="写入数据" style="zoom:50%;" />
+在向BigTable中写入数据时，首先在内存中建立一个小小表（SSTable）这里叫做memTable，通过该表来加速写入，注意，这里的写入需要有序，因此相对于Disk，memory才有显著的优势（它是随机读写）</p>
+<h3 id="当内存表过大时怎么办">当内存表过大时怎么办</h3>
+<p><img src="https://s2.loli.net/2024/10/24/WF3QzEK72L8YP5j.png" alt="内存表过大" style="zoom:50%;" /></p>
+<p>当内存表过大的情况下，将内存表写入Disk，由于这个时候是顺序读写，性能也是较好的</p>
+<h3
+id="内存表写入时可能会发生内存丢失">内存表写入时，可能会发生内存丢失</h3>
+<p><img src="https://s2.loli.net/2024/10/24/Sj2yfeUbBsvOGVY.png" alt="引入log" style="zoom:50%;" /></p>
+<p>通过建立一个tabletLog来防止内存数据的丢失</p>
+<h2 id="如何读数据">如何读数据</h2>
+<p><img src="https://s2.loli.net/2024/10/24/UGYlVXpho4QPtq6.png" alt="读数据的困难" style="zoom:50%;" /></p>
+<p>由于写数据时并未考虑表之间的键值顺序性，因此每个表之间处于无序状态，在一个表内有序，表间无序的结构中进行查找，效率是较低的。</p>
+<p><img src="https://s2.loli.net/2024/10/24/Z2FXRPaDtyVdIQ4.png" alt="通过索引加速" style="zoom:50%;" /></p>
+<p>通过对小小表添加索引的方式加速内存，这样的索引可以视作多级索引，它的产生很大程度上是因为Disk中的SSTable是静态的，而该建立索引的操作减少了对SSTable中键值的地址定位开销</p>
+<h2 id="bloomfilter加速">Bloomfilter加速</h2>
+<p>Bloomfliter的具体表现为通过很快的操作给出一个<strong>大概率</strong>某一键值存不存在于键值集合中。通过对每一个SSTable的BloomFilter建立，并在查找时优先通过BloomFilter进行查找就可以极大的提高对key的查找</p>
+<h3 id="如何构建bloomfilter">如何构建Bloomfilter</h3>
+<p>Bloomfilter是一个位数组。它通过以下的方式构建</p>
+<ol type="1">
+<li>存入关键词时，将关键词通过多种不同的哈希方法映射到不同位上</li>
+<li>将这些位变为1</li>
+</ol>
+<h3 id="如何利用bloomfilter进行查找">如何利用Bloomfilter进行查找</h3>
+<ol type="1">
+<li>当查找关键词时，将其通过同样的一组哈希方法映射到不同为上</li>
+<li>若这些位全为1，那么则判断该关键词存在于集合中</li>
+</ol>
+<h2 id="column-family">Column Family</h2>
+<p>在Google Bigtable中，列族（Column
+Family）是一个重要的概念，它用于组织和存储数据。</p>
+<h3 id="概念">概念</h3>
+<ol type="1">
+<li><strong>列族</strong>：列族是指一组相关的列，它们在逻辑上被视为一个整体。在Bigtable中，每个列族包含一组列，这些列共享相同的存储和访问特性。</li>
+<li><strong>列的定义</strong>：在每个列族中，列的名称可以是动态的，用户可以在写入数据时随时添加新的列。列族的创建是在表定义时完成的，而列可以在数据写入时动态添加。</li>
+</ol>
+<h3 id="作用">作用</h3>
+<ol type="1">
+<li><strong>数据组织</strong>：列族提供了一种方式来组织和分组相关数据。例如，用户可以将用户信息的基本信息（如姓名、年龄等）放在一个列族中，而将用户的活动记录放在另一个列族中。</li>
+<li><strong>存储优化</strong>：同一列族中的数据在物理存储上是相邻的，这样可以提高数据读取的效率。通过将相关数据聚集在一起，Bigtable可以更有效地进行磁盘I/O操作。</li>
+<li><strong>访问控制</strong>：列族可以帮助实现访问控制策略。可以对不同的列族设置不同的权限，控制用户对数据的访问。</li>
+<li><strong>压缩与存储</strong>：不同的列族可以采用不同的存储和压缩策略，这样可以根据数据的访问模式和特性进行优化。例如，频繁访问的数据可以选择不压缩，而不常访问的数据则可以选择更高的压缩比。</li>
+</ol>
+<h2 id="如何将表存入gfs">如何将表存入GFS</h2>
+<p><img src="https://s2.loli.net/2024/10/24/RkWi8pfV3XUBCOv.png" alt="GBT与GFS" style="zoom:50%;" /></p>
+<p>该物理视图是非常简单的，因为GBT与GFS同样以64K作为一个Block，很容易进行内存映射，同时这里表达了对GFS的“三份备份”思想的表达。</p>
+<h2 id="最后大观">最后大观</h2>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li>Bigtable: A Distributed Storage System for Structured Data</li>
+<li>[<span class="exturl" data-url="aHR0cHM6Ly9hcnRodXJjaGlhby5hcnQvYmxvZy9nb29nbGUtYmlndGFibGUtemgv">译]
+[论文] Bigtable: A Distributed Storage System for Structured Data (OSDI,
+2006) (arthurchiao.art)<i class="fa fa-external-link-alt"></i></span></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    寄付
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat 支払う">
+        <span>WeChat 支払う</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>著者： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>記事へのリンク：</strong>
+      <a href="https://deepcity.github.io/2024/PGStudy-GoogleBigTablePart/article.html" title="PGStudy-GoogleBigTablePart">https://deepcity.github.io/2024/PGStudy-GoogleBigTablePart/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>著作権表示： </strong>このブログ内のすべての記事は、特別な記載がない限り <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> の下のライセンスで保護されています。
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>他の公開チャンネルへようこそ</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/" rel="tag"># 存储系统</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" rel="tag"># 计算机体系结构</a>
+              <a href="/tags/%E8%AE%BA%E6%96%87/" rel="tag"># 论文</a>
+              <a href="/tags/Google-Big-Table/" rel="tag"># Google Big Table</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/PGStudy-GoogleFileSystemPart/article.html" rel="prev" title="PGStudy-GoogleFileSystemPart">
+                  <i class="fa fa-angle-left"></i> PGStudy-GoogleFileSystemPart
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>日本語</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/PGStudy-GoogleBigTablePart/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/PGStudy-GoogleBigTablePart/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/PGStudy-GoogleBigTablePart/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/PGStudy-GoogleBigTablePart/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="単語の総数">100k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">6:02</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="合計閲覧者数">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="閲覧合計数">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"ja","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/ja/2024/PGStudy-GoogleBigTablePart/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

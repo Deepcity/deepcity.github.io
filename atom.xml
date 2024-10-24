@@ -6,7 +6,7 @@
   <link href="https://deepcity.github.io/atom.xml" rel="self"/>
   
   <link href="https://deepcity.github.io/"/>
-  <updated>2024-10-19T12:53:36.875Z</updated>
+  <updated>2024-10-24T09:14:31.995Z</updated>
   <id>https://deepcity.github.io/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PGStudy-GoogleBigTablePart</title>
+    <link href="https://deepcity.github.io/2024/PGStudy-GoogleBigTablePart/article.html"/>
+    <id>https://deepcity.github.io/2024/PGStudy-GoogleBigTablePart/article.html</id>
+    <published>2024-10-24T09:12:53.000Z</published>
+    <updated>2024-10-24T09:14:31.995Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="big-table">Big Table</h1><ul><li>简明定义：一个BigTable是一个稀疏的，分布的，永久的多维排序图。</li></ul><h2 id="如何在文件内快速查询">如何在文件内快速查询</h2><p><img src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241019201022132.png" alt="表的构建" style="zoom:50%;" /></p><p>通过将文件中的内容按照内容分配一个一个key通过key对文件中的内容进行排序</p><p>Table = a list of sroted &lt;key, value&gt;</p><span id="more"></span><h2 id="如何保存一个很大的表">如何保存一个很大的表</h2><p>提出一个概念 metadata of table —— 该表保存许多小表的索引</p><p>即 Metadata of Table = a list of Tables Table = A list of sorted&lt;key, value&gt;</p><p><img src="https://s2.loli.net/2024/10/19/TiaqNvruhwOHPlm.png" alt="matedata 与table的关系" style="zoom:50%;" /></p><h3 id="如何保存一个超大表">如何保存一个超大表</h3><p>重复的方式，通过SSTable的方式保存数据，使Table变为SSTable的metadata</p><figure><img src="https://s2.loli.net/2024/10/19/NlMrwWxYGs53O1f.png"alt="SSTable" /><figcaption aria-hidden="true">SSTable</figcaption></figure><p>通过SSTable进一步扩大表的容量</p><h2 id="如何向表中写数据">如何向表中写数据</h2><p><img src="https://s2.loli.net/2024/10/24/FmRHzxYQZUObIoh.png" alt="写入数据" style="zoom:50%;" />在向BigTable中写入数据时，首先在内存中建立一个小小表（SSTable）这里叫做memTable，通过该表来加速写入，注意，这里的写入需要有序，因此相对于Disk，memory才有显著的优势（它是随机读写）</p><h3 id="当内存表过大时怎么办">当内存表过大时怎么办</h3><p><img src="https://s2.loli.net/2024/10/24/WF3QzEK72L8YP5j.png" alt="内存表过大" style="zoom:50%;" /></p><p>当内存表过大的情况下，将内存表写入Disk，由于这个时候是顺序读写，性能也是较好的</p><h3id="内存表写入时可能会发生内存丢失">内存表写入时，可能会发生内存丢失</h3><p><img src="https://s2.loli.net/2024/10/24/Sj2yfeUbBsvOGVY.png" alt="引入log" style="zoom:50%;" /></p><p>通过建立一个tabletLog来防止内存数据的丢失</p><h2 id="如何读数据">如何读数据</h2><p><img src="https://s2.loli.net/2024/10/24/UGYlVXpho4QPtq6.png" alt="读数据的困难" style="zoom:50%;" /></p><p>由于写数据时并未考虑表之间的键值顺序性，因此每个表之间处于无序状态，在一个表内有序，表间无序的结构中进行查找，效率是较低的。</p><p><img src="https://s2.loli.net/2024/10/24/Z2FXRPaDtyVdIQ4.png" alt="通过索引加速" style="zoom:50%;" /></p><p>通过对小小表添加索引的方式加速内存，这样的索引可以视作多级索引，它的产生很大程度上是因为Disk中的SSTable是静态的，而该建立索引的操作减少了对SSTable中键值的地址定位开销</p><h2 id="bloomfilter加速">Bloomfilter加速</h2><p>Bloomfliter的具体表现为通过很快的操作给出一个<strong>大概率</strong>某一键值存不存在于键值集合中。通过对每一个SSTable的BloomFilter建立，并在查找时优先通过BloomFilter进行查找就可以极大的提高对key的查找</p><h3 id="如何构建bloomfilter">如何构建Bloomfilter</h3><p>Bloomfilter是一个位数组。它通过以下的方式构建</p><ol type="1"><li>存入关键词时，将关键词通过多种不同的哈希方法映射到不同位上</li><li>将这些位变为1</li></ol><h3 id="如何利用bloomfilter进行查找">如何利用Bloomfilter进行查找</h3><ol type="1"><li>当查找关键词时，将其通过同样的一组哈希方法映射到不同为上</li><li>若这些位全为1，那么则判断该关键词存在于集合中</li></ol><h2 id="column-family">Column Family</h2><p>在Google Bigtable中，列族（ColumnFamily）是一个重要的概念，它用于组织和存储数据。</p><h3 id="概念">概念</h3><ol type="1"><li><strong>列族</strong>：列族是指一组相关的列，它们在逻辑上被视为一个整体。在Bigtable中，每个列族包含一组列，这些列共享相同的存储和访问特性。</li><li><strong>列的定义</strong>：在每个列族中，列的名称可以是动态的，用户可以在写入数据时随时添加新的列。列族的创建是在表定义时完成的，而列可以在数据写入时动态添加。</li></ol><h3 id="作用">作用</h3><ol type="1"><li><strong>数据组织</strong>：列族提供了一种方式来组织和分组相关数据。例如，用户可以将用户信息的基本信息（如姓名、年龄等）放在一个列族中，而将用户的活动记录放在另一个列族中。</li><li><strong>存储优化</strong>：同一列族中的数据在物理存储上是相邻的，这样可以提高数据读取的效率。通过将相关数据聚集在一起，Bigtable可以更有效地进行磁盘I/O操作。</li><li><strong>访问控制</strong>：列族可以帮助实现访问控制策略。可以对不同的列族设置不同的权限，控制用户对数据的访问。</li><li><strong>压缩与存储</strong>：不同的列族可以采用不同的存储和压缩策略，这样可以根据数据的访问模式和特性进行优化。例如，频繁访问的数据可以选择不压缩，而不常访问的数据则可以选择更高的压缩比。</li></ol><h2 id="如何将表存入gfs">如何将表存入GFS</h2><p><img src="https://s2.loli.net/2024/10/24/RkWi8pfV3XUBCOv.png" alt="GBT与GFS" style="zoom:50%;" /></p><p>该物理视图是非常简单的，因为GBT与GFS同样以64K作为一个Block，很容易进行内存映射，同时这里表达了对GFS的“三份备份”思想的表达。</p><h2 id="最后大观">最后大观</h2><h2 id="参考资料">参考资料</h2><ol type="1"><li>Bigtable: A Distributed Storage System for Structured Data</li><li>[<span class="exturl" data-url="aHR0cHM6Ly9hcnRodXJjaGlhby5hcnQvYmxvZy9nb29nbGUtYmlndGFibGUtemgv">译][论文] Bigtable: A Distributed Storage System for Structured Data (OSDI,2006) (arthurchiao.art)<i class="fa fa-external-link-alt"></i></span></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;big-table&quot;&gt;Big Table&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;简明定义：一个BigTable是一个稀疏的，分布的，永久的多维排序图。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;如何在文件内快速查询&quot;&gt;如何在文件内快速查询&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;./../../../../AppData/Roaming/Typora/typora-user-images/image-20241019201022132.png&quot; alt=&quot;表的构建&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;通过将文件中的内容按照内容分配一个一个key通过key对文件中的内容进行排序&lt;/p&gt;
+&lt;p&gt;Table = a list of sroted &amp;lt;key, value&amp;gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="专题" scheme="https://deepcity.github.io/categories/%E4%B8%93%E9%A2%98/"/>
+    
+    <category term="PGStudy" scheme="https://deepcity.github.io/categories/%E4%B8%93%E9%A2%98/PGStudy/"/>
+    
+    
+    <category term="存储系统" scheme="https://deepcity.github.io/tags/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/"/>
+    
+    <category term="计算机体系结构" scheme="https://deepcity.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="论文" scheme="https://deepcity.github.io/tags/%E8%AE%BA%E6%96%87/"/>
+    
+    <category term="Google Big Table" scheme="https://deepcity.github.io/tags/Google-Big-Table/"/>
+    
+  </entry>
   
   <entry>
     <title>PGStudy-GoogleFileSystemPart</title>
@@ -604,34 +640,6 @@ ACC=&#92;frac{TP+TN}{TP+FP+FN+TN}&lt;/script&gt;</summary>
     <category term="软件" scheme="https://deepcity.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
     <category term="Miracl" scheme="https://deepcity.github.io/tags/Miracl/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RSA涉及算法与数论知识</title>
-    <link href="https://deepcity.github.io/2024/RSA%E6%B6%89%E5%8F%8A%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E8%AE%BA%E7%9F%A5%E8%AF%86/article.html"/>
-    <id>https://deepcity.github.io/2024/RSA%E6%B6%89%E5%8F%8A%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E8%AE%BA%E7%9F%A5%E8%AF%86/article.html</id>
-    <published>2024-08-14T11:51:58.000Z</published>
-    <updated>2024-08-27T08:23:26.277Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>RSA</strong> (<strong>Rivest–Shamir–Adleman</strong>) is a <span class="exturl" data-url="aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvUHVibGljLWtleV9jcnlwdG9ncmFwaHk=">public-key cryptosystem<i class="fa fa-external-link-alt"></i></span>, one of the oldest widely used for secure data transmission.</p><p>RSA（Rivest–Shamir–Adleman）是一种公钥密码系统，是最古老且广泛用于安全数据传输的系统之一。它是一种非对称公钥-私钥密码系统。</p><span id="more"></span><h2 id="基础数论知识纲要"><a href="#基础数论知识纲要" class="headerlink" title="基础数论知识纲要"></a>基础数论知识纲要</h2><p>传送门：<span class="exturl" data-url="aHR0cHM6Ly93d3cuc3R1ZG9jdS5jb20vc2cvY291cnNlL25hbnlhbmctdGVjaG5vbG9naWNhbC11bml2ZXJzaXR5L251bWJlci10aGVvcnkvMzAzMTkzNA==">MH3210 - NTU - Number Theory - Studocu<i class="fa fa-external-link-alt"></i></span></p><p>知乎blog：<span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC82MzUzMzI2NTg=">基础数论学习笔记（1）- Divisibility 整除 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p><p>讲义：<span class="exturl" data-url="aHR0cHM6Ly8xZHJ2Lm1zL2YvcyFBcC1lblk3Y2tMQU5nb05Ib3R6cTNTUlRhZnA0cGc=">NanYang Technological University MH1300ANDMH3210<i class="fa fa-external-link-alt"></i></span> </p><h2 id="概念定义"><a href="#概念定义" class="headerlink" title="概念定义"></a>概念定义</h2><p><strong>费马小定理</strong>：选一个<strong>素数p</strong>，再选一个和p不成倍数关系的整数β，必然满足<strong>β的p次幂</strong>和<strong>β</strong>对p同余。公式如下。</p><script type="math/tex; mode=display">\beta^p \equiv \beta (modp)</script><p><strong>二次剩余</strong>： 取定 <script type="math/tex">𝑎\perp 𝑝</script>, 假若存在着 $x$使得</p><script type="math/tex; mode=display">x^2 \equiv a (modp)</script><p>则称<script type="math/tex">a</script>是<script type="math/tex">modp</script>的特殊剩余，否则则是<script type="math/tex">modp</script>的二次非剩余</p><p><strong>欧拉准则</strong>：元素β是<strong>模奇素数p</strong>的平方剩余的充要条件是，β的(p-1)/2次幂和1对p同余。即以下公式</p><script type="math/tex; mode=display">\beta ^ {(p-1)/2} \equiv 1 (mod p) | p \equiv 1 (mod2)</script><blockquote><p>欧拉准则证明：<br>设<script type="math/tex">r^2 = \beta</script>则有 <script type="math/tex">r^{p-1} \equiv 1 (modp)</script>,利用费马小定理即可得证。</p></blockquote><p><strong>勒让德符号</strong>：$(\frac{a}{p})$ 若$a$ 是$modp$的平方剩余 则 $(\frac{a}{p}) = 1$ ，若不是，则$(\frac{a}{p})= -1$，$a<script type="math/tex">和</script>p$是整除关系则$(\frac{a}{p})=0$ ,如下列公式</p><script type="math/tex; mode=display">(\frac{a}{p}) = \begin{cases}1,\quad x^2 \equiv a(modp)\\0, \quad a \equiv 0 (modp) \\-1, \quad x^2 \not\equiv a(modp)\end{cases}\tag{1}</script><p>Solovay-Strassen算法：若n是一个素数，那么勒让德符号$(\frac{β}{n})\equiv β^{(n-1)/2}mod n$。</p><blockquote><p>Strassen算法证明：根据欧拉准则<strong>β的(n-1)/2次方和1对n不同余</strong>，根据费马小定理，<strong>β的n-1次方</strong>和1对n同余，根据平方差公式，$β^{n-1}-1=(β^{(n-1)/2}-1)(β^{(n-1)/2}+1)$ 。由于$（β^{(n-1)/2}-1）$ 无法被n整除，所以$（β^{(n-1)/2}+1）$ 必然能被n整除，进而得到$β^{(n-1)/2}\equiv-1  (mod n)$。</p></blockquote><p><strong>该命题的逆命题是不成立的</strong></p><p><strong>二次互反律</strong>：$\mathbb Z_p^\times\to\mathbb Z_2$</p><p><strong>Miller-Rabin算法</strong>：</p><p>输入待测试大数<script type="math/tex">n</script>，对<script type="math/tex">n-1</script>不断地进行除<script type="math/tex">2</script>操作，直到得到一个<strong>奇数t</strong>。</p><p>于是这可以写成 $n-1 = 2^s \cdot t$ 。显然的，待测试大数$n$肯定是个奇数（废话，是偶数还测个锤子了），那么<script type="math/tex">n-1</script>肯定是个偶数，故$s\not=0$。</p><p>选择<strong>随机种子$a$</strong>，$a＜n$且与$n$互素。（这个也很容易做到，如果随便一下子就测出来不互素，那就不用测了）</p><p>先设$m=t$。计算 $b \equiv a^t(modn)$ ：</p><ul><li><p>情况①：当 $m=2^s \cdot t = n -1$时，停机，输出“n是一个合数”。</p></li><li><p>情况②：当 $b \equiv -1 (modn)$ 时，停机，换一个随机种子$a$再次进行测试。</p></li><li><p>情况③：当$b \equiv -1(modn)$不成立时，重新设$b$为$b²(mod n)$，$m$为$2m$​；继续循环，直到得到情况①或情况②为止。</p></li></ul><h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><p><strong>快速幂</strong>：通过二进制的快速幂优化</p><p><strong>计算勒让德符号$(\frac{\beta}{n})$​</strong> ：二次互反</p><p><strong>大整数除法中对小除数的优化</strong>：移位计算小除数的商</p><p><strong>大整数除法中对大除数的优化</strong>：二分查找对每次计算试商的优化</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;strong&gt;RSA&lt;/strong&gt; (&lt;strong&gt;Rivest–Shamir–Adleman&lt;/strong&gt;) is a &lt;span class=&quot;exturl&quot; data-url=&quot;aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvUHVibGljLWtleV9jcnlwdG9ncmFwaHk=&quot;&gt;public-key cryptosystem&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/span&gt;, one of the oldest widely used for secure data transmission.&lt;/p&gt;
-&lt;p&gt;RSA（Rivest–Shamir–Adleman）是一种公钥密码系统，是最古老且广泛用于安全数据传输的系统之一。它是一种非对称公钥-私钥密码系统。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="信息安全" scheme="https://deepcity.github.io/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="加密算法" scheme="https://deepcity.github.io/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/"/>
-    
-    <category term="数学" scheme="https://deepcity.github.io/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/%E6%95%B0%E5%AD%A6/"/>
-    
-    
-    <category term="信息安全" scheme="https://deepcity.github.io/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="数学" scheme="https://deepcity.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
     
   </entry>
   
