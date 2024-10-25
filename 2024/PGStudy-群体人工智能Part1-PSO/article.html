@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="群体人工智能Part1-PSO 群体智能 群体智能(Swarm Intelligence, SI)已经引起了各个领域许多研究者的兴趣。Bonabeau将SI定义为“简单代理群体的突发集体智能”[1]。SI是自组织和分散系统的集体智能行为，例如，简单agent的人工群体。例如群居昆虫的群体觅食、合作运输、群居昆虫的筑巢、集体分类和聚类。自组织和劳动分工被认为是科学探究的必要属性。自组织被定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PGStudy-群体人工智能Part1-PSO">
+<meta property="og:url" content="https://deepcity.github.io/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="群体人工智能Part1-PSO 群体智能 群体智能(Swarm Intelligence, SI)已经引起了各个领域许多研究者的兴趣。Bonabeau将SI定义为“简单代理群体的突发集体智能”[1]。SI是自组织和分散系统的集体智能行为，例如，简单agent的人工群体。例如群居昆虫的群体觅食、合作运输、群居昆虫的筑巢、集体分类和聚类。自组织和劳动分工被认为是科学探究的必要属性。自组织被定义">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/10/25/ClSRVOkHUYp9uwz.png">
+<meta property="article:published_time" content="2024-10-25T12:08:20.000Z">
+<meta property="article:modified_time" content="2024-10-25T12:10:03.229Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="群体人工智能">
+<meta property="article:tag" content="PSO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/10/25/ClSRVOkHUYp9uwz.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://deepcity.github.io/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html","path":"2024/PGStudy-群体人工智能Part1-PSO/article.html","title":"PGStudy-群体人工智能Part1-PSO"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PGStudy-群体人工智能Part1-PSO | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDpart1-pso"><span class="nav-number">1.</span> <span class="nav-text">群体人工智能Part1-PSO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%A4%E4%BD%93%E6%99%BA%E8%83%BD"><span class="nav-number">1.1.</span> <span class="nav-text">群体智能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%A4%E6%99%BApso%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">群智PSO算法实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.3.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PGStudy-群体人工智能Part1-PSO | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PGStudy-群体人工智能Part1-PSO<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9QR1N0dWR5Lee+pOS9k+S6uuW3peaZuuiDvVBhcnQxLVBTTy5tZA==" title="编辑"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-10-25 20:08:20 / 修改时间：20:10:03" itemprop="dateCreated datePublished" datetime="2024-10-25T20:08:20+08:00">2024-10-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/PGStudy/" itemprop="url" rel="index"><span itemprop="name">PGStudy</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="群体人工智能part1-pso">群体人工智能Part1-PSO</h1>
+<h2 id="群体智能">群体智能</h2>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aGlkYS56aGlodS5jb20vc2VhcmNoP2NvbnRlbnRfaWQ9MTkyMDk2Mjc5JmNvbnRlbnRfdHlwZT1BcnRpY2xlJm1hdGNoX29yZGVyPTEmcT3nvqTkvZPmmbrog70memhpZGFfc291cmNlPWVudGl0eQ==">群体智能<i class="fa fa-external-link-alt"></i></span>(Swarm
+Intelligence,
+SI)已经引起了各个领域许多研究者的兴趣。Bonabeau将SI定义为“简单代理群体的突发集体智能”[1]。SI是自组织和分散系统的集体智能行为，例如，简单agent的人工群体。例如群居昆虫的群体觅食、合作运输、群居昆虫的筑巢、集体分类和聚类。自组织和劳动分工被认为是科学探究的必要属性。自组织被定义为系统在没有任何外部帮助的情况下将其代理或组件演化成适当形式的能力。Bonabeau
+et
+al.[1]也指出，自组织依赖于正反馈、负反馈、波动和多重交互的四个基本性质。正反馈和负反馈分别用于放大和稳定。同时，波动对随机性也很有用。当蚁群在其搜索区域内彼此共享信息时，就会发生多重交互。科学探究的第二个属性是劳动分工，它被定义为个体同时执行各种简单而可行的任务。这种分工使得蜂群能够解决复杂的问题，而这些问题需要个体协同工作。</p>
+<span id="more"></span>
+<p>目前较为常见（Well-Kown）的群体人工智能主要分为以下几个方面</p>
+<ol type="1">
+<li><p><strong>遗传算法GA</strong> <img
+src="https://pic1.zhimg.com/v2-b45451558dd7705a8f503572c6173398_b.jpg"
+alt="遗传算法流程图" /></p>
+<p>GA的操作开始于确定一个初始种群，无论是随机的还是使用一些启发式。适应度函数用来评估人口中的成员，然后根据表现对他们进行排名。一旦种群的所有成员已被评估，低秩染色体被省略和其余种群用于繁殖。</p>
+<p>另一种可能的选择方案是使用伪随机选择，允许低秩染色体有机会被选择进行繁殖。交叉步骤随机选择剩余种群中的两个成员(最适染色体)，并交换和交配它们。</p>
+<p>遗传算法的最后一步是变异。在这一步中，突变算子在染色体的一个基因上随机突变。变异是遗传算法中至关重要的一步，因为它保证了问题空间的每个区域都能被到达。</p></li>
+<li><p><strong>蚁群优化ACO</strong></p>
+<p>见参考文献1</p></li>
+<li><p><strong>粒子群优化PSO</strong></p>
+<p>粒子群优化(PSO)是Kennedy和Eberhart在1995年[39]提出的一种优化技术。它使用一种简单的机制，模仿鸟类和鱼群的群体行为，引导粒子寻找全局最优解。Del
+Valle和他的合著者[40]用分离、对齐和内聚三种简单行为描述PSO，分别如图3所示。分离是避开拥挤的局部同伴的行为，对齐是向局部同伴的平均方向移动的行为。凝聚力是指向当地同伴的平均位置移动的行为。</p>
+<p>PSO算法首先初始化种群。第二步是计算每个粒子的适应度值，更新个体和全局最佳值，更新粒子的速度和位置。重复第二步至第四步，直到满足终止条件[40,46
+-
+48]。在第一次迭代中，为了找到最佳的解决方案(探索)，所有的粒子都分散开来。对每个粒子进行计算。根据邻域拓扑找到最优解，并更新群体中每个成员的个人和全局最优粒子。通过将所有粒子吸引到具有最佳解的粒子上来实现收敛。</p></li>
+<li><p><strong>差分进化(DE)算法</strong></p>
+<p>见参考文献1</p></li>
+<li><p><strong>人工蜂群算法ABC</strong></p>
+<p>见参考文献1</p></li>
+<li><p><strong>萤火虫群优化GSO</strong></p>
+<p>见参考文献1</p></li>
+<li><p><strong>布谷鸟搜索算法CSA</strong></p>
+<p>见参考文献1</p></li>
+</ol>
+<h2 id="群智pso算法实现">群智PSO算法实现</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Swarm</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;群智能算法基类。&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, objective_function, num_particles, num_iterations</span>):</span><br><span class="line">        <span class="variable language_">self</span>.objective_function = objective_function  <span class="comment"># 目标函数</span></span><br><span class="line">        <span class="variable language_">self</span>.num_particles = num_particles  <span class="comment"># 粒子数量</span></span><br><span class="line">        <span class="variable language_">self</span>.num_iterations = num_iterations  <span class="comment"># 迭代次数</span></span><br><span class="line">        <span class="variable language_">self</span>.best_solution = <span class="literal">None</span>  <span class="comment"># 全局最优解</span></span><br><span class="line">        <span class="variable language_">self</span>.best_fitness = <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)  <span class="comment"># 全局最优适应度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">optimize</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;优化过程（需在子类中实现）。&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ParticleSwarmOptimization</span>(<span class="title class_ inherited__">Swarm</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;粒子群优化算法类。&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, objective_function, num_particles, num_iterations, dimensions, bounds</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(objective_function, num_particles, num_iterations)</span><br><span class="line">        <span class="variable language_">self</span>.dimensions = dimensions  <span class="comment"># 解的维度</span></span><br><span class="line">        <span class="variable language_">self</span>.bounds = bounds  <span class="comment"># 解的边界</span></span><br><span class="line">        <span class="variable language_">self</span>.particles = np.random.uniform(bounds[<span class="number">0</span>], bounds[<span class="number">1</span>], (num_particles, dimensions))</span><br><span class="line">        <span class="variable language_">self</span>.velocities = np.zeros_like(<span class="variable language_">self</span>.particles)  <span class="comment"># 粒子速度</span></span><br><span class="line">        <span class="variable language_">self</span>.personal_best = <span class="variable language_">self</span>.particles.copy()  <span class="comment"># 每个粒子的历史最优位置</span></span><br><span class="line">        <span class="variable language_">self</span>.personal_best_fitness = np.full(num_particles, <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>))  <span class="comment"># 每个粒子的历史最优适应度</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 记录轨迹</span></span><br><span class="line">        <span class="variable language_">self</span>.trajectory = np.zeros((num_particles, num_iterations, dimensions))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">optimize</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;执行PSO优化并可视化过程。&quot;&quot;&quot;</span></span><br><span class="line">        plt.ion()  <span class="comment"># 开启交互模式</span></span><br><span class="line">        fig, ax = plt.subplots()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> iteration <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_iterations):</span><br><span class="line">            <span class="comment"># 计算适应度</span></span><br><span class="line">            fitness = np.apply_along_axis(<span class="variable language_">self</span>.objective_function, <span class="number">1</span>, <span class="variable language_">self</span>.particles)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 更新个人和全局最优</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_particles):</span><br><span class="line">                <span class="keyword">if</span> fitness[i] &lt; <span class="variable language_">self</span>.personal_best_fitness[i]:</span><br><span class="line">                    <span class="variable language_">self</span>.personal_best_fitness[i] = fitness[i]</span><br><span class="line">                    <span class="variable language_">self</span>.personal_best[i] = <span class="variable language_">self</span>.particles[i]</span><br><span class="line">                <span class="keyword">if</span> fitness[i] &lt; <span class="variable language_">self</span>.best_fitness:</span><br><span class="line">                    <span class="variable language_">self</span>.best_fitness = fitness[i]</span><br><span class="line">                    <span class="variable language_">self</span>.best_solution = <span class="variable language_">self</span>.particles[i]</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 更新速度和位置</span></span><br><span class="line">            inertia = <span class="number">0.5</span></span><br><span class="line">            cognitive_component = <span class="number">1.5</span></span><br><span class="line">            social_component = <span class="number">1.5</span></span><br><span class="line">            r1, r2 = np.random.rand(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">            <span class="variable language_">self</span>.velocities = (inertia * <span class="variable language_">self</span>.velocities +</span><br><span class="line">                               cognitive_component * r1 * (<span class="variable language_">self</span>.personal_best - <span class="variable language_">self</span>.particles) +</span><br><span class="line">                               social_component * r2 * (<span class="variable language_">self</span>.best_solution - <span class="variable language_">self</span>.particles))</span><br><span class="line">            <span class="variable language_">self</span>.particles += <span class="variable language_">self</span>.velocities</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 边界处理</span></span><br><span class="line">            <span class="variable language_">self</span>.particles = np.clip(<span class="variable language_">self</span>.particles, <span class="variable language_">self</span>.bounds[<span class="number">0</span>], <span class="variable language_">self</span>.bounds[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 记录轨迹</span></span><br><span class="line">            <span class="variable language_">self</span>.trajectory[:, iteration] = <span class="variable language_">self</span>.particles</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 可视化粒子位置和全局最优解</span></span><br><span class="line">            ax.clear()</span><br><span class="line">            <span class="comment"># 绘制轨迹</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_particles):</span><br><span class="line">                ax.plot(<span class="variable language_">self</span>.trajectory[i, :iteration + <span class="number">1</span>, <span class="number">0</span>], </span><br><span class="line">                        <span class="variable language_">self</span>.trajectory[i, :iteration + <span class="number">1</span>, <span class="number">1</span>], </span><br><span class="line">                        c=<span class="string">&#x27;lightgray&#x27;</span>, alpha=<span class="number">0.1</span>)  <span class="comment"># 设置较浅的颜色和透明度</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 绘制当前粒子的位置</span></span><br><span class="line">            ax.scatter(<span class="variable language_">self</span>.particles[:, <span class="number">0</span>], <span class="variable language_">self</span>.particles[:, <span class="number">1</span>], c=<span class="string">&#x27;blue&#x27;</span>, label=<span class="string">&#x27;Particles&#x27;</span>)</span><br><span class="line">            <span class="comment"># 绘制最佳解的位置</span></span><br><span class="line">            ax.scatter(<span class="variable language_">self</span>.best_solution[<span class="number">0</span>], <span class="variable language_">self</span>.best_solution[<span class="number">1</span>], c=<span class="string">&#x27;red&#x27;</span>, marker=<span class="string">&#x27;x&#x27;</span>, s=<span class="number">100</span>, label=<span class="string">&#x27;Best Solution&#x27;</span>)</span><br><span class="line">            ax.set_xlim(<span class="variable language_">self</span>.bounds[<span class="number">0</span>], <span class="variable language_">self</span>.bounds[<span class="number">1</span>])</span><br><span class="line">            ax.set_ylim(<span class="variable language_">self</span>.bounds[<span class="number">0</span>], <span class="variable language_">self</span>.bounds[<span class="number">1</span>])</span><br><span class="line">            ax.set_title(<span class="string">f&quot;Iteration <span class="subst">&#123;iteration + <span class="number">1</span>&#125;</span>&quot;</span>)</span><br><span class="line">            ax.legend()</span><br><span class="line">            plt.pause(<span class="number">0.5</span>)  <span class="comment"># 暂停0.5秒</span></span><br><span class="line"></span><br><span class="line">        plt.ioff()  <span class="comment"># 关闭交互模式</span></span><br><span class="line">        plt.show()  <span class="comment"># 显示最终结果</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Rastrigin 函数定义</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rastrigin_function</span>(<span class="params">x</span>):</span><br><span class="line">    A = <span class="number">10</span></span><br><span class="line">    <span class="keyword">return</span> A * <span class="built_in">len</span>(x) + np.<span class="built_in">sum</span>(x**<span class="number">2</span> - A * np.cos(<span class="number">2</span> * np.pi * x))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实例化并运行PSO算法</span></span><br><span class="line">pso = ParticleSwarmOptimization(rastrigin_function, num_particles=<span class="number">30</span>, num_iterations=<span class="number">100</span>, dimensions=<span class="number">2</span>, bounds=(-<span class="number">30</span>, <span class="number">5.12</span>))</span><br><span class="line">pso.optimize()</span><br></pre></td></tr></table></figure>
+<p>以上是一个简单的PSO算法以及其可视化实现，该算法实现了找道Rastrigin函数的最小值，该最小值（全局最优解）位于<span
+class="math inline">\((0,0)\)</span>，较常见的几个局部最优解分别位于<span
+class="math inline">\((\underline+0.5,\underline+0.5)\)</span>，以及<span
+class="math inline">\((\underline+20-30,\underline+20-30)\)</span>之间</p>
+<p>通过运行该文件应该可见</p>
+<figure>
+<img src="https://s2.loli.net/2024/10/25/ClSRVOkHUYp9uwz.png"
+alt="粒子运动结果" />
+<figcaption aria-hidden="true">粒子运动结果</figcaption>
+</figure>
+<p>由1-100的粒子运动结果图，该结果图展现了30个粒子在100次的迭代过程中的表现，最终极大概率会定位到全局最优解<span
+class="math inline">\((0.0)\)</span>附近</p>
+<p>其中的核心代码如下所示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> iteration <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_iterations):</span><br><span class="line">           <span class="comment"># 计算适应度</span></span><br><span class="line">           fitness = np.apply_along_axis(<span class="variable language_">self</span>.objective_function, <span class="number">1</span>, <span class="variable language_">self</span>.particles)</span><br><span class="line"></span><br><span class="line">           <span class="comment"># 更新个人和全局最优</span></span><br><span class="line">           <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_particles):</span><br><span class="line">               <span class="keyword">if</span> fitness[i] &lt; <span class="variable language_">self</span>.personal_best_fitness[i]:</span><br><span class="line">                   <span class="variable language_">self</span>.personal_best_fitness[i] = fitness[i]</span><br><span class="line">                   <span class="variable language_">self</span>.personal_best[i] = <span class="variable language_">self</span>.particles[i]</span><br><span class="line">               <span class="keyword">if</span> fitness[i] &lt; <span class="variable language_">self</span>.best_fitness:</span><br><span class="line">                   <span class="variable language_">self</span>.best_fitness = fitness[i]</span><br><span class="line">                   <span class="variable language_">self</span>.best_solution = <span class="variable language_">self</span>.particles[i]</span><br><span class="line"></span><br><span class="line">           <span class="comment"># 更新速度和位置</span></span><br><span class="line">           inertia = <span class="number">0.5</span></span><br><span class="line">           cognitive_component = <span class="number">1.5</span></span><br><span class="line">           social_component = <span class="number">1.5</span></span><br><span class="line">           r1, r2 = np.random.rand(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">           <span class="variable language_">self</span>.velocities = (inertia * <span class="variable language_">self</span>.velocities +</span><br><span class="line">                              cognitive_component * r1 * (<span class="variable language_">self</span>.personal_best - <span class="variable language_">self</span>.particles) +</span><br><span class="line">                              social_component * r2 * (<span class="variable language_">self</span>.best_solution - <span class="variable language_">self</span>.particles))</span><br><span class="line">           <span class="variable language_">self</span>.particles += <span class="variable language_">self</span>.velocities</span><br><span class="line"></span><br><span class="line">           <span class="comment"># 边界处理</span></span><br><span class="line">           <span class="variable language_">self</span>.particles = np.clip(<span class="variable language_">self</span>.particles, <span class="variable language_">self</span>.bounds[<span class="number">0</span>], <span class="variable language_">self</span>.bounds[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<p>该段代码中的特定参数类似与机器学习过程中的超参例如inertia惯性参数，r1,r2等。</p>
+<p>原版无可视化代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Swarm</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;群智能算法基类。&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, objective_function, num_particles, num_iterations</span>):</span><br><span class="line">        <span class="variable language_">self</span>.objective_function = objective_function  <span class="comment"># 目标函数</span></span><br><span class="line">        <span class="variable language_">self</span>.num_particles = num_particles  <span class="comment"># 粒子数量</span></span><br><span class="line">        <span class="variable language_">self</span>.num_iterations = num_iterations  <span class="comment"># 迭代次数</span></span><br><span class="line">        <span class="variable language_">self</span>.best_solution = <span class="literal">None</span>  <span class="comment"># 全局最优解</span></span><br><span class="line">        <span class="variable language_">self</span>.best_fitness = <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)  <span class="comment"># 全局最优适应度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">optimize</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;优化过程（需在子类中实现）。&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ParticleSwarmOptimization</span>(<span class="title class_ inherited__">Swarm</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;粒子群优化算法类。&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, objective_function, num_particles, num_iterations, dimensions, bounds</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(objective_function, num_particles, num_iterations)</span><br><span class="line">        <span class="variable language_">self</span>.dimensions = dimensions  <span class="comment"># 解的维度</span></span><br><span class="line">        <span class="variable language_">self</span>.bounds = bounds  <span class="comment"># 解的边界</span></span><br><span class="line">        <span class="variable language_">self</span>.particles = np.random.uniform(bounds[<span class="number">0</span>], bounds[<span class="number">1</span>], (num_particles, dimensions))</span><br><span class="line">        <span class="variable language_">self</span>.velocities = np.zeros_like(<span class="variable language_">self</span>.particles)  <span class="comment"># 粒子速度</span></span><br><span class="line">        <span class="variable language_">self</span>.personal_best = <span class="variable language_">self</span>.particles.copy()  <span class="comment"># 每个粒子的历史最优位置</span></span><br><span class="line">        <span class="variable language_">self</span>.personal_best_fitness = np.full(num_particles, <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>))  <span class="comment"># 每个粒子的历史最优适应度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">optimize</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;执行PSO优化。&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">for</span> iteration <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_iterations):</span><br><span class="line">            <span class="comment"># 计算适应度</span></span><br><span class="line">            fitness = np.apply_along_axis(<span class="variable language_">self</span>.objective_function, <span class="number">1</span>, <span class="variable language_">self</span>.particles)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 更新个人和全局最优</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_particles):</span><br><span class="line">                <span class="keyword">if</span> fitness[i] &lt; <span class="variable language_">self</span>.personal_best_fitness[i]:</span><br><span class="line">                    <span class="variable language_">self</span>.personal_best_fitness[i] = fitness[i]</span><br><span class="line">                    <span class="variable language_">self</span>.personal_best[i] = <span class="variable language_">self</span>.particles[i]</span><br><span class="line">                <span class="keyword">if</span> fitness[i] &lt; <span class="variable language_">self</span>.best_fitness:</span><br><span class="line">                    <span class="variable language_">self</span>.best_fitness = fitness[i]</span><br><span class="line">                    <span class="variable language_">self</span>.best_solution = <span class="variable language_">self</span>.particles[i]</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 更新速度和位置</span></span><br><span class="line">            inertia = <span class="number">0.5</span></span><br><span class="line">            cognitive_component = <span class="number">1.5</span></span><br><span class="line">            social_component = <span class="number">1.5</span></span><br><span class="line">            r1, r2 = np.random.rand(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">            <span class="variable language_">self</span>.velocities = (inertia * <span class="variable language_">self</span>.velocities +</span><br><span class="line">                               cognitive_component * r1 * (<span class="variable language_">self</span>.personal_best - <span class="variable language_">self</span>.particles) +</span><br><span class="line">                               social_component * r2 * (<span class="variable language_">self</span>.best_solution - <span class="variable language_">self</span>.particles))</span><br><span class="line">            <span class="variable language_">self</span>.particles += <span class="variable language_">self</span>.velocities</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 边界处理</span></span><br><span class="line">            <span class="variable language_">self</span>.particles = np.clip(<span class="variable language_">self</span>.particles, <span class="variable language_">self</span>.bounds[<span class="number">0</span>], <span class="variable language_">self</span>.bounds[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;PSO找到的最优解: <span class="subst">&#123;self.best_solution&#125;</span>，适应度: <span class="subst">&#123;self.best_fitness&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的目标函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">objective_function</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> np.<span class="built_in">sum</span>(x**<span class="number">2</span>)  <span class="comment"># 求解x的平方和最小化问题</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实例化并运行PSO算法</span></span><br><span class="line">pso = ParticleSwarmOptimization(objective_function, num_particles=<span class="number">30</span>, num_iterations=<span class="number">100</span>, dimensions=<span class="number">2</span>, bounds=(-<span class="number">10</span>, <span class="number">10</span>))</span><br><span class="line">pso.optimize()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>该段代码对目标函数略有更改，来自csdn博主<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNTY4MzIz">闲人编程<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="参考文献">参考文献</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNTY4MzIzL2FydGljbGUvZGV0YWlscy8xNDIxODUxNDY/c3BtPTEwMDEuMjEwMS4zMDAxLjY2NTAuMyZ1dG1fbWVkaXVtPWRpc3RyaWJ1dGUucGNfcmVsZXZhbnQubm9uZS10YXNrLWJsb2ctMn5kZWZhdWx0fll1YW5MaUppSHVhflBvc2l0aW9uLTMtMTQyMTg1MTQ2LWJsb2ctMTIxOTY5ODM1LjIzNSU1RXY0MyU1RXBjX2Jsb2dfYm90dG9tX3JlbGV2YW5jZV9iYXNlNiZkZXB0aF8xLXV0bV9zb3VyY2U9ZGlzdHJpYnV0ZS5wY19yZWxldmFudC5ub25lLXRhc2stYmxvZy0yfmRlZmF1bHR+WXVhbkxpSmlIdWF+UG9zaXRpb24tMy0xNDIxODUxNDYtYmxvZy0xMjE5Njk4MzUuMjM1JTVFdjQzJTVFcGNfYmxvZ19ib3R0b21fcmVsZXZhbmNlX2Jhc2U2JnV0bV9yZWxldmFudF9pbmRleD01">Python实现群智能算法_群体智能算法python代码-CSDN博客<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80Njc4NDQ2NzQ=">群体智能优化算法 -
+知乎<i class="fa fa-external-link-alt"></i></span></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文博主： </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://deepcity.github.io/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html" title="PGStudy-群体人工智能Part1-PSO">https://deepcity.github.io/2024/PGStudy-群体人工智能Part1-PSO/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="tag"># 人工智能</a>
+              <a href="/tags/%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="tag"># 群体人工智能</a>
+              <a href="/tags/PSO/" rel="tag"># PSO</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/PGStudy-GoogleBigTablePart/article.html" rel="prev" title="PGStudy-GoogleBigTablePart">
+                  <i class="fa fa-angle-left"></i> PGStudy-GoogleBigTablePart
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>简体中文</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="选择语言">
+      
+        <option value="zh-CN" data-href="/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">102k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:10</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-CN","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

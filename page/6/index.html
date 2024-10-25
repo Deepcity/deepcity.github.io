@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,7 +166,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">69</span>
+        <span class="site-state-item-count">72</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -205,6 +205,148 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E4%B9%A0%E9%A2%98/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E4%B9%A0%E9%A2%98/article.html" class="post-title-link" itemprop="url">状态转移习题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-14 19:32:13" itemprop="dateCreated datePublished" datetime="2024-08-14T19:32:13+08:00">2024-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-27 16:32:24" itemprop="dateModified" datetime="2024-08-27T16:32:24+08:00">2024-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">状态转移</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E4%B9%A0%E9%A2%98/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E4%B9%A0%E9%A2%98/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h1><p>给你一个数组[𝑝1,𝑝2,…,𝑝𝑛] ，其中所有元素都是不同的。</p>
+<p>你可以对它执行几个(可能是零)操作。在一个操作中，你可以从 p 中选择一个<strong>连续的子段</strong>，然后从该子段中删除<strong>所有</strong>元素，<strong>除</strong>该子段中最小的元素。例如，如果选择p = [3, 1, 4, 7, 5, 2, 6]，并选择从，并选择从3元素到−𝑟𝑑元素到6元素的子段，那么得到的数组就是−𝑡ℎ元素的子段，那么得到的数组就是[3, 1, 2, 6]。</p>
+<p>如果数组 a可以从可以从p中通过上述几种也许是零种操作得到，那么这个数组中通过上述几种(也许是零种)操作得到，那么这个数组a 就叫做可达数组。计算可达数组的个数，并打印出它的模数 998244353。</p>
+<h1 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h1><p>根据题目答案数据范围，很容易想到通过区间修改暴力答案是不可行的。于是转向dp想法，一个简单的构型是，对于每个i结尾的结果数组计算贡献值。思考状态转移，需要计算如何在保留 𝑎𝑖 的情况下的贡献值。</p>
+<p>考虑操作对于保留最小值的设定，该操作具有结合律，可以想到， 𝑎𝑖 是后缀操作区间（如进行[n-1,n],[n-3.n-2]的操作等同于操作后缀[n-3,n]）最小值一定成立。则状态转移为其中dp(i)+=dp(j)(其中a[j]&lt;a[i])另外一种情况则是，不对i进行操作。考虑上一个比a[i]小的数为$l<em>{a_i}$下标为，则小于且大于下标为j，则小于j且大于l</em>{a<em>j}的下标的下标均无法转移至，显然的下标k的下标idx均无法转移至i，显然l</em>{a<em>i}是无法通过操作区间中比它大的数移除的，这是可以推广的，即对任意下标小于的下标如果其不等于是无法通过操作区间中比它大的数移除的，这是可以推广的，即对任意下标小于j的下标x如果其不等于$l</em>{a_x}$则无法转移到i。</p>
+<p>总结状态转移为$f<em>i = \sum</em>{k={l<em>{a_i}+1}}^{i-1} f_k + \sum</em>{k=l^x(l<em>{a_i})}^{k&gt;0}f</em>{k}$</p>
+<p>前缀和处理即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">	void slove()&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    for(int i=1;i&lt;=n;i++)cin&gt;&gt;a[i];</span><br><span class="line"></span><br><span class="line">    s[top] = &#123;-1,-1&#125;;</span><br><span class="line">    for(int i = 1;i &lt;= n;i++) &#123;</span><br><span class="line">        while(top &amp;&amp; s[top].x &gt; a[i]) top--;</span><br><span class="line">        l[i] = s[top].y;</span><br><span class="line">        s[++top] = &#123;a[i],i&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // for(int i=1;i&lt;=n;i++) cout&lt;&lt;l[i]&lt;&lt;&#x27; &#x27;;</span><br><span class="line">    // cout&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    for(int i=0;i&lt;=n;i++) pre1[i] = pre2[i] = 0;</span><br><span class="line"></span><br><span class="line">    f[0] = 1;</span><br><span class="line">    pre1[0] = 1;</span><br><span class="line">    for(int i=1;i&lt;=n;i++) &#123;</span><br><span class="line">        if(l[i]!=-1) pre2[i] = pre2[l[i]] + f[l[i]] % MOD;</span><br><span class="line">        int t = l[i] == -1 ? 0: pre1[l[i]];</span><br><span class="line">        f[i] = (pre1[i-1] - t) % MOD ;</span><br><span class="line">        // cout&lt;&lt;(pre1[i-1] - t)&lt;&lt;&#x27; &#x27;;</span><br><span class="line">        f[i] += pre2[i];</span><br><span class="line"></span><br><span class="line">        pre1[i] = pre1[i-1] + f[i] % MOD;</span><br><span class="line">        // cout&lt;&lt;i&lt;&lt;&#x27; &#x27;&lt;&lt;pre1[i]&lt;&lt;&#x27; &#x27;&lt;&lt;pre2[i]&lt;&lt;&#x27; &#x27;&lt;&lt;f[i]&lt;&lt;nline;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int mi = 1e18,ans = 0;</span><br><span class="line">    for(int i=n; i&gt;=1; i--) &#123;</span><br><span class="line">        mi = min(mi,a[i]);</span><br><span class="line">        if(mi==a[i]) &#123;</span><br><span class="line">            ans = (ans + f[i]) % MOD;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="题意：-1"><a href="#题意：-1" class="headerlink" title="题意："></a>题意：</h1><p>给你一个整数数组 1, 2,…, ，它的所有元素都是不同的。</p>
+<p>首先，要求你在数组中再插入一个整数 an+1 。 an +1 不应等于 a1, a2,…, an中的任何一个。</p>
+<p>然后，你必须使数组中的所有元素相等。一开始，你选择一个<strong>正</strong>整数 x。在一次操作中，你将 x 恰好加到数组的一个元素上。<strong>注意， x 在所有操作中都是一样的</strong>。</p>
+<p>选择 +1 和 x 后，使所有元素相等的最小操作次数是多少？</p>
+<h1 id="题解：-1"><a href="#题解：-1" class="headerlink" title="题解："></a>题解：</h1><p>容易误解的点在于——对一个新增的数x，能否找到 ∑𝑖=1𝑖=𝑛𝑥−𝑎𝑖(𝑥−𝑎𝑖) 小于 ∑𝑖=1𝑖=𝑛𝑚𝑥−𝑎𝑖(𝑚𝑥−𝑎𝑖) （mx表示数组中的最大值）由于笔者太拉昆了，暂时先不证明了。。。</p>
+<p>可以凭直觉猜出一个解法，最大的数不变𝑎𝑛𝑠=∑𝑑𝑖𝑓(𝑚𝑥,𝑎[𝑖])(𝑑𝑖𝑓(𝑚𝑥,𝑎[𝑖]))+𝑎𝑑𝑑𝑡𝑖𝑜𝑛其中addtion为以最大公倍数为步减的最大值(𝑚𝑥−𝑎𝑛+1)/(𝑑𝑖𝑓(𝑚𝑥,𝑎[𝑖]))。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">void slove()&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    for(int i=1;i&lt;=n;i++) cin&gt;&gt;a[i];</span><br><span class="line"></span><br><span class="line">    int mx = -INF;</span><br><span class="line">    for(int i=1;i&lt;=n;i++) &#123;</span><br><span class="line">        mx = max(mx,a[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for(int i=1;i&lt;=n;i++) d[i] = mx - a[i];</span><br><span class="line"></span><br><span class="line">    int gd = 0;</span><br><span class="line">    for(int i=1;i&lt;=n;i++) gd = __gcd(d[i],gd);</span><br><span class="line"></span><br><span class="line">    if(!gd) &#123;cout&lt;&lt;1&lt;&lt;endl;return ;&#125;</span><br><span class="line"></span><br><span class="line">    ll sum = 0;</span><br><span class="line">    set&lt;int&gt; S;</span><br><span class="line">    for(int i=1;i&lt;=n;i++) sum += (mx - a[i]) / gd,S.insert((mx - a[i]) / gd);</span><br><span class="line">    int t = 1;</span><br><span class="line">    while(1) if(S.count(t)) t++;else break;</span><br><span class="line">    cout&lt;&lt;sum + t&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="题意：-2"><a href="#题意：-2" class="headerlink" title="题意："></a>题意：</h1><p>对一个数组的所有非空子区间，计算这个公式<script type="math/tex">w = \sum_{i=l}^{i=r} \sum_{j=l}^{j=r}a_i \oplus a_j</script>的和。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E4%B9%A0%E9%A2%98/article.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -513,13 +655,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">100k</span>
+    <span title="站点总字数">102k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:02</span>
+    <span title="站点阅读时长">6:10</span>
   </span>
 </div>
 <div class="busuanzi-count">
