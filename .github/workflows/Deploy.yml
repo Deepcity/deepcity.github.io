@@ -51,6 +51,12 @@ jobs:
           port: 22
           script: |
             screen -r clash
+            cd /usr/local/clash-for-linux
+            bash shutdown.sh
+            proxy_off
+            bash start.sh
+            source /etc/profile.d/clash.sh
+            proxy_on
             cd /usr/local/hexo/
             git fetch origin
             git reset --hard origin/gh-pages
