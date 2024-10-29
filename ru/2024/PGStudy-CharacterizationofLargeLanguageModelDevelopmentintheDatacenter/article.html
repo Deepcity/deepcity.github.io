@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Поиск...","empty":"По запросу ничего не найдено: ${query}","hits_time":"${hits} результатов найдено за ${time} мс","hits":"${hits} результатов найдено"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Characterization of Large Language Model Development in the Datacenter    期刊: (发表日期: 2024-04-03)  作者: Qinghao Hu; Zhisheng Ye; Zerui Wang; Guoteng Wang; Meng Zhang; Qiaoling Chen; Peng Sun; Dahua Lin;">
+    <meta name="description" content="Characterization of Large Language Model Development in the Datacenter       期刊: (发表日期: 2024-04-03) 作者: Qinghao Hu; Zhisheng Ye; Zerui Wang; Guoteng Wang; Meng Zhang; Qiaoling Chen; Peng Sun">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PGStudy-CharacterizationofLargeLanguageModelDevelopmentintheDatacenter">
 <meta property="og:url" content="https://deepcity.github.io/ru/2024/PGStudy-CharacterizationofLargeLanguageModelDevelopmentintheDatacenter/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="Characterization of Large Language Model Development in the Datacenter    期刊: (发表日期: 2024-04-03)  作者: Qinghao Hu; Zhisheng Ye; Zerui Wang; Guoteng Wang; Meng Zhang; Qiaoling Chen; Peng Sun; Dahua Lin;">
+<meta property="og:description" content="Characterization of Large Language Model Development in the Datacenter       期刊: (发表日期: 2024-04-03) 作者: Qinghao Hu; Zhisheng Ye; Zerui Wang; Guoteng Wang; Meng Zhang; Qiaoling Chen; Peng Sun">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:image" content="https://s2.loli.net/2024/10/29/vydoRB3quLT9thD.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/28/4P6cORhxpICBjFw.png">
@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/29/9rCGtYsaRU1BpXQ.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/29/VDC2HzNm9EqPnwa.png">
 <meta property="article:published_time" content="2024-10-29T11:17:57.000Z">
-<meta property="article:modified_time" content="2024-10-29T11:19:16.375Z">
+<meta property="article:modified_time" content="2024-10-29T11:21:25.185Z">
 <meta property="article:author" content="ThreeLanes">
 <meta property="article:tag" content="论文">
 <meta property="article:tag" content="LLM">
@@ -164,7 +164,17 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Characterization-of-Large-Language-Model-Development-in-the-Datacenter"><span class="nav-number">1.</span> <span class="nav-text">Characterization of Large Language Model Development in the Datacenter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E9%97%AE%E5%BC%8F%E9%98%85%E8%AF%BB"><span class="nav-number">1.0.1.</span> <span class="nav-text">提问式阅读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E5%A4%96%E4%BF%A1%E6%81%AF"><span class="nav-number">1.0.2.</span> <span class="nav-text">场外信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">源码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduce-%EF%BC%88%E4%BB%8B%E7%BB%8D%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">Introduce （介绍）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background-%EF%BC%88%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">Background （背景知识）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LLM-Development-Pippeline"><span class="nav-number">1.2.1.</span> <span class="nav-text">LLM Development Pippeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Acme-Overview"><span class="nav-number">1.2.2.</span> <span class="nav-text">Acme Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Traces-form-Acme%EF%BC%88%E6%9D%A5%E8%87%AAAcme%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">Traces form Acme（来自Acme的数据）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Datacenter-Characterization-%EF%BC%88%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E6%95%B0%E5%AD%97%E7%89%B9%E5%BE%81%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">Datacenter Characterization （数据中心数字特征）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LLMs-%E4%B8%8E-DL-%E8%B4%9F%E8%BD%BD%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">1.3.1.</span> <span class="nav-text">LLMs 与 DL 负载的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Workload-Categories-%EF%BC%88%E8%B4%9F%E8%BD%BD%E7%9A%84%E7%89%B9%E5%BE%81%EF%BC%89"><span class="nav-number">1.3.2.</span> <span class="nav-text">Workload Categories （负载的特征）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Infrastructure-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD"><span class="nav-number">1.3.3.</span> <span class="nav-text">Infrastructure 基础设施</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-Impact-%E7%8E%AF%E5%A2%83%E5%BD%B1%E5%93%8D"><span class="nav-number">1.3.4.</span> <span class="nav-text">Environment Impact 环境影响</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Workload-Profiling-%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD%E5%89%96%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">Workload Profiling 工作负载剖析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pretraining-workload-%E9%A2%84%E8%AE%AD%E7%BB%83%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD"><span class="nav-number">1.4.1.</span> <span class="nav-text">Pretraining workload 预训练工作负载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation-Workload-%E8%AF%84%E4%BC%B0%E9%98%B6%E6%AE%B5%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD"><span class="nav-number">1.4.2.</span> <span class="nav-text">Evaluation Workload 评估阶段工作负载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Failure-Analysis-%E5%A4%B1%E8%B4%A5%E5%88%86%E6%9E%90"><span class="nav-number">1.5.</span> <span class="nav-text">Failure Analysis 失败分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Failure-Category-%E6%95%85%E9%9A%9C%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">Failure Category 故障类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.5.2.</span> <span class="nav-text">故障描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D"><span class="nav-number">1.5.3.</span> <span class="nav-text">故障恢复</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Depolyed-LLM-Systems-%E9%83%A8%E7%BD%B2%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.6.</span> <span class="nav-text">Depolyed LLM Systems 部署大模型系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fault-tolerant-Pretraining-%E9%94%99%E8%AF%AF%E5%AE%B9%E5%BF%8D%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="nav-number">1.6.1.</span> <span class="nav-text">Fault-tolerant Pretraining 错误容忍预训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Decoupled-Scheduling-for-Evaluation-%E8%A7%A3%E8%80%A6%E8%AE%A1%E5%88%92%E7%9A%84%E8%AF%84%E4%BC%B0%E9%98%B6%E6%AE%B5"><span class="nav-number">1.6.2.</span> <span class="nav-text">Decoupled Scheduling for Evaluation 解耦计划的评估阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Work"><span class="nav-number">1.7.</span> <span class="nav-text">Related Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.8.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#characterization-of-large-language-model-development-in-the-datacenter"><span class="nav-number">1.</span> <span class="nav-text">Characterization
+of Large Language Model Development in the Datacenter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E9%97%AE%E5%BC%8F%E9%98%85%E8%AF%BB"><span class="nav-number">1.0.1.</span> <span class="nav-text">提问式阅读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E5%A4%96%E4%BF%A1%E6%81%AF"><span class="nav-number">1.0.2.</span> <span class="nav-text">场外信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">源码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduce-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">Introduce （介绍）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86"><span class="nav-number">1.2.</span> <span class="nav-text">Background （背景知识）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#llm-development-pippeline"><span class="nav-number">1.2.1.</span> <span class="nav-text">LLM Development Pippeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#acme-overview"><span class="nav-number">1.2.2.</span> <span class="nav-text">Acme Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#traces-form-acme%E6%9D%A5%E8%87%AAacme%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">1.2.3.</span> <span class="nav-text">Traces form
+Acme（来自Acme的数据）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datacenter-characterization-%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E6%95%B0%E5%AD%97%E7%89%B9%E5%BE%81"><span class="nav-number">1.3.</span> <span class="nav-text">Datacenter
+Characterization （数据中心数字特征）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#llms-%E4%B8%8E-dl-%E8%B4%9F%E8%BD%BD%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">1.3.1.</span> <span class="nav-text">LLMs 与 DL 负载的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#workload-categories-%E8%B4%9F%E8%BD%BD%E7%9A%84%E7%89%B9%E5%BE%81"><span class="nav-number">1.3.2.</span> <span class="nav-text">Workload Categories
+（负载的特征）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#infrastructure-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD"><span class="nav-number">1.3.3.</span> <span class="nav-text">Infrastructure 基础设施</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#environment-impact-%E7%8E%AF%E5%A2%83%E5%BD%B1%E5%93%8D"><span class="nav-number">1.3.4.</span> <span class="nav-text">Environment Impact 环境影响</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#workload-profiling-%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD%E5%89%96%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">Workload Profiling
+工作负载剖析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pretraining-workload-%E9%A2%84%E8%AE%AD%E7%BB%83%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD"><span class="nav-number">1.4.1.</span> <span class="nav-text">Pretraining workload
+预训练工作负载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#evaluation-workload-%E8%AF%84%E4%BC%B0%E9%98%B6%E6%AE%B5%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD"><span class="nav-number">1.4.2.</span> <span class="nav-text">Evaluation Workload
+评估阶段工作负载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#failure-analysis-%E5%A4%B1%E8%B4%A5%E5%88%86%E6%9E%90"><span class="nav-number">1.5.</span> <span class="nav-text">Failure Analysis 失败分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#failure-category-%E6%95%85%E9%9A%9C%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">Failure Category 故障类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.5.2.</span> <span class="nav-text">故障描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D"><span class="nav-number">1.5.3.</span> <span class="nav-text">故障恢复</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#depolyed-llm-systems-%E9%83%A8%E7%BD%B2%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.6.</span> <span class="nav-text">Depolyed LLM Systems
+部署大模型系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fault-tolerant-pretraining-%E9%94%99%E8%AF%AF%E5%AE%B9%E5%BF%8D%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="nav-number">1.6.1.</span> <span class="nav-text">Fault-tolerant
+Pretraining 错误容忍预训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#decoupled-scheduling-for-evaluation-%E8%A7%A3%E8%80%A6%E8%AE%A1%E5%88%92%E7%9A%84%E8%AF%84%E4%BC%B0%E9%98%B6%E6%AE%B5"><span class="nav-number">1.6.2.</span> <span class="nav-text">Decoupled
+Scheduling for Evaluation 解耦计划的评估阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#related-work"><span class="nav-number">1.7.</span> <span class="nav-text">Related Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.8.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -267,7 +277,7 @@
       <span class="post-meta-item-text">Размещено</span>
       
 
-      <time title="Создано: 2024-10-29 19:17:57 / Изменено: 19:19:16" itemprop="dateCreated datePublished" datetime="2024-10-29T19:17:57+08:00">2024-10-29</time>
+      <time title="Создано: 2024-10-29 19:17:57 / Изменено: 19:21:25" itemprop="dateCreated datePublished" datetime="2024-10-29T19:17:57+08:00">2024-10-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -328,261 +338,344 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Characterization-of-Large-Language-Model-Development-in-the-Datacenter"><a href="#Characterization-of-Large-Language-Model-Development-in-the-Datacenter" class="headerlink" title="Characterization of Large Language Model Development in the Datacenter"></a>Characterization of Large Language Model Development in the Datacenter</h1><div class="table-container">
+    <div class="post-body" itemprop="articleBody"><h1
+id="characterization-of-large-language-model-development-in-the-datacenter">Characterization
+of Large Language Model Development in the Datacenter</h1>
 <table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
 <thead>
-<tr>
-<th><strong>期刊:</strong> (发表日期: <strong>2024-04-03</strong>)  <strong>作者:</strong> Qinghao Hu; Zhisheng Ye; Zerui Wang; Guoteng Wang; Meng Zhang; Qiaoling Chen; Peng Sun; Dahua Lin; Xiaolin Wang; Yingwei Luo; Yonggang Wen; Tianwei Zhang</th>
+<tr class="header">
+<th><strong>期刊:</strong> (发表日期: <strong>2024-04-03</strong>)
+<strong>作者:</strong> Qinghao Hu; Zhisheng Ye; Zerui Wang; Guoteng
+Wang; Meng Zhang; Qiaoling Chen; Peng Sun; Dahua Lin; Xiaolin Wang;
+Yingwei Luo; Yonggang Wen; Tianwei Zhang</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>摘要翻译: 大语言模型在革命性任务中展现出了令人印象深刻得表现，但在大规模集群资源中有效的低成本管理系统并不是一件容易的事，一些常见的困难如下：<strong>频繁的硬件故障**</strong>复杂的并行化策略<strong>**不平衡的资源利用</strong>在本文中，利用从Acme中手机的为期六个月的LLM开发工作负载跟踪进行了深入的表征研究。调查了LLM与特定任务DL在工作负载上的差异，对资源的利用模式以及作业失败的影响进行性了研究，最总总结了在资源管理方面所遇到的困难并提出了低成本管理系统的潜在机会。在此之外，作者还提出了他们所做的工作，如：<strong>容错预训练</strong>，通过LLM参与的故障诊断与自动恢复来增强容错能力<strong>用于评价的解耦调度</strong>，通过试探分解和调度优化实现及时的性能反馈</td>
+<tr class="odd">
+<td>摘要翻译:
+大语言模型在革命性任务中展现出了令人印象深刻得表现，但在大规模集群资源中有效的低成本管理系统并不是一件容易的事，一些常见的困难如下：<strong>频繁的硬件故障复杂的并行化策略不平衡的资源利用</strong>在本文中，利用从Acme中手机的为期六个月的LLM开发工作负载跟踪进行了深入的表征研究。调查了LLM与特定任务DL在工作负载上的差异，对资源的利用模式以及作业失败的影响进行性了研究，最总总结了在资源管理方面所遇到的困难并提出了低成本管理系统的潜在机会。在此之外，作者还提出了他们所做的工作，如：<strong>容错预训练</strong>，通过LLM参与的故障诊断与自动恢复来增强容错能力<strong>用于评价的解耦调度</strong>，通过试探分解和调度优化实现及时的性能反馈</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>期刊分区: nsdi顶会-usenix</strong></td>
 </tr>
-<tr>
-<td><strong>Local Link:</strong> <span class="exturl" data-url="em90ZXJvOi8vb3Blbi1wZGYvMF9RVTM2WFNFVA==">Hu 等 - 2024 - Characterization of Large Language Model Development in the Datacenter.pdf<i class="fa fa-external-link-alt"></i></span></td>
+<tr class="odd">
+<td><strong>Local Link:</strong> <span class="exturl" data-url="em90ZXJvOi8vb3Blbi1wZGYvMF9RVTM2WFNFVA==">Hu 等 - 2024 - Characterization of
+Large Language Model Development in the Datacenter.pdf<i class="fa fa-external-link-alt"></i></span></td>
 </tr>
 </tbody>
 </table>
-</div>
-<p><img src="https://s2.loli.net/2024/10/29/vydoRB3quLT9thD.png" alt="LLM-Data"></p>
-<h3 id="提问式阅读"><a href="#提问式阅读" class="headerlink" title="提问式阅读"></a>提问式阅读</h3><ol>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/vydoRB3quLT9thD.png"
+alt="LLM-Data" />
+<figcaption aria-hidden="true">LLM-Data</figcaption>
+</figure>
+<h3 id="提问式阅读">提问式阅读</h3>
+<ol type="1">
 <li><p>文章是哪个领域的？研究什么具体问题？</p>
-<p>该文章是LLM领域的，研究LLM模型训练过程中的特征与优化LLM的运行过程</p>
-</li>
+<p>该文章是LLM领域的，研究LLM模型训练过程中的特征与优化LLM的运行过程</p></li>
 <li><p>作者对已有方法的问题或当前挑战的分析？</p>
-<p>提出了LLM训练数字中心训练的数字特征，对工作负载，包括与训练工作负载与评估阶段的工作负载做出深一层的profile。</p>
-</li>
+<p>提出了LLM训练数字中心训练的数字特征，对工作负载，包括与训练工作负载与评估阶段的工作负载做出深一层的profile。</p></li>
 <li><p>文中提出解决问题的方法或主要贡献或创新？</p>
-<p>提出对Failture的analysis以及recovery方式，提出使用llm构建Fault-rolerant Pretrain。解耦评估阶段的任务以提高evalution的效率。</p>
-</li>
+<p>提出对Failture的analysis以及recovery方式，提出使用llm构建Fault-rolerant
+Pretrain。解耦评估阶段的任务以提高evalution的效率。</p></li>
 <li><p>效果如何？</p>
-<p>效果显著，对Fault recovery实现了3.6~18x的提升，对eval过程效率提升了1.3-1.8x</p>
-</li>
+<p>效果显著，对Fault
+recovery实现了3.6~18x的提升，对eval过程效率提升了1.3-1.8x</p></li>
 <li><p>优缺点和未来工作？</p>
-<p>缺点是增加系统复杂度，并仅对llm-pretrain过程进行了研究，未来工作是进一步优化系统，并探究其他方面的问题。</p>
-</li>
+<p>缺点是增加系统复杂度，并仅对llm-pretrain过程进行了研究，未来工作是进一步优化系统，并探究其他方面的问题。</p></li>
 </ol>
-<h3 id="场外信息"><a href="#场外信息" class="headerlink" title="场外信息"></a><strong>场外信息</strong></h3><h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a><strong>源码</strong></h4><ul>
-<li>作者源码地址: </li>
-<li>InternLM Links  Project: <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ludGVybkxN">https://github.com/InternLM<i class="fa fa-external-link-alt"></i></span> </li>
-<li>Trace: <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ludGVybkxNL0FjbWVUcmFjZQ==">https://github.com/InternLM/AcmeTrace<i class="fa fa-external-link-alt"></i></span> </li>
-<li>System: <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ludGVybkxNL0ludGVybkV2bw==">https://github.com/InternLM/InternEvo<i class="fa fa-external-link-alt"></i></span> </li>
-<li>Model: <span class="exturl" data-url="aHR0cHM6Ly9odWdnaW5nZmFjZS5jby9pbnRlcm5sbQ==">https://huggingface.co/internlm<i class="fa fa-external-link-alt"></i></span></li>
+<span id="more"></span>
+<h3 id="场外信息"><strong>场外信息</strong></h3>
+<h4 id="源码"><strong>源码</strong></h4>
+<ul>
+<li>作者源码地址:</li>
+<li>InternLM Links Project: https://github.com/InternLM</li>
+<li>Trace: https://github.com/InternLM/AcmeTrace</li>
+<li>System: https://github.com/InternLM/InternEvo</li>
+<li>Model: https://huggingface.co/internlm</li>
 <li>作者源码描述：</li>
-<li>InternLM: LLM Model Project 用于大规模模型预训练和微调的轻量级框架</li>
+<li>InternLM: LLM Model Project
+用于大规模模型预训练和微调的轻量级框架</li>
 <li>Trace：来自六个月的收集LLM数据</li>
-<li>InternEvo 是一个开源的轻量级训练框架，旨在支持模型预训练，而无需广泛的依赖项。</li>
+<li>InternEvo
+是一个开源的轻量级训练框架，旨在支持模型预训练，而无需广泛的依赖项。</li>
 <li>Model 是该lab的团队地址</li>
 </ul>
-<h2 id="Introduce-（介绍）"><a href="#Introduce-（介绍）" class="headerlink" title="Introduce （介绍）"></a>Introduce （介绍）</h2><p>LLM与DL之间由于目标功能不同，所实现的功能也存在很大差异，在集群负载均衡方面，导致LLM与DL存在不小差异的LLM特性如下：</p>
-<ol>
+<h2 id="introduce-介绍">Introduce （介绍）</h2>
+<p>LLM与DL之间由于目标功能不同，所实现的功能也存在很大差异，在集群负载均衡方面，导致LLM与DL存在不小差异的LLM特性如下：</p>
+<ol type="1">
 <li><strong>范式转变</strong>：由于LLM遵循一种新的范式，对广泛数据进行自我监督训练以生成基础模型，这与DL在特定领域数据上训练模型解决特定任务的模式不同，其意味着在模型开发管道中的重大分期与与DL负载不同的负载特征</li>
 <li><strong>专制的软件栈</strong>：由于LLM的据大规模，一系列系统实施了技术来优化LLM的执行，这些技术的实施对LLM的负载特征与资源调度与DL相差较大。</li>
 <li><strong>统一架构</strong>：在DL中，不同类型的模型被用作不同的任务，但在LLM中，许多知名的模型都使用的是Transformer模型</li>
 </ol>
 <p>在六个月对Seren与Kalos集群的数据研究中，作者的主要发现如下：</p>
-<ol>
+<ol type="1">
 <li><p><strong>更短的工作持续时间与不公平的工作延迟</strong></p>
-<p>这说明对不不同的任务类型，工作延迟是极不相衬的</p>
-</li>
+<p>这说明对不不同的任务类型，工作延迟是极不相衬的</p></li>
 <li><p><strong>不平衡的资源使用</strong></p>
-<ol>
+<ol type="1">
 <li>预训练任务仅占总任务的3.2%，但却消耗量图形处理器94%的时间，相反，评估工作栈所有工作的92.9%，但仅用了0.8%的资源。</li>
 <li>对整体资源存在严重的木桶效应，对cpu，主机内存，网络并未充分利用，但gpu，gpu内存却得到了充分利用。这说明LLM是典型的资源密集型应用，同时说明GPU共享技术可能并不适合LLM</li>
-</ol>
-</li>
+</ol></li>
 <li><p><strong>在评估负载中图形处理器的空闲时间长</strong></p>
-<p>在评估负载中，图形处理器的使用率几乎只有一半</p>
-</li>
+<p>在评估负载中，图形处理器的使用率几乎只有一半</p></li>
 <li><p><strong>更频繁的任务失败</strong></p>
-<p>在LLM工作负载开始时各种错误发生导致作业快速终止</p>
-</li>
+<p>在LLM工作负载开始时各种错误发生导致作业快速终止</p></li>
 </ol>
 <p>确定了LLM开发过程中遇到的几个挑战</p>
-<ol>
+<ol type="1">
 <li><strong>不稳定的训练进度</strong></li>
 <li><strong>远程存储瓶颈</strong></li>
 <li><strong>模型性能反馈延迟</strong></li>
 </ol>
 <p>为解决这些问题，作者整合了运营过程中获得的简介并构建了两个集成到LLM框架中的系统，其包含三个关键设计</p>
-<ol>
+<ol type="1">
 <li>通过同步checkpoint实现频繁的模型保存</li>
 <li>通过启发式规则和LLM组合识别各种故障的根本原因</li>
 <li>采用整体检测的工具包来确定故障节点并从正确保存的检查点自动重新启动训练</li>
 </ol>
 <p>其次，作者开发了一个执行解耦评估调度的系统，用于提供模型质量的及时反馈。</p>
-<ol>
+<ol type="1">
 <li>解决了远程模型加载征用的问题</li>
 <li>减少了GPU的空闲时间</li>
 </ol>
-<h2 id="Background-（背景知识）"><a href="#Background-（背景知识）" class="headerlink" title="Background （背景知识）"></a>Background （背景知识）</h2><h3 id="LLM-Development-Pippeline"><a href="#LLM-Development-Pippeline" class="headerlink" title="LLM Development Pippeline"></a>LLM Development Pippeline</h3><p>LLM的新兴范式——对广泛的数据进行自我监督训练。对这样不同的开发管道，包含五个不同的阶段，将每个阶段的解释如下：</p>
-<ol>
+<h2 id="background-背景知识">Background （背景知识）</h2>
+<h3 id="llm-development-pippeline">LLM Development Pippeline</h3>
+<p>LLM的新兴范式——对广泛的数据进行自我监督训练。对这样不同的开发管道，包含五个不同的阶段，将每个阶段的解释如下：</p>
+<ol type="1">
 <li><p><strong>Data数据预处理阶段</strong>：</p>
 <p>该阶段的数据分为两个阶段</p>
 <ul>
-<li>pretrain data（预训练数据）：通过detoxification与deduplication流程的公共或私人获取数据</li>
-<li>alignment data（对齐数据）：，包括一组较小的高质量标签库，用于将模型与特定任务对齐。</li>
-</ul>
-</li>
+<li>pretrain
+data（预训练数据）：通过detoxification与deduplication流程的公共或私人获取数据</li>
+<li>alignment
+data（对齐数据）：，包括一组较小的高质量标签库，用于将模型与特定任务对齐。</li>
+</ul></li>
 <li><p><strong>Pretraining（预训练阶段）</strong>：</p>
-<p>它涉及对大规模策划数据的自我监督训练，需要整个开发工作流程中的大部分资源。大规模有效训练LLM需要各种系统创新，例如状态分片优化器、使用数据、管道和张量并行性的细致模型放置。</p>
-</li>
+<p>它涉及对大规模策划数据的自我监督训练，需要整个开发工作流程中的大部分资源。大规模有效训练LLM需要各种系统创新，例如状态分片优化器、使用数据、管道和张量并行性的细致模型放置。</p></li>
 <li><p><strong>Alignment（对齐阶段）</strong></p>
 <p>这个阶段旨在根据用户意图调整LLM，以适应广泛的下游任务。通常使用两种主要的对齐范式</p>
-<ol>
+<ol type="1">
 <li>提示工程，指定提示（即，输入）而无需修改模型参数。</li>
 <li>微调，更新特定任务数据集上的模型参数以提高特定领域的性能</li>
-</ol>
-</li>
+</ol></li>
 <li><p><strong>Evaluation（验证阶段）</strong></p>
-<p>评价鉴于LLM的使用效能。</p>
-</li>
+<p>评价鉴于LLM的使用效能。</p></li>
 <li><p><strong>Deployment（部署阶段）</strong></p>
-<p>量化，蒸馏，CUDA内核优化，模型并行性和内存管理</p>
-</li>
+<p>量化，蒸馏，CUDA内核优化，模型并行性和内存管理</p></li>
 </ol>
-<h3 id="Acme-Overview"><a href="#Acme-Overview" class="headerlink" title="Acme Overview"></a>Acme Overview</h3><p>Acme是作者的私有图形处理器数据中心，LLM是该数据中心的一个模型，论文主要研究该模型中的两个工作负载Seren与Kalos。而与LLM无关的DL模型将被排除在论文研究对象外。</p>
-<p><img src="https://s2.loli.net/2024/10/28/4P6cORhxpICBjFw.png" alt="Seren与Kalos"></p>
+<h3 id="acme-overview">Acme Overview</h3>
+<p>Acme是作者的私有图形处理器数据中心，LLM是该数据中心的一个模型，论文主要研究该模型中的两个工作负载Seren与Kalos。而与LLM无关的DL模型将被排除在论文研究对象外。</p>
+<figure>
+<img src="https://s2.loli.net/2024/10/28/4P6cORhxpICBjFw.png"
+alt="Seren与Kalos" />
+<figcaption aria-hidden="true">Seren与Kalos</figcaption>
+</figure>
 <p>上图中展示了Seren与Kalos集群的配置</p>
 <p>硬件上的配置这里略过，软件上的设计包括：</p>
-<ol>
-<li><strong>大规模资源的调度器</strong>，在Seren和Kalos上构建基于Slurm与Kubernetes的调度器。在调度器上启用了资源隔离和配额保留的设置，进一步融入了 尽力二维的作业机制</li>
-<li><strong>LLM workload</strong>，开发了一系列LLMs，参数范围从7B到超过123B的参数，这些LLM都基于transformer-based decoder-only的架构，类似于GPT和LLaMA</li>
+<ol type="1">
+<li><strong>大规模资源的调度器</strong>，在Seren和Kalos上构建基于Slurm与Kubernetes的调度器。在调度器上启用了资源隔离和配额保留的设置，进一步融入了
+尽力二维的作业机制</li>
+<li><strong>LLM
+workload</strong>，开发了一系列LLMs，参数范围从7B到超过123B的参数，这些LLM都基于transformer-based
+decoder-only的架构，类似于GPT和LLaMA</li>
 <li>构建了系统InternEvo，继承了各种系统优化技术，容纳了模型微调与评估等额外任务。</li>
 </ol>
-<h3 id="Traces-form-Acme（来自Acme的数据）"><a href="#Traces-form-Acme（来自Acme的数据）" class="headerlink" title="Traces form Acme（来自Acme的数据）"></a>Traces form Acme（来自Acme的数据）</h3><ol>
-<li><strong>Jog Log 工作日志</strong>：从调度数据库中收集作业日志，其中包含每个作业的详细信息</li>
-<li><strong>Hardware Monitor Data 硬件监控数据</strong>：这包括从各种来源获得的长期，多维数据<ol>
+<h3 id="traces-form-acme来自acme的数据">Traces form
+Acme（来自Acme的数据）</h3>
+<ol type="1">
+<li><strong>Jog Log
+工作日志</strong>：从调度数据库中收集作业日志，其中包含每个作业的详细信息</li>
+<li><strong>Hardware Monitor Data
+硬件监控数据</strong>：这包括从各种来源获得的长期，多维数据
+<ol type="1">
 <li>Prometheus：收集CPU,memory,network usage data 等数据</li>
 <li>NVIDIA DCGM：收集GPU相关数据</li>
 <li>IPMI：收集电源相关数据</li>
+</ol></li>
+<li><strong>Runtime
+Log运行时日志</strong>：作业执行期间从LLM框架捕获stdout与stderr日志。</li>
+<li><strong>Profiling Data
+剖面数据</strong>：对代表性作业的子集，通过DCGM等工具执行细粒度分析来进行更深入的研究。</li>
 </ol>
-</li>
-<li><strong>Runtime Log运行时日志</strong>：作业执行期间从LLM框架捕获stdout与stderr日志。</li>
-<li><strong>Profiling Data 剖面数据</strong>：对代表性作业的子集，通过DCGM等工具执行细粒度分析来进行更深入的研究。</li>
-</ol>
-<h2 id="Datacenter-Characterization-（数据中心数字特征）"><a href="#Datacenter-Characterization-（数据中心数字特征）" class="headerlink" title="Datacenter Characterization （数据中心数字特征）"></a>Datacenter Characterization （数据中心数字特征）</h2><h3 id="LLMs-与-DL-负载的比较"><a href="#LLMs-与-DL-负载的比较" class="headerlink" title="LLMs 与 DL 负载的比较"></a>LLMs 与 DL 负载的比较</h3><p><img src="https://s2.loli.net/2024/10/29/aedISHnZVYbG8rz.png" alt="LLM与DLModel"></p>
-<ol>
+<h2 id="datacenter-characterization-数据中心数字特征">Datacenter
+Characterization （数据中心数字特征）</h2>
+<h3 id="llms-与-dl-负载的比较">LLMs 与 DL 负载的比较</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/aedISHnZVYbG8rz.png"
+alt="LLM与DLModel" />
+<figcaption aria-hidden="true">LLM与DLModel</figcaption>
+</figure>
+<ol type="1">
 <li><p><strong>极端的GPU利用率分布</strong></p>
 <p>在LLM的集群中显示出了更短的GPU作业持续时间，此外，完成的作业仅消耗了20~30%的图形处理器资源，这显示了对容错系统的迫切需求。</p>
 <blockquote>
-<p>CDF: Cumulative Distribution Function 累积分布函数，描述某个岁间变量小于或等于某个特定值的概率的函数，在文章中，他表示的是某一种情况，如GPU任务持续时间，GPU使用率等情况的出现频率的大小。</p>
-<p>Boxplot 箱型图：箱型图是一种用于显示数据分布情况的统计图标，它由：最小值、下四分位数（Q1）、中位数、上四分位数（Q3）和最大值的分布情况</p>
+<p>CDF: Cumulative Distribution Function
+累积分布函数，描述某个岁间变量小于或等于某个特定值的概率的函数，在文章中，他表示的是某一种情况，如GPU任务持续时间，GPU使用率等情况的出现频率的大小。</p>
+<p>Boxplot
+箱型图：箱型图是一种用于显示数据分布情况的统计图标，它由：最小值、下四分位数（Q1）、中位数、上四分位数（Q3）和最大值的分布情况</p>
 </blockquote>
-<p>GPU的利用率在LLMs中两级分化，相比于其他的该值中位数48%与4%，LLM中该值为97%。该特征值体现了LLM的计算密集型模型的特点，也意味着GPU-shared-base的技术可能不适合于LLMs</p>
-</li>
+<p>GPU的利用率在LLMs中两级分化，相比于其他的该值中位数48%与4%，LLM中该值为97%。该特征值体现了LLM的计算密集型模型的特点，也意味着GPU-shared-base的技术可能不适合于LLMs</p></li>
 <li><p><strong>高度倾斜的负载分布</strong></p>
 <p>按照作业数量看，所有的集群都呈现出了相似的模式，大多数任务都是单图形处理器的，而只有不到7%的任务用到了超过8个图形处理器</p>
-<p>按照图形处理时间看，大规模的作业（至少256个图形处理器）占据了96%以上的资源，这样的数据特征给集群调度器的设计带来了巨大的挑战。这样的负载可能会导致车头毒蛇冰岛hi非常严重的排队延迟问题。现有的DL集群调度器常取决于抢占机制，然而相当大的附会负担使它们不适用于LLM工作负载</p>
-</li>
+<p>按照图形处理时间看，大规模的作业（至少256个图形处理器）占据了96%以上的资源，这样的数据特征给集群调度器的设计带来了巨大的挑战。这样的负载可能会导致车头毒蛇冰岛hi非常严重的排队延迟问题。现有的DL集群调度器常取决于抢占机制，然而相当大的附会负担使它们不适用于LLM工作负载</p></li>
 </ol>
-<h3 id="Workload-Categories-（负载的特征）"><a href="#Workload-Categories-（负载的特征）" class="headerlink" title="Workload Categories （负载的特征）"></a>Workload Categories （负载的特征）</h3><p><img src="https://s2.loli.net/2024/10/29/nQti3ybhYUl8JoV.png" alt="Distributiion of different workload type"></p>
-<p><img src="https://s2.loli.net/2024/10/29/3hJpl2BPTAt9axr.png" alt="boxplot of distribution of GPU demand"></p>
-<p><img src="https://s2.loli.net/2024/10/29/ardmvPNsp87BcDS.png" alt="image-20241029145315622"></p>
+<h3 id="workload-categories-负载的特征">Workload Categories
+（负载的特征）</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/nQti3ybhYUl8JoV.png"
+alt="Distributiion of different workload type" />
+<figcaption aria-hidden="true">Distributiion of different workload
+type</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/3hJpl2BPTAt9axr.png"
+alt="boxplot of distribution of GPU demand" />
+<figcaption aria-hidden="true">boxplot of distribution of GPU
+demand</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/ardmvPNsp87BcDS.png"
+alt="image-20241029145315622" />
+<figcaption aria-hidden="true">image-20241029145315622</figcaption>
+</figure>
 <blockquote>
-<p>SFT： SuperVised Fine-Tuning for model alignment 在模型对齐阶段的参数监督微调</p>
+<p>SFT： SuperVised Fine-Tuning for model alignment
+在模型对齐阶段的参数监督微调</p>
 <p>MLLM：Multimodal Large Language Model 多模态的大语言模型</p>
 </blockquote>
-<ol>
+<ol type="1">
 <li><p><strong>作业数与资源使用率并不相关</strong></p>
-<p>上图中占用分别为64.9%与92.9%的Evaluation任务分别仅在Seren与Kalos中仅占6.2%与0.8%。与之相对应的是Pretrain预训练任务</p>
-</li>
+<p>上图中占用分别为64.9%与92.9%的Evaluation任务分别仅在Seren与Kalos中仅占6.2%与0.8%。与之相对应的是Pretrain预训练任务</p></li>
 <li><p><strong>作业类型与图形处理器需求相关</strong></p>
-<p>在图五中描述了各种工作负载类型之间的图形处理器需求分布，他体现出了Eval任务通常仅需要4个以下的处理器，而相对的Pretrain任务通常需要100个处理器（图形）以上。这解释了为什么在对GPU的占用时间上出现了Pretrain任务较少但占用时间却较长的情况。另一个值得注意的情况是，Debug任务占据了广泛的GPU占用数量区间，这与各类型任务都需要Debug相符</p>
-</li>
+<p>在图五中描述了各种工作负载类型之间的图形处理器需求分布，他体现出了Eval任务通常仅需要4个以下的处理器，而相对的Pretrain任务通常需要100个处理器（图形）以上。这解释了为什么在对GPU的占用时间上出现了Pretrain任务较少但占用时间却较长的情况。另一个值得注意的情况是，Debug任务占据了广泛的GPU占用数量区间，这与各类型任务都需要Debug相符</p></li>
 <li><p><strong>相似的时间分布</strong></p>
-<ol>
+<ol type="1">
 <li>从工作持续时间来看，尽管预训练工作持续时间最长，但它们的中位数超过了其他工作量一个数量级，在两个集群中，持续时间超过1天的工作都不到5%。这可以归因于预训练期间频繁失败。</li>
 <li>关于作业排队延迟，与之前建议大规模作业经历更长等待时间的报告相反，我们观察到，尽管评估作业具有最低的图形处理器需求和最短的作业持续时间，但其排队延迟最长。这种差异是由于大部分资源被保留给预培训作业，以最大限度地减少排队延迟。评估作业通常以较低优先级的批次同时提交，利用有限的备用资源。</li>
+</ol></li>
 </ol>
-</li>
-</ol>
-<h3 id="Infrastructure-基础设施"><a href="#Infrastructure-基础设施" class="headerlink" title="Infrastructure 基础设施"></a>Infrastructure 基础设施</h3><p><img src="https://s2.loli.net/2024/10/29/DEUKXVvxPTL8Zyp.png" alt="Infrastructure utilization"></p>
+<h3 id="infrastructure-基础设施">Infrastructure 基础设施</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/DEUKXVvxPTL8Zyp.png"
+alt="Infrastructure utilization" />
+<figcaption aria-hidden="true">Infrastructure utilization</figcaption>
+</figure>
 <blockquote>
 <p>SM Streaming Multiprocessor : 流式多处理器</p>
 <p>TC Tensor Core：张量核心</p>
-<p>IB : infiniBand 是一种高性能互联技术，用于在计算机集群与数据中心中实现高速数据传输和低延迟通信</p>
+<p>IB : infiniBand
+是一种高性能互联技术，用于在计算机集群与数据中心中实现高速数据传输和低延迟通信</p>
 </blockquote>
-<ol>
+<ol type="1">
 <li><p><strong>更高的GPU利用率</strong></p>
-<p>在LLMs集群中，DCGM手机细粒度的性能指标，与PRI相反，50%的图形处理器消耗量超过75%的图形处理器内存，且两个集群中SM活性的中位数约为40%，是PRI报道的20%的两倍</p>
-</li>
+<p>在LLMs集群中，DCGM手机细粒度的性能指标，与PRI相反，50%的图形处理器消耗量超过75%的图形处理器内存，且两个集群中SM活性的中位数约为40%，是PRI报道的20%的两倍</p></li>
 <li><p><strong>未充分利用的关联资源</strong></p>
 <p>很明显，CPU内存利用率保持在50%以下。请注意，Kalos的内存容量(2TB)是Seren的两倍(表1)。这表明CPU内存的利用率严重不足。</p>
-<p>虽然GPU内存卸载技术[80，81]提高了CPU内存利用率并缓解了GPU内存限制，但由于PCIe带宽有限，它也阻碍了训练吞吐量。因此，作者不采用分流机制。此外，由于CPU与GPU的比率很高(每个GPU 16个CPU)，CPU通常未得到充分利用，如图7(C)所示。</p>
-<p>我们在Seren中测量了IB的网络发送和接收带宽。两条折线重叠，因为IB在LLM执行期间用于对称通信。作者观察到，网卡有超过60%的时间处于空闲状态，活动带宽很少超过IB提供的最大带宽的25%。</p>
-</li>
+<p>虽然GPU内存卸载技术[80，81]提高了CPU内存利用率并缓解了GPU内存限制，但由于PCIe带宽有限，它也阻碍了训练吞吐量。因此，作者不采用分流机制。此外，由于CPU与GPU的比率很高(每个GPU
+16个CPU)，CPU通常未得到充分利用，如图7(C)所示。</p>
+<p>我们在Seren中测量了IB的网络发送和接收带宽。两条折线重叠，因为IB在LLM执行期间用于对称通信。作者观察到，网卡有超过60%的时间处于空闲状态，活动带宽很少超过IB提供的最大带宽的25%。</p></li>
 </ol>
-<h3 id="Environment-Impact-环境影响"><a href="#Environment-Impact-环境影响" class="headerlink" title="Environment Impact 环境影响"></a>Environment Impact 环境影响</h3><p><img src="https://s2.loli.net/2024/10/29/UeFVN9sbhlO4kc7.png" alt="Power Image"></p>
+<h3 id="environment-impact-环境影响">Environment Impact 环境影响</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/UeFVN9sbhlO4kc7.png"
+alt="Power Image" />
+<figcaption aria-hidden="true">Power Image</figcaption>
+</figure>
 <blockquote>
 <p>TDP Thermal Design Power：热设计功率</p>
 </blockquote>
-<ol>
+<ol type="1">
 <li><p><strong>图形处理器主导功耗消耗</strong></p>
-<p>图8（a）描述了图形处理器功耗的分布，作者观察到大约30%的图形处理器处于空闲状态，仍然需要消耗60 W。此外，由于密集的计算需求，我们发现Seren和Kalos中分别有22.1%和12.5%的图形处理器耗电量超过400 W（DPP），有些甚至达到600 W。这可能会导致一些亚稳定问题的风险[41]。</p>
-<p>图8（b）中描述了所有CPU、GPU节点的功耗图，可以发现GPU节点的平均功耗是CPU的五倍</p>
-</li>
+<p>图8（a）描述了图形处理器功耗的分布，作者观察到大约30%的图形处理器处于空闲状态，仍然需要消耗60
+W。此外，由于密集的计算需求，我们发现Seren和Kalos中分别有22.1%和12.5%的图形处理器耗电量超过400
+W（DPP），有些甚至达到600 W。这可能会导致一些亚稳定问题的风险[41]。</p>
+<p>图8（b）中描述了所有CPU、GPU节点的功耗图，可以发现GPU节点的平均功耗是CPU的五倍</p></li>
 </ol>
-<h2 id="Workload-Profiling-工作负载剖析"><a href="#Workload-Profiling-工作负载剖析" class="headerlink" title="Workload Profiling 工作负载剖析"></a>Workload Profiling 工作负载剖析</h2><p>在该节中作者对代表性任务的资源利用率进行细粒度分析。重点关注pretrain与eval工作</p>
-<h3 id="Pretraining-workload-预训练工作负载"><a href="#Pretraining-workload-预训练工作负载" class="headerlink" title="Pretraining workload 预训练工作负载"></a>Pretraining workload 预训练工作负载</h3><p><img src="https://s2.loli.net/2024/10/29/wpVQIkvXydejBtO.png" alt="GPU SM utilization"></p>
-<p><img src="https://s2.loli.net/2024/10/29/z4kh9NLJU3PQC5u.png" alt="Memory footpoint"></p>
+<h2 id="workload-profiling-工作负载剖析">Workload Profiling
+工作负载剖析</h2>
+<p>在该节中作者对代表性任务的资源利用率进行细粒度分析。重点关注pretrain与eval工作</p>
+<h3 id="pretraining-workload-预训练工作负载">Pretraining workload
+预训练工作负载</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/wpVQIkvXydejBtO.png"
+alt="GPU SM utilization" />
+<figcaption aria-hidden="true">GPU SM utilization</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/z4kh9NLJU3PQC5u.png"
+alt="Memory footpoint" />
+<figcaption aria-hidden="true">Memory footpoint</figcaption>
+</figure>
 <blockquote>
-<p>Hierarchical ZeRO 是一种优化技术，用于减少深度学习模型在分布式训练过程中的通信开销。Hierarchical ZeRO技术通过将模型参数划分为多个层次，并在每个层次上应用不同的优化策略，以实现更高效的模型并行训练。</p>
+<p>Hierarchical ZeRO
+是一种优化技术，用于减少深度学习模型在分布式训练过程中的通信开销。Hierarchical
+ZeRO技术通过将模型参数划分为多个层次，并在每个层次上应用不同的优化策略，以实现更高效的模型并行训练。</p>
 </blockquote>
-<ol>
+<ol type="1">
 <li><p><strong>GPU SM 利用率</strong></p>
-<p>与InternEvo V1相比，V2在global batch size 相同的情况下获得了大约16%的加速，3D并行的利用率相对较低主要是混合并行引入的通信对关键路径的影响，例如流水线并行中的bubbles。</p>
-</li>
+<p>与InternEvo V1相比，V2在global batch size
+相同的情况下获得了大约16%的加速，3D并行的利用率相对较低主要是混合并行引入的通信对关键路径的影响，例如流水线并行中的bubbles。</p></li>
 <li><p><strong>GPU memory数据</strong></p>
-<p>对一个含有$\psi$参数的模型，参数，梯度传到与优化器占用量分别为$2\psi,2\psi,12\psi$。3D parallelism 与 ZeRO相比，对activations的要求要搞得多</p>
-</li>
+<p>对一个含有<span
+class="math inline">\(\psi\)</span>参数的模型，参数，梯度传到与优化器占用量分别为<span
+class="math inline">\(2\psi,2\psi,12\psi\)</span>。3D parallelism 与
+ZeRO相比，对activations的要求要搞得多</p></li>
 <li><p><strong>激活规模的不平衡</strong></p>
-<p>当应用pipeline parallelism时，每个队列需要容纳不同数量的激活，因为不同管道队列之间等待向后计算的微批数量不同。图12中说明了不同管道等加上的不平衡问题，这说明应该需要专门的分区机制来解决内存之间的使用不平衡的问题。</p>
-</li>
+<p>当应用pipeline
+parallelism时，每个队列需要容纳不同数量的激活，因为不同管道队列之间等待向后计算的微批数量不同。图12中说明了不同管道等加上的不平衡问题，这说明应该需要专门的分区机制来解决内存之间的使用不平衡的问题。</p></li>
 </ol>
-<h3 id="Evaluation-Workload-评估阶段工作负载"><a href="#Evaluation-Workload-评估阶段工作负载" class="headerlink" title="Evaluation Workload 评估阶段工作负载"></a>Evaluation Workload 评估阶段工作负载</h3><p><img src="https://s2.loli.net/2024/10/29/NPsWmnML2FcKxXt.png" alt="image-20241029155952954"></p>
-<ol>
+<h3 id="evaluation-workload-评估阶段工作负载">Evaluation Workload
+评估阶段工作负载</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/NPsWmnML2FcKxXt.png"
+alt="image-20241029155952954" />
+<figcaption aria-hidden="true">image-20241029155952954</figcaption>
+</figure>
+<ol type="1">
 <li><p><strong>模型加载和数据预处理开销大</strong></p>
 <p>在评估作业的启动阶段，必须为每个任务加载模型检查点。此外，数据预处理阶段，特别是对于标记化，构成了大量的时间消耗。这些因素导致分配的图形处理器资源在相对较长的一段时间内利用不足。</p>
-<p>为了解决预处理负担，一种有效的策略是缓存标记化数据。此外，评估作业是灵活的，允许将多个评估任务（数据集）合并到单个作业中。这种整合可以有效减少评估过程中模型加载阶段的相对时间成本。</p>
-</li>
+<p>为了解决预处理负担，一种有效的策略是缓存标记化数据。此外，评估作业是灵活的，允许将多个评估任务（数据集）合并到单个作业中。这种整合可以有效减少评估过程中模型加载阶段的相对时间成本。</p></li>
 <li><p><strong>对指标计算的负荷很高</strong></p>
-<p>在评估阶段对复杂、时间开销大的指标计算期间，图形处理器保持空闲，浪费了接近20%的总GPU时间</p>
-</li>
+<p>在评估阶段对复杂、时间开销大的指标计算期间，图形处理器保持空闲，浪费了接近20%的总GPU时间</p></li>
 </ol>
-<h2 id="Failure-Analysis-失败分析"><a href="#Failure-Analysis-失败分析" class="headerlink" title="Failure Analysis 失败分析"></a>Failure Analysis 失败分析</h2><h3 id="Failure-Category-故障类型"><a href="#Failure-Category-故障类型" class="headerlink" title="Failure Category 故障类型"></a>Failure Category 故障类型</h3><ol>
+<h2 id="failure-analysis-失败分析">Failure Analysis 失败分析</h2>
+<h3 id="failure-category-故障类型">Failure Category 故障类型</h3>
+<ol type="1">
 <li><p><strong>基础设施故障</strong></p>
-<p>基础设施相关的故障是由底层计算平台或远程存储中的问题引起的。这些失败主要发生在作业执行过程的中途，尤其是在预训练任务中。由于恢复过程费力且耗时，它们严重影响了培训进度。</p>
-</li>
+<p>基础设施相关的故障是由底层计算平台或远程存储中的问题引起的。这些失败主要发生在作业执行过程的中途，尤其是在预训练任务中。由于恢复过程费力且耗时，它们严重影响了培训进度。</p></li>
 <li><p><strong>框架故障</strong></p>
-<p>几种类型的运行时错误（例如RuntimeMessage、ValueMessage和LocalMessage）可能与张量操作、形状、数据类型或意外行为关联。它们通常在作业的初始阶段被观察到，并且通常通过修复配置来解决。</p>
-</li>
+<p>几种类型的运行时错误（例如RuntimeMessage、ValueMessage和LocalMessage）可能与张量操作、形状、数据类型或意外行为关联。它们通常在作业的初始阶段被观察到，并且通常通过修复配置来解决。</p></li>
 <li><p><strong>脚本故障</strong></p>
-<p>脚本错误通常源于编程错误或用户疏忽。它们构成了大多数失败，通常通过修改准则来解决</p>
-</li>
+<p>脚本错误通常源于编程错误或用户疏忽。它们构成了大多数失败，通常通过修改准则来解决</p></li>
 </ol>
-<h3 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h3><p><img src="https://s2.loli.net/2024/10/29/3plOEMi9uvzoHSL.png" alt="Fault Description"></p>
-<ol>
+<h3 id="故障描述">故障描述</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/3plOEMi9uvzoHSL.png"
+alt="Fault Description" />
+<figcaption aria-hidden="true">Fault Description</figcaption>
+</figure>
+<ol type="1">
 <li><p><strong>基础设施的故障造成了最严重的影响</strong></p>
-<p>由于基础设施问题而失败的作业通常使用大量的图形处理器（图形处理器需求），并且需要相当大的努力才能重新启动（重新启动时间）。它们占用了82%的图形处理器资源（图形处理器时间），而只有11%的失败作业数量。</p>
-</li>
+<p>由于基础设施问题而失败的作业通常使用大量的图形处理器（图形处理器需求），并且需要相当大的努力才能重新启动（重新启动时间）。它们占用了82%的图形处理器资源（图形处理器时间），而只有11%的失败作业数量。</p></li>
 <li><p><strong>由于高温引起的故障</strong></p>
-<p>高度优化的通信成本，导致图形处理器空闲率异常低，在异常天气的影响下很容易出现高温故障</p>
-</li>
+<p>高度优化的通信成本，导致图形处理器空闲率异常低，在异常天气的影响下很容易出现高温故障</p></li>
 <li><p><strong>辅助服务引发的故障</strong></p>
-<p>辅助服务很容易受到网络不稳定的影响，可能会导致超时或故障，从而减慢或中断培训过程。</p>
-</li>
+<p>辅助服务很容易受到网络不稳定的影响，可能会导致超时或故障，从而减慢或中断培训过程。</p></li>
 <li><p><strong>评估工作很少遇到错误</strong></p>
-<p>仅仅只有6.7%的评估工作会遇到错误，而且没有记录到任何GPUorNVlink的错误。潜在原因可能是对其对GPU或NVlink的时间需求短且压力轻。</p>
-</li>
+<p>仅仅只有6.7%的评估工作会遇到错误，而且没有记录到任何GPUorNVlink的错误。潜在原因可能是对其对GPU或NVlink的时间需求短且压力轻。</p></li>
 </ol>
-<h3 id="故障恢复"><a href="#故障恢复" class="headerlink" title="故障恢复"></a>故障恢复</h3><p><img src="https://s2.loli.net/2024/10/29/MsX6DlASVJqGIF8.png" alt="训练进度"></p>
+<h3 id="故障恢复">故障恢复</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/MsX6DlASVJqGIF8.png"
+alt="训练进度" />
+<figcaption aria-hidden="true">训练进度</figcaption>
+</figure>
 <p>在三种情况下重新启动作业</p>
-<ol>
+<ol type="1">
 <li>作业发生错误是</li>
 <li>当出现异常时，取决于训练指标，例如损失激增</li>
 <li>当训练过程陷入困境时。</li>
@@ -592,95 +685,113 @@
 </blockquote>
 <p>如图14所示，作者在早期阶段(3月到4月)选择了两个培训前工作，当其手动处理所有故障时。104B参数大小的大模型较早在3月运行，123B参数大小的大模型较晚，在四月运行。</p>
 <p>其中123B模型的训练中，改进了框架，采用了更小的检查点保存间隔。此外，我们添加了一个功能来优雅地终止工作，允许在结束工作之前保留当前的培训结果。显然，123B模式的培训过程更稳定，因回滚而产生的损失更少。然而，这一进展是有代价的，因为在不同时间中断的作业必须迅速重新启动。</p>
-<h2 id="Depolyed-LLM-Systems-部署大模型系统"><a href="#Depolyed-LLM-Systems-部署大模型系统" class="headerlink" title="Depolyed LLM Systems 部署大模型系统"></a>Depolyed LLM Systems 部署大模型系统</h2><ol>
+<h2 id="depolyed-llm-systems-部署大模型系统">Depolyed LLM Systems
+部署大模型系统</h2>
+<ol type="1">
 <li>预训练：通过LLM涉及的故障诊断和自动恢复来增强故障容忍度。</li>
 <li>评估：通过任务分解实现及时的绩效响应。</li>
 </ol>
-<h3 id="Fault-tolerant-Pretraining-错误容忍预训练"><a href="#Fault-tolerant-Pretraining-错误容忍预训练" class="headerlink" title="Fault-tolerant Pretraining 错误容忍预训练"></a>Fault-tolerant Pretraining 错误容忍预训练</h3><p><img src="https://s2.loli.net/2024/10/29/9rCGtYsaRU1BpXQ.png" alt="Recovery"></p>
-<ol>
+<h3 id="fault-tolerant-pretraining-错误容忍预训练">Fault-tolerant
+Pretraining 错误容忍预训练</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/9rCGtYsaRU1BpXQ.png"
+alt="Recovery" />
+<figcaption aria-hidden="true">Recovery</figcaption>
+</figure>
+<ol type="1">
 <li><p><strong>Motivation 动机</strong></p>
-<p>LLM预训练期间，由于涉及大量的图形处理器和长期的训练过程，失败是不可避免的，并且经常发生。</p>
-</li>
+<p>LLM预训练期间，由于涉及大量的图形处理器和长期的训练过程，失败是不可避免的，并且经常发生。</p></li>
 <li><p><strong>System Design 系统设计</strong></p>
-<p>作者设计的Fault-tolerant System无缝集成到了LLM预训练框架中，其包含以下三个基本模块</p>
-<ol>
-<li><p><strong>Asynchronous Checkpointing</strong>，实现更频繁的模型保存，最大限度的减少训练损失</p>
+<p>作者设计的Fault-tolerant
+System无缝集成到了LLM预训练框架中，其包含以下三个基本模块</p>
+<ol type="1">
+<li><p><strong>Asynchronous
+Checkpointing</strong>，实现更频繁的模型保存，最大限度的减少训练损失</p>
 <p>由于LLM可以产生TB规模的模型状态（指所有图形处理器的总模型状态），因此保存检查点的过程本身可能会引入大量的费用，导致训练时间减慢高达43%。</p>
-<p>为了解决这个问题，我们采用了同步检查点策略[64，69]，该策略有效地将检查点过程与训练过程分开。我们的观察表明，中央处理器内存（参见图7（b））能够容纳多个检查点。通过利用这一点，我们可以将模型状态存储在内存中，并利用单独的线程定期将这些状态保存到远程持久存储中。这个简单的策略显着减少了检查点管理费用。</p>
-</li>
-<li><p><strong>Failure Diagnosis</strong>，使用启发式规则和LLM的组合来准确识别不通故障的根本原因</p>
+<p>为了解决这个问题，我们采用了同步检查点策略[64，69]，该策略有效地将检查点过程与训练过程分开。我们的观察表明，中央处理器内存（参见图7（b））能够容纳多个检查点。通过利用这一点，我们可以将模型状态存储在内存中，并利用单独的线程定期将这些状态保存到远程持久存储中。这个简单的策略显着减少了检查点管理费用。</p></li>
+<li><p><strong>Failure
+Diagnosis</strong>，使用启发式规则和LLM的组合来准确识别不通故障的根本原因</p>
 <p>为了自动恢复，确定故障是否可恢复至关重要。一种常见的方法是使用启发式规则的组合来过滤并对错误作业的日志进行正规表达匹配。</p>
 <p>然而，由于错误日志的广泛多样性和复杂性，这种方法通常被证明是不准确的。在许多情况下可能没有特定的错误陈述，但多个错误可能同时共存。</p>
 <p>为了应对这一挑战，作者利用LLM出色的文本理解能力和广泛的知识库来自动识别不同故障的根本原因。如图15所示，将LLM与基于规则的诊断结合起来，以实现高效、准确的故障诊断。主要包含以下两个步骤：</p>
-<ol>
+<ol type="1">
 <li><p><strong>Real-time Log Compression</strong> 实时日志压缩</p>
 <p>预训练作业生成的大量日志文件（主要由训练指标记录组成）的大小可达数百MB。为了加速诊断并满足LLM的上下文长度限制，首先进行日志压缩。</p>
 <p>系统不断更新一组被称为过滤规则的正规表达式。这些规则有效地删除常规日志输出，例如初始化信息、训练指标记录、框架输出和调试信息。该系统的重要组件是基于LLM的日志代理，负责分析实时生成的日志段并识别遵循固定模式的行。通过这样做，基于LLM的日志代理会动态写入正规表达式来更新过滤器规则，从而有效地最小化日志文件的大小。</p>
-<p>在此之外，作者采用self-consistency approach 自一致方法确保日志代理结果的健壮性并保证这些结果的格式。这涉及到</p>
+<p>在此之外，作者采用self-consistency approach
+自一致方法确保日志代理结果的健壮性并保证这些结果的格式。这涉及到</p>
 <ul>
 <li>多次处理每个日志段</li>
 <li>并使用另一个LLM对日志代理的多个结果进行投票</li>
 </ul>
-<p>并且系统还可以利用任务的元数据来识别重复或类似任务，使用现有过滤规则进行过滤，从而避免重复工作</p>
-</li>
-<li><p><strong>LLM-assisted Automated Diagnosis</strong> LLM辅助自动诊断</p>
+<p>并且系统还可以利用任务的元数据来识别重复或类似任务，使用现有过滤规则进行过滤，从而避免重复工作</p></li>
+<li><p><strong>LLM-assisted Automated Diagnosis</strong>
+LLM辅助自动诊断</p>
 <p>日志代理有效地压缩运行时日志，隔离CUDAErrors或运行时异常等关键错误日志。尽管日志在到达此模块时已被压缩，但错误日志可能仍然很长。</p>
 <p>使用以下两步来进一步解决这个问题</p>
-<ol>
+<ol type="1">
 <li>将错误日志与不断更新的规则集进行比较，如果预定义的规则无法诊断问题，则通过嵌入模型对压缩的日志进行载体化，并存储在载体存储中，充当检索存储库。</li>
 <li>失败代理介入。它利用查询引擎[55]来搜索载体存储。通过此搜索，失败代理可以识别反映作业中断根本原因的日志行，提取错误类型，并指示错误是否源于用户错误或基础设施故障，为恢复过程提供提示。此外，它还为用户或运营团队生成缓解建议。</li>
 </ol>
-<p>故障代理还有助于故障诊断系统的持续学习。对于每个新的故障，一旦诊断和解决，失败代理就会编写相应的规则表达并将其添加到基于规则的诊断模块中。这个过程是迭代的，并确保故障诊断系统不断发展，变得更加善于诊断和建议故障缓解方法。</p>
-</li>
-<li><p><strong>Fast Fault Detection and Recovery</strong>，采用整体检测工具保来确定故障节点并从正确的检查点自动重新启动训练</p>
+<p>故障代理还有助于故障诊断系统的持续学习。对于每个新的故障，一旦诊断和解决，失败代理就会编写相应的规则表达并将其添加到基于规则的诊断模块中。这个过程是迭代的，并确保故障诊断系统不断发展，变得更加善于诊断和建议故障缓解方法。</p></li>
+<li><p><strong>Fast Fault Detection and
+Recovery</strong>，采用整体检测工具保来确定故障节点并从正确的检查点自动重新启动训练</p>
 <p>根据故障诊断结果，如果属于一种基础设施故障，则进行相应的检测测试，以识别出问题节点。</p>
 <blockquote>
 <p>例如，为了迅速解决频繁的NVLinkError，我们采用了类似于DLRover[3]的两轮NCCL测试方法。首先，我们将所有节点划分为多个两节点世界，并执行每对中的所有聚集任务。如果服务器总数为奇数，则将一个世界大小保留为三个。如果一个世界中的所有收集任务失败，则该世界中的节点可能是故障节点。然后，在第二轮中，我们将潜在的故障节点与正常节点配对，以形成新的世界。每个世界中的节点都会继续执行allather任务，从而识别故障节点并将其隔离。</p>
 </blockquote>
-<p>如果故障归因于损失的突然增加(即由我们的预培训框架自动触发的“损失高峰”，选择更早的健康重启检查点，并绕过后续的数据批处理。这种方法有效地保持了模型的质量。</p>
-</li>
-</ol>
-</li>
-</ol>
-</li>
+<p>如果故障归因于损失的突然增加(即由我们的预培训框架自动触发的“损失高峰”，选择更早的健康重启检查点，并绕过后续的数据批处理。这种方法有效地保持了模型的质量。</p></li>
+</ol></li>
+</ol></li>
 <li><p><strong>System Performance 系统表现</strong></p>
-<p>非严谨的评估下减少了$3.6$~$58.7\times$的检查点时间和管理开销百分比，并减少了90%的手动干预</p>
-</li>
+<p>非严谨的评估下减少了<span class="math inline">\(3.6\)</span>~<span
+class="math inline">\(58.7\times\)</span>的检查点时间和管理开销百分比，并减少了90%的手动干预</p></li>
 </ol>
-<h3 id="Decoupled-Scheduling-for-Evaluation-解耦计划的评估阶段"><a href="#Decoupled-Scheduling-for-Evaluation-解耦计划的评估阶段" class="headerlink" title="Decoupled Scheduling for Evaluation 解耦计划的评估阶段"></a>Decoupled Scheduling for Evaluation 解耦计划的评估阶段</h3><p><img src="https://s2.loli.net/2024/10/29/VDC2HzNm9EqPnwa.png" alt="Eval"></p>
-<ol>
+<h3
+id="decoupled-scheduling-for-evaluation-解耦计划的评估阶段">Decoupled
+Scheduling for Evaluation 解耦计划的评估阶段</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/29/VDC2HzNm9EqPnwa.png"
+alt="Eval" />
+<figcaption aria-hidden="true">Eval</figcaption>
+</figure>
+<ol type="1">
 <li><p><strong>Motivation 动机</strong></p>
-<p>仅根据单一指标（e.g. loss）评估LLM的质量可能无法提供准确的评估。因此，纳入各种标准并评估一系列任务的绩效至关重要。我们的LLM框架在数据的预训练阶段对每个检查点进行定期评估</p>
+<p>仅根据单一指标（e.g.
+loss）评估LLM的质量可能无法提供准确的评估。因此，纳入各种标准并评估一系列任务的绩效至关重要。我们的LLM框架在数据的预训练阶段对每个检查点进行定期评估</p>
 <p>如图6所示，由于资源有限且同时提交大量试验，评估作业经历了最长的排队延迟。尽管面临这些挑战</p>
-<p>作者找到了一些加快评估过程的潜在方法</p>
-</li>
+<p>作者找到了一些加快评估过程的潜在方法</p></li>
 <li><p><strong>System Design 系统设计</strong></p>
 <p>作者开发了一个试验协调器来协调集群调度器和LLM框架的操作。该设计结合了以下三项关键技术，旨在提高评估过程的效率。</p>
-<ol>
-<li><p><strong>Decoupling Remote Model Loading 解耦远程模型加载</strong></p>
-<p>图16(左)显示了SEREN内一系列并发评估试验(Concurrent Trials)的平均模型加载速度。由于作者存储网卡的带宽限制(25 GB/S)，在单节点上将单GPU试用次数从1次增加到8次时，加载速度会大幅下降。另一方面，当测试次数在8到256个GPU之间时，加载速度趋于稳定。这一观察结果启发采取特殊方法。并不将每个评估数据集作为单独的试验提交，而是将模型加载过程从评估过程中分离出来，如图16(右)所示。</p>
-<p>具体地讲，试验协调器最初从集群调度器检索可用节点列表，然后为每个节点生成一系列前身作业。这些作业将模型从远程存储加载到本地共享内存。然后协调器将评估作业提交给调度器，调度器通过高带宽PCIe加载模型。该方法有效地利用了空闲的主机内存。评估结束后，协调员将清理文件。</p>
-</li>
+<ol type="1">
+<li><p><strong>Decoupling Remote Model Loading
+解耦远程模型加载</strong></p>
+<p>图16(左)显示了SEREN内一系列并发评估试验(Concurrent
+Trials)的平均模型加载速度。由于作者存储网卡的带宽限制(25
+GB/S)，在单节点上将单GPU试用次数从1次增加到8次时，加载速度会大幅下降。另一方面，当测试次数在8到256个GPU之间时，加载速度趋于稳定。这一观察结果启发采取特殊方法。并不将每个评估数据集作为单独的试验提交，而是将模型加载过程从评估过程中分离出来，如图16(右)所示。</p>
+<p>具体地讲，试验协调器最初从集群调度器检索可用节点列表，然后为每个节点生成一系列前身作业。这些作业将模型从远程存储加载到本地共享内存。然后协调器将评估作业提交给调度器，调度器通过高带宽PCIe加载模型。该方法有效地利用了空闲的主机内存。评估结束后，协调员将清理文件。</p></li>
 <li><p><strong>Decoupling Metric Computation 解耦指标计算</strong></p>
 <p>如图13所示，评估过程通常涉及复杂且耗时的指标计算。</p>
 <blockquote>
-<p>例如，必须对HumanEval [24]和MBPP [17]等编码数据集执行合成程序正确性测试。为了解决这个问题，我们将指标计算过程与评估试验脱钩。</p>
+<p>例如，必须对HumanEval [24]和MBPP
+[17]等编码数据集执行合成程序正确性测试。为了解决这个问题，我们将指标计算过程与评估试验脱钩。</p>
 </blockquote>
-<p>在图形处理器上执行模型推理后，其输出会迅速保存到文件中，从而终止推理工作量。鉴于输出通常基于文本，因此大小很小，因此该文件转储过程非常迅速。然后我们生成中央处理器作业来执行指标计算。这种方法有效地最大限度地减少了图形处理器的空闲时间并加速了评估。</p>
-</li>
-<li><p><strong>Prior-based Elastic Scheduling 基于先验的弹性调度</strong></p>
+<p>在图形处理器上执行模型推理后，其输出会迅速保存到文件中，从而终止推理工作量。鉴于输出通常基于文本，因此大小很小，因此该文件转储过程非常迅速。然后我们生成中央处理器作业来执行指标计算。这种方法有效地最大限度地减少了图形处理器的空闲时间并加速了评估。</p></li>
+<li><p><strong>Prior-based Elastic Scheduling
+基于先验的弹性调度</strong></p>
 <p>作者注意到关于每个评估数据集的大致试验运行时间的先验知识相当稳健。并且这些数据集很灵活，使能够将多个集批处理到一次试验中以避免模型加载。还可以分解大型数据集并脱钩指标计算。提高GPU的利用率。</p>
-<p>并通过优先考虑作业队列中具有冗长的中央处理器指标计算的评估试验，以更好地重叠CPU、GPU计算。</p>
-</li>
-</ol>
-</li>
+<p>并通过优先考虑作业队列中具有冗长的中央处理器指标计算的评估试验，以更好地重叠CPU、GPU计算。</p></li>
+</ol></li>
 <li><p><strong>System Performance 系统表现</strong></p>
-<p>在7B大小的LLM中进行代表性测试，涉及63个数据集的工作量，trial调度器可以将完成时间分别在单个节点（优先资源）和多个节点（相对充足资源）分别缩短$1.3\times,1.8\times$。</p>
-</li>
+<p>在7B大小的LLM中进行代表性测试，涉及63个数据集的工作量，trial调度器可以将完成时间分别在单个节点（优先资源）和多个节点（相对充足资源）分别缩短<span
+class="math inline">\(1.3\times,1.8\times\)</span>。</p></li>
 </ol>
-<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><p>Appendix C</p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
-<li><span class="exturl" data-url="aHR0cDovL2FyeGl2Lm9yZy9wZGYvMjQwMy4wNzY0OHYy">Characterization of Large Language Model Development in the Datacenter<i class="fa fa-external-link-alt"></i></span></li>
+<h2 id="related-work">Related Work</h2>
+<p>Appendix C</p>
+<h2 id="参考文献">参考文献</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cDovL2FyeGl2Lm9yZy9wZGYvMjQwMy4wNzY0OHYy">Characterization of
+Large Language Model Development in the Datacenter<i class="fa fa-external-link-alt"></i></span></li>
 </ol>
 
     </div>
