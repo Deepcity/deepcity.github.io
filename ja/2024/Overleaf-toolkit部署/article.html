@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Overleaf-toolkit部署 在写latex的过程中，第一个使用的在线latex编辑器就是overleaf，但是在使用过程中受到诸多限制，遂欲购买overleafpro，但发现其学生价也要500yuan&#x2F;year，实在是财力不足，但overleaf是开源的，要花钱的只是服务器算力以及各种模板，于是就有了部署Overleaf-toolkit的想法  Overleaf是一个在线多用户协作的La">
+    <meta name="description" content="Overleaf-toolkit部署  在写latex的过程中，第一个使用的在线latex编辑器就是overleaf，但是在使用过程中受到诸多限制，遂欲购买overleafpro，但发现其学生价也要500yuan&#x2F;year，实在是财力不足，但overleaf是开源的，要花钱的只是服务器算力以及各种模板，于是就有了部署Overleaf-toolkit的想法  Overleaf是一个在线多用户">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Overleaf-toolkit部署">
 <meta property="og:url" content="https://deepcity.github.io/ja/2024/Overleaf-toolkit%E9%83%A8%E7%BD%B2/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="Overleaf-toolkit部署 在写latex的过程中，第一个使用的在线latex编辑器就是overleaf，但是在使用过程中受到诸多限制，遂欲购买overleafpro，但发现其学生价也要500yuan&#x2F;year，实在是财力不足，但overleaf是开源的，要花钱的只是服务器算力以及各种模板，于是就有了部署Overleaf-toolkit的想法  Overleaf是一个在线多用户协作的La">
+<meta property="og:description" content="Overleaf-toolkit部署  在写latex的过程中，第一个使用的在线latex编辑器就是overleaf，但是在使用过程中受到诸多限制，遂欲购买overleafpro，但发现其学生价也要500yuan&#x2F;year，实在是财力不足，但overleaf是开源的，要花钱的只是服务器算力以及各种模板，于是就有了部署Overleaf-toolkit的想法  Overleaf是一个在线多用户">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://s2.loli.net/2024/08/25/Gc4RtmuqsK6lQM8.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/24/iWBOjIt7LwRvDSe.png">
@@ -149,7 +149,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overleaf-toolkit%E9%83%A8%E7%BD%B2"><span class="nav-number">1.</span> <span class="nav-text">Overleaf-toolkit部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">安装前置条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">安装过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85overleaf-toolkit"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装overleaf-toolkit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">一些基础配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E6%95%B4%E7%89%88texLive"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装完整版texLive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93"><span class="nav-number">1.3.2.</span> <span class="nav-text">新增中文字体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8DXeLatex"><span class="nav-number">1.4.</span> <span class="nav-text">修复XeLatex</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%BB%E5%BD%95%E9%95%9C%E5%83%8F"><span class="nav-number">1.4.1.</span> <span class="nav-text">刻录镜像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#overleaf-toolkit%E9%83%A8%E7%BD%B2"><span class="nav-number">1.</span> <span class="nav-text">Overleaf-toolkit部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">安装前置条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">安装过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85overleaf-toolkit"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装overleaf-toolkit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">一些基础配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E6%95%B4%E7%89%88texlive"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装完整版texLive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93"><span class="nav-number">1.3.2.</span> <span class="nav-text">新增中文字体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8Dxelatex"><span class="nav-number">1.4.</span> <span class="nav-text">修复XeLatex</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%BB%E5%BD%95%E9%95%9C%E5%83%8F"><span class="nav-number">1.4.1.</span> <span class="nav-text">刻录镜像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -162,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -323,64 +323,89 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Overleaf-toolkit部署"><a href="#Overleaf-toolkit部署" class="headerlink" title="Overleaf-toolkit部署"></a>Overleaf-toolkit部署</h1><blockquote>
+    <div class="post-body" itemprop="articleBody"><h1 id="overleaf-toolkit部署">Overleaf-toolkit部署</h1>
+<blockquote>
 <p>在写latex的过程中，第一个使用的在线latex编辑器就是overleaf，但是在使用过程中受到诸多限制，遂欲购买overleafpro，但发现其学生价也要500yuan/year，实在是财力不足，但overleaf是开源的，要花钱的只是服务器算力以及各种模板，于是就有了部署Overleaf-toolkit的想法</p>
 </blockquote>
 <p>Overleaf是一个在线多用户协作的Latex编辑网站，其采用了如同markdown的“所见即所得”思想，采用及时更新编译的方式辅助编辑latex文件，同时通过项目结构约束文件的排布。是一个是十分学术且普遍应用的latex编辑网站。</p>
 <span id="more"></span>
-<h2 id="安装前置条件"><a href="#安装前置条件" class="headerlink" title="安装前置条件"></a>安装前置条件</h2><ol>
+<h2 id="安装前置条件">安装前置条件</h2>
+<ol type="1">
 <li>一台性能至少为2h/2g的服务器（cpu2h空闲且性能较强且剩余内存至少1.5g），个人使用也可以是一台虚拟机。</li>
 <li>并且至少保留10g的内存余量</li>
 <li>最好有个域名。</li>
 </ol>
-<p><img src="https://s2.loli.net/2024/08/25/Gc4RtmuqsK6lQM8.png" alt="Usage"></p>
+<figure>
+<img src="https://s2.loli.net/2024/08/25/Gc4RtmuqsK6lQM8.png"
+alt="Usage" />
+<figcaption aria-hidden="true">Usage</figcaption>
+</figure>
 <p>上图为容器运行后各个模块对资源的占用量，值得注意的是在本机中，配置好完整的texlatex与中文字集，对硬盘占用量达到了十个g，并且本机cpu为i7-11800h</p>
-<h2 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h2><p>以下部分可能省略部分操作在参考资料中可以找到</p>
-<h3 id="安装overleaf-toolkit"><a href="#安装overleaf-toolkit" class="headerlink" title="安装overleaf-toolkit"></a>安装overleaf-toolkit</h3><p>这一步十分简单，按照overleafgithub官方库中给的教程即可，唯一需要注意的点如下：</p>
-<ol>
+<h2 id="安装过程">安装过程</h2>
+<p>以下部分可能省略部分操作在参考资料中可以找到</p>
+<h3 id="安装overleaf-toolkit">安装overleaf-toolkit</h3>
+<p>这一步十分简单，按照overleafgithub官方库中给的教程即可，唯一需要注意的点如下：</p>
+<ol type="1">
 <li>修改overleaf.rc文件需要关闭所有相关服务并bin/up重新生成docker，慎重第一次生成</li>
-<li>默认占用80端口，但是如果服务器配置了nginx并且希望方向代理，则需要更改overleaf.rc文件<ul>
-<li><code>OVERLEAF_PORT</code> 指的是运行 Overleaf 的容器要选择曝露的端口，默认是 80 端口但如果有要使用 Nginx 反向代理的需求的话则需要自选一个端口（不常用的就行）；</li>
-<li><code>SIBLING_CONTAINERS_ENABLED</code> 这个配置真的巨坑，默认的话是 <code>true</code> 但如果没有购买官方的 Server Pro 的话请直接修改成 <code>false</code>，因为这个功能很大程度上依赖于官方提供给 Server Pro 用户的镜像，如果不调到 <code>false</code> 的话极有可能出现编译失败的情况；</li>
-</ul>
-</li>
+<li>默认占用80端口，但是如果服务器配置了nginx并且希望方向代理，则需要更改overleaf.rc文件
+<ul>
+<li><code>OVERLEAF_PORT</code> 指的是运行 Overleaf
+的容器要选择曝露的端口，默认是 80 端口但如果有要使用 Nginx
+反向代理的需求的话则需要自选一个端口（不常用的就行）；</li>
+<li><code>SIBLING_CONTAINERS_ENABLED</code> 这个配置真的巨坑，默认的话是
+<code>true</code> 但如果没有购买官方的 Server Pro 的话请直接修改成
+<code>false</code>，因为这个功能很大程度上依赖于官方提供给 Server Pro
+用户的镜像，如果不调到 <code>false</code>
+的话极有可能出现编译失败的情况；</li>
+</ul></li>
 <li>站点标题在variables.env中</li>
 </ol>
-<h2 id="一些基础配置"><a href="#一些基础配置" class="headerlink" title="一些基础配置"></a>一些基础配置</h2><h3 id="安装完整版texLive"><a href="#安装完整版texLive" class="headerlink" title="安装完整版texLive"></a>安装完整版texLive</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL292ZXJsZWFmL3Rvb2xraXQvYmxvYi9tYXN0ZXIvZG9jL2NlLXVwZ3JhZGluZy10ZXhsaXZlLm1kP3NwbT1hMmM2aC4xMjg3MzYzOS5hcnRpY2xlLWRldGFpbC4xNC41YTMzNjk0NVVtU01peCZmaWxlPWNlLXVwZ3JhZGluZy10ZXhsaXZlLm1k">官方升级TexLive文档<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="一些基础配置">一些基础配置</h2>
+<h3 id="安装完整版texlive">安装完整版texLive</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL292ZXJsZWFmL3Rvb2xraXQvYmxvYi9tYXN0ZXIvZG9jL2NlLXVwZ3JhZGluZy10ZXhsaXZlLm1kP3NwbT1hMmM2aC4xMjg3MzYzOS5hcnRpY2xlLWRldGFpbC4xNC41YTMzNjk0NVVtU01peCZmaWxlPWNlLXVwZ3JhZGluZy10ZXhsaXZlLm1k">官方升级TexLive文档<i class="fa fa-external-link-alt"></i></span></p>
 <p>根据官方文档升级即可，注意version很有可能是不同的，overleaf官方每隔半年就会更新一次，因此，需要修改部分命令，如下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker commit sharelatex sharelatex/sharelatex:[version]-with-texlive-full</span><br><span class="line">echo [version]-with-texlive-full &gt; config/version</span><br></pre></td></tr></table></figure>
-<h3 id="新增中文字体"><a href="#新增中文字体" class="headerlink" title="新增中文字体"></a>新增中文字体</h3><p>我们可以通过导入我们自己电脑中的中文字体做到这一步</p>
-<ol>
+<h3 id="新增中文字体">新增中文字体</h3>
+<p>我们可以通过导入我们自己电脑中的中文字体做到这一步</p>
+<ol type="1">
 <li><p>如何将自己电脑中的winfonts.tar.gz生成出来</p>
-<ol>
-<li><p><img src="https://s2.loli.net/2024/08/24/iWBOjIt7LwRvDSe.png" alt="字体文件夹"></p>
-<p>找到上图的这个文件夹，复制走想要的字体（绝大部分中文字体），然后压缩为winfonts.tar.gz(任意格式)</p>
-</li>
-<li><p>ftp传到linux主机中就好</p>
-</li>
-</ol>
-</li>
+<ol type="1">
+<li><figure>
+<img src="https://s2.loli.net/2024/08/24/iWBOjIt7LwRvDSe.png"
+alt="字体文件夹" />
+<figcaption aria-hidden="true">字体文件夹</figcaption>
+</figure>
+<p>找到上图的这个文件夹，复制走想要的字体（绝大部分中文字体），然后压缩为winfonts.tar.gz(任意格式)</p></li>
+<li><p>ftp传到linux主机中就好</p></li>
+</ol></li>
 <li><p>继续参照参考资料2进入docker操作</p>
-<ol>
+<ol type="1">
 <li><p>安装必要的包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it share</span><br><span class="line">apt update</span><br><span class="line">apt install -y latex-cjk-all texlive-lang-chinese texlive-lang-english</span><br><span class="line">apt install -y xfonts-wqy</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it share</span><br><span class="line">apt update</span><br><span class="line">apt install -y latex-cjk-all texlive-lang-chinese texlive-lang-english</span><br><span class="line">apt install -y xfonts-wqy</span><br></pre></td></tr></table></figure></li>
 <li><p>将所有字体文件移动到/usr/share/fonts/winfonts中并执行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkfontscale</span><br><span class="line">mkfontdir</span><br><span class="line">fc-cache -fv</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkfontscale</span><br><span class="line">mkfontdir</span><br><span class="line">fc-cache -fv</span><br></pre></td></tr></table></figure></li>
+</ol></li>
 </ol>
-</li>
-</ol>
-<h2 id="修复XeLatex"><a href="#修复XeLatex" class="headerlink" title="修复XeLatex"></a>修复XeLatex</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it sharelatex /bin/bash/</span><br><span class="line">apt update</span><br><span class="line">apt install -y texlive-xetex texlive-latex-extra texlive-science</span><br></pre></td></tr></table></figure>
-<h3 id="刻录镜像"><a href="#刻录镜像" class="headerlink" title="刻录镜像"></a>刻录镜像</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat config/version # 该命令会得到[version]</span><br><span class="line">docker commit sharelatex sharelatex/sharelatex:[version]-with-texlive-full</span><br><span class="line">echo [version]-with-texlive-full &gt; config/version</span><br></pre></td></tr></table></figure>
+<h2 id="修复xelatex">修复XeLatex</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it sharelatex /bin/bash/</span><br><span class="line">apt update</span><br><span class="line">apt install -y texlive-xetex texlive-latex-extra texlive-science</span><br></pre></td></tr></table></figure>
+<h3 id="刻录镜像">刻录镜像</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat config/version # 该命令会得到[version]</span><br><span class="line">docker commit sharelatex sharelatex/sharelatex:[version]-with-texlive-full</span><br><span class="line">echo [version]-with-texlive-full &gt; config/version</span><br></pre></td></tr></table></figure>
 <p>注意在编写中文文档时需要调整至XeLaTex，并且调用Ctex包</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL292ZXJsZWFmL3Rvb2xraXQ=">overleaf/toolkit (github.com)<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYWxpeXVuLmNvbS9hcnRpY2xlLzE1NzI2MDY=">Linux 快速搭建 Overleaf 5.0 附中文字体及完整 TexLive 安装教程（2024最新版）-阿里云开发者社区 (aliyun.com)<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly93d3cudG5uaWRtLmNvbS9idWlsZC1hbmQtdXNlLW92ZXJsZWFmLXNlcnZlci8=">搭建和使用overleaf服务器 | Tnnidm-Blog<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL292ZXJsZWFmL3Rvb2xraXQvYmxvYi9tYXN0ZXIvZG9jL2NlLXVwZ3JhZGluZy10ZXhsaXZlLm1kP3NwbT1hMmM2aC4xMjg3MzYzOS5hcnRpY2xlLWRldGFpbC4xNC41YTMzNjk0NVVtU01peCZmaWxlPWNlLXVwZ3JhZGluZy10ZXhsaXZlLm1k">toolkit/doc/ce-upgrading-texlive.md at master · overleaf/toolkit (github.com)<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly95eG5jaGVuLmdpdGh1Yi5pby90ZWNobmlxdWUvRG9ja2Vy6YOo572yU2hhcmVMYVRlWOW5tueugOWNlemFjee9ruS4reaWh+eOr+Wigy8j5YeG5aSH5bel5L2c">Docker部署ShareLaTeX并简单配置中文环境 | YXN’s Blog (yxnchen.github.io)<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9taXJyb3JzLmliaWJsaW8ub3JnL0NUQU4vbGFuZ3VhZ2UvY2hpbmVzZS9jdGV4L2N0ZXgucGRm">CTeX 宏集手册 (ibiblio.org)<i class="fa fa-external-link-alt"></i></span></li>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL292ZXJsZWFmL3Rvb2xraXQ=">overleaf/toolkit
+(github.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYWxpeXVuLmNvbS9hcnRpY2xlLzE1NzI2MDY=">Linux
+快速搭建 Overleaf 5.0 附中文字体及完整 TexLive
+安装教程（2024最新版）-阿里云开发者社区 (aliyun.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cudG5uaWRtLmNvbS9idWlsZC1hbmQtdXNlLW92ZXJsZWFmLXNlcnZlci8=">搭建和使用overleaf服务器
+| Tnnidm-Blog<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL292ZXJsZWFmL3Rvb2xraXQvYmxvYi9tYXN0ZXIvZG9jL2NlLXVwZ3JhZGluZy10ZXhsaXZlLm1kP3NwbT1hMmM2aC4xMjg3MzYzOS5hcnRpY2xlLWRldGFpbC4xNC41YTMzNjk0NVVtU01peCZmaWxlPWNlLXVwZ3JhZGluZy10ZXhsaXZlLm1k">toolkit/doc/ce-upgrading-texlive.md
+at master · overleaf/toolkit (github.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly95eG5jaGVuLmdpdGh1Yi5pby90ZWNobmlxdWUvRG9ja2Vy6YOo572yU2hhcmVMYVRlWOW5tueugOWNlemFjee9ruS4reaWh+eOr+Wigy8j5YeG5aSH5bel5L2c">Docker部署ShareLaTeX并简单配置中文环境
+| YXN's Blog (yxnchen.github.io)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9taXJyb3JzLmliaWJsaW8ub3JnL0NUQU4vbGFuZ3VhZ2UvY2hpbmVzZS9jdGV4L2N0ZXgucGRm">CTeX
+宏集手册 (ibiblio.org)<i class="fa fa-external-link-alt"></i></span></li>
 </ol>
 
     </div>
@@ -529,13 +554,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="単語の総数">109k</span>
+    <span title="単語の総数">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">6:38</span>
+    <span title="読書の合計時間">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="EzvkH8RisfPPs4FDg8TcP3u6FtkMev8TBOJLPE7OEN4">
+  <meta name="msvalidate.01" content="80DCDC7CC1EB61C078DE11A21469B857">
+  <meta name="baidu-site-verification" content="codeva-zBnxVrCEgy">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=仿宋:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7Cfira+code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Understanding Silent Data Corruptions in a Large Production CPU Population       期刊: (发表日期: 十月 23, 2023) 作者: Shaobu Wang; Guangyan Zhang; Junyu Wei; Yang Wang; Jiesheng Wu; Qingchao Luo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PGStudy-静默数据损坏SDC缓解-Farron工具">
+<meta property="og:url" content="https://deepcity.github.io/en/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html">
+<meta property="og:site_name" content="ThreeLanes&#39; Site">
+<meta property="og:description" content="Understanding Silent Data Corruptions in a Large Production CPU Population       期刊: (发表日期: 十月 23, 2023) 作者: Shaobu Wang; Guangyan Zhang; Junyu Wei; Yang Wang; Jiesheng Wu; Qingchao Luo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/Rhj3AOEbpma85ye.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/i216eZVEQKPsOTd.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/hrAO836LWJ9uCYI.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/ujETKrCfcPpaNqO.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/hHjmyZBJCdSnxcM.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/J9yuMgdGDhORpvk.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/OTjNnSUXE8uk9oA.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/8DnFAzLbG1eri5l.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/AbheRF4xfpiZqsJ.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/sKH4cwjSFC7oMaP.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/30/A2L7uaBMxtbQsoc.png">
+<meta property="article:published_time" content="2024-10-30T09:16:43.000Z">
+<meta property="article:modified_time" content="2024-10-30T09:17:11.705Z">
+<meta property="article:author" content="ThreeLanes">
+<meta property="article:tag" content="ThreeLanes blog techology">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/10/30/Rhj3AOEbpma85ye.png">
+
+
+<link rel="canonical" href="https://deepcity.github.io/en/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://deepcity.github.io/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html","path":"en/2024/PGStudy-静默数据损坏SDC缓解-Farron工具/article.html","title":"PGStudy-静默数据损坏SDC缓解-Farron工具"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PGStudy-静默数据损坏SDC缓解-Farron工具 | ThreeLanes' Site</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://vercel.keboe.cn/">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="ThreeLanes' Site" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ThreeLanes' Site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">共享 开放 包容 改进</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Calendar</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>Commonweal 404</a></li><li class="menu-item menu-item-monitor"><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUua2Vib2UuY24vc3RhdHVzL3Rlc3Q="><i class="fa fa-computer fa-fw"></i>监控器</span></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#understanding-silent-data-corruptions-in-a-large-production-cpu-population"><span class="nav-number">1.</span> <span class="nav-text">Understanding
+Silent Data Corruptions in a Large Production CPU Population</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E5%9B%9B%E9%97%AE"><span class="nav-number">1.0.1.</span> <span class="nav-text">文章四问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E5%A4%96%E4%BF%A1%E6%81%AF"><span class="nav-number">1.0.2.</span> <span class="nav-text">场外信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">源码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-number">1.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#motivation-and-methodology-%E5%8A%A8%E6%9C%BA%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">Motivation and
+Methodology 动机和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E7%94%9F%E4%BA%A7%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84sdc%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">在生产过程中的SDC实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#toolchain-%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="nav-number">1.2.2.</span> <span class="nav-text">Toolchain 工具链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#study-process-and-approaches-%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E4%B8%8E%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.3.</span> <span class="nav-text">Study Process and
+Approaches 学习过程与方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84sdcs"><span class="nav-number">1.3.</span> <span class="nav-text">实际环境中的SDCs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E7%9A%84%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.3.1.</span> <span class="nav-text">测试结果的简要介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%9A%E7%84%A6%E4%BA%8E%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-number">1.3.2.</span> <span class="nav-text">聚焦于故障处理器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#software-symptoms-of-sdcs-sdc%E7%9A%84%E8%BD%AF%E4%BB%B6%E7%97%87%E7%8A%B6"><span class="nav-number">1.4.</span> <span class="nav-text">Software Symptoms of
+SDCs SDC的软件症状</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#impacted-workload-%E5%8F%97%E5%BD%B1%E5%93%8D%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD"><span class="nav-number">1.4.1.</span> <span class="nav-text">Impacted Workload
+受影响的工作负载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#error-breakdown-in-mis-calculated-data-%E9%94%99%E8%AF%AF%E8%AE%A1%E7%AE%97%E6%95%B0%E5%BC%82%E5%B8%B8%E7%9A%84%E5%88%86%E8%A7%A3"><span class="nav-number">1.4.2.</span> <span class="nav-text">Error
+Breakdown in Mis-calculated Data 错误计算数异常的分解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sdcs%E7%9A%84%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7"><span class="nav-number">1.5.</span> <span class="nav-text">SDCs的可重复性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F"><span class="nav-number">1.5.1.</span> <span class="nav-text">计算公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-number">1.5.2.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="nav-number">1.5.3.</span> <span class="nav-text">主要概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E6%9C%89%E7%AD%96%E7%95%A5%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="nav-number">1.6.</span> <span class="nav-text">现有策略的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E5%8A%A8sdc%E6%B5%8B%E8%AF%95"><span class="nav-number">1.6.1.</span> <span class="nav-text">主动SDC测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sdc%E7%9A%84%E6%A3%80%E6%B5%8B%E5%92%8C%E5%AE%B9%E5%BF%8D"><span class="nav-number">1.6.2.</span> <span class="nav-text">SDC的检测和容忍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#farron-an-efficient-sdc-mitigation-tool-farron%E9%AB%98%E6%95%88%E7%9A%84sdc%E7%BC%93%E8%A7%A3%E5%B7%A5%E5%85%B7"><span class="nav-number">1.7.</span> <span class="nav-text">Farron:
+An Efficient SDC Mitigation Tool Farron：高效的SDC缓解工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#design-%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.7.1.</span> <span class="nav-text">Design 设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#evaluation-%E8%AF%84%E4%BC%B0"><span class="nav-number">1.7.2.</span> <span class="nav-text">Evaluation 评估</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion-%E6%80%BB%E7%BB%93"><span class="nav-number">1.8.</span> <span class="nav-text">Conclusion 总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ThreeLanes</p>
+  <div class="site-description" itemprop="description">这是一个个人blog站点，记录技术与知识文章</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">75</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Deepcity"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmYxMTU5NDcyODk5QDE2My5jb20=" title="E-Mail → mailto:f1159472899@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9EZWVwQ2l0eTc2NDYzNw==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;DeepCity764637"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="c2t5cGU6R2FuZyBTdW4/Y2FsbHxjaGF0" title="Skype → skype:Gang Sun?call|chat"><i class="fab fa-skype fa-fw"></i>Skype</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmtlYm9lLmNuL2ltYWdlcy9xcS1jb250YWN0LnBuZw==" title="QQ → https:&#x2F;&#x2F;blog.keboe.cn&#x2F;images&#x2F;qq-contact.png"><i class="fab fa-qq fa-fw"></i>QQ</span>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PGStudy-静默数据损坏SDC缓解-Farron工具 | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PGStudy-静默数据损坏SDC缓解-Farron工具<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RlZXBjaXR5L2RlZXBjaXR5LmdpdGh1Yi5pby90cmVlL21haW4vc291cmNlL19wb3N0cy9QR1N0dWR5Lemdmem7mOaVsOaNruaNn+Wdj1NEQ+e8k+inoy1GYXJyb27lt6XlhbcubWQ=" title="Edit this post"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-10-30 17:16:43 / Modified: 17:17:11" itemprop="dateCreated datePublished" datetime="2024-10-30T17:16:43+08:00">2024-10-30</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline: </span>
+  
+    <a title="waline" href="/en/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/en/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>9.8k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>36 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1
+id="understanding-silent-data-corruptions-in-a-large-production-cpu-population">Understanding
+Silent Data Corruptions in a Large Production CPU Population</h1>
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>期刊:</strong> (发表日期: <strong>十月 23, 2023</strong>)
+<strong>作者:</strong> Shaobu Wang; Guangyan Zhang; Junyu Wei; Yang
+Wang; Jiesheng Wu; Qingchao Luo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>摘要翻译:</strong><br/>对SDCs的静默特性导致目前对SDCs的研究相对较少的特性做出介绍<br/>对大型生产处理器——超过100万个处理器中的SDK进行了研究
+<br/> 1. 对某些处理器功能是否特别脆弱，以及他们对应用程序的潜在影响
+<br/> 2. 探究可信的SDCs的重复触发条件以及划分更难重现的SDCs <br/> 3.
+缓解SDCs的挑战和机遇<br/>对应SDCs的观察结果开发了Farron，依赖于优先级测试来检测高度可重复的SDCs</td>
+</tr>
+<tr class="even">
+<td><strong>期刊分区:</strong>SOSP顶会</td>
+</tr>
+<tr class="odd">
+<td><strong>Local Link:</strong> <span class="exturl" data-url="em90ZXJvOi8vb3Blbi1wZGYvMF81WExMTVRGRA==">Wang 等 - 2023 - Understanding
+Silent Data Corruptions in a Large Production CPU
+Population.pdf<i class="fa fa-external-link-alt"></i></span></td>
+</tr>
+</tbody>
+</table>
+<h3 id="文章四问">文章四问</h3>
+<ul>
+<li><p><strong>Q1:</strong> 为什么看? （推荐? 关联? 解决问题?）</p>
+<p>A1:
+同门推荐，容错计算，SDC，提出了对SDC现有模型的挑战，并提出了更优的解决方式Farron</p></li>
+<li><p><strong>Q2:</strong> 文章写的什么? （创新点? 工具?
+实现路径?）</p>
+<p>A2:
+创新点是对现有SDC模型的挑战，使用工具是Pin插桩与OpenDCDiag</p></li>
+<li><p><strong>Q3:</strong> 效果如何? （效果图? 结果? 评价?）</p>
+<p>A3：在检出率，性能方面都有提升，评价还行，但有点缺乏创新</p></li>
+<li><p><strong>Q4:</strong> 感受怎样? （感受? 收获? 思考? 复看?）</p>
+<p>A4：了解了一种容错计算中出现的错误，了解了一些工具</p></li>
+</ul>
+<span id="more"></span>
+<h3 id="场外信息">场外信息</h3>
+<h4 id="源码">源码</h4>
+<ul>
+<li>不开源</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>近年来，CPU技术得到了快速发展，时钟频率更高，一个处理器附加了更多核心。一个经典的假设是处理器按照设计工作并产生可靠的计算结果。
+然而，生产环境中确实会发生处理器故障。</p>
+<p>一般的CPU故障都会导致两个不同的错误类型：</p>
+<ol type="1">
+<li>立即崩溃</li>
+<li>静默报出错误的运行结果</li>
+</ol>
+<p>说明了SDCs可能造成的危害，并通过实际工程中的应用举例说明SDCs的危害。</p>
+<p>然后说明SDCs的处理难度，通过实际工程中的已有解决方案给出例子。</p>
+<p>说明已有的SDCs研究进展，主要分为三类</p>
+<ol type="1">
+<li>理论上陈述SDCs的存在，但没有研究具体错误</li>
+<li>通过人工故障注入而不是自然产生的SDCs，研究SDCs的影响和容忍技术</li>
+<li>提供有关现实世界中的CPU-SDC案例的简要数据，但缺乏有关故障率，软件针状，发生模式等的详细测量和分析。</li>
+</ol>
+<p>因此，目前对实际环境中的SDC的了解十分有限。</p>
+<p>在这篇论文中作者调查了大量的生产处理器中的SDCs，是一直第一项定量评估和系统分析大规模生产环境中的SDCs现象的工作，主要贡献如下：</p>
+<ol type="1">
+<li><strong>在大规模生产环境中评估SDCs</strong>：在32个月内对超过100万个处理器进行了SDC测试。除了提供故障率的总体统计数据外，我们还进一步分析微架构、测试时间等，影响故障率以及这些故障是影响单个核还是处理器内的所有核</li>
+<li><strong>调查SDCs的软件影响</strong>：识别了SDCs的脆弱功能，指出广泛涉及脆弱功能的工作负载可能会受到影响。揭示了现有模型的缺陷，指出对如浮点计算SDCs可能只会导致小幅损失而使得现有检测技术失效</li>
+<li><strong>分析SDCs的可重复性</strong>：指出一些SDCs具有高度可重复性，而一些SDCs旨在特定条件下触发</li>
+<li><strong>评估了SDCs的当前缓解实践</strong>：确定了一个巨大的设计空间，通过确定测试用例的优先顺序和开发专注于多线程的测试用例改善SDCs的测试。提出了SDCs对故障容限技术的挑战</li>
+<li><strong>提出SDCs的具体缓解方法</strong>：受上述观察的启发，提出了Farron，一种有效的缓解SDC的方法，它依赖于定期测试来识别那些高度可重复的SDCs。并通过测试用例优先级来提高这种方法的效率，它控制处理器的温度，以最大限度地减少那些可重复性较低的SDK的发生;如果处理器必须在高温下工作，则可以通过分配更长的测试时间来进一步在这两种方法之间做出权衡。<strong>其检出率更高而管理费用更低。</strong></li>
+</ol>
+<h2 id="motivation-and-methodology-动机和方法">Motivation and
+Methodology 动机和方法</h2>
+<p>说明了论文说用到的硬件设施，重点在于环境变量的控制缩减，与硬件类型是否是国际主流类型。</p>
+<h3 id="在生产过程中的sdc实例">在生产过程中的SDC实例</h3>
+<p>随着时间的推移，阿里云偶尔会发现错误率高于其他服务器。经过广泛调试以确定根本原因后，我们发现问题是由于处理器缺陷造成的。在这里我们提供一些例子。</p>
+<ol type="1">
+<li>在一种情况下，存储应用程序经常报告用户数据的检查和不匹配。经过数周的调试，我们发现机队中的一个处理器出现故障，并且处理器上的与检验和计算相关的指令间歇性地给出错误的结果。</li>
+<li>在第二种情况下，我们还观察到检查和不匹配，但我们的调试揭示了不同的原因：客户端线程将数据及其检查和打包到缓冲区中，然后与守护进程线程共享该缓冲区。由于缓存一致性存在缺陷，守护进程线程有时会获得不一致的数据，从而导致检查和不匹配。</li>
+<li>在另一种情况下，程序有时会触发断言失败。我们后来发现这是因为应用程序使用哈希图来管理其元数据，而故障处理器中有缺陷的哈希计算影响了其元数据服务。</li>
+</ol>
+<p>这些案例促进作者进行这项研究</p>
+<h3 id="toolchain-工具链">Toolchain 工具链</h3>
+<p>该工具链旨在检测与云工作负载相关的SDCs，其包含<strong>一个框架与633个测试用例</strong>，框架根据用户规范选择器要执行的测试用例，并控制其执行顺序、测试期间的资源分配。</p>
+<blockquote>
+<p>测试用例是模拟云工作负载的程序，经过精心设计，同时考虑软件行为和硬件功能。大多数测试用例关注单个处理器功能，例如浮点计算、分支预测、缓存、核心之间的互连等。这些测试用例的复杂性差异很大：</p>
+<ol type="1">
+<li>有些测试用例在循环内执行特定指令。</li>
+<li>有些调用库中的函数。</li>
+<li>有些调用应用程序逻辑。</li>
+</ol>
+</blockquote>
+<p>此外还尝试了为SDC检测设计的其他工具链，如OpenDCDiag作为补充，并在研究中获得了相同的观察结果。其在研究中起到了两个作用</p>
+<ol type="1">
+<li>提供了测试处理器功能的权威方法</li>
+<li>在对故障处理器进行深入研究时，它充当受影响的工作负载模拟器</li>
+</ol>
+<p>说明了在研究中将所有可疑处理器都送回了制造商确认了其故障</p>
+<p>在另一方面，工具链可能并不完整，假阳性与假阴性都是可能出现的。</p>
+<h3 id="study-process-and-approaches-学习过程与方法">Study Process and
+Approaches 学习过程与方法</h3>
+<figure>
+<img
+src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241029213952664.png"
+alt="Figure1" />
+<figcaption aria-hidden="true">Figure1</figcaption>
+</figure>
+<p>我们在生产前和生产过程中进行大规模测试，以发现阿里云中的故障处理器。如图1所示，预生产测试在</p>
+<ol type="1">
+<li>工厂交付后（制造好的芯片运送到阿里云后）</li>
+<li>数据中心交付后</li>
+<li>系统重新安装后（机器投产前需要安装新的系统来服务）</li>
+</ol>
+<p>进行。然后在生产中，机器将定期进行分组测试。每个组的测试持续约2周，整个机队的测试需要数月。</p>
+<p>在这些大规模测试中，我们顺序执行工具链中的所有测试用例，并且每个测试用例都被分配由管理员指定的相同测试持续时间。我们自2021年1月开始此类测试，到目前为止，我们已经发现了数百个有故障的处理器。
+在这些有故障的处理器中，我们对其中27个进行了广泛的实验，以进行更详细的分析（其他处理器已退回制造商）。具体来说，我们已经运行了数千万次测试，并从这些测试中收集了一万多条SDC记录，以了解它们对应用程序及其重复性的潜在影响。</p>
+<h2 id="实际环境中的sdcs">实际环境中的SDCs</h2>
+<h3 id="测试结果的简要介绍">测试结果的简要介绍</h3>
+<figure>
+<img
+src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241029214008683.png"
+alt="Table1" />
+<figcaption aria-hidden="true">Table1</figcaption>
+</figure>
+<figure>
+<img
+src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241029214512972.png"
+alt="Failure rate" />
+<figcaption aria-hidden="true">Failure rate</figcaption>
+</figure>
+<p>​ <strong>Observation 1:</strong>
+总体而言，<strong>在研究中，有万分之3.61的CPU会被确定导致SDCs</strong></p>
+<p>这说明SDK代表了一个普遍存在的问题，而不是“黑天鹅”事件，尤其是在具有大量处理器的集群中。</p>
+<p>​ <strong>Observation 2:</strong>
+预生产测试期间和常规测试期间观察到的<strong>故障率分别为万分之3.262和万分之0.348</strong></p>
+<p>然而，尽管进行了所有SDC测试，仍然能够遇到影响阿里云服务的SDC问题，如第2.2节中所讨论的。这可以归因于定期SDC测试和再现SDC的不确定性之间的窗口。
+解决这个问题具有挑战性，因为频繁执行定期SDC测试是不可行的。因此如果一个服务需要高可靠性而不考虑SDC容错是不可行的。</p>
+<p>​ <strong>Observation 3:</strong>
+在阿里云团队中的所有微架构中确定了SDCs，这说明<strong>在新架构chip中的SDC率不会降低</strong></p>
+<p>这表明SDC是现代处理器的一个普遍问题。我们已经针对这些微架构测试了数十万个样本。如表2所示，不同微架构的故障率范围从万分之0.082到万分之9.29。潜在的原因可能是因为在测试方法的复杂度增加的同时电路的架构复杂度也在同步增加。</p>
+<h3 id="聚焦于故障处理器">聚焦于故障处理器</h3>
+<figure>
+<img
+src="./../../../../AppData/Roaming/Typora/typora-user-images/image-20241029222925501.png"
+alt="Fault Processor" />
+<figcaption aria-hidden="true">Fault Processor</figcaption>
+</figure>
+<p>​ <strong>Observation
+4:</strong>单个处理器故障<strong>可能会影响单个物理核或涵盖处理器内的所有核</strong></p>
+<p>在大约一半的故障处理其中，只存在一个有缺陷的物理核心，缺陷发生在只能由单个物理核心使用的组件中，例如算数单元。请注意多个硬件线程（也称为逻辑核）可共享单个物理单元，当这个物理和行有缺陷时，这些逻辑核都会受到影响，并且以相同的频率失败同样的测试用例</p>
+<p>在另外一般有故障的处理器中，缺陷可能会因向所有的物理核心，这可能是因为缺陷发生在所有核心共享的组件中，例如中央处理器缓存。但对于在所有核的非共享组件中发生的故障也会使得不同核在不同频率下对同样的测试发生故障，有时他们之间频率的差距可能高达几个数量级。这里值得注意的是<strong>作者的数据与Google的有些出入</strong>，这体现了作者的测试方式在<strong>对核心之间的一致性上更好的检出率</strong>。</p>
+<p>无论哪一个核心被识别为有故障，大公司都会退役整个有故障的处理器或隔离正台机器。然而，值得研究的是，继续利用故障处理器未受影响的核心的可行性问题。</p>
+<h2 id="software-symptoms-of-sdcs-sdc的软件症状">Software Symptoms of
+SDCs SDC的软件症状</h2>
+<h3 id="impacted-workload-受影响的工作负载">Impacted Workload
+受影响的工作负载</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/Rhj3AOEbpma85ye.png"
+alt="Figure2" />
+<figcaption aria-hidden="true">Figure2</figcaption>
+</figure>
+<p><strong>Observation 5:</strong>
+SDC在特定工作负载中出现的相当普遍，主要分布在以下五种情况</p>
+<pre><code>  1. arithmetic logic computation算术逻辑运算
+  2. vector operation 向量操作
+  3. floating point calculation浮点计算
+  4. cache coherency 缓存一致性
+  5. transactional memory 事务性内存</code></pre>
+<blockquote>
+<p><strong>缓存一致性</strong>指的是在多处理器系统中，确保各个处理器缓存中的数据保持一致的机制。由于各个处理器可能会独立地从主内存读取数据并将其存储在自己的缓存中，因此可能会出现同一数据在不同缓存中存在不同值的情况。这种不一致性可能导致程序运行错误或不符合预期的行为。</p>
+<p>缓存一致性主要涉及以下几个方面：</p>
+<ol type="1">
+<li><strong>一致性协议</strong>：通过缓存一致性协议（如MESI、MOESI、MOESIF等），处理器之间协调何时更新或失效缓存中的数据，以确保一致性。
+<ul>
+<li><strong>MESI</strong>协议（Modified, Exclusive, Shared,
+Invalid）是最常用的一种协议，它定义了四种状态来管理缓存行。</li>
+</ul></li>
+<li><strong>数据更新</strong>：当一个处理器修改缓存中的数据时，其他处理器需要被通知，以便它们可以更新或使其缓存失效，从而保持一致性。</li>
+<li><strong>性能考虑</strong>：虽然维护缓存一致性是必要的，但这也可能引入性能开销，因此设计缓存一致性机制时需要权衡性能和一致性的需求。</li>
+</ol>
+<p><strong>向量操作</strong>涉及对向量数据结构（如一维数组或列表）进行的各种计算和处理。这些操作在数学、物理和计算机图形学等领域中非常常见。</p>
+<p>常见的向量操作包括：</p>
+<ol type="1">
+<li><strong>加法</strong>：将两个向量对应元素相加。</li>
+<li><strong>减法</strong>：将一个向量从另一个向量中减去。</li>
+<li><strong>点积（内积）</strong>：计算两个向量的点积，得到一个标量。</li>
+<li><strong>叉积</strong>：计算两个三维向量的叉积，得到一个新的向量（仅适用于三维空间）。</li>
+<li><strong>标量乘法</strong>：将向量的每个元素乘以一个标量。</li>
+<li><strong>向量归一化</strong>：将向量转换为单位向量，保持其方向但使其长度为1。</li>
+<li><strong>长度计算</strong>：计算向量的欧几里得长度（模）。</li>
+<li><strong>向量拼接</strong>：将多个向量合并成一个更大的向量。</li>
+</ol>
+<p><strong>事务性内存</strong>，也叫做TrxMem是一种并发编程的技术，用于简化多线程环境中的共享内存访问。事务性内存允许多个线程以事务的方式对共享数据进行读写，类似于数据库事务。这样可以保证数据的一致性和完整性，同时减少锁的使用，从而提高并发性能。</p>
+<p>事务性内存的基本含义是：</p>
+<ol type="1">
+<li><strong>原子性</strong>：事务要么完全执行，要么不执行，确保不会出现中间状态。</li>
+<li><strong>一致性</strong>：事务执行前后，数据的一致性不应被破坏。</li>
+<li><strong>隔离性</strong>：多个事务并发执行时，互不干扰，给用户呈现出一个独立的环境。</li>
+<li><strong>持久性</strong>：一旦事务完成，其结果应是持久的，通常与数据存储有关。</li>
+</ol>
+</blockquote>
+<p>对于问题为何会出现在这五种功能上，作者给出了<strong>两种解释</strong>：</p>
+<ol type="1">
+<li>这些功能复杂程度高，更容易出现错误</li>
+<li>其他功能大量被操作系统调用，当这些功能出错时，大概率并不会出现SDC，而是直接崩溃</li>
+</ol>
+<p>图2显示了每个功能的故障处理器的比例。请注意，这些比例之和大于1。这是因为缺陷可能发生在多个功能的共享或集成组件上，因此一些处理器可能会在多个功能之间遇到错误。</p>
+<p>进一步将SDCs分化为<strong>两种类型</strong>：</p>
+<ol type="1">
+<li>Computation 计算型 包括算术逻辑运算，向量操作，浮点计算</li>
+<li>Consistency 一致性 包括缓存一致性，事务性内存</li>
+</ol>
+<p>作者区分这两种类型有以下<strong>两个原因</strong>：</p>
+<ol type="1">
+<li>它们需要不同的测试策略，因为具有一致性类型的SDCs只能通过多线程测试检测。</li>
+<li>如果一个处理器有多个缺陷功能，那么它们总是属于一种类型。在我们广泛测试的27个故障处理器中，19个处理器存在计算缺陷，其余处理器存在一致性缺陷。</li>
+</ol>
+<p>由于测试用例都是基于模拟现实负载而设计的，因此可以进一步推测这些SDCs对现实工作负载的潜在影响。</p>
+<p>作者试图查明哪些指令使存在问题的，但事实证明这是一项具有挑战性的任务。对于其中一些错误，工具链会保留上下文并指出不正确的指令，但这些错误通常很难重现，因此作者找不到合适的方式去调整测试用例以获得更多信息。</p>
+<p>因而作者转向另外一种方法：</p>
+<p>通过指示工具链去通过Pin捕获每个测试用例期间每种类型的指令执行次数。这种方式可以帮助缩小可以指令的范围。</p>
+<blockquote>
+<p>例如，对于一条浮点计算复杂数学函数（arctangent）的命令在FPU1与FPU2中是可疑的，因为使用该指令的所有测试用例都可以重现SDCs，相反不使用则都可以通过</p>
+</blockquote>
+<p>然而这种方式同样存在问题，即并非所有的错误都会有明显的可疑指令，在CNST1中的SDCs会导致缓存一致性问题，但由于缓存一致性机制通常对程序隐藏因程序通常不会调用特定指令来实现它。</p>
+<p>值得注意的是，<strong>并非所有执行有缺陷的指令的测试用例都会引发错误</strong>，例如，在MIX1中，作者发现有缺陷的指令用于七个测试用例，但只有其中的两个会发生错误，在后续作者详细研究了触发条件。</p>
+<h3
+id="error-breakdown-in-mis-calculated-data-错误计算数异常的分解">Error
+Breakdown in Mis-calculated Data 错误计算数异常的分解</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/i216eZVEQKPsOTd.png"
+alt="Figure3" />
+<figcaption aria-hidden="true">Figure3</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/hrAO836LWJ9uCYI.png"
+alt="Figure 4" />
+<figcaption aria-hidden="true">Figure 4</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/ujETKrCfcPpaNqO.png"
+alt="Figure 5" />
+<figcaption aria-hidden="true">Figure 5</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/hHjmyZBJCdSnxcM.png"
+alt="Figure 6" />
+<figcaption aria-hidden="true">Figure 6</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/J9yuMgdGDhORpvk.png"
+alt="Figure 7" />
+<figcaption aria-hidden="true">Figure 7</figcaption>
+</figure>
+<p>作者进一步研究计算了SDCs的属性，以了解缺陷功能对工作负载结果的影响，作者在这一小节中将consistency
+SDCs排除在外，因为这些SDCs没有确定的模式。</p>
+<p>​ <strong>Observation
+6:</strong>SDCs已被证实会影响所有测试数据类型的操作，包括integer，single-
+and double-precious floating-point
+number，其中对浮点数操作相关的影响<strong>强调了SDCs的危害性</strong></p>
+<p>图3显示了涉及每种操作数据类型的故障处理器的比例。我们发现所有正在测试的数据队列都会受到SDK的影响，并且浮点数据队列比其他数据队列涉及更多的故障处理器。作者推测潜在的原因可能有以下两个：</p>
+<ol type="1">
+<li>许多不同的脆弱功能都与浮点计算相关，包括具有浮点数据序列和特定向量计算的向量操作。</li>
+<li>三角函数等一些浮点运算比较复杂，增加了相关处理器功能设计和测试的难度。</li>
+</ol>
+<p>​ <strong>Observation 7</strong>:
+对于浮点数，SDCs导致的位反转通常发生在分数部分，导致轻微的精度损失</p>
+<p>对于计算型的SDCs，图4a-b显示了在不同的数据类型中哪些位可能挥发升位反转现象。可以观察到<strong>位反转很少发生在最重要的位上</strong>，并且需要注意
+，<strong>这种位反转模式不适用于非数字数据</strong>，在图5中显示了非数字数据的每一位几乎都有相同的反转量。</p>
+<p>此外，总体上并没有向特定值（0/1）反转的趋势，在特定的案例中，如MIX1的16位整数数据中，72.27%的位都是向0反转到1的。</p>
+<p>在浮点数的标准当中，位都被划分位三个部分：符号，指数，分数。位反转通常命中分数部分。潜在的原因如下</p>
+<ol type="1">
+<li>分数的计算逻辑更加复杂</li>
+<li>许多位反转集中在数据中间部分，并逐渐向末端减少</li>
+</ol>
+<p>在图4（e）-
+4（h）中显示了预期数据和实际数据之间的相对精度损失。由于观察到的位翻转主要发生在分数位中，因此浮点数据库的精度损失很小。例如，扩展双精度（80位）浮点数的所有精度损失都小于0.002%。双精度（64位）浮点数上99.9%的精度损失小于0.02%。80.25%的单精度（32位）浮点数的精度损失小于5%。另一方面，32位整数数据的精度损失有40.2%大于100%。</p>
+<p>​ <strong>Observation 8:</strong>
+对于特定的失败案例测试（测试用例与处理器的组合），位反转往往会在数字表示内的固定位置出现</p>
+<p>作者将位反转模式定义为一组位翻转可能发生在输入（特定测试用例与处理器的组合）中的位置。通过将预期结果与实际结果的异或值来表示翻转位置，如果5%以上的SDC记录出现了相同的掩码，则将该掩码视为位翻转图案。在实际中，一个输入模式可能存在多个位翻转模式，潜在的原因是<strong>测试用例中的多个指令受到缺陷的影响，并且这些缺陷不能稳定的再现</strong>。图6中记录了某些输入设置下具有位翻转模式的SDC记录，这种模式出现的潜在解释是：<strong>位翻转往往受特定故障处理器硬件的固定影响，因此往往发生在固定位置。</strong></p>
+<p>作者进一步研究了位翻转发生在不同数据类型下的数量，可以发现在大多数情况下位翻转都仅仅发生一个位上</p>
+<p><strong>当前故障模型的缺陷</strong>：当前的故障模型假定</p>
+<ol type="1">
+<li>SDCs是少见的，多个翻转的位是不太可能发生的事件</li>
+<li>每个位置上的翻转都是独立同分布的（IID）</li>
+</ol>
+<p>但根据作者的观察，对当前的SDC故障模型提出了挑战，并提出了改进的领域</p>
+<ol type="1">
+<li><strong>位置偏好</strong>：在某些数据类型中，位翻转往往不会发生在最重要的位（Observation
+7）</li>
+<li><strong>位翻转之间具有相关性</strong>：造成一些SDCs导致多个位发生位翻转（Observation
+8）</li>
+</ol>
+<p>需要更进一步的研究来研究该模型的应用含义，尽管浮点数的准确性损失似乎较小，但在某些对可靠性要求较高（金融，自动驾驶）主张使用更可靠的数据，可以考虑这些位翻转模式设计编码标准来提高数据可靠性。</p>
+<h2 id="sdcs的可重复性">SDCs的可重复性</h2>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/OTjNnSUXE8uk9oA.png"
+alt="Figure 8" />
+<figcaption aria-hidden="true">Figure 8</figcaption>
+</figure>
+<p>当识别出一个中央处理器可能会在测试用例中失败后，作者通过对一组测试用例与处理器的搭配来了解问题的可重复性，作者使用<strong>发生频率：即每分钟的错误数量</strong>来衡量可重复性。</p>
+<p>​ <strong>Observation 9:</strong>
+一些SDCs具有高度可重复性，对应用产生了很大的影响。</p>
+<p>SDC的发生频率在不同的设置中存在显着差异，从低至每分钟0.01次到高至每分钟数百次。在51.2%的设置中，出现频率高于每分钟一次。
+某些SDCs的高重复性以及现有系统的设计不适合容忍SDCs的事实意味着这些SDCs可以在生产中快速、重复地表现出来。这就说明即使SDCs出现的概率很低，但它仍然可以造成巨量的损失，尤其是当它们无法被及时的检查到的情况下。</p>
+<p>​ <strong>Observation 10:</strong>
+在那些可重复性较差的SDCs中，温度是重要的SDC触发条件。在某些情况下，SDCs的出现频率随着气温升高而呈指数级增长。此外，发生频率与不同故障处理器和工作负载的最低触发温度相关。</p>
+<p>作者研究了温度与SDCs发生频率的关系，发现即使在正常工作负载的温度下，温度越高仍然会导致SDCs的出现频率增加。作者通过一些工作负载的自然升温，或linux
+‘stress’ cmd command将处理器预热到指定温度。</p>
+<p>通过取SDC出现频率的以10为底的对数值，我们发现该值与我们27个处理器中的6个处理器的核心温度呈线性关系</p>
+<p>图8（a）-
+8（c）显示了一些故障处理器的这种关系，其Pearson相关系数大于0.75，证实了温度与SDC发生频率之间的指数相关性。</p>
+<blockquote>
+<p>Pearson相关系数（Pearson Correlation
+Coefficient）是用于衡量两个变量之间线性关系强度和方向的统计量。它的值范围在-1到1之间：</p>
+<ul>
+<li><strong>1</strong>：表示完全正相关，意味着一个变量增加时另一个变量也完全增加。</li>
+<li><strong>-1</strong>：表示完全负相关，意味着一个变量增加时另一个变量完全减少。</li>
+<li><strong>0</strong>：表示无相关关系，两个变量之间没有线性关系。</li>
+</ul>
+<h3 id="计算公式">计算公式</h3>
+<p>Pearson相关系数 rrr 的计算公式为：</p>
+<p><span class="math inline">\(r = \frac{n \sum (xy) - \sum x \sum
+y}{\sqrt{(n \sum x^2 - (\sum x)^2)(n \sum y^2 - (\sum
+y)^2)}}\)</span></p>
+<p>其中：</p>
+<ul>
+<li><span class="math inline">\(n\)</span> 是数据点的数量</li>
+<li><span class="math inline">\(x\)</span> 和 <span
+class="math inline">\(y\)</span> 是两个变量的观测值</li>
+</ul>
+<h3 id="应用">应用</h3>
+<p>Pearson相关系数常用于：</p>
+<ul>
+<li><strong>数据分析</strong>：评估变量之间的关系，常见于科学研究、经济学和社会科学。</li>
+<li><strong>回归分析</strong>：作为初步分析工具，帮助判断模型的适用性。</li>
+</ul>
+<p>最小二乘法（Least Squares
+Method）是一种数学优化技术，用于通过最小化误差的平方和来拟合数据模型。这种方法通常用于回归分析，帮助确定一条最佳拟合线，以描述自变量和因变量之间的关系。</p>
+<h3 id="主要概念">主要概念</h3>
+<ol type="1">
+<li><p><strong>误差</strong>：指观测值与模型预测值之间的差异。最小二乘法的目标是找到一个模型，使得所有观测值与预测值之间的误差的平方和最小。</p></li>
+<li><p><strong>目标函数</strong>：在简单线性回归中，目标函数可以表示为：</p>
+<p><span
+class="math inline">\(S=\sum_{i=1}^n(y_i−(mx_i+b))^2\)</span></p>
+<p>其中，<span class="math inline">\(y_i\)</span> 是实际观测值，<span
+class="math inline">\(mx_i + b\)</span>是模型预测值，<span
+class="math inline">\(m\)</span> 是斜率，<span
+class="math inline">\(b\)</span> 是截距。</p></li>
+<li><p><strong>参数估计</strong>：通过对目标函数 <span
+class="math inline">\(S\)</span> 求偏导数并设为零，可以求解出最优的
+<span class="math inline">\(m\)</span> 和 <span
+class="math inline">\(b\)</span>。</p></li>
+</ol>
+</blockquote>
+<p>此外，作者观察到，在一些设置中，仅当温度超过某个特定阈值后才会发生SDCs。作者列出了几种在研究过程中困惑不已后来被证明是温度造成的问题案例：</p>
+<ol type="1">
+<li><strong>其他内核行为</strong>：某一个内核会在其他内核繁忙时才发生错误，其出现频率随着繁忙内核数量的增加而增加。这很难理解，因为有缺陷的组件不会在内核之间共享。进一步研究发现，这些内核共用冷却装置，导致缺陷内核在其他内核繁忙时达到较高的温度。</li>
+<li><strong>余热</strong>：观察到一个故障处理器根据测试顺序产生错误。例如，当测试用例X在测试用例Y之前执行时，测试用例Y中会出现错误，而颠倒测试顺序则不会出现错误。后来发现，测试用例X对处理器施加了很大的压力，并产生了相当大的热量，导致测试用例Y的测试温度在仅执行测试用例Y。</li>
+<li><strong>工具链更新</strong>：在更新以使用更高版本的检测工具链之后，故障处理器中一些SDC的出现频率降低，这是令人惊讶的，因为更新没有修改测试用例的逻辑，我们也没有改变任何其他测试配置。进一步调查发现，更新后的工具链使用了更高效的框架，从而减少了产生的热量。</li>
+</ol>
+<p>作者还发现：在前面提到在运行同一可能导致错误的指令的不同测试用例下，有些可能会导致错误，而其他的一些则不会导致错误。进一步的研究发现指令使用压力是其背后的原因。</p>
+<p>为区分热量与指令运行压力的影响：对一些未接受测试的核心使用压力工具链，同时对目标核心执行测试工作负载。在本实验中，由于热量主要由stress工具链产生并由冷却装置消散，因此测试工作量对温度影响很小。通过这种方法，可以在温度几乎保持不变的情况下提高故障处理器的中央处理器利用率，并且观察到具有高中央处理器利用率的SDCs的出现频率更高。</p>
+<ul>
+<li><strong>使用多种策略缓解SDC</strong></li>
+</ul>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/8DnFAzLbG1eri5l.png"
+alt="Figure 9" />
+<figcaption aria-hidden="true">Figure 9</figcaption>
+</figure>
+<p>作者进一步探索通过以协调和互补的方式结合多种策略来缓解SDCs的设计空间。图9说明了SDCs的最低触发温度与其在最低触发温度下出现频率之间的关系。
+我们对发生频率的对数值和最低触发温度的值进行线性匹配，得出Pearson相关系数为-0.8272，这表明相关性相对较强。</p>
+<p>作者根据上面的数据将SDCs分位两种类型：</p>
+<ol type="1">
+<li>显眼的 ‘Apparent’</li>
+<li>棘手的 ‘Tricky’</li>
+</ol>
+<p>不同类型的SDCs适合不同的策略</p>
+<ol type="1">
+<li>显眼的SDCs可以在闲置温度附近观察到，并且表现出很高的出现频率，使其更适合SDC测试。</li>
+<li>棘手的SDCs可以通过控制温度来缓解此类SDC</li>
+</ol>
+<h2 id="现有策略的修改">现有策略的修改</h2>
+<h3 id="主动sdc测试">主动SDC测试</h3>
+<p>​ <strong>Observatio 11:</strong>
+在数万个处理器的生产环境中，633个测试用例中有560个没有检测到任何错误</p>
+<p>虑到芯片制造商和云供应商等公司可能拥有大量历史数据来指导测试，这促使我们提出了以下优先级测试的建议：</p>
+<ol type="1">
+<li>在预生产测试中，由于测试资源充足，每个测试案例都可以得到全面测试;</li>
+<li>在测试资源有限的定期测试中，我们可以为在预生产测试或早期定期测试中发现SDCs的测试用例赋予更长的持续时间。</li>
+</ol>
+<p>作者使用的工具链并未公开，而推荐OpenDCDiag或SiliFuzz工具</p>
+<h3 id="sdc的检测和容忍">SDC的检测和容忍</h3>
+<p>在SDC生成之前执行主动检测不同，存在多种方法来在生成后检测SDC。</p>
+<p>​ <strong>Observation 12:</strong>
+当面对中央处理器SDCs时，现有故障容忍技术的有效性会降低。</p>
+<ul>
+<li><strong>Checksum and parity 校验和和奇偶校验</strong></li>
+</ul>
+<p>端到端校验和被广泛用于检测数据路径中的数据损坏和验证数据完整性。</p>
+<ol type="1">
+<li>EC主要用于恢复丢失的数据，但不用于检测损坏的数据。</li>
+<li>ECC和CRC在计算奇偶性时假设数据是正确的，并且随后可以检测数据或奇偶校验位中的位翻转，但是CPU
+SDC可能在计算奇偶性之前生成错误的结果，并且在这种情况下，这些技术可能生成与已经被破坏的数据匹配的奇偶性。</li>
+<li>即使在生成奇偶校验之后发生损坏，标准ECC也只能纠正单个位翻转错误并检测两个位翻转错误，但我们的研究表明多个位翻转错误是可能的(<strong>Observation
+8</strong>)。</li>
+<li>更糟糕的是，其中一些检查和算法严重涉及易受攻击的功能，这意味着它们更容易受到中央处理器SDK的影响。例如，EC和CRC都严重涉及向量操作，这是脆弱的特征之一（<strong>Observation
+5</strong>），以加速计算。</li>
+</ol>
+<ul>
+<li><strong>Redundancy 冗余</strong></li>
+</ul>
+<p>它们在多个副本上执行相同的逻辑，并比较它们的结果以检测甚至纠正错误。冗余也可以通过硬件来实现，例如使用DCollins（双核锁步）技术。然而，考虑到中央处理器的低故障率，此类技术成本太高，无法应用于每个应用程序，尽管它们可能适合少数关键应用程序。</p>
+<ul>
+<li><strong>Prediction 预测</strong></li>
+</ul>
+<p>使用机器学习模型来预测SDCs的出现。其中一部分预测结果的范围，并在实际结果超出此范围时断言无声错误[29-31]。然而，真正的SDCs可能会有轻微的精度损失（<strong>Observation
+7</strong>），这使得这些方法难以确定检测SDCs的狭窄范围。另一方面，这样的轻微损失是否可以接受是一个需要进一步调查的话题</p>
+<h2
+id="farron-an-efficient-sdc-mitigation-tool-farron高效的sdc缓解工具">Farron:
+An Efficient SDC Mitigation Tool Farron：高效的SDC缓解工具</h2>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/AbheRF4xfpiZqsJ.png"
+alt="Figure 10" />
+<figcaption aria-hidden="true">Figure 10</figcaption>
+</figure>
+<ul>
+<li><strong>Baseline</strong></li>
+</ul>
+<p>阿里云使用的现有策略通过进行主动SDC测试来减轻SDC的影响，这通过在故障处理器生成SDCs之前识别和删除故障处理器来帮助防止SDC的影响。总而言之，SDC测试在生产前和生产期间每三个月进行一次，在每一轮测试中，所有测试用例都顺序执行，并分配平等的测试资源。对于一个核心被检测到有缺陷的处理器，阿里云将弃用整个处理器。</p>
+<h3 id="design-设计">Design 设计</h3>
+<p>由于SDC测试的局限性，根据我们从观察10获得的见解，Farron使用温度控制作为SDC测试的补充。为了确定何时启动温度控制和何时应用SDC测试，Farron建立了一个温度边界，该边界适应应用程序的实际运行条件。</p>
+<p>图10说明了Farron工作流，该工作流在三种状态下运行：Pre-Products、Online和Suspect。在投产前状态期间，将使用足够的资源执行SDC测试。在在线状态下，用户应用程序在通过SDC测试证明可靠的核上执行，并在Farron控制的触发条件下运行。在这种状态下会定期进行SDC测试，以实现长期保护。在SDC测试失败的情况下，Farron针对可疑处理器执行深入的SDC测试，并根据测试结果的分析调整可靠的资源。</p>
+<ul>
+<li><strong>Adaptive temperature boundary 适应性温度边界</strong></li>
+</ul>
+<p>Farron将最高优先级分配给应用程序性能，从而最大限度地减少频繁使用工作负载回退。为了实现这一点，Farron区分了冷却设备操作和工作负载退避的温度边界，并使工作负载退避的边界自适应。Farron使用一个窗口来跟踪最近的温度监测记录，如果窗口内超过一半的温度记录超过当前边界，则提高工作负载回退的温度边界，表明温度在给定情况下应用的正常工作范围内。通过迭代增加温度阈值，法伦自主学习标准工作温度，从而防止过度使用工作负载回退。如果不到一半的温度记录超过当前边界，则将触发工作负载回退，直到温度低于边界。
+Farron根据该自适应温度边界进一步调整定期测试持续时间，遵守观察结果10中概述的模式（即，较低的温度边界条件将分配更少的测试持续时间）。</p>
+<ul>
+<li><strong>Efficiency-focused SDC testing
+以效率为重点的SDC测试</strong></li>
+</ul>
+<p>Farron试图通过利用与测试用例优先级、目标功能和测试环境相关的见解来提高SDC测试效率（观察5、10和11）。</p>
+<p>建立三个不同的优先级：基本、活动和可疑。“基本”优先级被分配给测试用例，尽管测试用例是为特定功能而设计的，但在我们的大规模测试中却无法检测到错误。“主动”优先级被指定为测试用例，这些测试用例具有成功识别缺陷特征的已证明的跟踪记录。最后，“可疑的”优先级只分配给在当前处理器的核上检测到错误的测试用例。</p>
+<p>Farron主要将测试资源分配给受保护应用程序使用其目标功能的测试用例，重点关注那些标记为“可疑”(如果有)和“活动”的测试用例。其余的测试用例以尽力而为的模式进行测试，确保采用全面而高效的测试方法。此外，我们非常重视测试环境。Farron通过运行burn-in工作负载来启动测试，并同时测试处理器中的每个内核，以在测试期间提高内核温度(观察10)。</p>
+<ul>
+<li><strong>Fine-grained processor decommission
+细粒度处理器退役</strong></li>
+</ul>
+<p>最初，Farron通过对识别出缺陷的核心执行充分的测试来积累具有“可疑”优先级的测试用例。通过针对这些“可疑”测试用例进行充分的SDC测试，Farron可以有效地验证剩余核心的功能（观察4）。如果发现处理器内有两个以上的核心有缺陷，Farron将根据观察4中提出的模式弃用整个处理器。</p>
+<h3 id="evaluation-评估">Evaluation 评估</h3>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/sKH4cwjSFC7oMaP.png"
+alt="Figure 11" />
+<figcaption aria-hidden="true">Figure 11</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2024/10/30/A2L7uaBMxtbQsoc.png"
+alt="Table 4" />
+<figcaption aria-hidden="true">Table 4</figcaption>
+</figure>
+<p>图11显示了SDC在一轮测试中的覆盖率，其定义为故障处理器中检测到的错误与已知错误总数的比率。如图所示，Farron的覆盖率高于基线。在开销方面，Farron的平均一轮常规测试时长为1.02小时，而基线为10.55小时。</p>
+<h2 id="conclusion-总结">Conclusion 总结</h2>
+<p>在这篇研究论文中，对大型生产环境中的中央处理器SDC现象进行了全面调查，并进行了测量和分析。研究涉及多个角度，包括车队维护、软件症状、发生模式和SDK的当前实践。进一步提出了12个观察结果，阐明了它们对系统的影响。随后，提出了一种名为Farron的具体缓解方法，该方法说明了如何利用本次研究来改进现有的缓解策略。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ThreeLanes WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="ThreeLanes Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>ThreeLanes
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://deepcity.github.io/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html" title="PGStudy-静默数据损坏SDC缓解-Farron工具">https://deepcity.github.io/2024/PGStudy-静默数据损坏SDC缓解-Farron工具/article.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://x.com/DeepCity764637">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/san-xiang-93-13">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/PGStudy-CharacterizationofLargeLanguageModelDevelopmentintheDatacenter/article.html" rel="prev" title="PGStudy-CharacterizationofLargeLanguageModelDevelopmentintheDatacenter">
+                  <i class="fa fa-angle-left"></i> PGStudy-CharacterizationofLargeLanguageModelDevelopmentintheDatacenter
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>English</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html" selected="">
+          English
+        </option>
+      
+        <option value="ja" data-href="/ja/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html" selected="">
+          日本語
+        </option>
+      
+        <option value="ru" data-href="/ru/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html" selected="">
+          Английский
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">鄂ICP备2024062830号 </span>
+      <img src="/images/beian.png" alt=""><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5tcHMuZ292LmNuLyMvcXVlcnkvd2ViU2VhcmNoP2NvZGU9MjAyNDA2MjgzMA==">鄂公网安备2024062830号 </span>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ThreeLanes</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">119k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">7:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"en","enable":true,"serverURL":"https://vercel.keboe.cn/","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],"el":"#waline","comment":true,"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","path":"/en/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

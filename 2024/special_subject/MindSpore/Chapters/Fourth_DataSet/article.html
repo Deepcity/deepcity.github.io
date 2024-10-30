@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="数据集继续第二章中的Mnist数据库为例，介绍使用mindspore.dataset进行加载的方法。 详情请见MNIST数据官方网站：MNIST handwritten digit database, Yann LeCun, Corinna Cortes and Chris Burges">
+    <meta name="description" content="数据集 继续第二章中的Mnist数据库为例，介绍使用mindspore.dataset进行加载的方法。 详情请见MNIST数据官方网站：MNIST handwritten digit database, Yann LeCun, Corinna Cortes and Chris Burges">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MindSpore专题——第四章、数据集">
 <meta property="og:url" content="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Fourth_DataSet/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="数据集继续第二章中的Mnist数据库为例，介绍使用mindspore.dataset进行加载的方法。 详情请见MNIST数据官方网站：MNIST handwritten digit database, Yann LeCun, Corinna Cortes and Chris Burges">
+<meta property="og:description" content="数据集 继续第二章中的Mnist数据库为例，介绍使用mindspore.dataset进行加载的方法。 详情请见MNIST数据官方网站：MNIST handwritten digit database, Yann LeCun, Corinna Cortes and Chris Burges">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2024/06/06/36CU8spH9eSEkxl.png">
 <meta property="og:image" content="https://s2.loli.net/2024/06/06/M54ICySt9dzenva.png">
@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -329,107 +329,157 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h2><p>继续<a href="./Second_TryMindSpore.md">第二章</a>中的Mnist数据库为例，介绍使用mindspore.dataset进行加载的方法。</p>
-<p>详情请见MNIST数据官方网站：<span class="exturl" data-url="aHR0cDovL3lhbm4ubGVjdW4uY29tL2V4ZGIvbW5pc3Qv">MNIST handwritten digit database, Yann LeCun, Corinna Cortes and Chris Burges<i class="fa fa-external-link-alt"></i></span></p>
+    <div class="post-body" itemprop="articleBody"><h2 id="数据集">数据集</h2>
+<p>继续<a
+href="./Second_TryMindSpore.md">第二章</a>中的Mnist数据库为例，介绍使用mindspore.dataset进行加载的方法。</p>
+<p>详情请见MNIST数据官方网站：<span class="exturl" data-url="aHR0cDovL3lhbm4ubGVjdW4uY29tL2V4ZGIvbW5pc3Qv">MNIST handwritten digit
+database, Yann LeCun, Corinna Cortes and Chris Burges<i class="fa fa-external-link-alt"></i></span></p>
 <span id="more"></span>
 <p>下面是简略介绍</p>
-<div class="table-container">
 <table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 24%" />
+<col style="width: 55%" />
+<col style="width: 10%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:center">数据集</th>
-<th style="text-align:center">MNIST中的文件名</th>
-<th style="text-align:center">下载地址</th>
-<th style="text-align:center">文件大小</th>
+<tr class="header">
+<th style="text-align: center;">数据集</th>
+<th style="text-align: center;">MNIST中的文件名</th>
+<th style="text-align: center;">下载地址</th>
+<th style="text-align: center;">文件大小</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:center">训练集图像</td>
-<td style="text-align:center">train-images-idx3-ubyte.gz</td>
-<td style="text-align:center"><span class="exturl" data-url="aHR0cDovL3lhbm4ubGVjdW4uY29tL2V4ZGIvbW5pc3QvdHJhaW4taW1hZ2VzLWlkeDMtdWJ5dGUuZ3o=">http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz<i class="fa fa-external-link-alt"></i></span></td>
-<td style="text-align:center">9912422字节</td>
+<tr class="odd">
+<td style="text-align: center;">训练集图像</td>
+<td style="text-align: center;">train-images-idx3-ubyte.gz</td>
+<td
+style="text-align: center;">http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz</td>
+<td style="text-align: center;">9912422字节</td>
 </tr>
-<tr>
-<td style="text-align:center">训练集标签</td>
-<td style="text-align:center">train-labels-idx1-ubyte.gz</td>
-<td style="text-align:center"><span class="exturl" data-url="aHR0cDovL3lhbm4ubGVjdW4uY29tL2V4ZGIvbW5pc3QvdHJhaW4tbGFiZWxzLWlkeDEtdWJ5dGUuZ3o=">http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz<i class="fa fa-external-link-alt"></i></span></td>
-<td style="text-align:center">28881字节</td>
+<tr class="even">
+<td style="text-align: center;">训练集标签</td>
+<td style="text-align: center;">train-labels-idx1-ubyte.gz</td>
+<td
+style="text-align: center;">http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz</td>
+<td style="text-align: center;">28881字节</td>
 </tr>
-<tr>
-<td style="text-align:center">测试集图像</td>
-<td style="text-align:center">t10k-images-idx3-ubyte.gz</td>
-<td style="text-align:center"><span class="exturl" data-url="aHR0cDovL3lhbm4ubGVjdW4uY29tL2V4ZGIvbW5pc3QvdDEway1pbWFnZXMtaWR4My11Ynl0ZS5neg==">http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz<i class="fa fa-external-link-alt"></i></span></td>
-<td style="text-align:center">1648877字节</td>
+<tr class="odd">
+<td style="text-align: center;">测试集图像</td>
+<td style="text-align: center;">t10k-images-idx3-ubyte.gz</td>
+<td
+style="text-align: center;">http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz</td>
+<td style="text-align: center;">1648877字节</td>
 </tr>
-<tr>
-<td style="text-align:center">测试集标签</td>
-<td style="text-align:center">t10k-labels-idx1-ubyte.gz</td>
-<td style="text-align:center"><span class="exturl" data-url="aHR0cDovL3lhbm4ubGVjdW4uY29tL2V4ZGIvbW5pc3QvdDEway1sYWJlbHMtaWR4MS11Ynl0ZS5neg==">http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz<i class="fa fa-external-link-alt"></i></span></td>
-<td style="text-align:center">4542字节</td>
+<tr class="even">
+<td style="text-align: center;">测试集标签</td>
+<td style="text-align: center;">t10k-labels-idx1-ubyte.gz</td>
+<td
+style="text-align: center;">http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz</td>
+<td style="text-align: center;">4542字节</td>
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="数据库加载"><a href="#数据库加载" class="headerlink" title="数据库加载"></a>数据库加载</h3><p><em>请注意：mindspore.dataset的接口仅支持解压后的数据文件</em></p>
+<h3 id="数据库加载">数据库加载</h3>
+<p><em>请注意：mindspore.dataset的接口仅支持解压后的数据文件</em></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_dataset = MnistDataset(<span class="string">&quot;MNIST_Data/train&quot;</span>, shuffle=<span class="literal">False</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(train_dataset))</span><br></pre></td></tr></table></figure>
 <blockquote>
-<class 'mindspore.dataset.engine.datasets_vision.MnistDataset'>
-
+<p>&lt;class
+'mindspore.dataset.engine.datasets_vision.MnistDataset'&gt;</p>
 </blockquote>
-<h3 id="数据库迭代"><a href="#数据库迭代" class="headerlink" title="数据库迭代"></a>数据库迭代</h3><p>数据集加载后，一般以迭代方式获取数据，然后送入神经网络中进行训练。我们可以用<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL2RhdGFzZXQvZGF0YXNldF9tZXRob2QvaXRlcmF0b3IvbWluZHNwb3JlLmRhdGFzZXQuRGF0YXNldC5jcmVhdGVfdHVwbGVfaXRlcmF0b3IuaHRtbA==">create_tuple_iterator<i class="fa fa-external-link-alt"></i></span>或<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL2RhdGFzZXQvZGF0YXNldF9tZXRob2QvaXRlcmF0b3IvbWluZHNwb3JlLmRhdGFzZXQuRGF0YXNldC5jcmVhdGVfZGljdF9pdGVyYXRvci5odG1s">create_dict_iterator<i class="fa fa-external-link-alt"></i></span>接口创建数据迭代器，迭代访问数据。访问的数据类型默认为<code>Tensor</code>；若设置<code>output_numpy=True</code>，访问的数据类型为<code>Numpy</code>。</p>
+<h3 id="数据库迭代">数据库迭代</h3>
+<p>数据集加载后，一般以迭代方式获取数据，然后送入神经网络中进行训练。我们可以用<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL2RhdGFzZXQvZGF0YXNldF9tZXRob2QvaXRlcmF0b3IvbWluZHNwb3JlLmRhdGFzZXQuRGF0YXNldC5jcmVhdGVfdHVwbGVfaXRlcmF0b3IuaHRtbA==">create_tuple_iterator<i class="fa fa-external-link-alt"></i></span>或<span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL2RvY3MvemgtQ04vcjIuMi9hcGlfcHl0aG9uL2RhdGFzZXQvZGF0YXNldF9tZXRob2QvaXRlcmF0b3IvbWluZHNwb3JlLmRhdGFzZXQuRGF0YXNldC5jcmVhdGVfZGljdF9pdGVyYXRvci5odG1s">create_dict_iterator<i class="fa fa-external-link-alt"></i></span>接口创建数据迭代器，迭代访问数据。访问的数据类型默认为<code>Tensor</code>；若设置<code>output_numpy=True</code>，访问的数据类型为<code>Numpy</code>。</p>
 <p>下面定义一个可视化函数，迭代9张图片进行展示。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">visualize</span>(<span class="params">dataset</span>):</span><br><span class="line">    figure = plt.figure(figsize=(<span class="number">4</span>, <span class="number">4</span>))</span><br><span class="line">    cols, rows = <span class="number">3</span>, <span class="number">3</span></span><br><span class="line"></span><br><span class="line">    plt.subplots_adjust(wspace=<span class="number">0.5</span>, hspace=<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> idx, (image, label) <span class="keyword">in</span> <span class="built_in">enumerate</span>(dataset.create_tuple_iterator()):</span><br><span class="line">        figure.add_subplot(rows, cols, idx + <span class="number">1</span>)</span><br><span class="line">        plt.title(<span class="built_in">int</span>(label))</span><br><span class="line">        plt.axis(<span class="string">&quot;off&quot;</span>)</span><br><span class="line">        plt.imshow(image.asnumpy().squeeze(), cmap=<span class="string">&quot;gray&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> idx == cols * rows - <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
-<p>在<code>for idx, (image, label) in enumerate(dataset.create_tuple_iterator()):</code>此处的循环中枚举了训练集的前9个图像<code>enumerate()</code>函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在 for 循环当中。</p>
+<p>在<code>for idx, (image, label) in enumerate(dataset.create_tuple_iterator()):</code>此处的循环中枚举了训练集的前9个图像<code>enumerate()</code>函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在
+for 循环当中。</p>
 <p>在循环体中使用了plt类画图。</p>
-<p><img src="https://s2.loli.net/2024/06/06/36CU8spH9eSEkxl.png" alt="image-20240606173353887"></p>
-<h3 id="数据集常用操作"><a href="#数据集常用操作" class="headerlink" title="数据集常用操作"></a>数据集常用操作</h3><p>Pipeline的设计理念使得数据集的常用操作采用<code>dataset = dataset.operation()</code>的异步执行方式，执行操作返回新的Dataset，此时不执行具体操作，而是在Pipeline中加入节点，最终进行迭代时，并行执行整个Pipeline。</p>
+<figure>
+<img src="https://s2.loli.net/2024/06/06/36CU8spH9eSEkxl.png"
+alt="image-20240606173353887" />
+<figcaption aria-hidden="true">image-20240606173353887</figcaption>
+</figure>
+<h3 id="数据集常用操作">数据集常用操作</h3>
+<p>Pipeline的设计理念使得数据集的常用操作采用<code>dataset = dataset.operation()</code>的异步执行方式，执行操作返回新的Dataset，此时不执行具体操作，而是在Pipeline中加入节点，最终进行迭代时，并行执行整个Pipeline。</p>
 <p>下面分别介绍几种常见的数据集操作。</p>
-<h3 id="shuffle"><a href="#shuffle" class="headerlink" title="shuffle"></a>shuffle</h3><p>数据集随机<code>shuffle</code>可以消除数据排列造成的分布不均问题</p>
-<p><img src="https://s2.loli.net/2024/06/06/M54ICySt9dzenva.png" alt="op-shuffle"></p>
+<h3 id="shuffle">shuffle</h3>
+<p>数据集随机<code>shuffle</code>可以消除数据排列造成的分布不均问题</p>
+<figure>
+<img src="https://s2.loli.net/2024/06/06/M54ICySt9dzenva.png"
+alt="op-shuffle" />
+<figcaption aria-hidden="true">op-shuffle</figcaption>
+</figure>
 <p><code>mindspore.dataset</code>提供的数据集在加载时可配置<code>shuffle=True</code>，或使用如下操作</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_dataset = train_dataset.shuffle(buffer_size=<span class="number">64</span>)</span><br><span class="line">visualize(train_dataset)</span><br></pre></td></tr></table></figure>
-<p><img src="https://s2.loli.net/2024/06/06/yB76TmklvtYXIgE.png" alt="image-20240606173414784"></p>
-<h3 id="map"><a href="#map" class="headerlink" title="map"></a>map</h3><p><code>map</code>操作是数据预处理的关键操作，可以针对数据集指定列（column）添加数据变换（Transforms），将数据变换应用于该列数据的每个元素，并返回包含变换后元素的新数据集。</p>
+<figure>
+<img src="https://s2.loli.net/2024/06/06/yB76TmklvtYXIgE.png"
+alt="image-20240606173414784" />
+<figcaption aria-hidden="true">image-20240606173414784</figcaption>
+</figure>
+<h3 id="map">map</h3>
+<p><code>map</code>操作是数据预处理的关键操作，可以针对数据集指定列（column）添加数据变换（Transforms），将数据变换应用于该列数据的每个元素，并返回包含变换后元素的新数据集。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">image, label = <span class="built_in">next</span>(train_dataset.create_tuple_iterator())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;map前：&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(image.shape, image.dtype)</span><br><span class="line">train_dataset = train_dataset.<span class="built_in">map</span>(vision.Rescale(<span class="number">1.0</span> / <span class="number">255.0</span>, <span class="number">0</span>), input_columns=<span class="string">&#x27;image&#x27;</span>)</span><br><span class="line">image, label = <span class="built_in">next</span>(train_dataset.create_tuple_iterator())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;map后：&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(image.shape, image.dtype)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">map前：</span><br><span class="line">(28, 28, 1) UInt8</span><br><span class="line">map后：</span><br><span class="line">(28, 28, 1) Float32</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h3 id="batch"><a href="#batch" class="headerlink" title="batch"></a>batch</h3><p>将数据集打包为固定大小的<code>batch</code>是在有限硬件资源下使用梯度下降进行模型优化的折中方法，可以保证梯度下降的随机性和优化计算量。分块思想</p>
-<p>一般我们会设置一个固定的batch size，将连续的数据分为若干批（batch）。</p>
+<h3 id="batch">batch</h3>
+<p>将数据集打包为固定大小的<code>batch</code>是在有限硬件资源下使用梯度下降进行模型优化的折中方法，可以保证梯度下降的随机性和优化计算量。分块思想</p>
+<p>一般我们会设置一个固定的batch
+size，将连续的数据分为若干批（batch）。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一般设定固定batchSize</span></span><br><span class="line">train_dataset = train_dataset.batch(batch_size=<span class="number">32</span>)</span><br><span class="line"><span class="comment"># batch后的数据增加一维，大小为batch_size</span></span><br><span class="line">image, label = <span class="built_in">next</span>(train_dataset.create_tuple_iterator())</span><br><span class="line"><span class="built_in">print</span>(image.shape, image.dtype)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>(32, 28, 28, 1) Float32</p>
 </blockquote>
-<h3 id="自定义数据集"><a href="#自定义数据集" class="headerlink" title="自定义数据集"></a>自定义数据集</h3><p><code>mindspore.dataset</code>模块提供了一些常用的公开数据集和标准格式数据集的加载API。</p>
+<h3 id="自定义数据集">自定义数据集</h3>
+<p><code>mindspore.dataset</code>模块提供了一些常用的公开数据集和标准格式数据集的加载API。</p>
 <p>对于MindSpore暂不支持直接加载的数据集，可以构造自定义数据加载类或自定义数据集生成函数的方式来生成数据集，然后通过<code>GeneratorDataset</code>接口实现自定义方式的数据集加载。</p>
 <p><code>GeneratorDataset</code>支持通过可随机访问数据集对象、可迭代数据集对象和生成器(generator)构造自定义数据集，下面分别对其进行介绍。</p>
-<h4 id="可随机访问数据集"><a href="#可随机访问数据集" class="headerlink" title="可随机访问数据集"></a>可随机访问数据集</h4><p>可随机访问数据集是实现了<code>__getitem__</code>和<code>__len__</code>方法的数据集，表示可以通过索引/键直接访问对应位置的数据样本。</p>
-<ol>
-<li>实现了<code>__init__</code>，<code>__getitem__</code> 和<code>__len__</code></li>
+<h4 id="可随机访问数据集">可随机访问数据集</h4>
+<p>可随机访问数据集是实现了<code>__getitem__</code>和<code>__len__</code>方法的数据集，表示可以通过索引/键直接访问对应位置的数据样本。</p>
+<ol type="1">
+<li>实现了<code>__init__</code>，<code>__getitem__</code>
+和<code>__len__</code></li>
 <li>当使用<code>dataset[idx]</code>访问这样的数据集时，可以读取dataset内容中第idx个样本或标签</li>
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Random-accessible object as input source</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RandomAccessDataset</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>._data = np.ones((<span class="number">5</span>, <span class="number">2</span>))</span><br><span class="line">        <span class="variable language_">self</span>._label = np.zeros((<span class="number">5</span>, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, index</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>._data[index], <span class="variable language_">self</span>._label[index]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>._data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loader = RandomAccessDataset()</span><br><span class="line">dataset = GeneratorDataset(source=loader, column_names=[<span class="string">&quot;data&quot;</span>, <span class="string">&quot;label&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> dataset:</span><br><span class="line">    <span class="built_in">print</span>(data)</span><br><span class="line">    </span><br><span class="line">loader = [np.array(<span class="number">0</span>), np.array(<span class="number">1</span>), np.array(<span class="number">2</span>)]</span><br><span class="line">dataset = GeneratorDataset(source=loader, column_names=[<span class="string">&quot;data&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> dataset:</span><br><span class="line">    <span class="built_in">print</span>(data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>[Tensor(shape=[2], dtype=Float64, value= [ 1.00000000e+00,  1.00000000e+00]), Tensor(shape=[1], dtype=Float64, value= [ 0.00000000e+00])]<br>[Tensor(shape=[2], dtype=Float64, value= [ 1.00000000e+00,  1.00000000e+00]), Tensor(shape=[1], dtype=Float64, value= [ 0.00000000e+00])]<br>[Tensor(shape=[2], dtype=Float64, value= [ 1.00000000e+00,  1.00000000e+00]), Tensor(shape=[1], dtype=Float64, value= [ 0.00000000e+00])]<br>[Tensor(shape=[2], dtype=Float64, value= [ 1.00000000e+00,  1.00000000e+00]), Tensor(shape=[1], dtype=Float64, value= [ 0.00000000e+00])]<br>[Tensor(shape=[2], dtype=Float64, value= [ 1.00000000e+00,  1.00000000e+00]), Tensor(shape=[1], dtype=Float64, value= [ 0.00000000e+00])]</p>
+<p>[Tensor(shape=[2], dtype=Float64, value= [ 1.00000000e+00,
+1.00000000e+00]), Tensor(shape=[1], dtype=Float64, value= [
+0.00000000e+00])] [Tensor(shape=[2], dtype=Float64, value= [
+1.00000000e+00, 1.00000000e+00]), Tensor(shape=[1], dtype=Float64,
+value= [ 0.00000000e+00])] [Tensor(shape=[2], dtype=Float64, value= [
+1.00000000e+00, 1.00000000e+00]), Tensor(shape=[1], dtype=Float64,
+value= [ 0.00000000e+00])] [Tensor(shape=[2], dtype=Float64, value= [
+1.00000000e+00, 1.00000000e+00]), Tensor(shape=[1], dtype=Float64,
+value= [ 0.00000000e+00])] [Tensor(shape=[2], dtype=Float64, value= [
+1.00000000e+00, 1.00000000e+00]), Tensor(shape=[1], dtype=Float64,
+value= [ 0.00000000e+00])]</p>
 </blockquote>
 <p>创建的过程非常简单，通过numpy的数据结构为底层，实现三个方法就好了，更简单的直接使用list，tuple也是可行的。</p>
-<h4 id="可迭代数据集"><a href="#可迭代数据集" class="headerlink" title="可迭代数据集"></a>可迭代数据集</h4><p>可迭代的数据集是实现了<code>__iter__</code>和<code>__next__</code>方法的数据集，表示可以通过迭代的方式逐步获取数据样本。这种类型的数据集特别适用于随机访问成本太高或者不可行的情况。</p>
+<h4 id="可迭代数据集">可迭代数据集</h4>
+<p>可迭代的数据集是实现了<code>__iter__</code>和<code>__next__</code>方法的数据集，表示可以通过迭代的方式逐步获取数据样本。这种类型的数据集特别适用于随机访问成本太高或者不可行的情况。</p>
 <p>例如，当使用<code>iter(dataset)</code>的形式访问数据集时，可以读取从数据库、远程服务器返回的数据流。</p>
 <p>下面构造一个简单迭代器，并将其加载至<code>GeneratorDataset</code>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Iterator as input source</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">IterableDataset</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, start, end</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;init the class object to hold the data&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.start = start</span><br><span class="line">        <span class="variable language_">self</span>.end = end</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;iter one data and return&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">next</span>(<span class="variable language_">self</span>.data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;reset the iter&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.data = <span class="built_in">iter</span>(<span class="built_in">range</span>(<span class="variable language_">self</span>.start, <span class="variable language_">self</span>.end))</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loader = IterableDataset(<span class="number">1</span>, <span class="number">5</span>)</span><br><span class="line">dataset = GeneratorDataset(source=loader, column_names=[<span class="string">&quot;data&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> dataset:</span><br><span class="line">    <span class="built_in">print</span>(d)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>[Tensor(shape=[], dtype=Int32, value= 1)]<br>[Tensor(shape=[], dtype=Int32, value= 2)]<br>[Tensor(shape=[], dtype=Int32, value= 3)]<br>[Tensor(shape=[], dtype=Int32, value= 4)]</p>
+<p>[Tensor(shape=[], dtype=Int32, value= 1)] [Tensor(shape=[],
+dtype=Int32, value= 2)] [Tensor(shape=[], dtype=Int32, value= 3)]
+[Tensor(shape=[], dtype=Int32, value= 4)]</p>
 </blockquote>
 <p>同样的，实现方法即可</p>
-<h4 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h4><p>生成器也属于可迭代的数据集类型，其直接依赖Python的生成器类型<code>generator</code>返回数据，直至生成器抛出<code>StopIteration</code>异常。</p>
+<h4 id="生成器">生成器</h4>
+<p>生成器也属于可迭代的数据集类型，其直接依赖Python的生成器类型<code>generator</code>返回数据，直至生成器抛出<code>StopIteration</code>异常。</p>
 <p>下面构造一个生成器，并将其加载至<code>GeneratorDataset</code>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Generator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_generator</span>(<span class="params">start, end</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(start, end):</span><br><span class="line">        <span class="keyword">yield</span> i</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># since a generator instance can be only iterated once, we need to wrap it by lambda to generate multiple instances</span></span><br><span class="line">dataset = GeneratorDataset(source=<span class="keyword">lambda</span>: my_generator(<span class="number">3</span>, <span class="number">6</span>), column_names=[<span class="string">&quot;data&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> dataset:</span><br><span class="line">    <span class="built_in">print</span>(d)</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>[Tensor(shape=[], dtype=Int32, value= 3)]<br>[Tensor(shape=[], dtype=Int32, value= 4)]<br>[Tensor(shape=[], dtype=Int32, value= 5)]</p>
+<p>[Tensor(shape=[], dtype=Int32, value= 3)] [Tensor(shape=[],
+dtype=Int32, value= 4)] [Tensor(shape=[], dtype=Int32, value= 5)]</p>
 </blockquote>
 <p>这个更绝，仅用一个函数即可生成。（此处匿不匿名无关紧要）</p>
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
+<h2 id="常见问题">常见问题</h2>
+<ol type="1">
 <li>找不到模块 matplotlib</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install matplotlib</span><br></pre></td></tr></table></figure>
@@ -581,13 +631,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">109k</span>
+    <span title="站点总字数">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:38</span>
+    <span title="站点阅读时长">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

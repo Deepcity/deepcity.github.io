@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Linux的网络配置在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。 基础网络命令 ifconfig最基本最常用的命令，用于查看本地网卡的信息，">
+    <meta name="description" content="Linux的网络配置 在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。 基础网络命令  ifconfig最基本最常用的命令，用于查看本地">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux网络设置">
 <meta property="og:url" content="https://deepcity.github.io/en/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="Linux的网络配置在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。 基础网络命令 ifconfig最基本最常用的命令，用于查看本地网卡的信息，">
+<meta property="og:description" content="Linux的网络配置 在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。 基础网络命令  ifconfig最基本最常用的命令，用于查看本地">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://s2.loli.net/2024/08/24/uRIr2VMaYvtkFhH.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/24/1K8cfE5atGrgeAY.png">
@@ -149,7 +149,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">Linux的网络配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">基础网络命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91"><span class="nav-number">1.2.</span> <span class="nav-text">如何科学上网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E5%B9%B3%E5%8F%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">Windows平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">推荐软件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E5%B9%B3%E5%8F%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">Linux平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">常用的软件配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#yum"><span class="nav-number">1.2.2.1.1.</span> <span class="nav-text">yum</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#docker"><span class="nav-number">1.2.2.1.2.</span> <span class="nav-text">docker</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%B9%BF%E5%91%8A%EF%BC%8C%E4%B8%AA%E4%BA%BA%E8%87%AA%E7%94%A8%E6%9C%BA%E5%9C%BA"><span class="nav-number">1.2.3.</span> <span class="nav-text">无广告，个人自用机场</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E4%BF%AE%E5%A4%8D"><span class="nav-number">1.3.</span> <span class="nav-text">异常修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">Linux的网络配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">基础网络命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91"><span class="nav-number">1.2.</span> <span class="nav-text">如何科学上网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E5%B9%B3%E5%8F%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">Windows平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">推荐软件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux%E5%B9%B3%E5%8F%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">Linux平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">常用的软件配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#yum"><span class="nav-number">1.2.2.1.1.</span> <span class="nav-text">yum</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#docker"><span class="nav-number">1.2.2.1.2.</span> <span class="nav-text">docker</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%B9%BF%E5%91%8A%E4%B8%AA%E4%BA%BA%E8%87%AA%E7%94%A8%E6%9C%BA%E5%9C%BA"><span class="nav-number">1.2.3.</span> <span class="nav-text">无广告，个人自用机场</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E4%BF%AE%E5%A4%8D"><span class="nav-number">1.3.</span> <span class="nav-text">异常修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -162,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -319,87 +319,112 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Linux的网络配置"><a href="#Linux的网络配置" class="headerlink" title="Linux的网络配置"></a>Linux的网络配置</h1><p>在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。</p>
-<h2 id="基础网络命令"><a href="#基础网络命令" class="headerlink" title="基础网络命令"></a>基础网络命令</h2><ol>
+    <div class="post-body" itemprop="articleBody"><h1 id="linux的网络配置">Linux的网络配置</h1>
+<p>在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。</p>
+<h2 id="基础网络命令">基础网络命令</h2>
+<ol type="1">
 <li><code>ifconfig</code>最基本最常用的命令，用于查看本地网卡的信息，一般查看值为IP或者本地物理地址</li>
-<li><code>ping</code> 简单的测试网络丢包率，有时<code>curl</code>命令对网站的检测更为准确，因为两者对于代理的检测并不完全一致</li>
+<li><code>ping</code>
+简单的测试网络丢包率，有时<code>curl</code>命令对网站的检测更为准确，因为两者对于代理的检测并不完全一致</li>
 <li><code>netstat</code>用于查看本地端口的状态信息，一般用于查看当前那些端口是开放的，那些端口是被某个特定应用监控的，一般搭配<code>grep</code>使用</li>
 <li><code>traceroute</code>针对特定目标地址的报文转发追踪，基于IP报文中的生存时间TTL实现，一般用于查看对特定网络服务是否联通，也可用于查看本机某个端口是否对外界开放，最经典的例子就是mail端口25，这个端口国内很少开放</li>
-<li><code>whois</code> 查看域名建立时间，有效期等，一般用于查看网站的归属信息以及ssl证书的有效期</li>
+<li><code>whois</code>
+查看域名建立时间，有效期等，一般用于查看网站的归属信息以及ssl证书的有效期</li>
 <li><code>host</code>查看有关目的地址的信息，既可以通过IP查看域名，也可以通过域名查看IP</li>
-<li><code>ifdown</code> <code>ifup</code>,这两个命令用于对特定网卡的关启</li>
+<li><code>ifdown</code>
+<code>ifup</code>,这两个命令用于对特定网卡的关启</li>
 <li><code>nmtui</code> 通过调用一个内置的网卡配置图形化界面配置网卡</li>
 <li><code>systemctl start/stop/enable/restart NetworkManager</code>这是一个特殊的通过systemctl控制网络服务以实现对网络进行开关的命令，常用于对<code>/etc/NetworkManager/NetworkManager.conf</code>该文件进行修改后的重新配置网络</li>
-<li><code>env | grep -E &#39;http_proxy|https_proxy&#39;</code>这条命令比较特殊，一般用于查看当前的代理</li>
+<li><code>env | grep -E 'http_proxy|https_proxy'</code>这条命令比较特殊，一般用于查看当前的代理</li>
 </ol>
 <span id="more"></span>
-<h2 id="如何科学上网"><a href="#如何科学上网" class="headerlink" title="如何科学上网"></a>如何科学上网</h2><h3 id="Windows平台"><a href="#Windows平台" class="headerlink" title="Windows平台"></a>Windows平台</h3><p>对于Windows平台，该平台有大量用户基础，并且生态良好，很容易找到代理上网的软件以及节点。（初接触者千万区分这两者，代理是代理也称机场，软件是软件）。两者一个收费最好，一个完全免费。</p>
-<h4 id="推荐软件"><a href="#推荐软件" class="headerlink" title="推荐软件"></a>推荐软件</h4><p>V2ray、ClashForWindows等</p>
-<h3 id="Linux平台"><a href="#Linux平台" class="headerlink" title="Linux平台"></a>Linux平台</h3><p>推荐clash-for-linux，一个个人自用的备份库</p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0VsZWd5Y2xvdWQvY2xhc2gtZm9yLWxpbnV4LWJhY2t1cA==">Elegycloud/clash-for-linux-backup: 基于Clash Core 制作的Clash For Linux备份仓库 A Clash For Linux Backup Warehouse Based on Clash Core (github.com)<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="如何科学上网">如何科学上网</h2>
+<h3 id="windows平台">Windows平台</h3>
+<p>对于Windows平台，该平台有大量用户基础，并且生态良好，很容易找到代理上网的软件以及节点。（初接触者千万区分这两者，代理是代理也称机场，软件是软件）。两者一个收费最好，一个完全免费。</p>
+<h4 id="推荐软件">推荐软件</h4>
+<p>V2ray、ClashForWindows等</p>
+<h3 id="linux平台">Linux平台</h3>
+<p>推荐clash-for-linux，一个个人自用的备份库</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0VsZWd5Y2xvdWQvY2xhc2gtZm9yLWxpbnV4LWJhY2t1cA==">Elegycloud/clash-for-linux-backup:
+基于Clash Core 制作的Clash For Linux备份仓库 A Clash For Linux Backup
+Warehouse Based on Clash Core (github.com)<i class="fa fa-external-link-alt"></i></span></p>
 <p>根据md文档操作即可</p>
 <p>注：</p>
-<ol>
+<ol type="1">
 <li>这样的操作一般用于加速对github的下载</li>
 <li>配置其他的服务代理一般需要特别配置，因为很多服务实际上是通过守护进程来进行网络通信的</li>
 </ol>
-<h4 id="常用的软件配置"><a href="#常用的软件配置" class="headerlink" title="常用的软件配置"></a>常用的软件配置</h4><h5 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h5><p>注意对yum文件的禁用修改方式，不要使用rm，而是加文件名后缀禁用文件</p>
-<ol>
+<h4 id="常用的软件配置">常用的软件配置</h4>
+<h5 id="yum">yum</h5>
+<p>注意对yum文件的禁用修改方式，不要使用rm，而是加文件名后缀禁用文件</p>
+<ol type="1">
 <li><p>全局修改</p>
 <p>修改/etc/yum.conf文件即可，在结尾添加你的本地代理网址</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy=http://IP:Port</span><br><span class="line">// 在本文中为</span><br><span class="line">proxy=http://127.0.0.1：7890</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy=http://IP:Port</span><br><span class="line">// 在本文中为</span><br><span class="line">proxy=http://127.0.0.1：7890</span><br></pre></td></tr></table></figure></li>
 <li><p>对特定的仓库启用代理</p>
 <p>比如<code>CentOS-Base.repo</code>中有三个仓库：base、updates和extras。我们只想给base仓库设置代理，则只需要在对应的仓库后面添加一行，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[base]</span><br><span class="line">name=CentOS-$releasever - Base</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"># 下一行为新增,效果为base仓库走代理</span><br><span class="line">proxy=http://ip:port</span><br><span class="line"># 下注释一行为base不走代理</span><br><span class="line"># proxy=_none_</span><br><span class="line">#released updates </span><br><span class="line">[updates]</span><br><span class="line">name=CentOS-$releasever - Updates</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#additional packages that may be useful</span><br><span class="line">[extras]</span><br><span class="line">name=CentOS-$releasever - Extras</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-</span><br><span class="line">gpg/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[base]</span><br><span class="line">name=CentOS-$releasever - Base</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"># 下一行为新增,效果为base仓库走代理</span><br><span class="line">proxy=http://ip:port</span><br><span class="line"># 下注释一行为base不走代理</span><br><span class="line"># proxy=_none_</span><br><span class="line">#released updates </span><br><span class="line">[updates]</span><br><span class="line">name=CentOS-$releasever - Updates</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#additional packages that may be useful</span><br><span class="line">[extras]</span><br><span class="line">name=CentOS-$releasever - Extras</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras&amp;infra=$infra</span><br><span class="line">baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-</span><br><span class="line">gpg/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h5 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h5><p>按照需求修改文件即可，详见</p>
-<p> <a href="Docker安装与网络配置/article.html">Docker.md</a> </p>
-<h3 id="无广告，个人自用机场"><a href="#无广告，个人自用机场" class="headerlink" title="无广告，个人自用机场"></a>无广告，个人自用机场</h3><p><span class="exturl" data-url="aHR0cHM6Ly9qdXN0bXlzb2Nrcy5hcHAv">Just My Socks官网<i class="fa fa-external-link-alt"></i></span></p>
-<h2 id="异常修复"><a href="#异常修复" class="headerlink" title="异常修复"></a>异常修复</h2><p><strong>重装系统或恢复快照</strong></p>
+<h5 id="docker">docker</h5>
+<p>按照需求修改文件即可，详见</p>
+<p><a href="Docker安装与网络配置/article.html">Docker.md</a></p>
+<h3 id="无广告个人自用机场">无广告，个人自用机场</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9qdXN0bXlzb2Nrcy5hcHAv">Just My Socks官网<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="异常修复">异常修复</h2>
+<p><strong>重装系统或恢复快照</strong></p>
 <p>在花式乱搞后，虚拟机（服务器）的网络很容易会出现问题，比如，完全看不到虚拟机的网络选项，它有网卡但是却根本不获取ip！</p>
-<p><img src="https://s2.loli.net/2024/08/24/uRIr2VMaYvtkFhH.png" alt="Error"></p>
+<figure>
+<img src="https://s2.loli.net/2024/08/24/uRIr2VMaYvtkFhH.png"
+alt="Error" />
+<figcaption aria-hidden="true">Error</figcaption>
+</figure>
 <p>这种情况一般都是 network这个网卡服务出现了问题</p>
-<ol>
+<ol type="1">
 <li><p>找到错误</p>
-<p>查找虚拟机设置或者通过其他命令与文件查找到错误之后，通过<code>systemctl restart network</code>验证该服务是否出错</p>
-</li>
+<p>查找虚拟机设置或者通过其他命令与文件查找到错误之后，通过<code>systemctl restart network</code>验证该服务是否出错</p></li>
 <li><p>排除关联</p>
 <p>通过</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop NetworkManager</span><br><span class="line">systemctl disable NetworkManager</span><br><span class="line">systemctl start network.service</span><br></pre></td></tr></table></figure>
 <p>成功启动服务，确定network服务启动失败与NetworkManager之间的关联</p>
-<p>但可以观察到，此时问题仍未解决，虚拟机仍无法上网，但是通过<code>ifconfig ens33</code>（ens33为网卡名）可以发现dhcp正常工作，更进一步的，我们从虚拟机ping主机也是可以ping通的</p>
-</li>
+<p>但可以观察到，此时问题仍未解决，虚拟机仍无法上网，但是通过<code>ifconfig ens33</code>（ens33为网卡名）可以发现dhcp正常工作，更进一步的，我们从虚拟机ping主机也是可以ping通的</p></li>
 <li><p>尝试解决上网问题</p>
-<p>每种vm切换连接方式都解决不了问题，虚拟机仍无法上网，但可以发现，每次启动NetworkManager服务，就会导致虚拟机失去IP从而无法通信</p>
-</li>
+<p>每种vm切换连接方式都解决不了问题，虚拟机仍无法上网，但可以发现，每次启动NetworkManager服务，就会导致虚拟机失去IP从而无法通信</p></li>
 </ol>
 <p>可见NetworkManager与network之间发生了一些冲突，导致两个服务相互影响使得网络处于要么能分配ip但上不了网，要么根本没ip的局面。</p>
-<p><img src="https://s2.loli.net/2024/08/24/1K8cfE5atGrgeAY.png" alt="xe"></p>
+<figure>
+<img src="https://s2.loli.net/2024/08/24/1K8cfE5atGrgeAY.png"
+alt="xe" />
+<figcaption aria-hidden="true">xe</figcaption>
+</figure>
 <p>尝试查看错误信息可以发现其中奥秘。可以发现这一切都与一个名叫lo的本地环回接口有关，它被设置为不受管理。</p>
 <p>在我询问chatgpt后，我得到了一种解决方式</p>
 <p><strong>这种方式使得NetworkManager与network服务同时进行，可以访问网络，但无网络连接图标</strong>（虚拟机环境）</p>
 <p>具体方式为</p>
-<ol>
-<li><p>确保 <code>lo</code> 接口没有被 NetworkManager 管理。<code>/etc/NetworkManager/NetworkManager.conf</code> 文件中修改配置</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">main</span>]</span><br><span class="line">plugins=keyfile</span><br><span class="line"></span><br><span class="line">[<span class="meta">keyfile</span>]</span><br><span class="line"><span class="keyword">unmanaged</span>-devices=<span class="keyword">interface</span>-<span class="title">name</span>:<span class="title">lo</span></span><br></pre></td></tr></table></figure>
-</li>
+<ol type="1">
+<li><p>确保 <code>lo</code> 接口没有被 NetworkManager
+管理。<code>/etc/NetworkManager/NetworkManager.conf</code>
+文件中修改配置</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">main</span>]</span><br><span class="line">plugins=keyfile</span><br><span class="line"></span><br><span class="line">[<span class="meta">keyfile</span>]</span><br><span class="line"><span class="keyword">unmanaged</span>-devices=<span class="keyword">interface</span>-<span class="title">name</span>:<span class="title">lo</span></span><br></pre></td></tr></table></figure></li>
 <li><p>清除可能的网络配置缓存</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr flush dev ens33</span><br><span class="line">sudo ip route flush table main</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr flush dev ens33</span><br><span class="line">sudo ip route flush table main</span><br></pre></td></tr></table></figure></li>
 <li><p>重启服务</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart NetworkManager</span><br><span class="line">sudo systemctl restart network.service</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart NetworkManager</span><br><span class="line">sudo systemctl restart network.service</span><br></pre></td></tr></table></figure></li>
 </ol>
-<p><del>对于虚拟机的网络显示问题，目前还未找到好的解决方式，网络上博主表示直接重装系统即可。。。</del> 找到方法了， 直接挂起然后启动就好，很神奇，重启解决不了，挂起能解决。。。</p>
+<p><del>对于虚拟机的网络显示问题，目前还未找到好的解决方式，网络上博主表示直接重装系统即可。。。</del>
+找到方法了，
+直接挂起然后启动就好，很神奇，重启解决不了，挂起能解决。。。</p>
 <blockquote>
-<p>网络管理器(NetworManager)是检测网络、自动连接网络的程序。无论是无线还是有线连接，它都可以令您轻松管理。对于无线网络,网络管理器优先连接已知的网络并可以自动切换到最可靠的无线网络。利用网络管理器的程序可以自由切换在线和离线模式。网络管理器会相对无线网络优先选择有线网络，支持 VPN。网络管理器最初由 Redhat 公司开发，现在由 GNOME 管理。</p>
-<p>NetworkManager由一个管理系统网络连接、并且将其状态通过D-BUS（是一个提供简单的应用程序 互相通讯的途径的自由软件项目，它是作为freedesktoporg项目的一部分来开发的。）进行报告的后台服务，以及一个允许用户管理网络连接的客户端程序。</p>
+<p>网络管理器(NetworManager)是检测网络、自动连接网络的程序。无论是无线还是有线连接，它都可以令您轻松管理。对于无线网络,网络管理器优先连接已知的网络并可以自动切换到最可靠的无线网络。利用网络管理器的程序可以自由切换在线和离线模式。网络管理器会相对无线网络优先选择有线网络，支持
+VPN。网络管理器最初由 Redhat 公司开发，现在由 GNOME 管理。</p>
+<p>NetworkManager由一个管理系统网络连接、并且将其状态通过D-BUS（是一个提供简单的应用程序
+互相通讯的途径的自由软件项目，它是作为freedesktoporg项目的一部分来开发的。）进行报告的后台服务，以及一个允许用户管理网络连接的客户端程序。</p>
 </blockquote>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
-<li><span class="exturl" data-url="aHR0cHM6Ly9wc2hpemhzeXN1LmdpdGJvb2suaW8vbGludXgveXVtL3dlaS15dW0teXVhbi1wZWktemhpLWRhaS1saQ==">为yum源配置代理 | linux (gitbook.io)<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vd2FuZ2Z4L3AvMTcyOTM0NzIuaHRtbA==">解决centos7网卡启动失败解决（亲测有效！！） - 王飞侠 - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
+<h2 id="参考文献">参考文献</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cHM6Ly9wc2hpemhzeXN1LmdpdGJvb2suaW8vbGludXgveXVtL3dlaS15dW0teXVhbi1wZWktemhpLWRhaS1saQ==">为yum源配置代理
+| linux (gitbook.io)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vd2FuZ2Z4L3AvMTcyOTM0NzIuaHRtbA==">解决centos7网卡启动失败解决（亲测有效！！）
+- 王飞侠 - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
 </ol>
 
     </div>
@@ -548,13 +573,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Word count total">109k</span>
+    <span title="Word count total">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:38</span>
+    <span title="Reading time total">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

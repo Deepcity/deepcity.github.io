@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="RSA (Rivest–Shamir–Adleman) is a public-key cryptosystem, one of the oldest widely used for secure data transmission. RSA（Rivest–Shamir–Adleman）是一种公钥密码系统，是最古老且广泛用于安全数据传输的系统之一。它是一种非对称公钥-私钥密码系统。">
+    <meta name="description" content="RSA (Rivest–Shamir–Adleman) is a public-key cryptosystem, one of the oldest widely used for secure data transmission. RSA（Rivest–Shamir–Adleman）是一种公钥密码系统，是最古老且广泛用于安全数据传输的系统之一。它是一种非对称公钥-私钥密码系统。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RSA涉及算法与数论知识">
 <meta property="og:url" content="https://deepcity.github.io/2024/RSA%E6%B6%89%E5%8F%8A%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E8%AE%BA%E7%9F%A5%E8%AF%86/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="RSA (Rivest–Shamir–Adleman) is a public-key cryptosystem, one of the oldest widely used for secure data transmission. RSA（Rivest–Shamir–Adleman）是一种公钥密码系统，是最古老且广泛用于安全数据传输的系统之一。它是一种非对称公钥-私钥密码系统。">
+<meta property="og:description" content="RSA (Rivest–Shamir–Adleman) is a public-key cryptosystem, one of the oldest widely used for secure data transmission. RSA（Rivest–Shamir–Adleman）是一种公钥密码系统，是最古老且广泛用于安全数据传输的系统之一。它是一种非对称公钥-私钥密码系统。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-14T11:51:58.000Z">
 <meta property="article:modified_time" content="2024-08-27T08:23:26.277Z">
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -320,51 +320,102 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><strong>RSA</strong> (<strong>Rivest–Shamir–Adleman</strong>) is a <span class="exturl" data-url="aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvUHVibGljLWtleV9jcnlwdG9ncmFwaHk=">public-key cryptosystem<i class="fa fa-external-link-alt"></i></span>, one of the oldest widely used for secure data transmission.</p>
+    <div class="post-body" itemprop="articleBody"><p><strong>RSA</strong> (<strong>Rivest–Shamir–Adleman</strong>) is a <span class="exturl" data-url="aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvUHVibGljLWtleV9jcnlwdG9ncmFwaHk=">public-key
+cryptosystem<i class="fa fa-external-link-alt"></i></span>, one of the oldest widely used for secure data
+transmission.</p>
 <p>RSA（Rivest–Shamir–Adleman）是一种公钥密码系统，是最古老且广泛用于安全数据传输的系统之一。它是一种非对称公钥-私钥密码系统。</p>
 <span id="more"></span>
-<h2 id="基础数论知识纲要"><a href="#基础数论知识纲要" class="headerlink" title="基础数论知识纲要"></a>基础数论知识纲要</h2><p>传送门：<span class="exturl" data-url="aHR0cHM6Ly93d3cuc3R1ZG9jdS5jb20vc2cvY291cnNlL25hbnlhbmctdGVjaG5vbG9naWNhbC11bml2ZXJzaXR5L251bWJlci10aGVvcnkvMzAzMTkzNA==">MH3210 - NTU - Number Theory - Studocu<i class="fa fa-external-link-alt"></i></span></p>
-<p>知乎blog：<span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC82MzUzMzI2NTg=">基础数论学习笔记（1）- Divisibility 整除 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p>
-<p>讲义：<span class="exturl" data-url="aHR0cHM6Ly8xZHJ2Lm1zL2YvcyFBcC1lblk3Y2tMQU5nb05Ib3R6cTNTUlRhZnA0cGc=">NanYang Technological University MH1300ANDMH3210<i class="fa fa-external-link-alt"></i></span> </p>
-<h2 id="概念定义"><a href="#概念定义" class="headerlink" title="概念定义"></a>概念定义</h2><p><strong>费马小定理</strong>：选一个<strong>素数p</strong>，再选一个和p不成倍数关系的整数β，必然满足<strong>β的p次幂</strong>和<strong>β</strong>对p同余。公式如下。</p>
-<script type="math/tex; mode=display">
-\beta^p \equiv \beta (modp)</script><p><strong>二次剩余</strong>： 取定 <script type="math/tex">𝑎\perp 𝑝</script>, 假若存在着 $x$使得</p>
-<script type="math/tex; mode=display">
-x^2 \equiv a (modp)</script><p>则称<script type="math/tex">a</script>是<script type="math/tex">modp</script>的特殊剩余，否则则是<script type="math/tex">modp</script>的二次非剩余</p>
-<p><strong>欧拉准则</strong>：元素β是<strong>模奇素数p</strong>的平方剩余的充要条件是，β的(p-1)/2次幂和1对p同余。即以下公式</p>
-<script type="math/tex; mode=display">
-\beta ^ {(p-1)/2} \equiv 1 (mod p) | p \equiv 1 (mod2)</script><blockquote>
-<p>欧拉准则证明：<br>设<script type="math/tex">r^2 = \beta</script>则有 <script type="math/tex">r^{p-1} \equiv 1 (modp)</script>,利用费马小定理即可得证。</p>
+<h2 id="基础数论知识纲要">基础数论知识纲要</h2>
+<p>传送门：<span class="exturl" data-url="aHR0cHM6Ly93d3cuc3R1ZG9jdS5jb20vc2cvY291cnNlL25hbnlhbmctdGVjaG5vbG9naWNhbC11bml2ZXJzaXR5L251bWJlci10aGVvcnkvMzAzMTkzNA==">MH3210
+- NTU - Number Theory - Studocu<i class="fa fa-external-link-alt"></i></span></p>
+<p>知乎blog：<span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC82MzUzMzI2NTg=">基础数论学习笔记（1）-
+Divisibility 整除 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p>
+<p>讲义：<span class="exturl" data-url="aHR0cHM6Ly8xZHJ2Lm1zL2YvcyFBcC1lblk3Y2tMQU5nb05Ib3R6cTNTUlRhZnA0cGc=">NanYang
+Technological University MH1300ANDMH3210<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="概念定义">概念定义</h2>
+<p><strong>费马小定理</strong>：选一个<strong>素数p</strong>，再选一个和p不成倍数关系的整数β，必然满足<strong>β的p次幂</strong>和<strong>β</strong>对p同余。公式如下。
+<span class="math display">\[
+\beta^p \equiv \beta (modp)
+\]</span> <strong>二次剩余</strong>： 取定 <span
+class="math display">\[𝑎\perp 𝑝\]</span>, 假若存在着 <span
+class="math inline">\(x\)</span>使得 <span class="math display">\[
+x^2 \equiv a (modp)
+\]</span></p>
+<p>则称<span class="math display">\[a\]</span>是<span
+class="math display">\[modp\]</span>的特殊剩余，否则则是<span
+class="math display">\[modp\]</span>的二次非剩余</p>
+<p><strong>欧拉准则</strong>：元素β是<strong>模奇素数p</strong>的平方剩余的充要条件是，β的(p-1)/2次幂和1对p同余。即以下公式
+<span class="math display">\[
+\beta ^ {(p-1)/2} \equiv 1 (mod p) | p \equiv 1 (mod2)
+\]</span></p>
+<blockquote>
+<p>欧拉准则证明： 设<span class="math display">\[r^2 =
+\beta\]</span>则有 <span class="math display">\[r^{p-1} \equiv 1
+(modp)\]</span>,利用费马小定理即可得证。</p>
 </blockquote>
-<p><strong>勒让德符号</strong>：$(\frac{a}{p})$ 若$a$ 是$modp$的平方剩余 则 $(\frac{a}{p}) = 1$ ，若不是，则$(\frac{a}{p})= -1$，$a<script type="math/tex">和</script>p$是整除关系则$(\frac{a}{p})=0$ ,如下列公式</p>
-<script type="math/tex; mode=display">
-(\frac{a}{p}) = 
+<p><strong>勒让德符号</strong>：<span
+class="math inline">\((\frac{a}{p})\)</span> 若<span
+class="math inline">\(a\)</span> 是<span
+class="math inline">\(modp\)</span>的平方剩余 则 <span
+class="math inline">\((\frac{a}{p}) = 1\)</span> ，若不是，则<span
+class="math inline">\((\frac{a}{p})= -1\)</span>，<span
+class="math inline">\(a\)</span><span
+class="math inline">\(和\)</span><span
+class="math inline">\(p\)</span>是整除关系则<span
+class="math inline">\((\frac{a}{p})=0\)</span> ,如下列公式 <span
+class="math display">\[
+(\frac{a}{p}) =
 \begin{cases}
 1,\quad x^2 \equiv a(modp)\\
 0, \quad a \equiv 0 (modp) \\
 -1, \quad x^2 \not\equiv a(modp)
 \end{cases}
-\tag{1}</script><p>Solovay-Strassen算法：若n是一个素数，那么勒让德符号$(\frac{β}{n})\equiv β^{(n-1)/2}mod n$。</p>
+\tag{1}
+\]</span> Solovay-Strassen算法：若n是一个素数，那么勒让德符号<span
+class="math inline">\((\frac{β}{n})\equiv β^{(n-1)/2}mod
+n\)</span>。</p>
 <blockquote>
-<p>Strassen算法证明：根据欧拉准则<strong>β的(n-1)/2次方和1对n不同余</strong>，根据费马小定理，<strong>β的n-1次方</strong>和1对n同余，根据平方差公式，$β^{n-1}-1=(β^{(n-1)/2}-1)(β^{(n-1)/2}+1)$ 。由于$（β^{(n-1)/2}-1）$ 无法被n整除，所以$（β^{(n-1)/2}+1）$ 必然能被n整除，进而得到$β^{(n-1)/2}\equiv-1  (mod n)$。</p>
+<p>Strassen算法证明：根据欧拉准则<strong>β的(n-1)/2次方和1对n不同余</strong>，根据费马小定理，<strong>β的n-1次方</strong>和1对n同余，根据平方差公式，<span
+class="math inline">\(β^{n-1}-1=(β^{(n-1)/2}-1)(β^{(n-1)/2}+1)\)</span>
+。由于<span class="math inline">\(（β^{(n-1)/2}-1）\)</span>
+无法被n整除，所以<span class="math inline">\(（β^{(n-1)/2}+1）\)</span>
+必然能被n整除，进而得到<span
+class="math inline">\(β^{(n-1)/2}\equiv-1  (mod n)\)</span>。</p>
 </blockquote>
 <p><strong>该命题的逆命题是不成立的</strong></p>
-<p><strong>二次互反律</strong>：$\mathbb Z_p^\times\to\mathbb Z_2$</p>
+<p><strong>二次互反律</strong>：<span class="math inline">\(\mathbb
+Z_p^\times\to\mathbb Z_2\)</span></p>
 <p><strong>Miller-Rabin算法</strong>：</p>
-<p>输入待测试大数<script type="math/tex">n</script>，对<script type="math/tex">n-1</script>不断地进行除<script type="math/tex">2</script>操作，直到得到一个<strong>奇数t</strong>。</p>
-<p>于是这可以写成 $n-1 = 2^s \cdot t$ 。显然的，待测试大数$n$肯定是个奇数（废话，是偶数还测个锤子了），那么<script type="math/tex">n-1</script>肯定是个偶数，故$s\not=0$。</p>
-<p>选择<strong>随机种子$a$</strong>，$a＜n$且与$n$互素。（这个也很容易做到，如果随便一下子就测出来不互素，那就不用测了）</p>
-<p>先设$m=t$。计算 $b \equiv a^t(modn)$ ：</p>
+<p>输入待测试大数<span class="math display">\[n\]</span>，对<span
+class="math display">\[n-1\]</span>不断地进行除<span
+class="math display">\[2\]</span>操作，直到得到一个<strong>奇数t</strong>。</p>
+<p>于是这可以写成 <span class="math inline">\(n-1 = 2^s \cdot t\)</span>
+。显然的，待测试大数<span
+class="math inline">\(n\)</span>肯定是个奇数（废话，是偶数还测个锤子了），那么<span
+class="math display">\[n-1\]</span>肯定是个偶数，故<span
+class="math inline">\(s\not=0\)</span>。</p>
+<p>选择<strong>随机种子<span
+class="math inline">\(a\)</span></strong>，<span
+class="math inline">\(a＜n\)</span>且与<span
+class="math inline">\(n\)</span>互素。（这个也很容易做到，如果随便一下子就测出来不互素，那就不用测了）</p>
+<p>先设<span class="math inline">\(m=t\)</span>。计算 <span
+class="math inline">\(b \equiv a^t(modn)\)</span> ：</p>
 <ul>
-<li><p>情况①：当 $m=2^s \cdot t = n -1$时，停机，输出“n是一个合数”。</p>
-</li>
-<li><p>情况②：当 $b \equiv -1 (modn)$ 时，停机，换一个随机种子$a$再次进行测试。</p>
-</li>
-<li><p>情况③：当$b \equiv -1(modn)$不成立时，重新设$b$为$b²(mod n)$，$m$为$2m$​；继续循环，直到得到情况①或情况②为止。</p>
-</li>
+<li><p>情况①：当 <span class="math inline">\(m=2^s \cdot t = n
+-1\)</span>时，停机，输出“n是一个合数”。</p></li>
+<li><p>情况②：当 <span class="math inline">\(b \equiv -1 (modn)\)</span>
+时，停机，换一个随机种子<span
+class="math inline">\(a\)</span>再次进行测试。</p></li>
+<li><p>情况③：当<span class="math inline">\(b \equiv
+-1(modn)\)</span>不成立时，重新设<span
+class="math inline">\(b\)</span>为<span class="math inline">\(b²(mod
+n)\)</span>，<span class="math inline">\(m\)</span>为<span
+class="math inline">\(2m\)</span>​；继续循环，直到得到情况①或情况②为止。</p></li>
 </ul>
-<h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><p><strong>快速幂</strong>：通过二进制的快速幂优化</p>
-<p><strong>计算勒让德符号$(\frac{\beta}{n})$​</strong> ：二次互反</p>
+<h2 id="计算方法">计算方法</h2>
+<p><strong>快速幂</strong>：通过二进制的快速幂优化</p>
+<p><strong>计算勒让德符号<span
+class="math inline">\((\frac{\beta}{n})\)</span>​</strong> ：二次互反</p>
 <p><strong>大整数除法中对小除数的优化</strong>：移位计算小除数的商</p>
 <p><strong>大整数除法中对大除数的优化</strong>：二分查找对每次计算试商的优化</p>
 
@@ -514,13 +565,13 @@ x^2 \equiv a (modp)</script><p>则称<script type="math/tex">a</script>是<scrip
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">109k</span>
+    <span title="站点总字数">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:38</span>
+    <span title="站点阅读时长">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

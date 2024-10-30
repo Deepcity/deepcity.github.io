@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="统计学指标——分类基本概念准确度、精确率、召回率、F1值作为评估指标，经常用到分类效果的评测上。比较好理解的二分类问题，准确度评估预测正确的比例，精确率评估预测正例的查准率，召回率评估真实正例的查全率。 准确度 Accuracy准确度：正例和负例中预测正确数量占总数量的比例，用公式表示：  ACC&#x3D;\frac{TP+TN}{TP+FP+FN+TN}">
+    <meta name="description" content="统计学指标——分类 基本概念 准确度、精确率、召回率、F1值作为评估指标，经常用到分类效果的评测上。比较好理解的二分类问题，准确度评估预测正确的比例，精确率评估预测正例的查准率，召回率评估真实正例的查全率。 准确度 Accuracy 准确度：正例和负例中预测正确数量占总数量的比例，用公式表示： \[ ACC&#x3D;\frac{TP+TN}{TP+FP+FN+TN} \]">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PGStudy-统计学指标Part">
 <meta property="og:url" content="https://deepcity.github.io/ja/2024/PGStudy-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E6%8C%87%E6%A0%87Part1/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="统计学指标——分类基本概念准确度、精确率、召回率、F1值作为评估指标，经常用到分类效果的评测上。比较好理解的二分类问题，准确度评估预测正确的比例，精确率评估预测正例的查准率，召回率评估真实正例的查全率。 准确度 Accuracy准确度：正例和负例中预测正确数量占总数量的比例，用公式表示：  ACC&#x3D;\frac{TP+TN}{TP+FP+FN+TN}">
+<meta property="og:description" content="统计学指标——分类 基本概念 准确度、精确率、召回率、F1值作为评估指标，经常用到分类效果的评测上。比较好理解的二分类问题，准确度评估预测正确的比例，精确率评估预测正例的查准率，召回率评估真实正例的查全率。 准确度 Accuracy 准确度：正例和负例中预测正确数量占总数量的比例，用公式表示： \[ ACC&#x3D;\frac{TP+TN}{TP+FP+FN+TN} \]">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://s2.loli.net/2024/10/13/YFtn2RxUBaEr8PD.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/13/ZHia9DykNYb2oVf.png">
@@ -151,7 +151,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E5%AD%A6%E6%8C%87%E6%A0%87%E2%80%94%E2%80%94%E5%88%86%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">统计学指标——分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E7%A1%AE%E5%BA%A6-Accuracy"><span class="nav-number">1.2.</span> <span class="nav-text">准确度 Accuracy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B2%BE%E7%A1%AE%E5%BA%A6-Precision"><span class="nav-number">1.3.</span> <span class="nav-text">精确度 Precision</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E%E7%8E%87-Recall"><span class="nav-number">1.4.</span> <span class="nav-text">召回率 Recall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#F1%E5%80%BC"><span class="nav-number">1.5.</span> <span class="nav-text">F1值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%88%86%E7%B1%BB%E4%B8%8B%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="nav-number">1.6.</span> <span class="nav-text">多分类下的评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E7%9B%B8%E5%85%B3"><span class="nav-number">1.7.</span> <span class="nav-text">补充相关</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E5%AD%A6%E6%8C%87%E6%A0%87%E5%88%86%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">统计学指标——分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E7%A1%AE%E5%BA%A6-accuracy"><span class="nav-number">1.2.</span> <span class="nav-text">准确度 Accuracy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B2%BE%E7%A1%AE%E5%BA%A6-precision"><span class="nav-number">1.3.</span> <span class="nav-text">精确度 Precision</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E%E7%8E%87-recall"><span class="nav-number">1.4.</span> <span class="nav-text">召回率 Recall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f1%E5%80%BC"><span class="nav-number">1.5.</span> <span class="nav-text">F1值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%88%86%E7%B1%BB%E4%B8%8B%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="nav-number">1.6.</span> <span class="nav-text">多分类下的评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E7%9B%B8%E5%85%B3"><span class="nav-number">1.7.</span> <span class="nav-text">补充相关</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -315,72 +315,88 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="统计学指标——分类"><a href="#统计学指标——分类" class="headerlink" title="统计学指标——分类"></a>统计学指标——分类</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>准确度、精确率、召回率、F1值作为评估指标，经常用到分类效果的评测上。比较好理解的二分类问题，准确度评估预测正确的比例，精确率评估预测正例的查准率，召回率评估真实正例的查全率。</p>
-<h3 id="准确度-Accuracy"><a href="#准确度-Accuracy" class="headerlink" title="准确度 Accuracy"></a>准确度 Accuracy</h3><p>准确度：正例和负例中预测正确数量占总数量的比例，用公式表示：</p>
-<script type="math/tex; mode=display">
-ACC=\frac{TP+TN}{TP+FP+FN+TN}</script><span id="more"></span>
-<h3 id="精确度-Precision"><a href="#精确度-Precision" class="headerlink" title="精确度 Precision"></a>精确度 Precision</h3><p>精确度：以<strong>预测结果</strong>为判断依据，预测为正例的样本中预测正确的比例。</p>
-<script type="math/tex; mode=display">
-precision=\frac{TP}{TP+FP}</script><p>精确度还有一个名字，叫做<strong>“查准率”</strong>，我们关心的主要部分是正例，所以查准率就是相对正例的预测结果而言，正例预测的准确度。直白的意思就是模型预测为正例的样本中，其中真正的正例占预测为正例样本的比例，用此标准来<strong>评估预测正例的准确度</strong>。</p>
-<h3 id="召回率-Recall"><a href="#召回率-Recall" class="headerlink" title="召回率 Recall"></a>召回率 Recall</h3><p>召回率：以<strong>实际样本</strong>为判断依据，实际为正例的样本中，被预测正确的正例占总实际正例样本的比例。</p>
-<script type="math/tex; mode=display">
-recall=\frac{TP}{TP+FN}</script><h3 id="F1值"><a href="#F1值" class="headerlink" title="F1值"></a>F1值</h3><ul>
-<li><p>Q: 为什么在有了前三种评估预测的值后还需要F1值</p>
-</li>
-<li><p>A:    单独用精确率或者召回率是否能很好的评估模型好坏，举个例子：</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="统计学指标分类">统计学指标——分类</h2>
+<h3 id="基本概念">基本概念</h3>
+<p>准确度、精确率、召回率、F1值作为评估指标，经常用到分类效果的评测上。比较好理解的二分类问题，准确度评估预测正确的比例，精确率评估预测正例的查准率，召回率评估真实正例的查全率。</p>
+<h3 id="准确度-accuracy">准确度 Accuracy</h3>
+<p>准确度：正例和负例中预测正确数量占总数量的比例，用公式表示： <span
+class="math display">\[
+ACC=\frac{TP+TN}{TP+FP+FN+TN}
+\]</span></p>
+<span id="more"></span>
+<h3 id="精确度-precision">精确度 Precision</h3>
+<p>精确度：以<strong>预测结果</strong>为判断依据，预测为正例的样本中预测正确的比例。
+<span class="math display">\[
+precision=\frac{TP}{TP+FP}
+\]</span>
+精确度还有一个名字，叫做<strong>“查准率”</strong>，我们关心的主要部分是正例，所以查准率就是相对正例的预测结果而言，正例预测的准确度。直白的意思就是模型预测为正例的样本中，其中真正的正例占预测为正例样本的比例，用此标准来<strong>评估预测正例的准确度</strong>。</p>
+<h3 id="召回率-recall">召回率 Recall</h3>
+<p>召回率：以<strong>实际样本</strong>为判断依据，实际为正例的样本中，被预测正确的正例占总实际正例样本的比例。
+<span class="math display">\[
+recall=\frac{TP}{TP+FN}
+\]</span></p>
+<h3 id="f1值">F1值</h3>
+<ul>
+<li><p>Q: 为什么在有了前三种评估预测的值后还需要F1值</p></li>
+<li><p>A: 单独用精确率或者召回率是否能很好的评估模型好坏，举个例子：</p>
 <p>1、什么情况下精确率很高但是召回率很低？</p>
 <p>一个极端的例子，比如我们黑球实际上有3个，分别是1号、2号、3号球，如果我们只预测1号球是黑色，此时预测为正例的样本都是正确的，精确率p=1，但是召回率r=1/3。</p>
 <p>2、什么情况下召回率很高但是精确率很低？</p>
 <p>如果我们10个球都预测为黑球，此时所有实际为黑球都被预测正确了，实际上黑球有三个，召回率r=1，精确率p=3/10。</p>
-<p>F1值就是中和了精确率和召回率的指标：</p>
-<script type="math/tex; mode=display">
-F1=\frac{2PR}{P+R}</script><p>当P和R同时为1时，F1=1。当有一个很大，另一个很小的时候，比如P=1，R~0，此时F1~0。分子2PR的2完全了为了使最终取值在0-1之间，进行区间放大，无实际意义。</p>
-</li>
+<p>F1值就是中和了精确率和召回率的指标： <span class="math display">\[
+F1=\frac{2PR}{P+R}
+\]</span>
+当P和R同时为1时，F1=1。当有一个很大，另一个很小的时候，比如P=1，R<sub>0，此时F1</sub>0。分子2PR的2完全了为了使最终取值在0-1之间，进行区间放大，无实际意义。</p></li>
 </ul>
-<h3 id="多分类下的评估"><a href="#多分类下的评估" class="headerlink" title="多分类下的评估"></a>多分类下的评估</h3><p>Multiple-classification实际上是更广泛的二分类，即，二分类实际上是多分类的一种特殊情况，因为任何一种分类结果实际上都可以被当做Positives正例。即多分类在计算统计学指标时需要指定正例是谁。</p>
+<h3 id="多分类下的评估">多分类下的评估</h3>
+<p>Multiple-classification实际上是更广泛的二分类，即，二分类实际上是多分类的一种特殊情况，因为任何一种分类结果实际上都可以被当做Positives正例。即多分类在计算统计学指标时需要指定正例是谁。</p>
 <p>值得注意的是对整体的评估指标应该如何求值，因为我们有多个正例的acc,p,r，一般情况下，直接求均值即可，但在有些时候，根据不同类重要性不同对其进行加权均值也是一种常见方式。</p>
-<h3 id="补充相关"><a href="#补充相关" class="headerlink" title="补充相关"></a>补充相关</h3><ol>
+<h3 id="补充相关">补充相关</h3>
+<ol type="1">
 <li><p><strong>什么是TP，FP，FN，TN</strong></p>
-<p>这四种分别是真正例(True Positives)，假正例(False Positives)，假负例(False Negatives)，真负例(True Negatives)</p>
-<p><img src="https://s2.loli.net/2024/10/13/YFtn2RxUBaEr8PD.png" alt="正负例"></p>
+<p>这四种分别是真正例(True Positives)，假正例(False
+Positives)，假负例(False Negatives)，真负例(True Negatives)</p>
+<figure>
+<img src="https://s2.loli.net/2024/10/13/YFtn2RxUBaEr8PD.png"
+alt="正负例" />
+<figcaption aria-hidden="true">正负例</figcaption>
+</figure>
 <p>记忆要点：正负例的是依据预测值，真假是依据实际值。<strong>真正例</strong>的意思，预测为<strong>正例</strong>，实际上是<strong>真的</strong>正例。</p>
 <blockquote>
-<p>eg：<img src="https://s2.loli.net/2024/10/13/ZHia9DykNYb2oVf.png" alt="二分类例子"></p>
+<p>eg：<img src="https://s2.loli.net/2024/10/13/ZHia9DykNYb2oVf.png"
+alt="二分类例子" /></p>
 <p>如果我们以黑球为正例标准，则可以统计出：</p>
 <p>TP：2个， 预测是黑色的，实际就是黑色的，即黑字红色部分。</p>
 <p>FP：2个，预测是黑色的，实际是白色的，即黑字黑色部分，即编号4和5。</p>
 <p>FN：1个，预测是白色的，实际是黑色的，即白字黑色部分，即编号3。</p>
 <p>TN：5个。预测是白色的，实际是白色的，即白字红色部分。</p>
-</blockquote>
-</li>
+</blockquote></li>
 <li><p><strong>Python实际使用</strong></p>
 <p><strong>sklearn 的评估函数</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, precision_score, recall_score, f1_score</span><br><span class="line"></span><br><span class="line">y_true = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">y_pred = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;acc:&quot;</span>, accuracy_score(y_true, y_pred))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;p:&quot;</span>, precision_score(y_true, y_pred))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;r:&quot;</span>, recall_score(y_true, y_pred))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;f1:&quot;</span>, f1_score(y_true, y_pred))</span><br></pre></td></tr></table></figure>
 <p>输出结果为：</p>
 <blockquote>
-<p>acc: 0.7<br>p: 0.5<br>r: 0.6666666666666666<br>f1: 0.5714285714285715</p>
+<p>acc: 0.7 p: 0.5 r: 0.6666666666666666 f1: 0.5714285714285715</p>
 </blockquote>
 <p><strong>pyspark 的评估函数</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.mllib.evaluation <span class="keyword">import</span> MulticlassMetrics</span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkConf, SparkContext</span><br><span class="line"></span><br><span class="line">conf = SparkConf() \</span><br><span class="line">    .setMaster(<span class="string">&quot;local&quot;</span>) \</span><br><span class="line">    .setAppName(<span class="string">&quot;Metrics-test&quot;</span>)</span><br><span class="line">sc = SparkContext(conf=conf)</span><br><span class="line"></span><br><span class="line">predictionAndLabels = sc.parallelize([  <span class="comment">#(预测值，真实值)</span></span><br><span class="line">    (<span class="number">1.0</span>, <span class="number">1.0</span>),</span><br><span class="line">    (<span class="number">1.0</span>, <span class="number">1.0</span>),</span><br><span class="line">    (<span class="number">0.0</span>, <span class="number">1.0</span>),</span><br><span class="line">    (<span class="number">1.0</span>, <span class="number">0.0</span>),</span><br><span class="line">    (<span class="number">1.0</span>, <span class="number">0.0</span>),</span><br><span class="line">    (<span class="number">0.0</span>, <span class="number">0.0</span>),</span><br><span class="line">    (<span class="number">0.0</span>, <span class="number">0.0</span>),</span><br><span class="line">    (<span class="number">0.0</span>, <span class="number">0.0</span>),</span><br><span class="line">    (<span class="number">0.0</span>, <span class="number">0.0</span>),</span><br><span class="line">    (<span class="number">0.0</span>, <span class="number">0.0</span>)])</span><br><span class="line"></span><br><span class="line">metrics = MulticlassMetrics(predictionAndLabels)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;acc:&quot;</span>, metrics.accuracy)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;p:&quot;</span>, metrics.precision(<span class="number">1.0</span>)) <span class="comment"># 必须传入label值，否则统计的是类别0和类别1的均值</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;r:&quot;</span>, metrics.recall(<span class="number">1.0</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;f1&quot;</span>, metrics.fMeasure(<span class="number">1.0</span>))</span><br></pre></td></tr></table></figure>
 <p><strong>tensorflow 的评估函数</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">train_graph = tf.Graph()</span><br><span class="line"><span class="keyword">with</span> train_graph.as_default():</span><br><span class="line">    labels = tf.constant([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>])</span><br><span class="line">    predicts = tf.constant([<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>])</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 返回的是一个二元组tuple</span></span><br><span class="line">	accuracy = tf.metrics.accuracy(labels, predicts)</span><br><span class="line">	precision = tf.metrics.precision(labels, predicts)</span><br><span class="line">	recall = tf.metrics.recall(labels, predicts)</span><br><span class="line">	f1 = tf.metrics.mean((<span class="number">2</span> * precision[<span class="number">1</span>] * recall[<span class="number">1</span>]) / (precision[<span class="number">1</span>] + recall[<span class="number">1</span>]), name=<span class="string">&#x27;f1_score&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=train_graph) <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(tf.local_variables_initializer())</span><br><span class="line">    result = sess.run([accuracy, precision, recall, f1])</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>   输出为：</p>
+<p>输出为：</p>
 <blockquote>
-<p>[(0.0, 0.7), (1.0, 0.5), (1.0, 0.6666667), (0.0, 0.57142854)] </p>
+<p>[(0.0, 0.7), (1.0, 0.5), (1.0, 0.6666667), (0.0, 0.57142854)]</p>
 </blockquote>
-<p>   后面一个才是真实值</p>
-<ol>
+<p>后面一个才是真实值</p></li>
 <li><p><strong>混淆矩阵 Confusion Matrix</strong></p>
 <p>针对两种测出同一种类型组的实验方式或对象测试的统计数据评估矩阵，常用于比较两种对象或方式的优劣程度或表诉某种实验方式预测结果的统计指标</p>
 <p>一个经典的表示预测方式统计指标的混淆矩阵Confusion Matrix如下：</p>
 <p><img src="https://s2.loli.net/2024/10/13/XUzj3elfFnQxPWp.jpg" alt="What is the Confusion Matrix in Machine Learning?- Simplest Explanation!" style="zoom:25%;" /></p>
-<p>值得注意的是，在很多实验当中Actual并非实际客观的结论而是指定的一种F1较高的实验结果。</p>
-</li>
+<p>值得注意的是，在很多实验当中Actual并非实际客观的结论而是指定的一种F1较高的实验结果。</p></li>
 </ol>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xoeGV6Njg2OC9hcnRpY2xlL2RldGFpbHMvMTA4MTUwNzc3">准确度(accuracy)、精确率（precision)、召回率（recall）、F1值 谈谈我的看法_recall f1-CSDN博客<i class="fa fa-external-link-alt"></i></span></li>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xoeGV6Njg2OC9hcnRpY2xlL2RldGFpbHMvMTA4MTUwNzc3">准确度(accuracy)、精确率（precision)、召回率（recall）、F1值
+谈谈我的看法_recall f1-CSDN博客<i class="fa fa-external-link-alt"></i></span></li>
 </ol>
 
     </div>
@@ -530,13 +546,13 @@ F1=\frac{2PR}{P+R}</script><p>当P和R同时为1时，F1=1。当有一个很大�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="単語の総数">109k</span>
+    <span title="単語の総数">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">6:38</span>
+    <span title="読書の合計時間">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

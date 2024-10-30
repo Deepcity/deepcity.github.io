@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="CentOS运维记录我在CentOS中折腾的经验。 存储空间不足在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。">
+    <meta name="description" content="CentOS运维 记录我在CentOS中折腾的经验。 存储空间不足 在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS运维记录">
 <meta property="og:url" content="https://deepcity.github.io/ja/2024/CentOS%E8%BF%90%E7%BB%B4%E8%AE%B0%E5%BD%95/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="CentOS运维记录我在CentOS中折腾的经验。 存储空间不足在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。">
+<meta property="og:description" content="CentOS运维 记录我在CentOS中折腾的经验。 存储空间不足 在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://s2.loli.net/2024/08/25/JwhxWA1cV8niUu2.png">
 <meta property="article:published_time" content="2024-08-25T07:23:35.000Z">
@@ -148,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CentOS%E8%BF%90%E7%BB%B4"><span class="nav-number">1.</span> <span class="nav-text">CentOS运维</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3"><span class="nav-number">1.1.</span> <span class="nav-text">存储空间不足</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.1.1.</span> <span class="nav-text">名词解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%98%90%E8%BF%B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">常用命令阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A9%E5%AE%B9"><span class="nav-number">1.1.3.</span> <span class="nav-text">虚拟机扩容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LVM%E6%89%A9%E5%AE%B9"><span class="nav-number">1.1.4.</span> <span class="nav-text">LVM扩容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%89%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">掉网络问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.3.</span> <span class="nav-text">经验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#centos%E8%BF%90%E7%BB%B4"><span class="nav-number">1.</span> <span class="nav-text">CentOS运维</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3"><span class="nav-number">1.1.</span> <span class="nav-text">存储空间不足</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.1.1.</span> <span class="nav-text">名词解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%98%90%E8%BF%B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">常用命令阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A9%E5%AE%B9"><span class="nav-number">1.1.3.</span> <span class="nav-text">虚拟机扩容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lvm%E6%89%A9%E5%AE%B9"><span class="nav-number">1.1.4.</span> <span class="nav-text">LVM扩容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%89%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">掉网络问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.3.</span> <span class="nav-text">经验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -312,23 +312,33 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="CentOS运维"><a href="#CentOS运维" class="headerlink" title="CentOS运维"></a>CentOS运维</h1><p>记录我在CentOS中折腾的经验。</p>
-<h2 id="存储空间不足"><a href="#存储空间不足" class="headerlink" title="存储空间不足"></a>存储空间不足</h2><p>在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="centos运维">CentOS运维</h1>
+<p>记录我在CentOS中折腾的经验。</p>
+<h2 id="存储空间不足">存储空间不足</h2>
+<p>在不断的使用CentOS虚拟机的过程中，docker对磁盘空间的庞大需求最终还是占满了我为学习准备的20g空间，因此，我对CentOS的磁盘开始了第一次折腾。</p>
 <span id="more"></span>
-<h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><p>写在前面为一些缩写给出解释</p>
-<ol>
-<li><p>LVM的基本组成</p>
-<ol>
-<li>物理卷 (PV，Physical Volume)<br>一个可供存储LVM的块设备. 如硬盘分区（MBR或GPT分区）、SAN 的硬盘、RAID 或 LUN，一个回环文件, 一个被内核映射的设备 (例如 dm-crypt)，它包含一个特殊的LVM头，它是 LVM 构建的实际硬件或存储系统。</li>
-<li>卷组 (VG，Volume Group)<br>卷组是对一个或多个物理卷的集合，并在设备文件系统中显示为 /dev/VG_NAME。</li>
-<li>逻辑卷 (LV，Logical Volume)<br>逻辑卷是可供系统使用的最终元设备，它们在卷组中创建和管理，由物理块组成，实际上就是一个虚拟分区，并显示为 /dev/VG_NAME/LV_NAME，通常在其上可以创建文件系统。</li>
-<li>物理块 (PE，Physical Extends)<br>一个卷组中最小的连续区域(默认为4 MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。</li>
+<h3 id="名词解释">名词解释</h3>
+<p>写在前面为一些缩写给出解释</p>
+<ol type="1">
+<li>LVM的基本组成
+<ol type="1">
+<li>物理卷 (PV，Physical Volume) 一个可供存储LVM的块设备.
+如硬盘分区（MBR或GPT分区）、SAN 的硬盘、RAID 或 LUN，一个回环文件,
+一个被内核映射的设备 (例如 dm-crypt)，它包含一个特殊的LVM头，它是 LVM
+构建的实际硬件或存储系统。</li>
+<li>卷组 (VG，Volume Group)
+卷组是对一个或多个物理卷的集合，并在设备文件系统中显示为
+/dev/VG_NAME。</li>
+<li>逻辑卷 (LV，Logical Volume)
+逻辑卷是可供系统使用的最终元设备，它们在卷组中创建和管理，由物理块组成，实际上就是一个虚拟分区，并显示为
+/dev/VG_NAME/LV_NAME，通常在其上可以创建文件系统。</li>
+<li>物理块 (PE，Physical Extends) 一个卷组中最小的连续区域(默认为4
+MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。</li>
+</ol></li>
+<li>xfs文件系统：一种自Centos7起使用的文件系统</li>
 </ol>
-</li>
-<li><p>xfs文件系统：一种自Centos7起使用的文件系统</p>
-</li>
-</ol>
-<h3 id="常用命令阐述"><a href="#常用命令阐述" class="headerlink" title="常用命令阐述"></a>常用命令阐述</h3><ol>
+<h3 id="常用命令阐述">常用命令阐述</h3>
+<ol type="1">
 <li><code>lsblk</code>该命令可以查看当前硬盘的分区状况</li>
 <li><code>fdisk</code>该命令可以启动分盘程序，常用<code>fdisk -l</code>查看磁盘情况</li>
 <li><code>pvdisplay</code>显示物理卷</li>
@@ -337,62 +347,69 @@
 <li><code>df</code>显示文件系统的容量以及挂载点位，常用参数<code>-h</code>显示适当的大小</li>
 <li><code>pvcreate</code>创建物理分区</li>
 <li><code>vgextend</code>扩容vg空间</li>
-<li><code>lvextend</code> 扩容lv空间 <code>-L</code>指按照指定空间，<code>-l</code>指按照指定百分比</li>
-<li><code>xfs_growfs</code>增加 XFS 文件系统的大小，必须挂载 XFS 文件系统，并且底层设备上必须有可用空间。</li>
+<li><code>lvextend</code> 扩容lv空间
+<code>-L</code>指按照指定空间，<code>-l</code>指按照指定百分比</li>
+<li><code>xfs_growfs</code>增加 XFS 文件系统的大小，必须挂载 XFS
+文件系统，并且底层设备上必须有可用空间。</li>
 </ol>
-<h3 id="虚拟机扩容"><a href="#虚拟机扩容" class="headerlink" title="虚拟机扩容"></a>虚拟机扩容</h3><p>在Vmware虚拟机中，如果VM对硬盘预留了空间，那么可以直接二通过VMware进行扩容</p>
-<p><img src="https://s2.loli.net/2024/08/25/JwhxWA1cV8niUu2.png" alt="VMware"></p>
+<h3 id="虚拟机扩容">虚拟机扩容</h3>
+<p>在Vmware虚拟机中，如果VM对硬盘预留了空间，那么可以直接二通过VMware进行扩容</p>
+<figure>
+<img src="https://s2.loli.net/2024/08/25/JwhxWA1cV8niUu2.png"
+alt="VMware" />
+<figcaption aria-hidden="true">VMware</figcaption>
+</figure>
 <p>但很多情况下，这个方法都是不起作用的，尤其是分配了多块硬盘的情况。</p>
-<h3 id="LVM扩容"><a href="#LVM扩容" class="headerlink" title="LVM扩容"></a>LVM扩容</h3><p>LVM是扩容时所使用的空间的格式，是Linux所特有的空间的处理方法。</p>
-<ol>
-<li><p>通过虚拟机或服务器提供商增加硬盘大小</p>
-</li>
+<h3 id="lvm扩容">LVM扩容</h3>
+<p>LVM是扩容时所使用的空间的格式，是Linux所特有的空间的处理方法。</p>
+<ol type="1">
+<li><p>通过虚拟机或服务器提供商增加硬盘大小</p></li>
 <li><p>为当前硬盘新建分区，并格式化为lvm</p>
-<ol>
+<ol type="1">
 <li><code>lsblk</code>显示硬盘状态</li>
 <li><code>fdisk [sdx]</code> 指定硬盘名调用fdisk系统</li>
 <li>新建分区</li>
 <li><code>t</code>指定<code>8e</code>lvm文件系统</li>
-</ol>
-</li>
+</ol></li>
 <li><p>将新建硬盘加入vg</p>
-<ol>
-<li><p>创建pv，<code>pvcreate /dev/[sdx]</code> </p>
-</li>
+<ol type="1">
+<li><p>创建pv，<code>pvcreate /dev/[sdx]</code></p></li>
 <li><p>合并到已有vg组</p>
-<ol>
+<ol type="1">
 <li><code>vgdisplay</code> 查看当前vg</li>
 <li>对欲增加容量的vg使用<code>vgextend [VG Name] /dev/[sdx]</code></li>
-</ol>
-</li>
+</ol></li>
 <li><p>扩展lv空间</p>
-<ol>
-<li><p><code>lvdisplay</code>查看已有lv空间</p>
-</li>
+<ol type="1">
+<li><p><code>lvdisplay</code>查看已有lv空间</p></li>
 <li><p><code>df -h</code>查看对应挂载点空间</p>
 <blockquote>
 <p>如LV name是home，他的LV Path是/dev/centos/home。</p>
-<p>假如我们想添加空间到/home中，可以在df -h的结果中看到其对应着/dev/mapper/centos-home</p>
-</blockquote>
-</li>
-<li><p><code>lvextend -l/L +xx%/+xxG /dev/centos/xxxxx</code>扩展空间</p>
-</li>
+<p>假如我们想添加空间到/home中，可以在df
+-h的结果中看到其对应着/dev/mapper/centos-home</p>
+</blockquote></li>
+<li><p><code>lvextend -l/L +xx%/+xxG /dev/centos/xxxxx</code>扩展空间</p></li>
+</ol></li>
+<li><p><code>xfs_growfs</code>使新的空间可用</p></li>
+</ol></li>
 </ol>
-</li>
-<li><p><code>xfs_growfs</code>使新的空间可用</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="掉网络问题"><a href="#掉网络问题" class="headerlink" title="掉网络问题"></a>掉网络问题</h2><p>见 <a href="../Linux网络设置/article.html">Linux网络设置.md</a> 中异常处理一章</p>
-<h2 id="经验"><a href="#经验" class="headerlink" title="经验"></a>经验</h2><ol>
+<h2 id="掉网络问题">掉网络问题</h2>
+<p>见 <a href="../Linux网络设置/article.html">Linux网络设置.md</a>
+中异常处理一章</p>
+<h2 id="经验">经验</h2>
+<ol type="1">
 <li>多快照，尤其是当你修改/etc/目录下的一些配置文件，尤其是<code>/etc/fstab</code>该文件。</li>
 <li>maintain模式下，小数字键盘是不起作用的，而且这时不会有提示告诉你有问题</li>
 </ol>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
-<li><span class="exturl" data-url="aHR0cHM6Ly9jbG91ZC50ZW5jZW50LmNvbS9kZXZlbG9wZXIvYXJ0aWNsZS8yNDI0MTM2">Linux Centos系统 磁盘分区和文件系统管理 （深入理解）-腾讯云开发者社区-腾讯云 (tencent.com)<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vbGFiLXpqL3AvMTM0NzQ1NDkuaHRtbA==">VMware虚拟机（centos7）容量不足调整（LVM） - 小小小光子 - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vb3JhbmdlLUNDL3AvMTI3MTEwNzguaHRtbA==">存储系列之 XFS文件系统简介 - orange-C - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
+<h2 id="参考文献">参考文献</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cHM6Ly9jbG91ZC50ZW5jZW50LmNvbS9kZXZlbG9wZXIvYXJ0aWNsZS8yNDI0MTM2">Linux
+Centos系统 磁盘分区和文件系统管理 （深入理解）-腾讯云开发者社区-腾讯云
+(tencent.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vbGFiLXpqL3AvMTM0NzQ1NDkuaHRtbA==">VMware虚拟机（centos7）容量不足调整（LVM）
+- 小小小光子 - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vb3JhbmdlLUNDL3AvMTI3MTEwNzguaHRtbA==">存储系列之
+XFS文件系统简介 - orange-C - 博客园 (cnblogs.com)<i class="fa fa-external-link-alt"></i></span></li>
 <li><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjkxNTQzMS9hcnRpY2xlL2RldGFpbHMvMTIxODgxMDU0">Linux下的磁盘管理之LVM详解及lvm的常用磁盘操作命令_lvm命令-CSDN博客<i class="fa fa-external-link-alt"></i></span></li>
 </ol>
 
@@ -542,13 +559,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="単語の総数">109k</span>
+    <span title="単語の総数">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">6:38</span>
+    <span title="読書の合計時間">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

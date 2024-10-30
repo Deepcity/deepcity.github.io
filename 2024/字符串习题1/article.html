@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="题意：给定一个字符串，求包含ACCEPT但不包含WA且长度大于k的子串数量。 题解：子序列自动机，一个我较少写的算法（ps:可能是用到了没意识到），mark。。。 子序列自动机的基本概念是用二维数组保存对于i位置 j字符第一次出现的位置为nxt[i][j]，通过这种方式来维护字串ACCEPT和子串WA的子序列位置。 这是一个很容易理解，很多人没有给它命名的算法。该题的答案就是对于每个以i结尾的字符">
+    <meta name="description" content="题意： 给定一个字符串，求包含ACCEPT但不包含WA且长度大于k的子串数量。 题解： 子序列自动机，一个我较少写的算法（ps:可能是用到了没意识到），mark。。。 子序列自动机的基本概念是用二维数组保存对于i位置 j字符第一次出现的位置为nxt[i][j]，通过这种方式来维护字串ACCEPT和子串WA的子序列位置。 这是一个很容易理解，很多人没有给它命名的算法。该题的答案就是对于每">
 <meta property="og:type" content="article">
 <meta property="og:title" content="字符串">
 <meta property="og:url" content="https://deepcity.github.io/2024/%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B9%A0%E9%A2%981/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="题意：给定一个字符串，求包含ACCEPT但不包含WA且长度大于k的子串数量。 题解：子序列自动机，一个我较少写的算法（ps:可能是用到了没意识到），mark。。。 子序列自动机的基本概念是用二维数组保存对于i位置 j字符第一次出现的位置为nxt[i][j]，通过这种方式来维护字串ACCEPT和子串WA的子序列位置。 这是一个很容易理解，很多人没有给它命名的算法。该题的答案就是对于每个以i结尾的字符">
+<meta property="og:description" content="题意： 给定一个字符串，求包含ACCEPT但不包含WA且长度大于k的子串数量。 题解： 子序列自动机，一个我较少写的算法（ps:可能是用到了没意识到），mark。。。 子序列自动机的基本概念是用二维数组保存对于i位置 j字符第一次出现的位置为nxt[i][j]，通过这种方式来维护字串ACCEPT和子串WA的子序列位置。 这是一个很容易理解，很多人没有给它命名的算法。该题的答案就是对于每">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-14T11:37:01.000Z">
 <meta property="article:modified_time" content="2024-08-27T08:32:59.101Z">
@@ -146,7 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">题意：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">题解：</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E6%84%8F"><span class="nav-number">1.</span> <span class="nav-text">题意：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解：</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -320,10 +320,13 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h1><p>给定一个字符串，求包含ACCEPT但不包含WA且长度大于k的子串数量。</p>
-<h1 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h1><p>子序列自动机，一个我较少写的算法（ps:可能是用到了没意识到），mark。。。</p>
-<p>子序列自动机的基本概念是用二维数组保存对于i位置 j字符第一次出现的位置为nxt[i][j]，通过这种方式来维护字串ACCEPT和子串WA的子序列位置。</p>
-<p>这是一个很容易理解，很多人没有给它命名的算法。该题的答案就是对于每个以i结尾的字符串i，计算后一个“WA”，“A”与后一个“ACCEPT”中的“A”的上一位合法字符串长度累和。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="题意">题意：</h1>
+<p>给定一个字符串，求包含ACCEPT但不包含WA且长度大于k的子串数量。</p>
+<h1 id="题解">题解：</h1>
+<p>子序列自动机，一个我较少写的算法（ps:可能是用到了没意识到），mark。。。</p>
+<p>子序列自动机的基本概念是用二维数组保存对于i位置
+j字符第一次出现的位置为nxt[i][j]，通过这种方式来维护字串ACCEPT和子串WA的子序列位置。</p>
+<p>这是一个很容易理解，很多人没有给它命名的算法。该题的答案就是对于每个以i结尾的字符串i，计算后一个“WA"，“A”与后一个“ACCEPT”中的“A”的上一位合法字符串长度累和。</p>
 <span id="more"></span>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">get_next</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=n;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;<span class="number">26</span>;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i==n) nxt[i][j]=n;</span><br><span class="line">            <span class="keyword">else</span> nxt[i][j]=nxt[i<span class="number">+1</span>][j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(i!=n) nxt[i][s[i]-<span class="string">&#x27;A&#x27;</span>]=i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">get_pos</span><span class="params">(<span class="type">int</span> st,string s)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> first=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> ch:s)&#123;</span><br><span class="line">        <span class="keyword">if</span>(first) st=nxt[st][ch-<span class="string">&#x27;A&#x27;</span>];</span><br><span class="line">        <span class="keyword">else</span> st=nxt[st<span class="number">+1</span>][ch-<span class="string">&#x27;A&#x27;</span>];</span><br><span class="line">        first=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(st==n) <span class="keyword">return</span> st;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> st;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">slove</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k&gt;&gt;s;</span><br><span class="line">    <span class="built_in">get_next</span>();</span><br><span class="line">    string ac=<span class="string">&quot;ACCEPT&quot;</span>,wa=<span class="string">&quot;WA&quot;</span>;</span><br><span class="line">    ll ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="type">int</span> r1=<span class="built_in">get_pos</span>(i,ac),r2=<span class="built_in">get_pos</span>(i,wa);</span><br><span class="line">        r1=<span class="built_in">max</span>(r1,i+k<span class="number">-1</span>);</span><br><span class="line">        ans=ans+<span class="built_in">max</span>(r2-r1,<span class="number">0ll</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -473,13 +476,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">109k</span>
+    <span title="站点总字数">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:38</span>
+    <span title="站点阅读时长">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Поиск...","empty":"По запросу ничего не найдено: ${query}","hits_time":"${hits} результатов найдено за ${time} мс","hits":"${hits} результатов найдено"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="TransformerTransformer是一种神经网络结构，有Vaswani等人在2017年的论文“Attention Is All You Need”中提出，用于处理机器翻译、语言建模和文本生成登自然语言处理任务。">
+    <meta name="description" content="Transformer Transformer是一种神经网络结构，有Vaswani等人在2017年的论文“Attention Is All You Need”中提出，用于处理机器翻译、语言建模和文本生成登自然语言处理任务。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MindSpore专题——番外、Trans Fore模型">
 <meta property="og:url" content="https://deepcity.github.io/ru/2024/special_subject/MindSpore/Chapters/TransformerStructure/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="TransformerTransformer是一种神经网络结构，有Vaswani等人在2017年的论文“Attention Is All You Need”中提出，用于处理机器翻译、语言建模和文本生成登自然语言处理任务。">
+<meta property="og:description" content="Transformer Transformer是一种神经网络结构，有Vaswani等人在2017年的论文“Attention Is All You Need”中提出，用于处理机器翻译、语言建模和文本生成登自然语言处理任务。">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:image" content="https://s2.loli.net/2024/06/29/ESPv4kLWxinFZqy.png">
 <meta property="article:published_time" content="2024-08-14T11:47:58.000Z">
@@ -149,7 +149,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Transformer"><span class="nav-number">1.</span> <span class="nav-text">Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">注意力机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%88%86%E6%95%B0%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-number">1.1.1.</span> <span class="nav-text">注意力分数的计算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#query%E3%80%81key%E3%80%81value"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">query、key、value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E8%AE%A1%E7%AE%97%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%88%86%E6%95%B0%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">常用的计算注意力分数的方法</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#transformer"><span class="nav-number">1.</span> <span class="nav-text">Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">注意力机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%88%86%E6%95%B0%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-number">1.1.1.</span> <span class="nav-text">注意力分数的计算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#querykeyvalue"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">query、key、value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E8%AE%A1%E7%AE%97%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%88%86%E6%95%B0%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">常用的计算注意力分数的方法</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -162,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">Архив</span>
         </a>
       </div>
@@ -327,7 +327,10 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h1><p>Transformer是一种神经网络结构，有Vaswani等人在2017年的论文“Attention Is All You Need”中提出，用于处理机器翻译、语言建模和文本生成登自然语言处理任务。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="transformer">Transformer</h1>
+<p>Transformer是一种神经网络结构，有Vaswani等人在2017年的论文“Attention
+Is All You
+Need”中提出，用于处理机器翻译、语言建模和文本生成登自然语言处理任务。</p>
 <span id="more"></span>
 <p>Transformer与传统NLP特征提取类模型的区别主要在以下两点。</p>
 <ul>
@@ -339,14 +342,22 @@
 <li>更容易并行化，训练更加高效；</li>
 <li>在处理长序列的任务中表现优秀，可以快速捕捉长距离中的关联信息；</li>
 </ul>
-<h2 id="注意力机制"><a href="#注意力机制" class="headerlink" title="注意力机制"></a>注意力机制</h2><p>注意力机制是判断词在句子中的重要性，通过<strong>注意力分数</strong>来表达某个词在句子中的重要性</p>
-<h3 id="注意力分数的计算"><a href="#注意力分数的计算" class="headerlink" title="注意力分数的计算"></a>注意力分数的计算</h3><h4 id="query、key、value"><a href="#query、key、value" class="headerlink" title="query、key、value"></a>query、key、value</h4><ul>
-<li>query:任务内容<em>目标序列</em></li>
+<h2 id="注意力机制">注意力机制</h2>
+<p>注意力机制是判断词在句子中的重要性，通过<strong>注意力分数</strong>来表达某个词在句子中的重要性</p>
+<h3 id="注意力分数的计算">注意力分数的计算</h3>
+<h4 id="querykeyvalue">query、key、value</h4>
+<ul>
+<li>query:任务内容_目标序列_</li>
 <li>key:索引/标签（帮助定位到答案）<em>原序列</em></li>
 <li>value:答案</li>
 </ul>
-<p><img src="https://s2.loli.net/2024/06/29/ESPv4kLWxinFZqy.png" alt="image-20240629145758835"></p>
-<h4 id="常用的计算注意力分数的方法"><a href="#常用的计算注意力分数的方法" class="headerlink" title="常用的计算注意力分数的方法"></a>常用的计算注意力分数的方法</h4><p>additive attention可加性注意力计算方法</p>
+<figure>
+<img src="https://s2.loli.net/2024/06/29/ESPv4kLWxinFZqy.png"
+alt="image-20240629145758835" />
+<figcaption aria-hidden="true">image-20240629145758835</figcaption>
+</figure>
+<h4 id="常用的计算注意力分数的方法">常用的计算注意力分数的方法</h4>
+<p>additive attention可加性注意力计算方法</p>
 <p>scaled dot-product attention缩放的“点-积”注意力</p>
 
     </div>
@@ -428,13 +439,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/2024%E6%AD%A6%E6%B1%89ICPC%E9%82%80%E8%AF%B7%E8%B5%9BVP/article.html" rel="prev" title="2024武汉ICPC邀请赛VP">
-                  <i class="fa fa-angle-left"></i> 2024武汉ICPC邀请赛VP
+                <a href="/2024/special_subject/MindSpore/Chapters/Fivth_ConstructNetwork/article.html" rel="prev" title="MindSpore专题——第五章、网络构建">
+                  <i class="fa fa-angle-left"></i> MindSpore专题——第五章、网络构建
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/special_subject/MindSpore/Chapters/Sixth_FunctionAutoDifferentalCalc/article.html" rel="next" title="MindSpore专题——第六章——函数式微分">
-                  MindSpore专题——第六章——函数式微分 <i class="fa fa-angle-right"></i>
+                <a href="/2024/special_subject/MindSpore/Chapters/Third_Tensor/article.html" rel="next" title="MindSpore专题——第三章——张量">
+                  MindSpore专题——第三章——张量 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -496,13 +507,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Общее кол-во символов">109k</span>
+    <span title="Общее кол-во символов">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Общее время чтения">6:38</span>
+    <span title="Общее время чтения">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

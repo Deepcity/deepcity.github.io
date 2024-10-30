@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Docker Image &amp;&amp; container基础命令 docker stats 该命令可以查看docker contianer对各种资源的占用量 docker image ls -a 查看image状况 -a表示所有的 docker container ls -a 查看container状况 -a表示查看所有的 docker container start&#x2F;stop [con">
+    <meta name="description" content="Docker Image &amp;&amp; container 基础命令  docker stats 该命令可以查看docker contianer对各种资源的占用量 docker image ls -a 查看image状况 -a表示所有的 docker container ls -a 查看container状况 -a表示查看所有的 docker container start">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker镜像与容器使用">
 <meta property="og:url" content="https://deepcity.github.io/en/2024/Docker%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8%E4%BD%BF%E7%94%A8/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="Docker Image &amp;&amp; container基础命令 docker stats 该命令可以查看docker contianer对各种资源的占用量 docker image ls -a 查看image状况 -a表示所有的 docker container ls -a 查看container状况 -a表示查看所有的 docker container start&#x2F;stop [con">
+<meta property="og:description" content="Docker Image &amp;&amp; container 基础命令  docker stats 该命令可以查看docker contianer对各种资源的占用量 docker image ls -a 查看image状况 -a表示所有的 docker container ls -a 查看container状况 -a表示查看所有的 docker container start">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://s2.loli.net/2024/08/25/eZ5XUC1zKHLRfJh.png">
 <meta property="article:published_time" content="2024-08-25T09:16:26.000Z">
@@ -147,7 +147,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Image-amp-amp-container"><span class="nav-number">1.</span> <span class="nav-text">Docker Image &amp;&amp; container</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">基础命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Image%E4%B8%8EContainer%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.</span> <span class="nav-text">Image与Container的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFdocker-image"><span class="nav-number">1.2.1.</span> <span class="nav-text">什么是docker image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFDocker-Container"><span class="nav-number">1.2.2.</span> <span class="nav-text">什么是Docker Container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%AF%E5%8A%A8Container"><span class="nav-number">1.2.3.</span> <span class="nav-text">如何启动Container</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87Docker%E6%BA%90%EF%BC%8C%E7%BD%91%E7%BB%9C%E4%B8%8B%E8%BD%BD%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">通过Docker源，网络下载启动容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E6%9C%AC%E5%9C%B0Image%E4%BB%93%E5%BA%93%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">通过本地Image仓库启动容器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86Container%E6%8F%90%E4%BA%A4%E4%B8%BAImage"><span class="nav-number">1.2.4.</span> <span class="nav-text">如何将Container提交为Image</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker-image-container"><span class="nav-number">1.</span> <span class="nav-text">Docker Image &amp;&amp; container</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">基础命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#image%E4%B8%8Econtainer%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.</span> <span class="nav-text">Image与Container的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFdocker-image"><span class="nav-number">1.2.1.</span> <span class="nav-text">什么是docker image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFdocker-container"><span class="nav-number">1.2.2.</span> <span class="nav-text">什么是Docker Container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%AF%E5%8A%A8container"><span class="nav-number">1.2.3.</span> <span class="nav-text">如何启动Container</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87docker%E6%BA%90%E7%BD%91%E7%BB%9C%E4%B8%8B%E8%BD%BD%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">通过Docker源，网络下载启动容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E6%9C%AC%E5%9C%B0image%E4%BB%93%E5%BA%93%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">通过本地Image仓库启动容器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86container%E6%8F%90%E4%BA%A4%E4%B8%BAimage"><span class="nav-number">1.2.4.</span> <span class="nav-text">如何将Container提交为Image</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -311,38 +311,55 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Docker-Image-amp-amp-container"><a href="#Docker-Image-amp-amp-container" class="headerlink" title="Docker Image &amp;&amp; container"></a>Docker Image &amp;&amp; container</h1><h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><ol>
-<li><code>docker stats</code> 该命令可以查看docker contianer对各种资源的占用量</li>
+    <div class="post-body" itemprop="articleBody"><h1 id="docker-image-container">Docker Image &amp;&amp; container</h1>
+<h2 id="基础命令">基础命令</h2>
+<ol type="1">
+<li><code>docker stats</code> 该命令可以查看docker
+contianer对各种资源的占用量</li>
 <li><code>docker image ls -a</code> 查看image状况 -a表示所有的</li>
-<li><code>docker container ls -a</code> 查看container状况 -a表示查看所有的</li>
+<li><code>docker container ls -a</code> 查看container状况
+-a表示查看所有的</li>
 <li><code>docker container start/stop [container_id]</code>启停对应的container</li>
 <li><code>docker container/image rm [container_id]/[image_id]</code>移除镜像或容器。</li>
-<li><code>docker commit sharelatex sharelatex:version_tag</code> 提交容器为镜像</li>
+<li><code>docker commit sharelatex sharelatex:version_tag</code>
+提交容器为镜像</li>
 </ol>
 <span id="more"></span>
-<h2 id="Image与Container的关系"><a href="#Image与Container的关系" class="headerlink" title="Image与Container的关系"></a>Image与Container的关系</h2><p>Container可以commit为Image</p>
+<h2 id="image与container的关系">Image与Container的关系</h2>
+<p>Container可以commit为Image</p>
 <p>Image也可以run为Container</p>
-<h3 id="什么是docker-image"><a href="#什么是docker-image" class="headerlink" title="什么是docker image"></a>什么是docker image</h3><p>Docker Image（Docker镜像）是用于创建Docker容器的只读模板。它包含了运行应用程序所需的所有内容，包括代码、依赖项、库、环境变量和配置文件。Docker镜像是容器的“蓝图”，容器是镜像的运行实例。</p>
-<ol>
-<li><p>Docker Image 是只读的</p>
-</li>
+<h3 id="什么是docker-image">什么是docker image</h3>
+<p>Docker
+Image（Docker镜像）是用于创建Docker容器的只读模板。它包含了运行应用程序所需的所有内容，包括代码、依赖项、库、环境变量和配置文件。Docker镜像是容器的“蓝图”，容器是镜像的运行实例。</p>
+<ol type="1">
+<li><p>Docker Image 是只读的</p></li>
 <li><p>Docker Image的存储是分层的</p>
-<p><img src="https://s2.loli.net/2024/08/25/eZ5XUC1zKHLRfJh.png" alt="DockerImages"></p>
-<p>对如图的1,2,4镜像，通过tag显然可以发现他们的顺序是2-3-4，即总共占用8g而非16g</p>
-</li>
+<figure>
+<img src="https://s2.loli.net/2024/08/25/eZ5XUC1zKHLRfJh.png"
+alt="DockerImages" />
+<figcaption aria-hidden="true">DockerImages</figcaption>
+</figure>
+<p>对如图的1,2,4镜像，通过tag显然可以发现他们的顺序是2-3-4，即总共占用8g而非16g</p></li>
 </ol>
-<h3 id="什么是Docker-Container"><a href="#什么是Docker-Container" class="headerlink" title="什么是Docker Container"></a>什么是Docker Container</h3><p>Docker Container（Docker容器）是一个独立运行的应用程序实例，它基于Docker镜像启动，并包含了运行应用所需的所有依赖、配置和环境。Docker容器是轻量级的、可移植的，它们在隔离的环境中运行，确保应用程序的行为在任何系统中都是一致的。</p>
-<ol>
+<h3 id="什么是docker-container">什么是Docker Container</h3>
+<p>Docker
+Container（Docker容器）是一个独立运行的应用程序实例，它基于Docker镜像启动，并包含了运行应用所需的所有依赖、配置和环境。Docker容器是轻量级的、可移植的，它们在隔离的环境中运行，确保应用程序的行为在任何系统中都是一致的。</p>
+<ol type="1">
 <li>Container是共享主机的操作系统内核的（但是同样可以使用不同的操作系统）</li>
 <li>Container之间是隔离的</li>
 <li>Container是独立的，并不基于除主机以外的东西</li>
 <li>Container是可以短时（瞬时）启动和关闭的</li>
 </ol>
-<h3 id="如何启动Container"><a href="#如何启动Container" class="headerlink" title="如何启动Container"></a>如何启动Container</h3><h4 id="通过Docker源，网络下载启动容器"><a href="#通过Docker源，网络下载启动容器" class="headerlink" title="通过Docker源，网络下载启动容器"></a>通过Docker源，网络下载启动容器</h4><p>一般来讲，我们可以通过</p>
+<h3 id="如何启动container">如何启动Container</h3>
+<h4
+id="通过docker源网络下载启动容器">通过Docker源，网络下载启动容器</h4>
+<p>一般来讲，我们可以通过</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p [HostIP]:[HostPort]:[DockerPort] --name [ContainerName] [SoftwareName]:[version]</span><br></pre></td></tr></table></figure>
 <p>启动一个特定的容器并将docker的某一个开放端口映射到主机上，其中-d使得容器的输出并不同步到主机上</p>
-<h4 id="通过本地Image仓库启动容器"><a href="#通过本地Image仓库启动容器" class="headerlink" title="通过本地Image仓库启动容器"></a>通过本地Image仓库启动容器</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p [HostIP]:[HostPort]:[DockerPort] &lt;image_name&gt;:&lt;tag&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="如何将Container提交为Image"><a href="#如何将Container提交为Image" class="headerlink" title="如何将Container提交为Image"></a>如何将Container提交为Image</h3><p>相当简单</p>
+<h4 id="通过本地image仓库启动容器">通过本地Image仓库启动容器</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p [HostIP]:[HostPort]:[DockerPort] &lt;image_name&gt;:&lt;tag&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="如何将container提交为image">如何将Container提交为Image</h3>
+<p>相当简单</p>
 <p>直接调用一条命令即可<code>docker commit sharelatex sharelatex:version_tag</code>即可</p>
 
     </div>
@@ -490,13 +507,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Word count total">109k</span>
+    <span title="Word count total">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:38</span>
+    <span title="Reading time total">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

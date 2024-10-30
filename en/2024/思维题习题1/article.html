@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="题意题意：给一个数字字符串，要求按相对序构建不带前导零的偶数，求这些数字的多重集的大小 题解题解：维护两个值，cnt，ans，cnt表示当前能构造出的不带前导零的数字的多重集size，ans表示偶数多重集size。处理前导零的思维是，cnt所代表的多重集中不含0这个数字，也就保证了cnt在计算过程中的不含前导零，具象到代码中则是在s[i]&#x3D;&#x3D;’0’时，将cnt-1，而ans保持相同计算。cnt-&amp;">
+    <meta name="description" content="题意 题意：给一个数字字符串，要求按相对序构建不带前导零的偶数，求这些数字的多重集的大小 题解 题解：维护两个值，cnt，ans，cnt表示当前能构造出的不带前导零的数字的多重集size，ans表示偶数多重集size。处理前导零的思维是，cnt所代表的多重集中不含0这个数字，也就保证了cnt在计算过程中的不含前导零，具象到代码中则是在s[i]&#x3D;&#x3D;&#39;0&#39;时，将cnt-1，而ans保持相同计算。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="思维题1">
 <meta property="og:url" content="https://deepcity.github.io/en/2024/%E6%80%9D%E7%BB%B4%E9%A2%98%E4%B9%A0%E9%A2%981/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="题意题意：给一个数字字符串，要求按相对序构建不带前导零的偶数，求这些数字的多重集的大小 题解题解：维护两个值，cnt，ans，cnt表示当前能构造出的不带前导零的数字的多重集size，ans表示偶数多重集size。处理前导零的思维是，cnt所代表的多重集中不含0这个数字，也就保证了cnt在计算过程中的不含前导零，具象到代码中则是在s[i]&#x3D;&#x3D;’0’时，将cnt-1，而ans保持相同计算。cnt-&amp;">
+<meta property="og:description" content="题意 题意：给一个数字字符串，要求按相对序构建不带前导零的偶数，求这些数字的多重集的大小 题解 题解：维护两个值，cnt，ans，cnt表示当前能构造出的不带前导零的数字的多重集size，ans表示偶数多重集size。处理前导零的思维是，cnt所代表的多重集中不含0这个数字，也就保证了cnt在计算过程中的不含前导零，具象到代码中则是在s[i]&#x3D;&#x3D;&#39;0&#39;时，将cnt-1，而ans保持相同计算。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-08-14T11:35:22.000Z">
 <meta property="article:modified_time" content="2024-08-27T08:33:29.901Z">
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -316,12 +316,16 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>题意：给一个数字字符串，要求按相对序构建不带前导零的偶数，求这些数字的多重集的大小</p>
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>题解：维护两个值，cnt，ans，cnt表示当前能构造出的不带前导零的数字的多重集size，ans表示偶数多重集size。处理前导零的思维是，cnt所代表的多重集中不含0这个数字，也就保证了cnt在计算过程中的不含前导零，具象到代码中则是在s[i]==’0’时，将cnt-1，而ans保持相同计算。cnt-&gt;ans，cnt在每一位上的计算非常简单不再赘述，即ans=(ans+cnt+1)%MOD,cnt=(cnt*2+1)%MOD。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="题意">题意</h1>
+<p>题意：给一个数字字符串，要求按相对序构建不带前导零的偶数，求这些数字的多重集的大小</p>
+<h1 id="题解">题解</h1>
+<p>题解：维护两个值，cnt，ans，cnt表示当前能构造出的不带前导零的数字的多重集size，ans表示偶数多重集size。处理前导零的思维是，cnt所代表的多重集中不含0这个数字，也就保证了cnt在计算过程中的不含前导零，具象到代码中则是在s[i]=='0'时，将cnt-1，而ans保持相同计算。cnt-&gt;ans，cnt在每一位上的计算非常简单不再赘述，即ans=(ans+cnt+1)%MOD,cnt=(cnt*2+1)%MOD。</p>
 <span id="more"></span>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">slove</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    string s;</span><br><span class="line">    cin&gt;&gt;s;</span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>,ans = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s[i]==<span class="string">&#x27;0&#x27;</span>)&#123;</span><br><span class="line">            ans=(ans+cnt<span class="number">+1</span>)%MOD;</span><br><span class="line">            cnt=(cnt*<span class="number">2</span>)%MOD;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s[i]&amp;<span class="number">1</span>)&#123;</span><br><span class="line">            cnt=(cnt*<span class="number">2</span><span class="number">+1</span>)%MOD;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            ans=(ans+cnt<span class="number">+1</span>)%MOD;</span><br><span class="line">            cnt=(cnt*<span class="number">2</span><span class="number">+1</span>)%MOD;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这题并不难，但我陷入了错误的贡献法思想，如果你想看，如下。</p>
-<p>对于每一个偶数计算它的贡献值为$2^{i-1}$，对于每一个0计算它的贡献为$-2^{n-i}$，这样的错误在于，0的贡献并不准确，同时计算了奇数的前导零数量。虽然说应该可以修正这一点，但这样就繁琐了。。</p>
+<p>对于每一个偶数计算它的贡献值为<span
+class="math inline">\(2^{i-1}\)</span>，对于每一个0计算它的贡献为<span
+class="math inline">\(-2^{n-i}\)</span>，这样的错误在于，0的贡献并不准确，同时计算了奇数的前导零数量。虽然说应该可以修正这一点，但这样就繁琐了。。</p>
 
     </div>
 
@@ -469,13 +473,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Word count total">109k</span>
+    <span title="Word count total">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:38</span>
+    <span title="Reading time total">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

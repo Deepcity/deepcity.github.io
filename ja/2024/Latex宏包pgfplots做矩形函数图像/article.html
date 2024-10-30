@@ -23,16 +23,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"検索…","empty":"検索結果が見つかりませんでした: ${query}","hits_time":"${hits} の結果が ${time} ms で見つかりました","hits":"${hits} 件の結果が見つかりました"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="持续更新遇到的问题，完结或不再使用该包将删除这句话 pgfplotsPgfplots是一种可视化工具，可简化在文档中包含绘图的过程。基本思想是，用户提供输入数据&#x2F;公式，然后pgfplots 宏包会帮助用户绘制响应的图像。">
+    <meta name="description" content="持续更新遇到的问题，完结或不再使用该包将删除这句话 pgfplots Pgfplots是一种可视化工具，可简化在文档中包含绘图的过程。基本思想是，用户提供输入数据&#x2F;公式，然后pgfplots 宏包会帮助用户绘制响应的图像。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Latex宏包pgfplots做矩形函数图像">
 <meta property="og:url" content="https://deepcity.github.io/ja/2024/Latex%E5%AE%8F%E5%8C%85pgfplots%E5%81%9A%E7%9F%A9%E5%BD%A2%E5%87%BD%E6%95%B0%E5%9B%BE%E5%83%8F/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="持续更新遇到的问题，完结或不再使用该包将删除这句话 pgfplotsPgfplots是一种可视化工具，可简化在文档中包含绘图的过程。基本思想是，用户提供输入数据&#x2F;公式，然后pgfplots 宏包会帮助用户绘制响应的图像。">
+<meta property="og:description" content="持续更新遇到的问题，完结或不再使用该包将删除这句话 pgfplots Pgfplots是一种可视化工具，可简化在文档中包含绘图的过程。基本思想是，用户提供输入数据&#x2F;公式，然后pgfplots 宏包会帮助用户绘制响应的图像。">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://s2.loli.net/2024/05/07/iPmhCOxRgzZGYVy.png">
 <meta property="og:image" content="https://s2.loli.net/2024/05/07/d7OUNVRI3LWthxK.png">
-<meta property="og:image" content="https://s2.loli.net/2024/05/08/NzwV7TsPHLWjbJB.png">
 <meta property="article:published_time" content="2024-08-14T11:47:58.000Z">
 <meta property="article:modified_time" content="2024-08-26T03:36:42.995Z">
 <meta property="article:author" content="ThreeLanes">
@@ -150,7 +149,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pgfplots"><span class="nav-number">1.</span> <span class="nav-text">pgfplots</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%80%E3%80%81%E9%80%9A%E8%BF%87%E5%87%BD%E6%95%B0%E6%96%B9%E7%A8%8B%E7%BB%98%E5%88%B6%E5%87%BD%E6%95%B0%E5%9B%BE%E5%83%8F"><span class="nav-number">1.1.</span> <span class="nav-text">实例一、通过函数方程绘制函数图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%BA%8C%E3%80%81%E5%9D%90%E6%A0%87%E7%B3%BB%E7%9A%84%E7%BB%98%E5%88%B6%E4%BB%A5%E5%8F%8A3d%E5%87%BD%E6%95%B0%E5%9B%BE%E5%83%8F"><span class="nav-number">1.2.</span> <span class="nav-text">实例二、坐标系的绘制以及3d函数图像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E5%9B%BE%E5%83%8F%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E3%80%81%E5%8F%82%E6%95%B0%E4%B8%8E%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text">坐标系图像中的常用命令、参数与特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E5%9B%BE"><span class="nav-number">1.3.</span> <span class="nav-text">实例三、数据图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%9B%BE%E5%83%8F%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E3%80%81%E5%8F%82%E6%95%B0%E4%B8%8E%E7%89%B9%E6%80%A7"><span class="nav-number">1.3.1.</span> <span class="nav-text">数据图像中的常用命令、参数与特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%9B%BE%E5%83%8F"><span class="nav-number">1.4.</span> <span class="nav-text">其他图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E8%A8%80%E5%8C%BA%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%BE%E5%AE%9A"><span class="nav-number">1.5.</span> <span class="nav-text">导言区的一些设定</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pgfplots"><span class="nav-number">1.</span> <span class="nav-text">pgfplots</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%80%E9%80%9A%E8%BF%87%E5%87%BD%E6%95%B0%E6%96%B9%E7%A8%8B%E7%BB%98%E5%88%B6%E5%87%BD%E6%95%B0%E5%9B%BE%E5%83%8F"><span class="nav-number">1.1.</span> <span class="nav-text">实例一、通过函数方程绘制函数图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%BA%8C%E5%9D%90%E6%A0%87%E7%B3%BB%E7%9A%84%E7%BB%98%E5%88%B6%E4%BB%A5%E5%8F%8A3d%E5%87%BD%E6%95%B0%E5%9B%BE%E5%83%8F"><span class="nav-number">1.2.</span> <span class="nav-text">实例二、坐标系的绘制以及3d函数图像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E5%9B%BE%E5%83%8F%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0%E4%B8%8E%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text">坐标系图像中的常用命令、参数与特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%89%E6%95%B0%E6%8D%AE%E5%9B%BE"><span class="nav-number">1.3.</span> <span class="nav-text">实例三、数据图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%9B%BE%E5%83%8F%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0%E4%B8%8E%E7%89%B9%E6%80%A7test-1-crop-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">数据图像中的常用命令、参数与特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%9B%BE%E5%83%8F"><span class="nav-number">1.4.</span> <span class="nav-text">其他图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E8%A8%80%E5%8C%BA%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%BE%E5%AE%9A"><span class="nav-number">1.5.</span> <span class="nav-text">导言区的一些设定</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -163,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -325,40 +324,73 @@
     
     
     <div class="post-body" itemprop="articleBody"><p>持续更新遇到的问题，完结或不再使用该包将删除这句话</p>
-<h2 id="pgfplots"><a href="#pgfplots" class="headerlink" title="pgfplots"></a>pgfplots</h2><p>Pgfplots是一种可视化工具，可简化在文档中包含绘图的过程。基本思想是，用户提供输入数据/公式，然后pgfplots 宏包会帮助用户绘制响应的图像。</p>
+<h2 id="pgfplots">pgfplots</h2>
+<p>Pgfplots是一种可视化工具，可简化在文档中包含绘图的过程。基本思想是，用户提供输入数据/公式，然后pgfplots
+宏包会帮助用户绘制响应的图像。</p>
 <span id="more"></span>
-<h3 id="实例一、通过函数方程绘制函数图像"><a href="#实例一、通过函数方程绘制函数图像" class="headerlink" title="实例一、通过函数方程绘制函数图像"></a>实例一、通过函数方程绘制函数图像</h3><figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%Ex1:f(x)=exp(x)</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\addplot</span>[color=red]&#123;exp(x)&#125;;</span><br><span class="line"><span class="keyword">\end</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://s2.loli.net/2024/05/07/iPmhCOxRgzZGYVy.png" alt="test-1-crop-1"></p>
+<h3
+id="实例一通过函数方程绘制函数图像">实例一、通过函数方程绘制函数图像</h3>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%Ex1:f(x)=exp(x)</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\addplot</span>[color=red]&#123;exp(x)&#125;;</span><br><span class="line"><span class="keyword">\end</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://s2.loli.net/2024/05/07/iPmhCOxRgzZGYVy.png"
+alt="test-1-crop-1" />
+<figcaption aria-hidden="true">test-1-crop-1</figcaption>
+</figure>
 <p>其中绘制图像的语法如下：</p>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\addplot</span>[option] &#123;expression of 2D function&#125;;</span><br></pre></td></tr></table></figure>
-<p>在方括号内可以传递一些选项，比如我们可以像Ex1一样，将函数图像的颜色设置为红色。我方括号是必需的，如果没有传递任何选项，则方括号之间留有空白即可。在花括号内，我们要填写的2D 函数的表达式，比如在Ex1中，我们所写的表达式是 exp⁡(𝑥) 。最后最重要的是该命令必须以分号 <strong>;</strong> 结尾。</p>
-<h3 id="实例二、坐标系的绘制以及3d函数图像"><a href="#实例二、坐标系的绘制以及3d函数图像" class="headerlink" title="实例二、坐标系的绘制以及3d函数图像"></a>实例二、坐标系的绘制以及3d函数图像</h3><figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\pagestyle</span>&#123;empty&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;pgfplots&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="comment">%Ex2: put the 2D plot and the 3D plot together</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line">	<span class="keyword">\begin</span>&#123;axis&#125;</span><br><span class="line">		<span class="keyword">\addplot</span>[color=red]&#123;exp(x)&#125;;</span><br><span class="line">	<span class="keyword">\end</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="comment">%Here ends the furst 2D plot</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\hskip</span> 10pt</span><br><span class="line"></span><br><span class="line"><span class="comment">%Here begins the 3d plot</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line">	<span class="keyword">\begin</span>&#123;axis&#125;</span><br><span class="line">		<span class="keyword">\addplot</span>3[</span><br><span class="line">		surf,</span><br><span class="line">		]</span><br><span class="line">		&#123;exp(-x<span class="built_in">^</span>2-y<span class="built_in">^</span>2)*x&#125;;</span><br><span class="line">	<span class="keyword">\end</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://s2.loli.net/2024/05/07/d7OUNVRI3LWthxK.png" alt="test-1-crop-1"></p>
+<p>在方括号内可以传递一些选项，比如我们可以像Ex1一样，将函数图像的颜色设置为红色。我方括号是必需的，如果没有传递任何选项，则方括号之间留有空白即可。在花括号内，我们要填写的2D
+函数的表达式，比如在Ex1中，我们所写的表达式是 exp⁡(𝑥)
+。最后最重要的是该命令必须以分号 <strong>;</strong> 结尾。</p>
+<h3
+id="实例二坐标系的绘制以及3d函数图像">实例二、坐标系的绘制以及3d函数图像</h3>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\pagestyle</span>&#123;empty&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;pgfplots&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="comment">%Ex2: put the 2D plot and the 3D plot together</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line">	<span class="keyword">\begin</span>&#123;axis&#125;</span><br><span class="line">		<span class="keyword">\addplot</span>[color=red]&#123;exp(x)&#125;;</span><br><span class="line">	<span class="keyword">\end</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="comment">%Here ends the furst 2D plot</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\hskip</span> 10pt</span><br><span class="line"></span><br><span class="line"><span class="comment">%Here begins the 3d plot</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line">	<span class="keyword">\begin</span>&#123;axis&#125;</span><br><span class="line">		<span class="keyword">\addplot</span>3[</span><br><span class="line">		surf,</span><br><span class="line">		]</span><br><span class="line">		&#123;exp(-x<span class="built_in">^</span>2-y<span class="built_in">^</span>2)*x&#125;;</span><br><span class="line">	<span class="keyword">\end</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://s2.loli.net/2024/05/07/d7OUNVRI3LWthxK.png"
+alt="test-1-crop-1" />
+<figcaption aria-hidden="true">test-1-crop-1</figcaption>
+</figure>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\addplot</span>3[</span><br><span class="line">    surf,</span><br><span class="line">]</span><br><span class="line">&#123;exp(-x<span class="built_in">^</span>2-y<span class="built_in">^</span>2)*x&#125;;</span><br></pre></td></tr></table></figure>
 <p>注意到这里只是将2d图像的命令后面加了一个3，读者可以多修改一下option中的参数，这里的surf指surface，声明这是一个曲面图，并表面着色。</p>
 <p>可以看到对多个图像只需要设定多个tikzpicture作用域即可</p>
-<h4 id="坐标系图像中的常用命令、参数与特性"><a href="#坐标系图像中的常用命令、参数与特性" class="headerlink" title="坐标系图像中的常用命令、参数与特性"></a>坐标系图像中的常用命令、参数与特性</h4><ul>
+<h4
+id="坐标系图像中的常用命令参数与特性">坐标系图像中的常用命令、参数与特性</h4>
+<ul>
 <li>xlabel、ylabel：设定x,y坐标轴上的标志。</li>
 <li>多个addplot可在同一个图中多次作图</li>
-<li><script type="math/tex">\tt{domian = a:b}</script>设置 𝑥 的范围为 [𝑎,𝑏] 。即只绘制函数在 𝑥∈[𝑎,𝑏] 之间的图像；</li>
-<li><script type="math/tex">\tt{axis\,\, lines = left}</script>这个命令会仅在图的左侧和底部设置轴，即我们的平面直角坐标系，而不是像我们在图片3中看到的那种默认框；</li>
-<li>\addlegendentry{$function（x)$​} 添加函数标签 </li>
-<li>\legend 按顺序批量谭家函数标签</li>
+<li><span class="math display">\[\tt{domian = a:b}\]</span>设置 𝑥
+的范围为 [𝑎,𝑏] 。即只绘制函数在 𝑥∈[𝑎,𝑏] 之间的图像；</li>
+<li><span class="math display">\[\tt{axis\,\, lines =
+left}\]</span>这个命令会仅在图的左侧和底部设置轴，即我们的平面直角坐标系，而不是像我们在图片3中看到的那种默认框；</li>
+<li> 添加函数标签</li>
+<li>按顺序批量谭家函数标签</li>
 <li>title在axis中为图像添加标题</li>
 </ul>
-<h3 id="实例三、数据图"><a href="#实例三、数据图" class="headerlink" title="实例三、数据图"></a>实例三、数据图</h3><figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%Ex6:plot from data</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line">	<span class="keyword">\begin</span>&#123;axis&#125;[</span><br><span class="line">		title=&#123;Temperature dependence of CuSO<span class="built_in">$</span><span class="built_in">_</span>4<span class="keyword">\cdot</span><span class="built_in">$</span>5H<span class="built_in">$</span><span class="built_in">_</span>2<span class="built_in">$</span>O solubility&#125;,</span><br><span class="line">		xlabel=&#123;Temperature [<span class="keyword">\textcelsius</span>]&#125;,</span><br><span class="line">		ylabel=&#123;Solubility [g per 100 g water]&#125;,</span><br><span class="line">		xmin=0, xmax=100,</span><br><span class="line">		ymin=0, ymax=120,</span><br><span class="line">		xtick=&#123;0,20,40,60,80,100&#125;,</span><br><span class="line">		ytick=&#123;0,20,40,60,80,100,120&#125;,</span><br><span class="line">		legend pos=north west,</span><br><span class="line">		ymajorgrids=true,</span><br><span class="line">		grid style=dashed,</span><br><span class="line">		]</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">\addplot</span>[</span><br><span class="line">		color=blue,</span><br><span class="line">		mark=square,</span><br><span class="line">		]</span><br><span class="line">		coordinates &#123;</span><br><span class="line">			(0,23.1)</span><br><span class="line">			(10,27.5)</span><br><span class="line">			(20,32)</span><br><span class="line">			(30,37.8)</span><br><span class="line">			(40,44.6)</span><br><span class="line">			(60,61.8)</span><br><span class="line">			(80,83.8)</span><br><span class="line">			(100,114)</span><br><span class="line">		&#125;;</span><br><span class="line">		<span class="keyword">\legend</span>&#123;CuSO<span class="built_in">$</span><span class="built_in">_</span>4<span class="keyword">\cdot</span><span class="built_in">$</span>5H<span class="built_in">$</span><span class="built_in">_</span>2<span class="built_in">$</span>O&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">\end</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="数据图像中的常用命令、参数与特性"><a href="#数据图像中的常用命令、参数与特性" class="headerlink" title="数据图像中的常用命令、参数与特性"></a>数据图像中的常用命令、参数与特性<img src="https://s2.loli.net/2024/05/08/NzwV7TsPHLWjbJB.png" alt="test-1-crop-1"></h4><ul>
+<h3 id="实例三数据图">实例三、数据图</h3>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%Ex6:plot from data</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line">	<span class="keyword">\begin</span>&#123;axis&#125;[</span><br><span class="line">		title=&#123;Temperature dependence of CuSO<span class="built_in">$</span><span class="built_in">_</span>4<span class="keyword">\cdot</span><span class="built_in">$</span>5H<span class="built_in">$</span><span class="built_in">_</span>2<span class="built_in">$</span>O solubility&#125;,</span><br><span class="line">		xlabel=&#123;Temperature [<span class="keyword">\textcelsius</span>]&#125;,</span><br><span class="line">		ylabel=&#123;Solubility [g per 100 g water]&#125;,</span><br><span class="line">		xmin=0, xmax=100,</span><br><span class="line">		ymin=0, ymax=120,</span><br><span class="line">		xtick=&#123;0,20,40,60,80,100&#125;,</span><br><span class="line">		ytick=&#123;0,20,40,60,80,100,120&#125;,</span><br><span class="line">		legend pos=north west,</span><br><span class="line">		ymajorgrids=true,</span><br><span class="line">		grid style=dashed,</span><br><span class="line">		]</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">\addplot</span>[</span><br><span class="line">		color=blue,</span><br><span class="line">		mark=square,</span><br><span class="line">		]</span><br><span class="line">		coordinates &#123;</span><br><span class="line">			(0,23.1)</span><br><span class="line">			(10,27.5)</span><br><span class="line">			(20,32)</span><br><span class="line">			(30,37.8)</span><br><span class="line">			(40,44.6)</span><br><span class="line">			(60,61.8)</span><br><span class="line">			(80,83.8)</span><br><span class="line">			(100,114)</span><br><span class="line">		&#125;;</span><br><span class="line">		<span class="keyword">\legend</span>&#123;CuSO<span class="built_in">$</span><span class="built_in">_</span>4<span class="keyword">\cdot</span><span class="built_in">$</span>5H<span class="built_in">$</span><span class="built_in">_</span>2<span class="built_in">$</span>O&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">\end</span>&#123;axis&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br></pre></td></tr></table></figure>
+<h4
+id="数据图像中的常用命令参数与特性test-1-crop-1">数据图像中的常用命令、参数与特性<img
+src="https://s2.loli.net/2024/05/08/NzwV7TsPHLWjbJB.png"
+alt="test-1-crop-1" /></h4>
+<ul>
 <li>mark：设定图像点的形状；如square、triangle、x等</li>
-<li><script type="math/tex">\tt{ymajorgrids=true/false\,,xmajorgrids=true/false}</script>​启用/禁用 𝑦,𝑥 轴上<strong>刻度线位置上</strong>的网格线；</li>
-<li><script type="math/tex">\tt{xmin=a, xmax=b, ymin=c, ymax=d}</script>​设置 𝑥 的最小值为 𝑎 ，最大值为 𝑏 ；设置 𝑦 的最小值为 𝑐 ，最大值为 𝑑 ；</li>
-<li><script type="math/tex">\tt{coordinates \{\}}</script>​设定坐标点画折线图</li>
-<li>\addplot[option] table {file_with_the_data.dat},使用该命令可直接通过dat数据画图</li>
+<li><span
+class="math display">\[\tt{ymajorgrids=true/false\,,xmajorgrids=true/false}\]</span>​启用/禁用
+𝑦,𝑥 轴上<strong>刻度线位置上</strong>的网格线；</li>
+<li><span class="math display">\[\tt{xmin=a, xmax=b, ymin=c,
+ymax=d}\]</span>​设置 𝑥 的最小值为 𝑎 ，最大值为 𝑏 ；设置 𝑦 的最小值为 𝑐
+，最大值为 𝑑 ；</li>
+<li><span class="math display">\[\tt{coordinates
+\{\}}\]</span>​设定坐标点画折线图</li>
+<li>table {file_with_the_data.dat},使用该命令可直接通过dat数据画图</li>
 </ul>
-<h3 id="其他图像"><a href="#其他图像" class="headerlink" title="其他图像"></a>其他图像</h3><p>pgfplots还支持散点图，直方图，3d图等图像。由于笔者暂时没用到，对这些图不甚了解，就不做阐述了。值得注意的是，在这些图像中使用dat数据格式的数据较多。</p>
-<h3 id="导言区的一些设定"><a href="#导言区的一些设定" class="headerlink" title="导言区的一些设定"></a>导言区的一些设定</h3><figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\pgfplotsset</span>&#123;width=10cm&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="其他图像">其他图像</h3>
+<p>pgfplots还支持散点图，直方图，3d图等图像。由于笔者暂时没用到，对这些图不甚了解，就不做阐述了。值得注意的是，在这些图像中使用dat数据格式的数据较多。</p>
+<h3 id="导言区的一些设定">导言区的一些设定</h3>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\pgfplotsset</span>&#123;width=10cm&#125;</span><br></pre></td></tr></table></figure>
 <p>这里指定了每一张图的宽度为10cm</p>
 <figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepgfplotslibrary</span>&#123;external&#125;</span><br><span class="line"><span class="keyword">\tikzexternalize</span> </span><br></pre></td></tr></table></figure>
-<p>由于<script type="math/tex">LATEX</script> 诞生初期并未考虑使其具备绘图功能，因此当文档中有多个pgfplot图形或它们非常复杂时，渲染它们将花费大量时间。</p>
+<p>由于<span class="math display">\[LATEX\]</span>
+诞生初期并未考虑使其具备绘图功能，因此当文档中有多个pgfplot图形或它们非常复杂时，渲染它们将花费大量时间。</p>
 
     </div>
 
@@ -506,13 +538,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="単語の総数">109k</span>
+    <span title="単語の総数">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">6:38</span>
+    <span title="読書の合計時間">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">
