@@ -8304,7 +8304,7 @@ class="math display">\[\hat
       </tags>
   </entry>
   <entry>
-    <title>PGStudy-EAandGA</title>
+    <title>PGStudy-CharacterizationofLargeLanguageModelDevelopmentintheDatacenter</title>
     <url>/2024/PGStudy-EAandGA/article.html</url>
     <content><![CDATA[<h1 id="ea-与-ga">EA 与 GA</h1>
 <p>首先需要阐明一下EA与GA分别代表什么</p>
@@ -8511,9 +8511,9 @@ Science<i class="fa fa-external-link-alt"></i></span></li>
         <category>PG-Study</category>
       </categories>
       <tags>
-        <tag>EA</tag>
-        <tag>GA</tag>
+        <tag>机器学习</tag>
         <tag>进化算法</tag>
+        <tag>遗传算法</tag>
       </tags>
   </entry>
 </search>
