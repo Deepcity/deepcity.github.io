@@ -8320,6 +8320,7 @@ form</h2>
 <li>Mutation - bit flip</li>
 <li>Servival selection - next generation</li>
 </ol>
+<span id="more"></span>
 <h2 id="名词定义-definition">名词定义 Definition</h2>
 <ul>
 <li><strong>Phenotypes 表：</strong> the solutions within the original
