@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,7 +166,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">75</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -205,6 +205,148 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" class="post-title-link" itemprop="url">Linux网络设置</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-25 15:23:20" itemprop="dateCreated datePublished" datetime="2024-08-25T15:23:20+08:00">2024-08-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-27 16:07:33" itemprop="dateModified" datetime="2024-08-27T16:07:33+08:00">2024-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">软件</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="linux的网络配置">Linux的网络配置</h1>
+<p>在我反复鼓捣Linux的过程中，时常遇到Linux在网络配置上的问题，有个互联网笑话是“老钟是最擅长计算机网络的”。既然如此，我也有了一个想法——记录下我在Linux网络配置中所遭遇的坑。硬件主要集中于LinuxECS服务器与VMware虚拟机，软件版本则是以CentOS7，Ubuntu18.04为主。</p>
+<h2 id="基础网络命令">基础网络命令</h2>
+<ol type="1">
+<li><code>ifconfig</code>最基本最常用的命令，用于查看本地网卡的信息，一般查看值为IP或者本地物理地址</li>
+<li><code>ping</code>
+简单的测试网络丢包率，有时<code>curl</code>命令对网站的检测更为准确，因为两者对于代理的检测并不完全一致</li>
+<li><code>netstat</code>用于查看本地端口的状态信息，一般用于查看当前那些端口是开放的，那些端口是被某个特定应用监控的，一般搭配<code>grep</code>使用</li>
+<li><code>traceroute</code>针对特定目标地址的报文转发追踪，基于IP报文中的生存时间TTL实现，一般用于查看对特定网络服务是否联通，也可用于查看本机某个端口是否对外界开放，最经典的例子就是mail端口25，这个端口国内很少开放</li>
+<li><code>whois</code>
+查看域名建立时间，有效期等，一般用于查看网站的归属信息以及ssl证书的有效期</li>
+<li><code>host</code>查看有关目的地址的信息，既可以通过IP查看域名，也可以通过域名查看IP</li>
+<li><code>ifdown</code>
+<code>ifup</code>,这两个命令用于对特定网卡的关启</li>
+<li><code>nmtui</code> 通过调用一个内置的网卡配置图形化界面配置网卡</li>
+<li><code>systemctl start/stop/enable/restart NetworkManager</code>这是一个特殊的通过systemctl控制网络服务以实现对网络进行开关的命令，常用于对<code>/etc/NetworkManager/NetworkManager.conf</code>该文件进行修改后的重新配置网络</li>
+<li><code>env | grep -E 'http_proxy|https_proxy'</code>这条命令比较特殊，一般用于查看当前的代理</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/Linux%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/article.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1436,139 +1578,6 @@ database, Yann LeCun, Corinna Cortes and Chris Burges<i class="fa fa-external-li
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ThreeLanes">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ThreeLanes' Site">
-      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ThreeLanes' Site">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html" class="post-title-link" itemprop="url">MindSpore专题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-08-14 19:47:58" itemprop="dateCreated datePublished" datetime="2024-08-14T19:47:58+08:00">2024-08-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-16 16:59:00" itemprop="dateModified" datetime="2024-08-16T16:59:00+08:00">2024-08-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/" itemprop="url" rel="index"><span itemprop="name">Mindspore</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E4%B8%93%E9%A2%98/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Mindspore/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基本概念</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-    <span class="post-meta-item-icon">
-      <i class="far fa-comment"></i>
-    </span>
-    <span class="post-meta-item-text">Waline：</span>
-  
-    <a title="waline" href="/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html#waline" itemprop="discussionUrl">
-      <span class="post-comments-count waline-comment-count" data-path="/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.7k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>13 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><span class="exturl" data-url="aHR0cHM6Ly93d3cubWluZHNwb3JlLmNuL3R1dG9yaWFscy96aC1DTi9yMi4zLjByYzIvYmVnaW5uZXIvcXVpY2tfc3RhcnQuaHRtbA==">MindSpore<i class="fa fa-external-link-alt"></i></span></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/special_subject/MindSpore/Chapters/Second_TryMindSpore/article.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1621,13 +1630,13 @@ database, Yann LeCun, Corinna Cortes and Chris Burges<i class="fa fa-external-li
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">119k</span>
+    <span title="站点总字数">123k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">7:14</span>
+    <span title="站点阅读时长">7:26</span>
   </span>
 </div>
 <div class="busuanzi-count">

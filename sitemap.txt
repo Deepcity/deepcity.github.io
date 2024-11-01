@@ -1,3 +1,4 @@
+https://deepcity.github.io/2024/PGStudy-EAandGA/article.html
 https://deepcity.github.io/2024/PGStudy-CharacterizationofLargeLanguageModelDevelopmentintheDatacenter/article.html
 https://deepcity.github.io/2024/PGStudy-%E9%9D%99%E9%BB%98%E6%95%B0%E6%8D%AE%E6%8D%9F%E5%9D%8FSDC%E7%BC%93%E8%A7%A3-Farron%E5%B7%A5%E5%85%B7/article.html
 https://deepcity.github.io/2024/PGStudy-%E7%BE%A4%E4%BD%93%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BDPart1-PSO/article.html
@@ -134,6 +135,9 @@ https://deepcity.github.io/tags/English/
 https://deepcity.github.io/tags/MindSpore/
 https://deepcity.github.io/tags/%E7%9B%AE%E5%BD%95/
 https://deepcity.github.io/tags/%E6%95%B0%E8%AE%BA/
+https://deepcity.github.io/tags/EA/
+https://deepcity.github.io/tags/GA/
+https://deepcity.github.io/tags/%E8%BF%9B%E5%8C%96%E7%AE%97%E6%B3%95/
 https://deepcity.github.io/categories/%E6%AF%94%E8%B5%9B/
 https://deepcity.github.io/categories/%E6%AF%94%E8%B5%9B/%E6%A8%A1%E6%8B%9F%E8%B5%9B/
 https://deepcity.github.io/categories/%E8%BD%AF%E4%BB%B6/

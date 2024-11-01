@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,7 +166,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">75</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -205,6 +205,315 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/PGStudy-EAandGA/article.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ThreeLanes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ThreeLanes' Site">
+      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ThreeLanes' Site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/PGStudy-EAandGA/article.html" class="post-title-link" itemprop="url">PGStudy-EAandGA</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-11-01 16:44:31 / 修改时间：16:48:34" itemprop="dateCreated datePublished" datetime="2024-11-01T16:44:31+08:00">2024-11-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E9%A2%98/PG-Study/" itemprop="url" rel="index"><span itemprop="name">PG-Study</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/PGStudy-EAandGA/article.html#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/PGStudy-EAandGA/article.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="ea-与-ga">EA 与 GA</h1>
+<p>首先需要阐明一下EA与GA分别代表什么</p>
+<p>EA: Evolution Algorithm 进化算法</p>
+<p>GA: Generation Algorithm 遗传算法</p>
+<p>GA 与 EA 并非是相同的事物，两者是包含关系——GA被包含于EA</p>
+<h2 id="ga的规范形式-gas-canonical-form">GA的规范形式 GA’s canonical
+form</h2>
+<ol type="1">
+<li>Representation - bit strings</li>
+<li>Parent selection - proportional to fitness</li>
+<li>Recombination - one-point crossover</li>
+<li>Mutation - bit flip</li>
+<li>Servival selection - next generation</li>
+</ol>
+<h2 id="名词定义-definition">名词定义 Definition</h2>
+<ul>
+<li><strong>Phenotypes 表：</strong> the solutions within the original
+problem context 原始问题上下文中的解决方案</li>
+<li><strong>Genotypes 基因：</strong>Represent the phenotye
+表示表型的编码</li>
+<li><strong>Fitness 适应度：</strong>A measure from some function
+来自某个函数的度量，作为选择的基础，定义哪一个是更好的。</li>
+<li><strong>Population 种群：</strong>Collection of individual genotypes
+单个基因型的集合，通常大小恒定。在进化过程中发生变化</li>
+<li><strong>Recombination 重组：</strong>A binary variation
+一种二元变体，其中两个后代由两个亲本基因型创建，在词过程中混合了它们的属性</li>
+<li><strong>Mutation 突变：</strong>A unary variation performed on a
+single genotype对单个基因型进行的变异，这种变化是随机的</li>
+<li><strong>Survivor Selection 幸存者选择：</strong>The process of
+determining which
+individuals确定哪些个体（由其基因型代表）将在下一代种群中保留的过程</li>
+</ul>
+<h2 id="overline">Overline</h2>
+<figure>
+<img src="https://s2.loli.net/2024/10/31/7FkzoypXUIhZJOu.png"
+alt="Overview" />
+<figcaption aria-hidden="true">Overview</figcaption>
+</figure>
+<h3 id="initialization-representation-初始化表示法">Initialization;
+Representation 初始化；表示法</h3>
+<p>EA goes beyond binary and permutaion representations, but we will not
+<em>delve</em>(v. 深入研究) further here.</p>
+<p>EA存在非二进制和排列表示，但这里不做过多研究</p>
+<p>The <strong>population</strong> will then be initialized with random
+copies of the appropriate <strong>genotype</strong>.</p>
+<p>种群将由适当的基因型随机拷贝初始化种群</p>
+<h4 id="why-not-binary-representation-为何不使用二进制表示">(why not)
+Binary Representation 为何不使用二进制表示</h4>
+<p>the most important reason is that <strong>mutaion</strong> is
+supposed to change the solution with equal probabilities, and ensure
+that the ensuing solution is valid.</p>
+<p>but binary representation deviates from this. Changing a number 7
+(0111) to 8 (1000) requires four bit flips, while changing it to 3
+(0011) or 5 (0101) or 6 (0110) requires only one bit flip — the odds are
+different.</p>
+<p>Furthermore, adjustments may be required after recombination and/or
+mutation, <strong>if a binary representation is used to represent a
+permutation.</strong> This is because each index much occur exactly
+once, and the resulting genotype might correspond to an invalid
+phenotype.</p>
+<p>二进制的突变对不同突变方向是不公平的。这种汉明距离的差异将导致突变方向出现差异。并且由于并非每一种二进制表示都对应着实际的Representation，在每次突变重组后可能都需要进行Adjustment。</p>
+<h4 id="permutation-representation-排列表示">Permutation Representation
+排列表示</h4>
+<p>在参考的blog中作者通过TSP问题做为典型，这里照搬。</p>
+<p>For example, if there are 12 cities to choose from, the genotype can
+be <code>[9,2,6,1,7,8,11,0,4,3,10,5]</code>.</p>
+<ul>
+<li><code>[9,2,6,1,7,8,11,0,4,3,10,5]</code>就是一种排列的基因表示</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Evolutionary:</span><br><span class="line">    def __init__(self, task):</span><br><span class="line">        self.task = task</span><br><span class="line"></span><br><span class="line">    def generate_genome(self, length):</span><br><span class="line">        genome = np.arange(length)</span><br><span class="line">        np.random.shuffle(genome)</span><br><span class="line">        return genome</span><br><span class="line">        </span><br><span class="line">    def generate_population(self, size, genome_length):</span><br><span class="line">        population = [self.generate_genome(genome_length) for _ in range(size)]</span><br><span class="line">        return population</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>np.arange 返回一个从1到length的numpy.ndarray</p>
+<p>np.random.shuffle 打乱排序</p>
+</blockquote>
+<h3 id="parent-selection-亲本选择">Parent selection 亲本选择</h3>
+<p>In EA, the process of parent selection, variation, and survival
+selection happens iteratively to ensure that the population as a whole
+improves across generations.</p>
+<p>在 EA
+中，亲本选择、变异和生存选择的过程迭代进行，以确保种群作为一个整体在几代人中得到改善。</p>
+<h4
+id="roulette-wheel-for-parent-selection-用于亲本选择的轮盘赌">Roulette
+wheel for Parent selection 用于亲本选择的轮盘赌</h4>
+<p><strong>A caveat is that the fitness values should be
+positive.</strong> Try the following yourself, and it speaks louder than
+a thousand words.</p>
+<p>适应度应该是正的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">population=[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;]</span><br><span class="line">weights = [-.1, -.2, -.3, -.3, 1]</span><br><span class="line">for _ in range(100):</span><br><span class="line">    x = random.choices(</span><br><span class="line">        population=population, weights=weights, k=2</span><br><span class="line">    )</span><br><span class="line">    print(x)</span><br></pre></td></tr></table></figure>
+<p>You will see that <strong>all negative weights have zero chance of
+being selected</strong>, and that <strong>a highly negative weight would
+be no different from a slightly negative weight</strong>.</p>
+<p>极大概率为输出一百个[‘E’,‘E’]</p>
+<p>并且输出大负数与输出负数的概率几乎相等</p>
+<ul>
+<li><p>TPS中常见的Fitness取值为取反城市间的距离</p>
+<p>In TPS, one common way of representing the fitness is by negating the
+distance between cities.</p>
+<p>In this case, we need to normalize the fitness such that they are
+positive. This could be done by subtracting from the minimum (ie. most
+negative) fitness, add then adding some small epsilon to that even the
+worse solution has a non-zero chance of being selected.</p>
+<p>具体的方式是，对适应度进行归一化，并<strong>保持其为正</strong>。保持其为正的过程可以通过减去最小负数值然后加上<span
+class="math inline">\(\epsilon\)</span></p></li>
+<li><p>对于这个最小负数值也可以选择一个基线值baseline，baseline的选取会影响到个体的相对适应度和选择概率</p>
+<ul>
+<li>如果基线值过高，适应度的差异会被压缩，导致不同解的选择概率差异变小。</li>
+<li>如果基线值过低，适应度差异被放大，导致较优解的选择概率更高，较差解被选中的可能性更小。</li>
+</ul></li>
+</ul>
+<h4 id="tournament-for-parent-selection-亲本选拔赛">Tournament for
+Parent selection 亲本选拔赛</h4>
+<p>This approach is used to ensure that the fittest parents do not end
+up dominating most of the time.</p>
+<p>这种方式用来确保最大适应度的亲本不会再大多数时候占据主导地位。</p>
+<p>what happens is that a small subset of the population is randomly
+selected, and the fittest individual among this group gets chosen.</p>
+<p>作者描述了下图所示的方式，通过限定范围选取最优减少全局最优的影响地位</p>
+<figure>
+<img src="https://s2.loli.net/2024/10/31/R5J4zMdCGfnkL63.png"
+alt="Tournament" />
+<figcaption aria-hidden="true">Tournament</figcaption>
+</figure>
+<p>Implementation of coding</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Evolutionary</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">selection</span>(<span class="params">self, population, fitness_func, method=<span class="string">&#x27;tournament&#x27;</span></span>):</span><br><span class="line">        <span class="keyword">if</span> method == <span class="string">&#x27;tournament&#x27;</span>:</span><br><span class="line">            k = <span class="built_in">min</span>(<span class="number">5</span>, <span class="built_in">int</span>(<span class="number">0.02</span>*<span class="built_in">len</span>(population)))</span><br><span class="line">            sub_population1 = random.choices(</span><br><span class="line">                population=population, k=k</span><br><span class="line">            )</span><br><span class="line">            sub_population2 = random.choices(</span><br><span class="line">                population=population, k=k</span><br><span class="line">            )</span><br><span class="line">            <span class="keyword">return</span> (</span><br><span class="line">                <span class="built_in">sorted</span>(sub_population1, key=fitness_func, reverse=<span class="literal">True</span>)[<span class="number">0</span>], </span><br><span class="line">                <span class="built_in">sorted</span>(sub_population2, key=fitness_func, reverse=<span class="literal">True</span>)[<span class="number">0</span>]</span><br><span class="line">            )        </span><br><span class="line">        <span class="keyword">else</span>: <span class="comment"># roulette wheel</span></span><br><span class="line">            min_fitness = <span class="built_in">min</span>([fitness_func(gene) <span class="keyword">for</span> gene <span class="keyword">in</span> population])</span><br><span class="line">            selected = random.choices(</span><br><span class="line">                population=population,</span><br><span class="line">                weights=[fitness_func(gene)+eps-min_fitness <span class="keyword">for</span> gene <span class="keyword">in</span> population],</span><br><span class="line">                k=<span class="number">2</span></span><br><span class="line">            )</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">tuple</span>(selected)</span><br></pre></td></tr></table></figure>
+<h3 id="variation-变化">Variation 变化</h3>
+<p>Variations can be unary (involving a single genotype) or binary
+(involving two genotypes).</p>
+<p>变化可以是一元的，也可以是二元的，最终希望得到新的基因型并有更高的Fitness</p>
+<p>这个过程可以借助统计数据也可以通过概率，但更多时候，通过Parent
+selection 与 survival selection可以确定更好的基因型</p>
+<h4 id="recombination-重组">Recombination 重组</h4>
+<p>Technically, the recombination process can involve <strong>more than
+two parents</strong></p>
+<p>重组过程可能设计两个以上的父母</p>
+<ul>
+<li><p>crossover 交叉</p>
+<figure>
+<img src="https://s2.loli.net/2024/10/31/Ye7fvJWVABCKn2x.png"
+alt="crossover" />
+<figcaption aria-hidden="true">crossover</figcaption>
+</figure>
+<p>交叉将导致某些索引重复，而其他索引则不存在。这不能是 TSP
+的解决方案。</p></li>
+<li><p>Partial map crossover</p>
+<figure>
+<img src="https://s2.loli.net/2024/10/31/xNa1OZ5gJSk2WpB.png"
+alt="Partial map crossover" />
+<figcaption aria-hidden="true">Partial map crossover</figcaption>
+</figure>
+<p>作者提供的这个图片有些错误，在offspring栏出现了错误</p>
+<p>coding Implement</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">partial_map_crossover</span>(<span class="params">self, parent1, parent2</span>):</span><br><span class="line">        n = <span class="built_in">len</span>(parent1)</span><br><span class="line">        point = random.randint(<span class="number">0</span>, n-<span class="number">1</span>)</span><br><span class="line">        child1 = <span class="built_in">list</span>(parent1[<span class="number">0</span>:point])</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> parent2:</span><br><span class="line">            <span class="keyword">if</span> (j <span class="keyword">in</span> child1) == <span class="literal">False</span>:</span><br><span class="line">                child1.append(j)</span><br><span class="line">        child2 = <span class="built_in">list</span>(parent2[<span class="number">0</span>:point])</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> parent1:</span><br><span class="line">            <span class="keyword">if</span> (j <span class="keyword">in</span> child2) == <span class="literal">False</span>:</span><br><span class="line">                child2.append(j)</span><br><span class="line">        <span class="keyword">return</span> child1, child2</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="mutation-变异">Mutation 变异</h4>
+<p>对于排列型基因，翻转、增加或减少排列的值都是不可行的</p>
+<ul>
+<li>choose one to begining of end 选择一个数到末尾或开头</li>
+<li>交换两个数字的位置</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Evolutionary</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, task</span>):</span><br><span class="line">        <span class="variable language_">self</span>.task = task</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">partial_map_crossover</span>(<span class="params">self, parent1, parent2</span>):</span><br><span class="line">        n = <span class="built_in">len</span>(parent1)</span><br><span class="line">        point = random.randint(<span class="number">0</span>, n-<span class="number">1</span>)</span><br><span class="line">        child1 = <span class="built_in">list</span>(parent1[<span class="number">0</span>:point])</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> parent2:</span><br><span class="line">            <span class="keyword">if</span> (j <span class="keyword">in</span> child1) == <span class="literal">False</span>:</span><br><span class="line">                child1.append(j)</span><br><span class="line">        child2 = <span class="built_in">list</span>(parent2[<span class="number">0</span>:point])</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> parent1:</span><br><span class="line">            <span class="keyword">if</span> (j <span class="keyword">in</span> child2) == <span class="literal">False</span>:</span><br><span class="line">                child2.append(j)</span><br><span class="line">        <span class="keyword">return</span> child1, child2</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run_evolution</span>(<span class="params">self, population_size, generation_limit=<span class="number">5000</span>, fitness_limit=<span class="number">1e99</span>, crossover=<span class="string">&#x27;single&#x27;</span>, verbose=<span class="literal">True</span></span>):</span><br><span class="line">        <span class="comment">## ... define population ...</span></span><br><span class="line">        </span><br><span class="line">        best_fitness_seen = -<span class="number">1e9</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(generation_limit)):</span><br><span class="line">            population = <span class="built_in">sorted</span>(</span><br><span class="line">                population, key=<span class="keyword">lambda</span> genome: <span class="variable language_">self</span>.task.fitness(genome), reverse=<span class="literal">True</span></span><br><span class="line">            )</span><br><span class="line">            fitness = <span class="variable language_">self</span>.task.fitness(population[<span class="number">0</span>])</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> verbose <span class="keyword">and</span> (fitness &gt; best_fitness_seen):</span><br><span class="line">                best_fitness_seen = fitness</span><br><span class="line">                <span class="variable language_">self</span>.task.visualize(population[<span class="number">0</span>], save_id=i)</span><br><span class="line">            <span class="keyword">if</span> fitness &gt;= fitness_limit:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">## ... elitism; keep best individuals and variants of them ...</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>((population_size - n_keep)//<span class="number">2</span>):</span><br><span class="line">                parents = <span class="variable language_">self</span>.selection(</span><br><span class="line">                    population, <span class="variable language_">self</span>.task.fitness, </span><br><span class="line">                    method=<span class="string">&#x27;tournament&#x27;</span></span><br><span class="line">                )</span><br><span class="line">                <span class="keyword">if</span> random.random() &lt; <span class="number">0.9</span>:</span><br><span class="line">                    offspring_a, offspring_b = <span class="variable language_">self</span>.partial_map_crossover(parents[<span class="number">0</span>], parents[<span class="number">1</span>])</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    offspring_a, offspring_b = parents[<span class="number">0</span>], parents[<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">if</span> random.random() &lt; <span class="number">0.9</span>:</span><br><span class="line">                    offspring_a = <span class="variable language_">self</span>.swop(offspring_a)</span><br><span class="line">                    offspring_b = <span class="variable language_">self</span>.swop(offspring_b)</span><br><span class="line">                next_generation += [offspring_a, offspring_b]</span><br><span class="line">            population = next_generation</span><br><span class="line">        </span><br><span class="line">        best_genome = population[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">return</span> best_genome</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">selection</span>(<span class="params">self, ...</span>):</span><br><span class="line">        <span class="comment">## tournament or roulette wheel, or combination</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">shift_to_end</span>(<span class="params">self, genome, num=<span class="number">1</span></span>):</span><br><span class="line">        new_genome = deepcopy(genome)</span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">            a = random.sample(<span class="built_in">range</span>(<span class="built_in">len</span>(genome)), k=<span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">            ref = deepcopy(new_genome[a])</span><br><span class="line">            <span class="keyword">if</span> random.random() &lt; <span class="number">0.5</span>:</span><br><span class="line">                new_genome[<span class="number">1</span>:a+<span class="number">1</span>] = new_genome[:a]</span><br><span class="line">                new_genome[<span class="number">0</span>] = ref   <span class="comment"># bring to first</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                new_genome[a:-<span class="number">1</span>] = new_genome[a+<span class="number">1</span>:]</span><br><span class="line">                new_genome[-<span class="number">1</span>] = ref   <span class="comment"># bring to last</span></span><br><span class="line">        <span class="keyword">return</span> new_genome</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">swop</span>(<span class="params">self, genome, num=<span class="number">1</span></span>):</span><br><span class="line">        new_genome = deepcopy(genome)</span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">            a, b = random.sample(<span class="built_in">range</span>(<span class="built_in">len</span>(genome)), k=<span class="number">2</span>)</span><br><span class="line">            new_genome[a], new_genome[b] = genome[b], genome[a]</span><br><span class="line">        <span class="keyword">return</span> new_genome</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>tqpm:
+是一个快速、可扩展的Python进度条库，它可以在长循环中添加一个进度条，以显示迭代的进度。<code>tqdm</code>
+的名字来源于土耳其语中的“tamam”（意为“完成”）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># example</span></span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(<span class="number">100</span>)):</span><br><span class="line"> <span class="comment"># 执行一些操作</span></span><br><span class="line"> <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="survival-selection-生存选择">Survival selection 生存选择</h3>
+<ul>
+<li><p>put all parents and offspring together
+将父母后代放在一起，然后选取最合适的个体来生产下一代，</p>
+<p>这其中的问题是这种方式“稀释”了进化效应</p></li>
+<li><p>mimic nature 模拟前代死亡</p>
+<p>这样做的问题是无法保证下一代会比前一代更好</p></li>
+<li><p>select the best individual(s) from the parents. also mutate
+copies of them</p>
+<p>保留最好的前代个体并调整他们的副本,又叫“精英选择”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">next_generation = population[:n_top]   <span class="comment"># keep the n_top fittest individuals</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n_perturb):</span><br><span class="line">    <span class="comment"># select a candidate from population[:n_top]</span></span><br><span class="line">    <span class="keyword">if</span> np.random.random() &lt; p_shift:</span><br><span class="line">        candidate = <span class="variable language_">self</span>.shift_to_end(candidate)</span><br><span class="line">    <span class="keyword">if</span> np.random.random() &lt; p_swop:</span><br><span class="line">        candidate = <span class="variable language_">self</span>.swop(candidate)</span><br><span class="line">    next_generation += [candidate]</span><br><span class="line"></span><br><span class="line">n_keep = n_top + n_perturb</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="termination-终止">Termination 终止</h3>
+<p>nothing important, depend on yourself</p>
+<h2 id="getting-the-results-取得结果">Getting The Results 取得结果</h2>
+<p>构建TSP问题的一个类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Salesman</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, num_cities, x_lim, y_lim, read_from_txt=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="keyword">if</span> read_from_txt:</span><br><span class="line">            <span class="variable language_">self</span>.city_locations = []</span><br><span class="line">            f = <span class="built_in">open</span>(read_from_txt)</span><br><span class="line">            <span class="keyword">for</span> i, line <span class="keyword">in</span> <span class="built_in">enumerate</span>(f.readlines()):</span><br><span class="line">                <span class="keyword">if</span> i==num_cities:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                node_val = line.split()</span><br><span class="line">                <span class="variable language_">self</span>.city_locations.append(</span><br><span class="line">                    (<span class="built_in">float</span>(node_val[-<span class="number">2</span>]), <span class="built_in">float</span>(node_val[-<span class="number">1</span>]))</span><br><span class="line">                )</span><br><span class="line">            <span class="variable language_">self</span>.num_cities = <span class="built_in">len</span>(<span class="variable language_">self</span>.city_locations)</span><br><span class="line">            <span class="variable language_">self</span>.x_lim = np.<span class="built_in">max</span>(np.array(<span class="variable language_">self</span>.city_locations)[:,<span class="number">0</span>])</span><br><span class="line">            <span class="variable language_">self</span>.y_lim = np.<span class="built_in">max</span>(np.array(<span class="variable language_">self</span>.city_locations)[:,<span class="number">1</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">else</span>:   <span class="comment"># generate randomly</span></span><br><span class="line">            <span class="variable language_">self</span>.num_cities = num_cities</span><br><span class="line">            <span class="variable language_">self</span>.x_lim = x_lim</span><br><span class="line">            <span class="variable language_">self</span>.y_lim = y_lim</span><br><span class="line">            x_loc = np.random.uniform(<span class="number">0</span>, x_lim, size=num_cities)</span><br><span class="line">            y_loc = np.random.uniform(<span class="number">0</span>, y_lim, size=num_cities)</span><br><span class="line">            <span class="variable language_">self</span>.city_locations = [</span><br><span class="line">                (x,y) <span class="keyword">for</span> x,y <span class="keyword">in</span> <span class="built_in">zip</span>(x_loc,y_loc)</span><br><span class="line">            ]</span><br><span class="line">        <span class="variable language_">self</span>.distances = <span class="variable language_">self</span>.calculate_distances()</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate_distances</span>(<span class="params">self</span>):</span><br><span class="line">        distances = np.zeros((<span class="variable language_">self</span>.num_cities, <span class="variable language_">self</span>.num_cities))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_cities):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, <span class="variable language_">self</span>.num_cities):</span><br><span class="line">                dist = np.sqrt((<span class="variable language_">self</span>.city_locations[i][<span class="number">0</span>] - <span class="variable language_">self</span>.city_locations[j][<span class="number">0</span>]) ** <span class="number">2</span> + (<span class="variable language_">self</span>.city_locations[i][<span class="number">1</span>] - <span class="variable language_">self</span>.city_locations[j][<span class="number">1</span>]) ** <span class="number">2</span>)</span><br><span class="line">                distances[i][j] = distances[j][i] = dist</span><br><span class="line">        <span class="keyword">return</span> distances</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fitness</span>(<span class="params">self, solution</span>):</span><br><span class="line">        total_distance = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_cities - <span class="number">1</span>):</span><br><span class="line">            total_distance += <span class="variable language_">self</span>.distances[solution[i]][solution[i+<span class="number">1</span>]]</span><br><span class="line">        fitness = -total_distance</span><br><span class="line">        <span class="keyword">return</span> fitness</span><br><span class="line">    </span><br><span class="line">           </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">visualize</span>(<span class="params">self, solution, save_id=<span class="literal">None</span></span>):</span><br><span class="line">        n = <span class="built_in">len</span>(solution)</span><br><span class="line">        <span class="keyword">assert</span> n == <span class="built_in">len</span>(<span class="variable language_">self</span>.city_locations), <span class="string">&#x27;The solution must correspond to all cities&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> i, (x,y) <span class="keyword">in</span> <span class="built_in">enumerate</span>(<span class="variable language_">self</span>.city_locations):</span><br><span class="line">            plt.plot(x, y, <span class="string">&quot;ro&quot;</span>)</span><br><span class="line">            plt.annotate(i, (x, y))</span><br><span class="line">        </span><br><span class="line">        ordered_cities = [<span class="variable language_">self</span>.city_locations[idx] <span class="keyword">for</span> idx <span class="keyword">in</span> solution]</span><br><span class="line">        x_coord = [x <span class="keyword">for</span> (x,y) <span class="keyword">in</span>  ordered_cities]</span><br><span class="line">        y_coord = [y <span class="keyword">for</span> (x,y) <span class="keyword">in</span>  ordered_cities]</span><br><span class="line">        distance = -<span class="variable language_">self</span>.fitness(solution)</span><br><span class="line">        </span><br><span class="line">        plt.plot(x_coord, y_coord, <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">        plt.title(<span class="string">&quot;Connected cities (%.1f) according to solution&quot;</span> % distance)</span><br><span class="line">        <span class="keyword">if</span> save_id <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            filename = <span class="string">&quot;results/plot_%03d.png&quot;</span> % save_id</span><br><span class="line">            plt.savefig(filename, bbox_inches=<span class="string">&#x27;tight&#x27;</span>)</span><br><span class="line">            plt.close()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="train-and-observe">Train and observe</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">salesman = Salesman(</span><br><span class="line">    num_cities=<span class="number">30</span>, x_lim=<span class="number">100</span>, y_lim=<span class="number">100</span>, read_from_txt=<span class="string">&#x27;city_locations.txt&#x27;</span></span><br><span class="line">)</span><br><span class="line">evo = Evolutionary(salesman)</span><br><span class="line">best_genome = evo.run_evolution(</span><br><span class="line">    population_size=<span class="number">200</span>, generation_limit=<span class="number">1000</span>, crossover=<span class="string">&#x27;pmx&#x27;</span>, verbose=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line">salesman.visualize(best_genome)</span><br></pre></td></tr></table></figure>
+<p>训练与可视化</p>
+<h2 id="实践">实践</h2>
+<p>问题描述：在二维平面上有一些整数坐标点组成一些联通块，在每个联通块中任意选取一个点，希望找到这些点最短环路径。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(2, 12), (6, 8), (6, 16), (10, 12)]@[(5, 26), (5, 32), (6, 26), (6, 32), (7, 26), (7, 32), (8, 26), (8, 32), (9, 26), (9, 32), (10, 26), (10, 32), (11, 26), (11, 32), (5, 27), (11, 27), (5, 28), (11, 28), (5, 29), (11, 29), (5, 30), (11, 30), (5, 31), (11, 31)]@[(27, 32), (27, 38), (28, 32), (28, 38), (29, 32), (29, 38), (30, 32), (30, 38), (31, 32), (31, 38), (32, 32), (32, 38), (33, 32), (33, 38), (27, 33), (33, 33), (27, 34), (33, 34), (27, 35), (33, 35), (27, 36), (33, 36), (27, 37), (33, 37)]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(10, 12), (11, 26), (27, 32)]</span><br></pre></td></tr></table></figure>
+<p>实现代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">n_top = <span class="number">30</span></span><br><span class="line">n_perturb = <span class="number">30</span></span><br><span class="line">p_shift = <span class="number">.1</span></span><br><span class="line">p_swop = <span class="number">.2</span></span><br><span class="line">eps = <span class="number">.1</span></span><br><span class="line">p_up = <span class="number">.2</span></span><br><span class="line">p_down = <span class="number">.2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Evolutionary</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,task</span>):</span><br><span class="line">		<span class="variable language_">self</span>.task = task</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">generate_genome</span>(<span class="params">self,point_nums</span>):</span><br><span class="line">		genome = [[i,random.randint(<span class="number">0</span>,point_nums[i]-<span class="number">1</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(point_nums))]</span><br><span class="line">		<span class="keyword">return</span> genome</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">generate_population</span>(<span class="params">self, size, point_nums</span>):</span><br><span class="line">		population = [<span class="variable language_">self</span>.generate_genome(point_nums) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(size)]</span><br><span class="line">		<span class="keyword">return</span> population</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">partial_map_crossover</span>(<span class="params">self, parent1, parent2</span>):</span><br><span class="line">		n = <span class="built_in">len</span>(parent1)</span><br><span class="line">		point = random.randint(<span class="number">0</span>, n-<span class="number">1</span>)</span><br><span class="line">		child1 = <span class="built_in">list</span>(parent1[<span class="number">0</span>:point])</span><br><span class="line">		<span class="keyword">for</span> j <span class="keyword">in</span> parent2:</span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">any</span>(j[<span class="number">0</span>] == t[<span class="number">0</span>] <span class="keyword">for</span> t <span class="keyword">in</span> child1) == <span class="literal">False</span>:</span><br><span class="line">				child1.append(j)</span><br><span class="line"></span><br><span class="line">		child2 = <span class="built_in">list</span>(parent2[<span class="number">0</span>:point])</span><br><span class="line">		<span class="keyword">for</span> j <span class="keyword">in</span> parent1:</span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">any</span>(j[<span class="number">0</span>] == t[<span class="number">0</span>] <span class="keyword">for</span> t <span class="keyword">in</span> child2) == <span class="literal">False</span>:</span><br><span class="line">				child2.append(j)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> child1, child2</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">run_evolution</span>(<span class="params">self, population_size, generation_times,fitness_limit=<span class="number">1e99</span>, crossover=<span class="string">&#x27;pmx&#x27;</span>, verbose=<span class="literal">True</span></span>):</span><br><span class="line">		population = <span class="variable language_">self</span>.generate_population(population_size, <span class="variable language_">self</span>.task.point_nums)</span><br><span class="line">		</span><br><span class="line">		best_fitness_seen = -<span class="number">1e9</span></span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(generation_times):</span><br><span class="line">			population = <span class="built_in">sorted</span>(</span><br><span class="line">				population, key=<span class="keyword">lambda</span> genome: <span class="variable language_">self</span>.task.fitness(genome), reverse=<span class="literal">True</span></span><br><span class="line">			)</span><br><span class="line">			fitness = <span class="variable language_">self</span>.task.fitness(population[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> verbose <span class="keyword">and</span> (fitness &gt; best_fitness_seen):</span><br><span class="line">				best_fitness_seen = fitness</span><br><span class="line">			<span class="keyword">if</span> fitness &gt;= fitness_limit:</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">				<span class="comment"># self.task.visualize(population[0],save_id = i)</span></span><br><span class="line">			next_generation = population[:n_top] </span><br><span class="line"></span><br><span class="line">			<span class="comment"># print(self.task.point_nums)</span></span><br><span class="line">			<span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n_perturb):</span><br><span class="line">				candidate = random.choice(population[:n_top])</span><br><span class="line">				<span class="comment"># print(candidate)</span></span><br><span class="line">				<span class="comment"># print([len(t) for t in candidate])</span></span><br><span class="line">				<span class="keyword">if</span> np.random.random() &lt; p_shift:</span><br><span class="line">					candidate = <span class="variable language_">self</span>.shift_to_end(candidate)</span><br><span class="line">				<span class="keyword">if</span> np.random.random() &lt; p_swop:</span><br><span class="line">					candidate = <span class="variable language_">self</span>.swop(candidate)</span><br><span class="line">					next_generation += [candidate]</span><br><span class="line">				<span class="keyword">if</span> np.random.random() &lt; p_up:</span><br><span class="line">					index = random.choice(<span class="built_in">range</span>(<span class="built_in">len</span>(candidate)))</span><br><span class="line">					<span class="keyword">if</span> candidate[index][<span class="number">1</span>] &lt; <span class="variable language_">self</span>.task.point_nums[candidate[index][<span class="number">0</span>]] - <span class="number">1</span>:</span><br><span class="line">						candidate[index][<span class="number">1</span>] += <span class="number">1</span></span><br><span class="line">				<span class="keyword">if</span> np.random.random() &lt; p_down:</span><br><span class="line">					index = random.choice(<span class="built_in">range</span>(<span class="built_in">len</span>(candidate)))</span><br><span class="line">					<span class="keyword">if</span> candidate[index][<span class="number">1</span>] &gt; <span class="number">0</span>:</span><br><span class="line">						candidate[index][<span class="number">1</span>] -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">			n_keep = n_top + n_perturb</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>((population_size - n_keep)//<span class="number">2</span>):</span><br><span class="line">				parents = <span class="variable language_">self</span>.selection(</span><br><span class="line">					population, <span class="variable language_">self</span>.task.fitness, </span><br><span class="line">					method=<span class="string">&#x27;tournament&#x27;</span></span><br><span class="line">				)</span><br><span class="line">				<span class="keyword">if</span> random.random() &lt; <span class="number">0.9</span>:</span><br><span class="line">					offspring_a, offspring_b = <span class="variable language_">self</span>.partial_map_crossover(parents[<span class="number">0</span>], parents[<span class="number">1</span>])</span><br><span class="line">				<span class="keyword">else</span>:</span><br><span class="line">					offspring_a, offspring_b = parents[<span class="number">0</span>], parents[<span class="number">1</span>]</span><br><span class="line">				<span class="keyword">if</span> random.random() &lt; <span class="number">0.9</span>:</span><br><span class="line">					offspring_a = <span class="variable language_">self</span>.swop(offspring_a)</span><br><span class="line">					offspring_b = <span class="variable language_">self</span>.swop(offspring_b)</span><br><span class="line">				next_generation += [offspring_a, offspring_b]</span><br><span class="line">			population = next_generation</span><br><span class="line">        </span><br><span class="line">		best_genome = population[<span class="number">0</span>]</span><br><span class="line">		<span class="keyword">return</span> best_genome</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">selection</span>(<span class="params">self, population, fitness_func, method=<span class="string">&#x27;tournament&#x27;</span></span>):</span><br><span class="line">		<span class="keyword">if</span> method == <span class="string">&#x27;tournament&#x27;</span>:</span><br><span class="line">			k = <span class="built_in">min</span>(<span class="number">5</span>, <span class="built_in">int</span>(<span class="number">0.02</span>*<span class="built_in">len</span>(population)))</span><br><span class="line">			sub_population1 = random.choices(</span><br><span class="line">				population=population, k=k</span><br><span class="line">			)</span><br><span class="line">			sub_population2 = random.choices(</span><br><span class="line">				population=population, k=k</span><br><span class="line">			)</span><br><span class="line">			<span class="keyword">return</span> (</span><br><span class="line">				<span class="built_in">sorted</span>(sub_population1, key=fitness_func, reverse=<span class="literal">True</span>)[<span class="number">0</span>], </span><br><span class="line">				<span class="built_in">sorted</span>(sub_population2, key=fitness_func, reverse=<span class="literal">True</span>)[<span class="number">0</span>]</span><br><span class="line">			)  </span><br><span class="line">		<span class="keyword">else</span>: <span class="comment"># roulette wheel</span></span><br><span class="line">			min_fitness = <span class="built_in">min</span>([fitness_func(gene) <span class="keyword">for</span> gene <span class="keyword">in</span> population])</span><br><span class="line">			selected = random.choices(</span><br><span class="line">				population=population,</span><br><span class="line">				weights=[fitness_func(gene)+eps-min_fitness <span class="keyword">for</span> gene <span class="keyword">in</span> population],</span><br><span class="line">				k=<span class="number">2</span></span><br><span class="line">			)</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">tuple</span>(selected)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">shift_to_end</span>(<span class="params">self, genome, num=<span class="number">1</span></span>):</span><br><span class="line">		new_genome = copy.deepcopy(genome)</span><br><span class="line">		<span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">			a = random.sample(<span class="built_in">range</span>(<span class="built_in">len</span>(genome)), k=<span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">			ref = copy.deepcopy(new_genome[a])</span><br><span class="line">			<span class="keyword">if</span> random.random() &lt; <span class="number">0.5</span>:</span><br><span class="line">				new_genome[<span class="number">1</span>:a+<span class="number">1</span>] = new_genome[:a]</span><br><span class="line">				new_genome[<span class="number">0</span>] = ref   <span class="comment"># bring to first</span></span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				new_genome[a:-<span class="number">1</span>] = new_genome[a+<span class="number">1</span>:]</span><br><span class="line">				new_genome[-<span class="number">1</span>] = ref   <span class="comment"># bring to last</span></span><br><span class="line">		<span class="keyword">return</span> new_genome</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">swop</span>(<span class="params">self, genome, num=<span class="number">1</span></span>):</span><br><span class="line">		new_genome = copy.deepcopy(genome)</span><br><span class="line">		<span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">			a, b = random.sample(<span class="built_in">range</span>(<span class="built_in">len</span>(genome)), k=<span class="number">2</span>)</span><br><span class="line">			new_genome[a], new_genome[b] = genome[b], genome[a]</span><br><span class="line">		<span class="keyword">return</span> new_genome</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, points</span>):</span><br><span class="line">		<span class="variable language_">self</span>.points = points</span><br><span class="line">		<span class="variable language_">self</span>.point_nums = []</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(points)):</span><br><span class="line">			<span class="variable language_">self</span>.point_nums.append(<span class="built_in">len</span>(points[i]))</span><br><span class="line">		<span class="variable language_">self</span>.x_lim = np.<span class="built_in">max</span>([np.<span class="built_in">max</span>(np.array(t)[:,<span class="number">0</span>]) <span class="keyword">for</span> t <span class="keyword">in</span> points])</span><br><span class="line">		<span class="variable language_">self</span>.y_lim = np.<span class="built_in">max</span>([np.<span class="built_in">max</span>(np.array(t)[:,<span class="number">0</span>]) <span class="keyword">for</span> t <span class="keyword">in</span> points])</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">calculate_distance</span>(<span class="params">self, pointa, pointb</span>):</span><br><span class="line">		<span class="keyword">return</span> np.sqrt((pointa[<span class="number">0</span>] - pointb[<span class="number">0</span>]) ** <span class="number">2</span> + (pointa[<span class="number">1</span>] - pointb[<span class="number">1</span>]) ** <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">fitness</span>(<span class="params">self, solution</span>):</span><br><span class="line">		total_distance = <span class="number">0</span></span><br><span class="line">		<span class="comment"># print(solution)</span></span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="built_in">len</span>(solution)):</span><br><span class="line">			total_distance += <span class="variable language_">self</span>.calculate_distance(<span class="variable language_">self</span>.points[solution[i-<span class="number">1</span>][<span class="number">0</span>]][solution[i-<span class="number">1</span>][<span class="number">1</span>]],</span><br><span class="line">																						<span class="variable language_">self</span>.points[solution[i][<span class="number">0</span>]][solution[i][<span class="number">1</span>]])</span><br><span class="line">		total_distance += <span class="variable language_">self</span>.calculate_distance(<span class="variable language_">self</span>.points[solution[<span class="built_in">len</span>(solution)-<span class="number">1</span>][<span class="number">0</span>]][solution[<span class="built_in">len</span>(solution)-<span class="number">1</span>][<span class="number">1</span>]],</span><br><span class="line">																						<span class="variable language_">self</span>.points[solution[<span class="number">0</span>][<span class="number">0</span>]][solution[<span class="number">0</span>][<span class="number">1</span>]])</span><br><span class="line">		fitness = -total_distance</span><br><span class="line">		<span class="keyword">return</span> fitness</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">visualize</span>(<span class="params">self, solution, save_id = <span class="literal">None</span></span>):</span><br><span class="line">		n = <span class="built_in">len</span>(solution)</span><br><span class="line">		<span class="keyword">assert</span> n == <span class="built_in">len</span>(<span class="variable language_">self</span>.point_nums), <span class="string">&#x27;The solution must correspond to all cities&#x27;</span></span><br><span class="line">		<span class="keyword">for</span> profile <span class="keyword">in</span> <span class="variable language_">self</span>.points:</span><br><span class="line">			<span class="keyword">for</span> i, (x,y) <span class="keyword">in</span> <span class="built_in">enumerate</span>(profile):</span><br><span class="line">				plt.plot(x, y, <span class="string">&quot;o&quot;</span>)</span><br><span class="line">				plt.annotate(i, (x, y))</span><br><span class="line">        </span><br><span class="line">		ordered_points= [<span class="variable language_">self</span>.points[idx][pidx] <span class="keyword">for</span> (idx,pidx) <span class="keyword">in</span> solution]</span><br><span class="line">		ordered_points.append(<span class="variable language_">self</span>.points[solution[<span class="number">0</span>][<span class="number">0</span>]][solution[<span class="number">0</span>][<span class="number">1</span>]])</span><br><span class="line">		x_coord = [x <span class="keyword">for</span> (x,y) <span class="keyword">in</span>  ordered_points]</span><br><span class="line">		y_coord = [y <span class="keyword">for</span> (x,y) <span class="keyword">in</span>  ordered_points]</span><br><span class="line">		distance = -<span class="variable language_">self</span>.fitness(solution)</span><br><span class="line">        </span><br><span class="line">		plt.plot(x_coord, y_coord, <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">		plt.title(<span class="string">&quot;Connected point (%.1f) according to solution&quot;</span> % distance)</span><br><span class="line">		<span class="keyword">if</span> save_id <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">			filename = <span class="string">&quot;results/plot_%03d.png&quot;</span> % save_id</span><br><span class="line">			plt.savefig(filename, bbox_inches=<span class="string">&#x27;tight&#x27;</span>)</span><br><span class="line">			plt.close()</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			plt.show()</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">points = [<span class="built_in">eval</span>(group) <span class="keyword">for</span> group <span class="keyword">in</span> <span class="built_in">input</span>().split(<span class="string">&#x27;@&#x27;</span>)]</span><br><span class="line"><span class="comment"># print([len(t) for t in points])</span></span><br><span class="line">printer = Solution(points)</span><br><span class="line"></span><br><span class="line">evo = Evolutionary(printer)</span><br><span class="line">best_genome = evo.run_evolution(</span><br><span class="line">	population_size=<span class="number">100</span>, generation_times=<span class="number">5000</span>,crossover=<span class="string">&#x27;pmx&#x27;</span>,verbose=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"><span class="comment"># printer.visualize(best_genome)</span></span><br><span class="line"><span class="built_in">print</span>([points[idx][pidx] <span class="keyword">for</span> (idx,pidx) <span class="keyword">in</span> best_genome])</span><br></pre></td></tr></table></figure>
+<h2 id="ref-resource参考资料">Ref Resource参考资料</h2>
+<ol type="1">
+<li><span class="exturl" data-url="aHR0cHM6Ly90b3dhcmRzZGF0YXNjaWVuY2UuY29tL2V2b2x1dGlvbmFyeS1hbGdvcml0aG0tc2VsZWN0aW9ucy1leHBsYWluZWQtMjUxNWZiOGQ0Mjg3">Evolutionary
+Algorithm — Selections Explained | by James Koh, PhD | Towards Data
+Science<i class="fa fa-external-link-alt"></i></span></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1430,132 +1739,6 @@ Part1中提到了对其他文件的调用，那么在文件中调用其他脚本
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://deepcity.github.io/2024/PGStudy-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E6%8C%87%E6%A0%87Part1/article.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ThreeLanes">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ThreeLanes' Site">
-      <meta itemprop="description" content="这是一个个人blog站点，记录技术与知识文章">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ThreeLanes' Site">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/PGStudy-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E6%8C%87%E6%A0%87Part1/article.html" class="post-title-link" itemprop="url">PGStudy-统计学指标Part</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-10-13 14:10:07 / 修改时间：14:12:16" itemprop="dateCreated datePublished" datetime="2024-10-13T14:10:07+08:00">2024-10-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E4%B8%93%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">专题</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E4%B8%93%E9%A2%98/PGStudy/" itemprop="url" rel="index"><span itemprop="name">PGStudy</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-    <span class="post-meta-item-icon">
-      <i class="far fa-comment"></i>
-    </span>
-    <span class="post-meta-item-text">Waline：</span>
-  
-    <a title="waline" href="/2024/PGStudy-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E6%8C%87%E6%A0%87Part1/article.html#waline" itemprop="discussionUrl">
-      <span class="post-comments-count waline-comment-count" data-path="/2024/PGStudy-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E6%8C%87%E6%A0%87Part1/article.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="统计学指标分类">统计学指标——分类</h2>
-<h3 id="基本概念">基本概念</h3>
-<p>准确度、精确率、召回率、F1值作为评估指标，经常用到分类效果的评测上。比较好理解的二分类问题，准确度评估预测正确的比例，精确率评估预测正例的查准率，召回率评估真实正例的查全率。</p>
-<h3 id="准确度-accuracy">准确度 Accuracy</h3>
-<p>准确度：正例和负例中预测正确数量占总数量的比例，用公式表示： <span
-class="math display">\[
-ACC=\frac{TP+TN}{TP+FP+FN+TN}
-\]</span></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/PGStudy-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E6%8C%87%E6%A0%87Part1/article.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1608,13 +1791,13 @@ ACC=\frac{TP+TN}{TP+FP+FN+TN}
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">119k</span>
+    <span title="站点总字数">123k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">7:14</span>
+    <span title="站点阅读时长">7:26</span>
   </span>
 </div>
 <div class="busuanzi-count">
