@@ -1,5 +1,5 @@
 ---
-title: PGStudy-CharacterizationofLargeLanguageModelDevelopmentintheDatacenter
+title: PGStudy-EA and GA 
 date: 2024-10-29 19:17:57
 categories: 
 - 专题
