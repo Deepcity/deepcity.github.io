@@ -23,15 +23,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"deepcity.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Declaration 本文使用了 AIGC 来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。 OneDrive OneDrive 是微软提供的云存储服务，允许用户在线存储文件、照片和文档，并在多设备间同步和访问这些数据。它支持文件的自动备份、共享和协作，集成于 Windows 操作系统和微软 365 办公软件中，方便用户随时随地安全管理和使用个人或工">
+    <meta name="description" content="Declaration本文使用了 AIGC 来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。 OneDriveOneDrive 是微软提供的云存储服务，允许用户在线存储文件、照片和文档，并在多设备间同步和访问这些数据。它支持文件的自动备份、共享和协作，集成于 Windows 操作系统和微软 365 办公软件中，方便用户随时随地安全管理和使用个人或工作文件。 软件特点">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用OneDrive的三年经验与不得不知的警告">
 <meta property="og:url" content="https://deepcity.github.io/2025/%E4%BD%BF%E7%94%A8OneDrive%E7%9A%84%E4%B8%89%E5%B9%B4%E7%BB%8F%E9%AA%8C%E4%B8%8E%E4%B8%8D%E5%BE%97%E4%B8%8D%E7%9F%A5%E7%9A%84%E8%AD%A6%E5%91%8A/article.html">
 <meta property="og:site_name" content="ThreeLanes&#39; Site">
-<meta property="og:description" content="Declaration 本文使用了 AIGC 来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。 OneDrive OneDrive 是微软提供的云存储服务，允许用户在线存储文件、照片和文档，并在多设备间同步和访问这些数据。它支持文件的自动备份、共享和协作，集成于 Windows 操作系统和微软 365 办公软件中，方便用户随时随地安全管理和使用个人或工">
+<meta property="og:description" content="Declaration本文使用了 AIGC 来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。 OneDriveOneDrive 是微软提供的云存储服务，允许用户在线存储文件、照片和文档，并在多设备间同步和访问这些数据。它支持文件的自动备份、共享和协作，集成于 Windows 操作系统和微软 365 办公软件中，方便用户随时随地安全管理和使用个人或工作文件。 软件特点">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-24T07:01:39.000Z">
-<meta property="article:modified_time" content="2025-04-24T07:03:51.515Z">
+<meta property="article:modified_time" content="2025-04-24T07:22:36.069Z">
 <meta property="article:author" content="ThreeLanes">
 <meta property="article:tag" content="软件">
 <meta property="article:tag" content="云服务">
@@ -148,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#declaration"><span class="nav-number">1.</span> <span class="nav-text">Declaration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#onedrive"><span class="nav-number">2.</span> <span class="nav-text">OneDrive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E7%89%B9%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">软件特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cn%E6%9C%AC%E5%9C%B0%E9%80%82%E9%85%8D"><span class="nav-number">4.</span> <span class="nav-text">CN本地适配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">4.2.</span> <span class="nav-text">网络</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8"><span class="nav-number">5.</span> <span class="nav-text">文件安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%9B%9E%E6%A1%A3"><span class="nav-number">6.</span> <span class="nav-text">文件回档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">7.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#references"><span class="nav-number">8.</span> <span class="nav-text">References</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Declaration"><span class="nav-number">1.</span> <span class="nav-text">Declaration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OneDrive"><span class="nav-number">2.</span> <span class="nav-text">OneDrive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E7%89%B9%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">软件特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CN%E6%9C%AC%E5%9C%B0%E9%80%82%E9%85%8D"><span class="nav-number">4.</span> <span class="nav-text">CN本地适配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">4.2.</span> <span class="nav-text">网络</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8"><span class="nav-number">5.</span> <span class="nav-text">文件安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%9B%9E%E6%A1%A3"><span class="nav-number">6.</span> <span class="nav-text">文件回档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">7.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">8.</span> <span class="nav-text">References</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -251,7 +251,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-04-24 15:01:39 / 修改时间：15:03:51" itemprop="dateCreated datePublished" datetime="2025-04-24T15:01:39+08:00">2025-04-24</time>
+      <time title="创建时间：2025-04-24 15:01:39 / 修改时间：15:22:36" itemprop="dateCreated datePublished" datetime="2025-04-24T15:01:39+08:00">2025-04-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -312,82 +312,57 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="declaration">Declaration</h2>
-<p>本文使用了 AIGC
-来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。</p>
-<h2 id="onedrive">OneDrive</h2>
-<p>OneDrive
-是微软提供的云存储服务，允许用户在线存储文件、照片和文档，并在多设备间同步和访问这些数据。它支持文件的自动备份、共享和协作，集成于
-Windows 操作系统和微软 365
-办公软件中，方便用户随时随地安全管理和使用个人或工作文件。</p>
-<h2 id="软件特点">软件特点</h2>
-<p>一句话介绍，OneDrive作为云端服务，在<strong>提供了云端文件的可靠性外，保持了本地文件的操作逻辑</strong>，典型的既要又要软件。</p>
-<p>通过云端同步、保持本地等不同文件状态的tag以及强大的版本管理、回收记录机制，保存在Onedrive上的文件不仅能<strong>轻易</strong>（相比于随时带个u盘）的在不同硬件中转移，而且即使在<strong>rm
--rf /</strong>
-😀下也能轻易恢复文件。并且协同365，做到了自动保存。可以说在正常运行状态下，它可以为你提供最可靠的，最方便的服务。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="Declaration"><a href="#Declaration" class="headerlink" title="Declaration"></a>Declaration</h2><p>本文使用了 AIGC 来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。</p>
+<h2 id="OneDrive"><a href="#OneDrive" class="headerlink" title="OneDrive"></a>OneDrive</h2><p>OneDrive 是微软提供的云存储服务，允许用户在线存储文件、照片和文档，并在多设备间同步和访问这些数据。它支持文件的自动备份、共享和协作，集成于 Windows 操作系统和微软 365 办公软件中，方便用户随时随地安全管理和使用个人或工作文件。</p>
+<h2 id="软件特点"><a href="#软件特点" class="headerlink" title="软件特点"></a>软件特点</h2><p>一句话介绍，OneDrive作为云端服务，在<strong>提供了云端文件的可靠性外，保持了本地文件的操作逻辑</strong>，典型的既要又要软件。</p>
+<p>通过云端同步、保持本地等不同文件状态的tag以及强大的版本管理、回收记录机制，保存在Onedrive上的文件不仅能<strong>轻易</strong>（相比于随时带个u盘）的在不同硬件中转移，而且即使在<strong>rm -rf /</strong> 😀下也能轻易恢复文件。并且协同365，做到了自动保存。可以说在正常运行状态下，它可以为你提供最可靠的，最方便的服务。</p>
 <p>但月满则亏，水满则溢，万事皆藏隐忧。OneDrive提供最好的服务时也会带来最危险的漏洞。</p>
 <p>dong dong dong …</p>
-<h2 id="cn本地适配">CN本地适配</h2>
-<h3 id="软件">软件</h3>
-<p>微信，QQ导致了OneDrive同步暂停与大量文件变更。</p>
-<p>大量软件采用了<code>文档</code>
-作为了自己的暂存文件路径。很多程序会在运行过程中持续占用这些文件。而OneDrive有特殊的机制对于一个文件被占用，他会报出一个警示，并暂停对该文件的同步。如果软件有意兼容微软服务，那么它一般不会占用过多<code>文档</code>文件（这个文件夹下的文件也应该保持静态），一般不会出什么问题。</p>
+<span id="more"></span>
+<h2 id="CN本地适配"><a href="#CN本地适配" class="headerlink" title="CN本地适配"></a>CN本地适配</h2><h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><p>微信，QQ导致了OneDrive同步暂停与大量文件变更。</p>
+<p>大量软件采用了<code>文档</code> 作为了自己的暂存文件路径。很多程序会在运行过程中持续占用这些文件。而OneDrive有特殊的机制对于一个文件被占用，他会报出一个警示，并暂停对该文件的同步。如果软件有意兼容微软服务，那么它一般不会占用过多<code>文档</code>文件（这个文件夹下的文件也应该保持静态），一般不会出什么问题。</p>
 <p>然而微信、QQ却并没有这么做，这导致OneDrive在面对其动辄上百个文件的占用时发生同步中断，对这些文件修改的监听持之以恒的影响着OneDrive的运行效率并提高了OneDrive的运行开销。并且对文件的删除，奇怪的文件命名也污染着本清晰易懂的回收站。</p>
 <p><strong><em>实现聊天记录同步是可行的，但这值得吗？</em></strong></p>
-<h3 id="网络">网络</h3>
-<p>在3-4年前，OneDrive保持着裸连也能正常高速的链接。目前由于<del>动荡的国际局势</del>，微软退出中国也不再是不可能，因此面对日益变化的互联网环境。如果没有一个好的“机场”，你可能不会想让及其重要且随时需要拿出来看的文件被绑定在一个有可能无法访问的地方。</p>
+<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><p>在3-4年前，OneDrive保持着裸连也能正常高速的链接。目前由于<del>动荡的国际局势</del>，微软退出中国也不再是不可能，因此面对日益变化的互联网环境。如果没有一个好的“机场”，你可能不会想让及其重要且随时需要拿出来看的文件被绑定在一个有可能无法访问的地方。</p>
 <p>当然，如果你有一个“好飞机”，OneDrive也可以是一个非常安全快速的云盘。（看看隔壁100kb以及满天飞的个人资源吧😀）</p>
-<h2 id="文件安全">文件安全</h2>
-<p><strong>你会怎么评价文件可以在不同硬件间迁移？</strong></p>
+<h2 id="文件安全"><a href="#文件安全" class="headerlink" title="文件安全"></a>文件安全</h2><p><strong>你会怎么评价文件可以在不同硬件间迁移？</strong></p>
 <p>试想这样一个场景，你手边没有个人电脑，但是需要做一个项目，刚好其他人带了电脑，你会将OneDrive登入他/她的电脑吗？</p>
 <p>我可以描述一下登录后会发生什么。你设定为始终保存的文件会直接下载到登入电脑上（可能，记忆不是很清楚）。在文件管理器上主页面会出现所有你不放置在个人保管库中的文件的更改日志。通过everything能够搜索到每一个不放置在个人保管库中的文件。</p>
 <p>你可能会说这并没有什么。但那些文件很可能包括聊天记录，简历，填的各种表包含地址，籍贯，身份证，银行卡，token，密钥。。。</p>
 <p>总之，使用前确保你做好两件事：</p>
-<ol type="1">
+<ol>
 <li>微软账号及其重要（如果你经常使用）</li>
 <li>重要文件务必放置于保管库</li>
 </ol>
-<h2 id="文件回档">文件回档</h2>
-<p>极少情况下会发生，且可以通过垃圾回收箱恢复。</p>
+<h2 id="文件回档"><a href="#文件回档" class="headerlink" title="文件回档"></a>文件回档</h2><p>极少情况下会发生，且可以通过垃圾回收箱恢复。</p>
 <p>注意恢复即可。</p>
-<h2 id="其他">其他</h2>
-<ol type="1">
-<li><p>Q:
-我希望将项目文件直接放于OneDrive，以此来保证多硬件下的文件同步协同</p>
-<p>A:
-可能并不会有想像中的效果，首先，Git是成熟的选择，即使LFS会导致一些问题，但其的版本控制，协同工作比OneDrive更好。其次OneDrive的同步可能并不会比git
-clone快，同时当你试图迁移项目文件位置时，OneDrive需要很多操作才能完成，即使你操作很方便，仍然需要OneDrive完成它的工作。</p></li>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li><p>Q: 我希望将项目文件直接放于OneDrive，以此来保证多硬件下的文件同步协同</p>
+<p>A: 可能并不会有想像中的效果，首先，Git是成熟的选择，即使LFS会导致一些问题，但其的版本控制，协同工作比OneDrive更好。其次OneDrive的同步可能并不会比git clone快，同时当你试图迁移项目文件位置时，OneDrive需要很多操作才能完成，即使你操作很方便，仍然需要OneDrive完成它的工作。</p>
+</li>
 <li><p>Q: OneDrive究竟有多快</p>
-<p>A:
-在25/04当下，OneDrive在不开VPN时可以跑到steam速率的50-80%。对于分享文件，有20-70%，开VPN后视VPN而定。</p></li>
+<p>A: 在25/04当下，OneDrive在不开VPN时可以跑到steam速率的50-80%。对于分享文件，有20-70%，开VPN后视VPN而定。</p>
+</li>
 <li><p>Q: 我想要极致的安全，可以有多安全</p>
-<p>A:
-个人保管库可以设定无密码登录，双重验证，搭配iphone，可以做到即使拿到了电脑知道密码也进不去保管库。（当然社会工程学、破解系统除外）</p></li>
+<p>A: 个人保管库可以设定无密码登录，双重验证，搭配iphone，可以做到即使拿到了电脑知道密码也进不去保管库。（当然社会工程学、破解系统除外）</p>
+</li>
 <li><p>Q: OneDrive崩溃了会发生什么</p>
-<p>A:
-由于文件管理器（Exploder）经常与OneDrive有莫名的联系，很有可能，当你在崩溃状态打开OneDrive文件夹，会导致Exploder崩溃并强制重启。</p></li>
+<p>A: 由于文件管理器（Exploder）经常与OneDrive有莫名的联系，很有可能，当你在崩溃状态打开OneDrive文件夹，会导致Exploder崩溃并强制重启。</p>
+</li>
 <li><p>Q: OneDrive默认在C盘，这很危险</p>
-<p>A:
-这很危险，但有必要。OneDrive作为微软产品，使其在C盘（系统盘）才能发挥最大作用，例如桌面备份（谨慎😂），如果你认为OneDrive不够节省空间（事实上100GB文件通过云端备份不会占用20GB），可以通过软连接连到其他盘，OneDrive支持识别。</p></li>
+<p>A: 这很危险，但有必要。OneDrive作为微软产品，使其在C盘（系统盘）才能发挥最大作用，例如桌面备份（谨慎😂），如果你认为OneDrive不够节省空间（事实上100GB文件通过云端备份不会占用20GB），可以通过软连接连到其他盘，OneDrive支持识别。</p>
+</li>
 <li><p>Q: 是否存在其他端</p>
-<p>A: 全平台（可能除linux）</p></li>
+<p>A: 全平台（可能除linux）</p>
+</li>
 </ol>
-<h2 id="references">References</h2>
-<ol type="1">
-<li><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC81MjE0MTIyMTM=">OneDrive使用指南 -
-知乎<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3F1ZXN0aW9uLzM3NDc2MTA4OQ==">Onedrive个人版在国内是否无法使用？
-- 知乎<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8xMDg2MDE1OTA=">Microsoft OneDrive
-的使用心得，真香 - 知乎<i class="fa fa-external-link-alt"></i></span></li>
-<li><a
-target="_blank" rel="noopener" href="https://forum.gamer.com.tw/Co.php?bsn=60030&amp;sn=2462412">RE:【問題】OneDrive簡直就是個智障系統
-<span class="citation"
-data-cites="電腦應用綜合討論">@電腦應用綜合討論</span> 哈啦板 -
-巴哈姆特</a></li>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
+<li><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC81MjE0MTIyMTM=">OneDrive使用指南 - 知乎<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3F1ZXN0aW9uLzM3NDc2MTA4OQ==">Onedrive个人版在国内是否无法使用？ - 知乎<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8xMDg2MDE1OTA=">Microsoft OneDrive 的使用心得，真香 - 知乎<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9mb3J1bS5nYW1lci5jb20udHcvQ28ucGhwP2Jzbj02MDAzMCZzbj0yNDYyNDEy">RE:【問題】OneDrive簡直就是個智障系統 @電腦應用綜合討論 哈啦板 - 巴哈姆特<i class="fa fa-external-link-alt"></i></span></li>
 <li><span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMXFxNHkxNzd1Qi8=">分享OneDrive三年使用心得_哔哩哔哩_bilibili<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMXBHNDExaDdBSC8=">OneDrive
-从入门到精通，含各种高级用法_哔哩哔哩_bilibili<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMXBHNDExaDdBSC8=">OneDrive 从入门到精通，含各种高级用法_哔哩哔哩_bilibili<i class="fa fa-external-link-alt"></i></span></li>
 </ol>
 
     </div>

@@ -6,7 +6,7 @@
   <link href="https://deepcity.github.io/atom.xml" rel="self"/>
   
   <link href="https://deepcity.github.io/"/>
-  <updated>2025-04-24T07:03:51.515Z</updated>
+  <updated>2025-04-24T07:22:36.069Z</updated>
   <id>https://deepcity.github.io/</id>
   
   <author>
@@ -21,19 +21,15 @@
     <link href="https://deepcity.github.io/2025/%E4%BD%BF%E7%94%A8OneDrive%E7%9A%84%E4%B8%89%E5%B9%B4%E7%BB%8F%E9%AA%8C%E4%B8%8E%E4%B8%8D%E5%BE%97%E4%B8%8D%E7%9F%A5%E7%9A%84%E8%AD%A6%E5%91%8A/article.html"/>
     <id>https://deepcity.github.io/2025/%E4%BD%BF%E7%94%A8OneDrive%E7%9A%84%E4%B8%89%E5%B9%B4%E7%BB%8F%E9%AA%8C%E4%B8%8E%E4%B8%8D%E5%BE%97%E4%B8%8D%E7%9F%A5%E7%9A%84%E8%AD%A6%E5%91%8A/article.html</id>
     <published>2025-04-24T07:01:39.000Z</published>
-    <updated>2025-04-24T07:03:51.515Z</updated>
+    <updated>2025-04-24T07:22:36.069Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;declaration&quot;&gt;Declaration&lt;/h2&gt;
-&lt;p&gt;本文使用了 AIGC
-来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。&lt;/p&gt;
-&lt;h2</summary>
-        
-      
+    <summary type="html">&lt;h2 id=&quot;Declaration&quot;&gt;&lt;a href=&quot;#Declaration&quot; class=&quot;headerlink&quot; title=&quot;Declaration&quot;&gt;&lt;/a&gt;Declaration&lt;/h2&gt;&lt;p&gt;本文使用了 AIGC 来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。&lt;/p&gt;
+&lt;h2 id=&quot;OneDrive&quot;&gt;&lt;a href=&quot;#OneDrive&quot; class=&quot;headerlink&quot; title=&quot;OneDrive&quot;&gt;&lt;/a&gt;OneDrive&lt;/h2&gt;&lt;p&gt;OneDrive 是微软提供的云存储服务，允许用户在线存储文件、照片和文档，并在多设备间同步和访问这些数据。它支持文件的自动备份、共享和协作，集成于 Windows 操作系统和微软 365 办公软件中，方便用户随时随地安全管理和使用个人或工作文件。&lt;/p&gt;
+&lt;h2 id=&quot;软件特点&quot;&gt;&lt;a href=&quot;#软件特点&quot; class=&quot;headerlink&quot; title=&quot;软件特点&quot;&gt;&lt;/a&gt;软件特点&lt;/h2&gt;&lt;p&gt;一句话介绍，OneDrive作为云端服务，在&lt;strong&gt;提供了云端文件的可靠性外，保持了本地文件的操作逻辑&lt;/strong&gt;，典型的既要又要软件。&lt;/p&gt;
+&lt;p&gt;通过云端同步、保持本地等不同文件状态的tag以及强大的版本管理、回收记录机制，保存在Onedrive上的文件不仅能&lt;strong&gt;轻易&lt;/strong&gt;（相比于随时带个u盘）的在不同硬件中转移，而且即使在&lt;strong&gt;rm -rf /&lt;/strong&gt; 😀下也能轻易恢复文件。并且协同365，做到了自动保存。可以说在正常运行状态下，它可以为你提供最可靠的，最方便的服务。&lt;/p&gt;
+&lt;p&gt;但月满则亏，水满则溢，万事皆藏隐忧。OneDrive提供最好的服务时也会带来最危险的漏洞。&lt;/p&gt;
+&lt;p&gt;dong dong dong …&lt;/p&gt;</summary>
     
     
     
