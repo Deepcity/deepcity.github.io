@@ -284,7 +284,7 @@ reward:
 # Usage: `Key: permalink || icon` (Font Awesome)
 follow_me:
   Twitter: https://x.com/DeepCity764637 || fab fa-twitter
-  #Telegram: https://t.me/channel_name || fab fa-telegram
+  # Telegram: https://t.me/channel_name || fab fa-telegram
   # WeChat: /images/wechat_channel.jpg || fab fa-weixin
   Zhihu: https://www.zhihu.com/people/san-xiang-93-13 ||fab fa-zhihu
   RSS: /atom.xml || fa fa-rss
