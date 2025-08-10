@@ -7,11 +7,10 @@ export default function BlogUpdatesTable({ posts }) {
         <tr style={{ backgroundColor: '#f0f0f0' }}>
           <th style={thStyle}>标题</th>
           <th style={thStyle}>更新日期</th>
-          <th style={thStyle}>摘要</th>
         </tr>
       </thead>
       <tbody>
-        {posts.map(({ id, title, date, summary, url }) => (
+        {posts.map(({ id, title, date, url }) => (
           <tr key={id} style={{ borderBottom: '1px solid #ddd' }}>
             <td style={tdStyle}>
               <a href={url} style={{ color: '#007acc', textDecoration: 'none' }} target="_blank" rel="noopener noreferrer">
@@ -19,7 +18,6 @@ export default function BlogUpdatesTable({ posts }) {
               </a>
             </td>
             <td style={tdStyle}>{new Date(date).toLocaleDateString()}</td>
-            <td style={tdStyle}>{summary}</td>
           </tr>
         ))}
       </tbody>
