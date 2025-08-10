@@ -1,5 +1,20 @@
 ---
+import BlogUpdatesTable from '../components/BlogUpdatesTable.jsx';
 
+const fromOldPosts = [
+	{
+		id: '1',
+    title: '使用OneDrive的三年经验与不得不知的警告',
+    date: '2025-04-24',
+    summary: '',
+		url: 'assert/blog/使用OneDrive的三年经验与不得不知的警告.md',
+	}
+]
+const recentPosts = [
+	{
+
+	}
+]
 ---
 
 <html lang="en">
@@ -11,6 +26,12 @@
 		<title>deepcity's site</title>
 	</head>
 	<body>
-		<h1>Welcome!!!</h1>
+		<h2>Deepcity</h2>
+		<a href="https://blog.keboe.cn">旧网址备份</a>
+		<h3>最近更新</h3>
+		<BlogUpdatesTable posts={recentPosts} />
+
+		<h3>从旧BLOG中筛选(整理)</h3>
+		<BlogUpdatesTable posts={fromOldPosts} />
 	</body>
 </html>

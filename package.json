@@ -6,9 +6,16 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "deploy": "gh-pages -d dist -m \"chore(deploy): update github pages\"",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^5.12.9"
+  },
+  "devDependencies": {
+    "@astrojs/react": "^4.3.0",
+    "gh-pages": "^6.3.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
