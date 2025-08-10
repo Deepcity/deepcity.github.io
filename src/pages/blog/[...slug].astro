@@ -1,0 +1,40 @@
+---
+// src/pages/blog/[...slug].astro
+import { getCollection } from 'astro:content';
+
+// ✅ 正确：使用 async/await
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+// 获取当前文章
+const { slug } = Astro.params;
+const collection = await getCollection('blog');
+const entry = collection.find((post) => post.slug === slug);
+
+if (!entry) {
+  throw new Error(`未找到文章: ${slug}`);
+}
+
+const { Content } = await entry.render();
+
+const posts = await getCollection('blog');
+---
+
+<html>
+  <head>
+    <title>{entry.data.title}</title>
+  </head>
+  <body>
+    <article>
+      <header>
+        <h1>{entry.data.title}</h1>
+        <time>{entry.data.date?.toLocaleDateString()}</time>
+      </header>
+      <Content />
+    </article>
+  </body>
+</html>

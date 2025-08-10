@@ -1,5 +1,6 @@
 ---
 import BlogUpdatesTable from '../components/BlogUpdatesTable.jsx';
+import { getCollection } from 'astro:content';
 
 const fromOldPosts = [
 	{
@@ -7,7 +8,7 @@ const fromOldPosts = [
     title: '使用OneDrive的三年经验与不得不知的警告',
     date: '2025-04-24',
     summary: '',
-		url: 'content/blog/使用OneDrive的三年经验与不得不知的警告.md',
+		url: 'blog/使用OneDrive的三年经验与不得不知的警告.md',
 	}
 ]
 const recentPosts = [
@@ -15,6 +16,8 @@ const recentPosts = [
 
 	}
 ]
+
+const posts = await getCollection('blog');
 ---
 
 <html lang="en">
@@ -29,7 +32,12 @@ const recentPosts = [
 		<h2>Deepcity</h2>
 		<a href="https://blog.keboe.cn">旧网址备份</a>
 		<h3>最近更新</h3>
-		<BlogUpdatesTable posts={recentPosts} />
+		<BlogUpdatesTable posts={posts.map(post => ({
+      id: post.id,
+      title: post.data.title,
+      date: post.data.date,
+      url: `/blog/${post.slug}`
+    }))} />
 
 		<h3>从旧BLOG中筛选(整理)</h3>
 		<BlogUpdatesTable posts={fromOldPosts} />
