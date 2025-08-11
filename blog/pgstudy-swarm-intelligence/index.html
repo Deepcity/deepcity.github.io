@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PGStudy-群体人工智能Part1-PSO | 我的博客</title></head> <body class="min-h-screen bg-gray-50 text-gray-900"> <header class="border-b border-gray-200 bg-white shadow-sm"> <div class="max-w-3xl mx-auto px-4 py-4"> <a href="/" class="text-blue-500 hover:underline">← 返回首页</a> </div> </header> <main class="max-w-3xl mx-auto px-4 py-8"> <article> <h1 class="text-3xl font-bold mb-2">PGStudy-群体人工智能Part1-PSO</h1> <div class="text-sm text-gray-500 mb-6"> <time datetime="Sat Oct 26 2024 04:08:20 GMT+0800 (China Standard Time)">2024/10/26</time> </div> <div class="prose prose-lg max-w-none">  <article> <h1 id="群体人工智能part1-pso">群体人工智能Part1-PSO</h1>
+<h2 id="群体智能">群体智能</h2>
+<p><a href="https://zhida.zhihu.com/search?content_id=192096279&#x26;content_type=Article&#x26;match_order=1&#x26;q=%E7%BE%A4%E4%BD%93%E6%99%BA%E8%83%BD&#x26;zhida_source=entity">群体智能</a>(Swarm Intelligence, SI)已经引起了各个领域许多研究者的兴趣。Bonabeau将SI定义为“简单代理群体的突发集体智能”[1]。SI是自组织和分散系统的集体智能行为，例如，简单agent的人工群体。例如群居昆虫的群体觅食、合作运输、群居昆虫的筑巢、集体分类和聚类。自组织和劳动分工被认为是科学探究的必要属性。自组织被定义为系统在没有任何外部帮助的情况下将其代理或组件演化成适当形式的能力。Bonabeau et al.[1]也指出，自组织依赖于正反馈、负反馈、波动和多重交互的四个基本性质。正反馈和负反馈分别用于放大和稳定。同时，波动对随机性也很有用。当蚁群在其搜索区域内彼此共享信息时，就会发生多重交互。科学探究的第二个属性是劳动分工，它被定义为个体同时执行各种简单而可行的任务。这种分工使得蜂群能够解决复杂的问题，而这些问题需要个体协同工作。</p>
+<!--more-->
+<p>目前较为常见（Well-Kown）的群体人工智能主要分为以下几个方面</p>
+<ol>
+<li>
+<p><strong>遗传算法GA</strong>
+<img src="https://pic1.zhimg.com/v2-b45451558dd7705a8f503572c6173398_b.jpg" alt="遗传算法流程图"></p>
+<p>GA的操作开始于确定一个初始种群，无论是随机的还是使用一些启发式。适应度函数用来评估人口中的成员，然后根据表现对他们进行排名。一旦种群的所有成员已被评估，低秩染色体被省略和其余种群用于繁殖。</p>
+<p>另一种可能的选择方案是使用伪随机选择，允许低秩染色体有机会被选择进行繁殖。交叉步骤随机选择剩余种群中的两个成员(最适染色体)，并交换和交配它们。</p>
+<p>遗传算法的最后一步是变异。在这一步中，突变算子在染色体的一个基因上随机突变。变异是遗传算法中至关重要的一步，因为它保证了问题空间的每个区域都能被到达。</p>
+</li>
+<li>
+<p><strong>蚁群优化ACO</strong></p>
+<p>见参考文献1</p>
+</li>
+<li>
+<p><strong>粒子群优化PSO</strong></p>
+<p>粒子群优化(PSO)是Kennedy和Eberhart在1995年[39]提出的一种优化技术。它使用一种简单的机制，模仿鸟类和鱼群的群体行为，引导粒子寻找全局最优解。Del Valle和他的合著者[40]用分离、对齐和内聚三种简单行为描述PSO，分别如图3所示。分离是避开拥挤的局部同伴的行为，对齐是向局部同伴的平均方向移动的行为。凝聚力是指向当地同伴的平均位置移动的行为。</p>
+<p>PSO算法首先初始化种群。第二步是计算每个粒子的适应度值，更新个体和全局最佳值，更新粒子的速度和位置。重复第二步至第四步，直到满足终止条件[40,46 - 48]。在第一次迭代中，为了找到最佳的解决方案(探索)，所有的粒子都分散开来。对每个粒子进行计算。根据邻域拓扑找到最优解，并更新群体中每个成员的个人和全局最优粒子。通过将所有粒子吸引到具有最佳解的粒子上来实现收敛。</p>
+</li>
+<li>
+<p><strong>差分进化(DE)算法</strong></p>
+<p>见参考文献1</p>
+</li>
+<li>
+<p><strong>人工蜂群算法ABC</strong></p>
+<p>见参考文献1</p>
+</li>
+<li>
+<p><strong>萤火虫群优化GSO</strong></p>
+<p>见参考文献1</p>
+</li>
+<li>
+<p><strong>布谷鸟搜索算法CSA</strong></p>
+<p>见参考文献1</p>
+</li>
+</ol>
+<h2 id="群智pso算法实现">群智PSO算法实现</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> numpy </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> np</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> matplotlib.pyplot </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> plt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> Swarm</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#9ECBFF">    """群智能算法基类。"""</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, objective_function, num_particles, num_iterations):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.objective_function </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> objective_function  </span><span style="color:#6A737D"># 目标函数</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.num_particles </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> num_particles  </span><span style="color:#6A737D"># 粒子数量</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.num_iterations </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> num_iterations  </span><span style="color:#6A737D"># 迭代次数</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.best_solution </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> None</span><span style="color:#6A737D">  # 全局最优解</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.best_fitness </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> float</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'inf'</span><span style="color:#E1E4E8">)  </span><span style="color:#6A737D"># 全局最优适应度</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> optimize</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """优化过程（需在子类中实现）。"""</span></span>
+<span class="line"><span style="color:#F97583">        raise</span><span style="color:#79B8FF"> NotImplementedError</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> ParticleSwarmOptimization</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">Swarm</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """粒子群优化算法类。"""</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, objective_function, num_particles, num_iterations, dimensions, bounds):</span></span>
+<span class="line"><span style="color:#79B8FF">        super</span><span style="color:#E1E4E8">().</span><span style="color:#79B8FF">__init__</span><span style="color:#E1E4E8">(objective_function, num_particles, num_iterations)</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.dimensions </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> dimensions  </span><span style="color:#6A737D"># 解的维度</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.bounds </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> bounds  </span><span style="color:#6A737D"># 解的边界</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.particles </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.random.uniform(bounds[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], bounds[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">], (num_particles, dimensions))</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.velocities </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.zeros_like(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles)  </span><span style="color:#6A737D"># 粒子速度</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.personal_best </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles.copy()  </span><span style="color:#6A737D"># 每个粒子的历史最优位置</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.personal_best_fitness </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.full(num_particles, </span><span style="color:#79B8FF">float</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'inf'</span><span style="color:#E1E4E8">))  </span><span style="color:#6A737D"># 每个粒子的历史最优适应度</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#6A737D">        # 记录轨迹</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.trajectory </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.zeros((num_particles, num_iterations, dimensions))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> optimize</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """执行PSO优化并可视化过程。"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        plt.ion()  </span><span style="color:#6A737D"># 开启交互模式</span></span>
+<span class="line"><span style="color:#E1E4E8">        fig, ax </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> plt.subplots()</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8"> iteration </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.num_iterations):</span></span>
+<span class="line"><span style="color:#6A737D">            # 计算适应度</span></span>
+<span class="line"><span style="color:#E1E4E8">            fitness </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.apply_along_axis(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.objective_function, </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 更新个人和全局最优</span></span>
+<span class="line"><span style="color:#F97583">            for</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.num_particles):</span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> fitness[i] </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.personal_best_fitness[i]:</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.personal_best_fitness[i] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> fitness[i]</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.personal_best[i] </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles[i]</span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> fitness[i] </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.best_fitness:</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.best_fitness </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> fitness[i]</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.best_solution </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles[i]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 更新速度和位置</span></span>
+<span class="line"><span style="color:#E1E4E8">            inertia </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            cognitive_component </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 1.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            social_component </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 1.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            r1, r2 </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.random.rand(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.velocities </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> (inertia </span><span style="color:#F97583">*</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.velocities </span><span style="color:#F97583">+</span></span>
+<span class="line"><span style="color:#E1E4E8">                               cognitive_component </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> r1 </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.personal_best </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles) </span><span style="color:#F97583">+</span></span>
+<span class="line"><span style="color:#E1E4E8">                               social_component </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> r2 </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.best_solution </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles))</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.particles </span><span style="color:#F97583">+=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.velocities</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 边界处理</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.particles </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.clip(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles, </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 记录轨迹</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.trajectory[:, iteration] </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 可视化粒子位置和全局最优解</span></span>
+<span class="line"><span style="color:#E1E4E8">            ax.clear()</span></span>
+<span class="line"><span style="color:#6A737D">            # 绘制轨迹</span></span>
+<span class="line"><span style="color:#F97583">            for</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.num_particles):</span></span>
+<span class="line"><span style="color:#E1E4E8">                ax.plot(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.trajectory[i, :iteration </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], </span></span>
+<span class="line"><span style="color:#79B8FF">                        self</span><span style="color:#E1E4E8">.trajectory[i, :iteration </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">], </span></span>
+<span class="line"><span style="color:#FFAB70">                        c</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'lightgray'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">alpha</span><span style="color:#F97583">=</span><span style="color:#79B8FF">0.1</span><span style="color:#E1E4E8">)  </span><span style="color:#6A737D"># 设置较浅的颜色和透明度</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#6A737D">            # 绘制当前粒子的位置</span></span>
+<span class="line"><span style="color:#E1E4E8">            ax.scatter(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles[:, </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles[:, </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">], </span><span style="color:#FFAB70">c</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'blue'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">label</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'Particles'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D">            # 绘制最佳解的位置</span></span>
+<span class="line"><span style="color:#E1E4E8">            ax.scatter(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.best_solution[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.best_solution[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">], </span><span style="color:#FFAB70">c</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'red'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">marker</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'x'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">s</span><span style="color:#F97583">=</span><span style="color:#79B8FF">100</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">label</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'Best Solution'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            ax.set_xlim(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"><span style="color:#E1E4E8">            ax.set_ylim(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"><span style="color:#E1E4E8">            ax.set_title(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Iteration </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">iteration </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> 1}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            ax.legend()</span></span>
+<span class="line"><span style="color:#E1E4E8">            plt.pause(</span><span style="color:#79B8FF">0.5</span><span style="color:#E1E4E8">)  </span><span style="color:#6A737D"># 暂停0.5秒</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        plt.ioff()  </span><span style="color:#6A737D"># 关闭交互模式</span></span>
+<span class="line"><span style="color:#E1E4E8">        plt.show()  </span><span style="color:#6A737D"># 显示最终结果</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Rastrigin 函数定义</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> rastrigin_function</span><span style="color:#E1E4E8">(x):</span></span>
+<span class="line"><span style="color:#E1E4E8">    A </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 10</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> A </span><span style="color:#F97583">*</span><span style="color:#79B8FF"> len</span><span style="color:#E1E4E8">(x) </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> np.sum(x</span><span style="color:#F97583">**</span><span style="color:#79B8FF">2</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8"> A </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> np.cos(</span><span style="color:#79B8FF">2</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8"> np.pi </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> x))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 实例化并运行PSO算法</span></span>
+<span class="line"><span style="color:#E1E4E8">pso </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> ParticleSwarmOptimization(rastrigin_function, </span><span style="color:#FFAB70">num_particles</span><span style="color:#F97583">=</span><span style="color:#79B8FF">30</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">num_iterations</span><span style="color:#F97583">=</span><span style="color:#79B8FF">100</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">dimensions</span><span style="color:#F97583">=</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">bounds</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">-</span><span style="color:#79B8FF">30</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">5.12</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#E1E4E8">pso.optimize()</span></span></code></pre>
+<p>以上是一个简单的PSO算法以及其可视化实现，该算法实现了找道Rastrigin函数的最小值，该最小值（全局最优解）位于$(0,0)$，较常见的几个局部最优解分别位于$(\underline+0.5,\underline+0.5)$，以及$(\underline+20-30,\underline+20-30)$之间</p>
+<p>通过运行该文件应该可见</p>
+<p><img src="https://s2.loli.net/2024/10/25/ClSRVOkHUYp9uwz.png" alt="粒子运动结果"></p>
+<p>由1-100的粒子运动结果图，该结果图展现了30个粒子在100次的迭代过程中的表现，最终极大概率会定位到全局最优解$(0.0)$附近</p>
+<p>其中的核心代码如下所示</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583"> for</span><span style="color:#E1E4E8"> iteration </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.num_iterations):</span></span>
+<span class="line"><span style="color:#6A737D">            # 计算适应度</span></span>
+<span class="line"><span style="color:#E1E4E8">            fitness </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.apply_along_axis(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.objective_function, </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 更新个人和全局最优</span></span>
+<span class="line"><span style="color:#F97583">            for</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.num_particles):</span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> fitness[i] </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.personal_best_fitness[i]:</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.personal_best_fitness[i] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> fitness[i]</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.personal_best[i] </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles[i]</span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> fitness[i] </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.best_fitness:</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.best_fitness </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> fitness[i]</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.best_solution </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles[i]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 更新速度和位置</span></span>
+<span class="line"><span style="color:#E1E4E8">            inertia </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            cognitive_component </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 1.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            social_component </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 1.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            r1, r2 </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.random.rand(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.velocities </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> (inertia </span><span style="color:#F97583">*</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.velocities </span><span style="color:#F97583">+</span></span>
+<span class="line"><span style="color:#E1E4E8">                               cognitive_component </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> r1 </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.personal_best </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles) </span><span style="color:#F97583">+</span></span>
+<span class="line"><span style="color:#E1E4E8">                               social_component </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> r2 </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.best_solution </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles))</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.particles </span><span style="color:#F97583">+=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.velocities</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 边界处理</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.particles </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.clip(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles, </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">])</span></span></code></pre>
+<p>该段代码中的特定参数类似与机器学习过程中的超参例如inertia惯性参数，r1,r2等。</p>
+<p>原版无可视化代码如下</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> numpy </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> np</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> Swarm</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#9ECBFF">    """群智能算法基类。"""</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, objective_function, num_particles, num_iterations):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.objective_function </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> objective_function  </span><span style="color:#6A737D"># 目标函数</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.num_particles </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> num_particles  </span><span style="color:#6A737D"># 粒子数量</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.num_iterations </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> num_iterations  </span><span style="color:#6A737D"># 迭代次数</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.best_solution </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> None</span><span style="color:#6A737D">  # 全局最优解</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.best_fitness </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> float</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'inf'</span><span style="color:#E1E4E8">)  </span><span style="color:#6A737D"># 全局最优适应度</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> optimize</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """优化过程（需在子类中实现）。"""</span></span>
+<span class="line"><span style="color:#F97583">        raise</span><span style="color:#79B8FF"> NotImplementedError</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> ParticleSwarmOptimization</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">Swarm</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """粒子群优化算法类。"""</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, objective_function, num_particles, num_iterations, dimensions, bounds):</span></span>
+<span class="line"><span style="color:#79B8FF">        super</span><span style="color:#E1E4E8">().</span><span style="color:#79B8FF">__init__</span><span style="color:#E1E4E8">(objective_function, num_particles, num_iterations)</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.dimensions </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> dimensions  </span><span style="color:#6A737D"># 解的维度</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.bounds </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> bounds  </span><span style="color:#6A737D"># 解的边界</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.particles </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.random.uniform(bounds[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], bounds[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">], (num_particles, dimensions))</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.velocities </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.zeros_like(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles)  </span><span style="color:#6A737D"># 粒子速度</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.personal_best </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles.copy()  </span><span style="color:#6A737D"># 每个粒子的历史最优位置</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.personal_best_fitness </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.full(num_particles, </span><span style="color:#79B8FF">float</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'inf'</span><span style="color:#E1E4E8">))  </span><span style="color:#6A737D"># 每个粒子的历史最优适应度</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> optimize</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """执行PSO优化。"""</span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8"> iteration </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.num_iterations):</span></span>
+<span class="line"><span style="color:#6A737D">            # 计算适应度</span></span>
+<span class="line"><span style="color:#E1E4E8">            fitness </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.apply_along_axis(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.objective_function, </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 更新个人和全局最优</span></span>
+<span class="line"><span style="color:#F97583">            for</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.num_particles):</span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> fitness[i] </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.personal_best_fitness[i]:</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.personal_best_fitness[i] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> fitness[i]</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.personal_best[i] </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles[i]</span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> fitness[i] </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.best_fitness:</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.best_fitness </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> fitness[i]</span></span>
+<span class="line"><span style="color:#79B8FF">                    self</span><span style="color:#E1E4E8">.best_solution </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles[i]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 更新速度和位置</span></span>
+<span class="line"><span style="color:#E1E4E8">            inertia </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            cognitive_component </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 1.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            social_component </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 1.5</span></span>
+<span class="line"><span style="color:#E1E4E8">            r1, r2 </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.random.rand(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.velocities </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> (inertia </span><span style="color:#F97583">*</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.velocities </span><span style="color:#F97583">+</span></span>
+<span class="line"><span style="color:#E1E4E8">                               cognitive_component </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> r1 </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.personal_best </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles) </span><span style="color:#F97583">+</span></span>
+<span class="line"><span style="color:#E1E4E8">                               social_component </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> r2 </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.best_solution </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.particles))</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.particles </span><span style="color:#F97583">+=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.velocities</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 边界处理</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.particles </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> np.clip(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.particles, </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.bounds[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"PSO找到的最优解: </span><span style="color:#79B8FF">{self</span><span style="color:#E1E4E8">.best_solution</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">，适应度: </span><span style="color:#79B8FF">{self</span><span style="color:#E1E4E8">.best_fitness</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 定义一个简单的目标函数</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> objective_function</span><span style="color:#E1E4E8">(x):</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> np.sum(x</span><span style="color:#F97583">**</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)  </span><span style="color:#6A737D"># 求解x的平方和最小化问题</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 实例化并运行PSO算法</span></span>
+<span class="line"><span style="color:#E1E4E8">pso </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> ParticleSwarmOptimization(objective_function, </span><span style="color:#FFAB70">num_particles</span><span style="color:#F97583">=</span><span style="color:#79B8FF">30</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">num_iterations</span><span style="color:#F97583">=</span><span style="color:#79B8FF">100</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">dimensions</span><span style="color:#F97583">=</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">bounds</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">-</span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#E1E4E8">pso.optimize()</span></span>
+<span class="line"></span></code></pre>
+<p>该段代码对目标函数略有更改，来自csdn博主<a href="https://blog.csdn.net/qq_42568323">闲人编程</a></p>
+<h2 id="参考文献">参考文献</h2>
+<ol>
+<li><a href="https://blog.csdn.net/qq_42568323/article/details/142185146?spm=1001.2101.3001.6650.3&#x26;utm_medium=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Position-3-142185146-blog-121969835.235%5Ev43%5Epc_blog_bottom_relevance_base6&#x26;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Position-3-142185146-blog-121969835.235%5Ev43%5Epc_blog_bottom_relevance_base6&#x26;utm_relevant_index=5">Python实现群智能算法_群体智能算法python代码-CSDN博客</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/467844674">群体智能优化算法 - 知乎</a></li>
+</ol> </article>  </div> </article> </main> <footer class="border-t border-gray-200 bg-white text-center py-4 mt-8"> <p class="text-sm text-gray-500">
+© 2025 我的博客
+</p> </footer> </body></html>
