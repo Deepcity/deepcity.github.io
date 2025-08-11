@@ -1,0 +1,71 @@
+# Colloid-hot页面负载均衡机制
+
+## Declaration
+
+本文使用了 AIGC 来提高效率，其中可能存在谬误，我已尽力检查并校对，但仍不保证完全准确，欢迎指正。
+
+## Link
+
+[原文cs.cornell.edu](https://www.cs.cornell.edu/~ragarwal/pubs/colloid.pdf#:~:text=%2F,←1 else 𝑝𝑙𝑜 ←0 return)
+
+[开源代码](https://link.zhihu.com/?target=https%3A//github.com/host-architecture/colloid)
+
+[slide](https://drive.google.com/file/d/1hs-I1ws7tARvDQlsxZuPzCU2ogUTkTU-/view?usp=sharing)
+
+## Backgroup and Motivation
+
+![illumination](https://s2.loli.net/2025/08/12/Lbjd5qly2aPG3z7.png)
+
+- 内存密集型应用（如内存数据库、图计算、机器学习等）对更大内存容量和更高内存带宽的需求激增，导致云服务平台的内存成本占比不断上升（Meta约37%、微软Azure约50%）。
+- 传统基于DDR接口的DRAM技术扩展速度停滞，内存通道带宽难以与核心数量和并发度同步增长。
+
+=> 多层次内存体系对操作系统提出了新的挑战：如何将页面有效地放置于不同延迟和带宽特性的内存层中以提升性能。（backgroup）
+
+- 以往工作虽设计了多种访问跟踪和页面迁移机制
+- 将最热的页面尽可能“打包”到硬件标称延迟最低的默认内存层。这种做法隐含默认层始终具有最低延迟的假设。
+- 在典型场景下，默认层的负载延迟可能是备用层的2.5倍。
+
+=> 将所有热点页面放在默认层未必最优，内存层之间的延迟平衡才是关键。(motivation)
+
+## Main Idea and Contribution
+
+**Colloid**机制，其核心创新是提出“**平衡访问延迟**”的原则：各内存层的页面放置应使它们的平均（加载后）访问延迟趋于平衡，从而最小化整体平均延迟。
+
+> The core innovation of the Colloid mechanism is to propose the principle of "balanced access latency": page placement of each memory layer should balance their average (post-load) access latency, thereby minimizing the overall average latency.
+
+这一原则同时考虑了各层的固有延迟和队列拥塞效应：当将热页面从默认层迁移到备用层时，一方面降低了默认层的负载延迟，另一方面可能增加备用层延迟，从而整体上降低平均延迟。
+
+Colloid在两方面作出关键创新：**访问延迟测量**和**页面放置算法**。首先，Colloid 利用现代CPU中的硬件计数器（如CHA缓存/主页代理）获取每层的队列占用度和请求到达率，结合Little定律（排队定律）计算每层的实际访问延迟。
+
+> Little定律（排队定律）:基本含义是到达频率，平均处理时间，留存任务的三者关系
+
+Colloid设计了新的页面放置算法，将各层延迟和每页访问概率作为输入，根据延迟平衡原则计算需要在两层之间移动的访问概率份额Δp，并从热页面中选取合适集合进行迁移。这一算法有效替代了传统的“尽可能迁移所有热页面”策略，实现了各层负载的动态平衡。论文指出Colloid可以集成到现有的分层内存管理系统（如HeMem、TPP、MEMTIS）中，并在各种负载下使系统性能接近理论最优。
+
+## Method and Design
+
+![illumination](https://s2.loli.net/2025/08/12/2uorYtxdFk4Q3PC.png)
+
+上图将内存架构整体简化为了两个区域，**默认层**（如本地DDR DRAM）和**备用层**。Colloid针对一个典型的**两层内存体系结构**进行设计．
+
+假设两个层之间通过独立通道连接且缓存一致，分别具有不同的空载延迟（`L_D`、`L_A`）。Colloid的控制循环以固定量程（quantum）为单位执行：首先在上一量程内记录每层的队列占用度`O_D,O_A`和请求到达率`R_D,R_A`，并计算对应的平均访问延迟`L_D = O_D/R_D`、`L_A = O_A/R_A`。同时计算当前处于默认层的页面集合在整体访问中的概率份额`p = R_D/(R_D+R_A)`。
+
+![illumination](https://s2.loli.net/2025/08/12/FVvaDkomQbR3Iqh.png)
+
+上图则是它收敛的过程，总体很像二分，如果P值改变，“空位多的”一边移到中间重新二分上下限。
+
+## Evaluation
+
+对于现有的软件管理分层方案（如HeMem、TPP、MEMTIS等），Colloid并非完全重新发明追踪或迁移机制，而是改变了页面放置策略，使其从“尽量占用默认层”变为“延迟平衡”。论文实验证明，这一改进弥补了原有系统在高并发下的不足，而在无争用情形下则恢复为原策略，与现有方法兼容无缝衔接。
+
+![illumination](https://s2.loli.net/2025/08/12/FCtJL1grkm8lEho.png)
+
+详见论文
+
+## Prospect
+
+此外，Colloid的思路暗示了OS与硬件协作优化的可能性：未来内存控制器或CPU缓存子系统可以提供更精细的队列和延迟信息，辅助操作系统更精确地平衡各层负载。
+
+## REF
+
+1. GPT
+2. 组会讨论
