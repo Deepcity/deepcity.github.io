@@ -1,0 +1,32 @@
+---
+const { title = "我的网站" } = Astro.props;
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-gray-50 text-gray-900">
+    <header class="border-b border-gray-200 bg-white shadow-sm">
+      <div
+        class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <h2 class="text-xl font-bold">
+          <a href="/">🏠 {title}</a>
+        </h2>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white text-center py-4 mt-8">
+      <p class="text-sm text-gray-500">
+        © {new Date().getFullYear()} 我的站点
+      </p>
+    </footer>
+  </body>
+</html>

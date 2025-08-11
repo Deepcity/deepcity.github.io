@@ -1,45 +1,37 @@
 ---
-import BlogUpdatesTable from '../components/BlogUpdatesTable.jsx';
-import { getCollection } from 'astro:content';
+import BlogUpdatesTable from "../components/BlogUpdatesTable.jsx";
+import { getCollection } from "astro:content";
+import HomeLayout from "../layout/HomeLayout.astro";
 
 const fromOldPosts = [
-	{
-		id: '1',
-    title: '使用OneDrive的三年经验与不得不知的警告',
-    date: '2025-04-24',
-    summary: '',
-		url: 'blog/使用OneDrive的三年经验与不得不知的警告.md',
-	}
-]
-const recentPosts = [
-	{
+  {
+    id: "1",
+    title: "使用OneDrive的三年经验与不得不知的警告",
+    date: "2025-04-24",
+    summary: "",
+    url: "blog/onedrive-experience-and-warnings",
+  },
+];
+const recentPosts = [{}];
 
-	}
-]
-
-const posts = await getCollection('blog');
+const posts = await getCollection("blog");
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>deepcity's site</title>
-	</head>
-	<body>
-		<h2>Deepcity</h2>
-		<a href="https://blog.keboe.cn">旧网址备份</a>
-		<h3>最近更新</h3>
-		<BlogUpdatesTable posts={posts.map(post => ({
-      id: post.id,
-      title: post.data.title,
-      date: post.data.date,
-      url: `/blog/${post.slug}`
-    }))} />
+<HomeLayout title="Deeptcity">
+  <body>
+    <a href="https://blog.keboe.cn">旧网址备份</a>
+    <div style="blod">以下为暂代记录更新的发布页</div>
+    <h3>最近更新</h3>
+    <BlogUpdatesTable
+      posts={posts.map((post) => ({
+        id: post.id,
+        title: post.data.title,
+        date: post.data.date,
+        url: `/blog/${post.slug}`,
+      }))}
+    />
 
-		<h3>从旧BLOG中筛选(整理)</h3>
-		<BlogUpdatesTable posts={fromOldPosts} />
-	</body>
-</html>
+    <h3>从旧BLOG中筛选(整理)</h3>
+    <BlogUpdatesTable posts={fromOldPosts} />
+  </body>
+</HomeLayout>

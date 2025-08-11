@@ -13,7 +13,7 @@ export default function BlogUpdatesTable({ posts }) {
         {posts.map(({ id, title, date, url }) => (
           <tr key={id} style={{ borderBottom: '1px solid #ddd' }}>
             <td style={tdStyle}>
-              <a href={url} style={{ color: '#007acc', textDecoration: 'none' }} target="_blank" rel="noopener noreferrer">
+              <a href={url} style={{ color: '#007acc', textDecoration: 'none' }} rel="noopener noreferrer">
                 {title}
               </a>
             </td>
