@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ascend C算子开发 Part1基本概念 | 我的博客</title></head> <body class="min-h-screen bg-gray-50 text-gray-900"> <header class="border-b border-gray-200 bg-white shadow-sm"> <div class="max-w-3xl mx-auto px-4 py-4"> <a href="/" class="text-blue-500 hover:underline">← 返回首页</a> </div> </header> <main class="max-w-3xl mx-auto px-4 py-8"> <article> <h1 class="text-3xl font-bold mb-2">Ascend C算子开发 Part1基本概念</h1> <div class="text-sm text-gray-500 mb-6"> <time datetime="Thu Apr 24 2025 23:01:39 GMT+0800 (China Standard Time)">2025/4/24</time> </div> <div class="prose prose-lg max-w-none">  <article> <h1 id="ascend-c算子开发-part1基本概念">Ascend C算子开发 Part1基本概念</h1>
+<h2 id="引言">引言</h2>
+<p>Ascend C的文档写的并不是很好，如果直接上手会导致许多问题。例如，对于API的调度很有可能会分不清哪一个是最底层的供算子调度的API，哪些是已经定义好的Ascend CL算子。除此之外，还会有例如vscode Warring Lens疯狂报错等问题，这是由于CANN安装的头文件搜索路径导致的。因此，这个领域的学习并不能一味的实践，多看文档，多问已踩过坑的人才是关键。</p>
+<h2 id="cann">CANN</h2>
+<p><strong>CANN</strong>（Compute Architecture for Neural Networks，神经网络计算架构）是华为推出的面向AI计算的异构计算架构，专为昇腾（Ascend）系列AI处理器设计，旨在提升AI应用的计算效率与开发便捷性。</p>
+<p>其主要开放了三级开发接口：</p>
+<ol>
+<li>算子开发接口：用于对算子进行开发</li>
+<li>模型开发接口：用于构建神经网络，构造计算图，例如aclnnop系列算子</li>
+<li>应用开发接口：第三方lib库开发，比如分配内存，拷贝数据，调用算子。</li>
+</ol>
+<h2 id="ascend硬件架构">Ascend硬件架构</h2>
+<p><img src="https://s2.loli.net/2025/08/12/6TRpG9lbkJjELuK.png" alt="AscentOverview"></p>
+<p><img src="https://s2.loli.net/2025/08/12/5q6pVglDnECLI2m.png" alt="Ascend Structure"></p>
+<p><strong>内存层次</strong></p>
+<p>Global Memory（GB）: 又称HBM，一般是堆叠DRAM架构的，大小在32-80GB范围的device全局内存</p>
+<p>L2: 可以通过寄存器值关闭，例如<code>devmem 0x703f70014 32 0xa01bf5</code>(910b)，关于缓存，一般认为GB上还有一道Lasest Level Cache(LLC)，该缓存为NPU，AICPU共用</p>
+<p>Core: 截至2025，Ascend910b将Core分为AICore，AIVector，一般将AICore认为运算密集，AIVector认为控制密集</p>
+<p>NPU设计认为HBM的带宽虽然很高，但仍不够用，一般计算将数据搬运至Local Memory(L2Cahce不可用)</p>
+<p><img src="https://s2.loli.net/2025/08/12/WtmTjE86ByCfRaO.png" alt="aic-aiv"></p>
+<p>Scalar: 标量计算单元</p>
+<p>Vector: 向量计算单元</p>
+<p>Cube: 矩阵运算单元</p>
+<p>MTE1,2,3：传输单元</p>
+<h2 id="spmdsingle-program-multiple-data">SPMD（Single Program, Multiple Data）</h2>
+<blockquote>
+<p><strong>SPMD 是指：同一个程序（Program）在多个处理单元（如CPU核、GPU、AI Core等）上同时运行，但各自操作不同的数据（Data）</strong></p>
+</blockquote>
+<h3 id="计算api示例">计算api示例</h3>
+<p><code>abs(src1, dst1, repeatnum, repeatstride, mask, srcblckstr,dst1blckstr)</code>这是一个0级计算api</p>
+<ul>
+<li>内部SIMD（Single Instruction, Multiple Data）计算是固定32B*8=256B的宽度进行repeat计算</li>
+<li>指定BlockStride即参5（32B单位）</li>
+<li>指定RepeatStride即参4（32B单位）和repeatNum即参3</li>
+<li>指定一个128bits的MASK作用于每个repeat上的128个FP16 element</li>
+</ul>
+<p><img src="https://s2.loli.net/2025/08/12/LRcP7mvyd5rfx9h.png" alt="image (6)"></p>
+<h3 id="simd并行计算原理">SIMD并行计算原理</h3>
+<ol>
+<li>启动一组线程，他们运行相同的程序</li>
+<li>把待处理数据切分，把切分后数据分片分发给不同进程处理</li>
+<li>每个进程对自己的数据分片进行三个任务的处理</li>
+</ol>
+<p>多个AIC（ore）共享相同的指令代码，每个核上运行实例的唯一区别是block_idx不同，block_idx是标识进程的唯一属性，cpp中通过<code>GetBlockIdx()</code>获取</p>
+<h3 id="并行计算方法">并行计算方法</h3>
+<p><img src="https://s2.loli.net/2025/08/12/j5ndKIZ3VN9fiwA.jpg" alt="Ascend C算子开发（入门）笔记一：基础概念 - 知乎"></p>
+<h2 id="达芬奇-算子-ascend-c编程的关键技术难点">达芬奇 算子 （Ascend C）编程的关键技术难点</h2>
+<ol>
+<li>复杂指令的语义</li>
+<li>核内buffer的分配，释放，复用</li>
+<li>多个并行执行单元之间的流水核同步编排在单一线程内实现</li>
+<li>并行计算，<strong>算子的并行切分策略</strong></li>
+</ol>
+<blockquote>
+<p>定义：Ascend C编程就是Cpp加上一组类API编程策略</p>
+</blockquote>
+<p>以matmul为例，指令流水图如下图所示</p>
+<p><img src="https://s2.loli.net/2025/08/12/hNEaPrl5XfVS79e.png" alt="process"></p>
+<p>可见整体过程就只有三个过程</p>
+<ul>
+<li>CopyIn</li>
+<li>Process</li>
+<li>CopyOut</li>
+</ul>
+<h2 id="基本api">基本API</h2>
+<p>API计算参数都是Tensor类型，Global Tensor和LocalTensor</p>
+<ol>
+<li>计算API</li>
+<li>数据搬移类API</li>
+<li>同步和内存管理API</li>
+</ol>
+<h3 id="api分级">API分级</h3>
+<p><img src="https://s2.loli.net/2025/08/12/aJFA6eqB7HMpVLG.png" alt="API分级"></p>
+<p>注意，<strong>不同LevelAPI对硬件的调度程度不同，例如level0最能调度数据，level3,则具有运算符重载等操作</strong></p>
+<h2 id="核函数">核函数</h2>
+<p><strong>核函数</strong>（Kernel Function），在昇腾（Ascend）AI处理器和 <strong>Ascend C</strong> 算子开发语境中，是指<strong>在AI Core上执行的核心计算函数</strong>，即算子中最耗时、最核心的计算逻辑的实现单元。</p>
+<h3 id="在ascend-c中的体现">在Ascend C中的体现：</h3>
+<p>在Ascend C中，核函数通常定义为一个 <strong><code>__aicore__</code> 函数</strong>（类CUDA语法），表示该函数将在AI Core上并发执行。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#E1E4E8">__aicore__</span></span>
+<span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> add_kernel</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">half</span><span style="color:#F97583">*</span><span style="color:#FFAB70"> input_a</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">half</span><span style="color:#F97583">*</span><span style="color:#FFAB70"> input_b</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">half</span><span style="color:#F97583">*</span><span style="color:#FFAB70"> output</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> size</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    int</span><span style="color:#E1E4E8"> idx </span><span style="color:#F97583">=</span><span style="color:#B392F0"> get_block_idx</span><span style="color:#E1E4E8">() </span><span style="color:#F97583">*</span><span style="color:#B392F0"> get_block_dim</span><span style="color:#E1E4E8">() </span><span style="color:#F97583">+</span><span style="color:#B392F0"> get_thread_idx</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (idx </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> size) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        output[idx] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> input_a[idx] </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> input_b[idx];</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li><code>get_block_idx()</code>：获取当前Block ID（对应AI Core ID）</li>
+<li><code>get_thread_idx()</code>：获取线程ID（在AI Core内用于数据分片）</li>
+<li>实现 <strong>SPMD 模式</strong>：每个AI Core运行同一核函数，处理数据的不同分片</li>
+</ul>
+<h3 id="与通用计算中的核函数区别">与通用计算中的“核函数”区别：</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>CUDA/OpenCL</td><td>GPU上的并行计算函数</td></tr><tr><td>Ascend C</td><td>AI Core上的高性能计算函数，专为AI计算优化</td></tr><tr><td>机器学习（如SVM）</td><td>指“核技巧”中的数学函数（如RBF核）——<strong>完全不同概念</strong></td></tr></tbody></table>
+<blockquote>
+<p>⚠️ 在Ascend C上下文中，“核函数”指 <strong>执行在AI Core上的计算内核</strong>，不是SVM中的核函数。</p>
+</blockquote>
+<p><strong>Summary</strong>：<code>__global__ __aicore__ void [kernelname] [argumnet_list]</code></p>
+<p><code>__global__</code>：标识一个可以被host侧使用<code>&#x3C;&#x3C;&#x3C;...>>></code>方式调用的核函数，<strong>返回值必须为void</strong>，使用<code>__aicore__</code>标识的核函数在设备AIC上执行</p>
+<p>指数入参的统一类型是<code>__gm__ uint8_t*</code> ，一般宏定义为<code>GM_ADDR</code>。<code>__gm__</code>表示该指针变量驻留在内存空间上。</p>
+<ol>
+<li>核函数必须具有void返回类型</li>
+<li>仅支持入参为指针类型或c/cpp内置的数据类型（Primitive Data Type），eg: <code>half* so</code>，<code>float* s1</code>，<code>int32_t c</code></li>
+<li>默认<code>#define GM_ADDR __gm__ uint8_t* __restrict__</code></li>
+</ol>
+<h3 id="核函数调用">核函数调用</h3>
+<p><em><strong>只有NPU模式下才能调用核函数</strong></em></p>
+<p>核函数只能使用内核调用符<code>&#x3C;&#x3C;&#x3C;...>>></code>这种语法形式，来规定和函数的执行配置。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:#E1E4E8">kernel_name</span><span style="color:#F97583">&#x3C;&#x3C;&#x3C;</span><span style="color:#E1E4E8">blockDim, l2ctrl, stream</span><span style="color:#F97583">>>></span><span style="color:#E1E4E8">(argument list);</span></span></code></pre>
+<ul>
+<li>
+<p><strong>blockDim</strong>，规定了核函数将会在几个核上运行，每个执行该核函数的核将会被分配一个逻辑ID，表现为内置变量<code>block_id</code>，编号从0开始，可谓不同的逻辑核定义不同的行为，可在算子实现中使用GetBlockIdx()函数获得。</p>
+</li>
+<li>
+<p><strong>I2ctrl</strong>，保留参数</p>
+</li>
+<li>
+<p><strong>stream</strong>，类型为aclrtStream，Stream是一个任务对罗列，程序通过Stream来管理任务的并行</p>
+</li>
+</ul>
+<h2 id="编程范式">编程范式</h2>
+<p>编程范式把算子内部的处理程序分为多个流水任务（Stage），<strong>以Tensor座位数据载体，Quene进行任务间的通信与同步，以Pipe管理任务见的通信内存</strong>。</p>
+<h3 id="典型计算范式">典型计算范式</h3>
+<ol>
+<li>矢量编程范式<code>CopyIn Compute CopyOut</code></li>
+<li>矩阵编程范式<code>CopyIn Split Compute Aggregate CopyOut</code></li>
+<li>复杂任务范式，通过组合实现复杂计算数据流</li>
+</ol>
+<h2 id="附录">附录</h2>
+<p>需要掌握使用MindStudio工具链中的msprof，msopgen，mindinsight工具。</p>
+<p>例如msopgen工具生成的目录结构对该章内容很有帮助。</p>
+<p>对于以下自定义算子的原型定义文件</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">[</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#79B8FF">        "op"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"SinhCustom"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        "language"</span><span style="color:#E1E4E8">:</span><span style="color:#9ECBFF">"cpp"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        "input_desc"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#79B8FF">                "name"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"x"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">                "param_type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"required"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">                "format"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">                    "ND"</span></span>
+<span class="line"><span style="color:#E1E4E8">                ],</span></span>
+<span class="line"><span style="color:#79B8FF">                "type"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">                    "fp16"</span></span>
+<span class="line"><span style="color:#E1E4E8">                ]</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        ],</span></span>
+<span class="line"><span style="color:#79B8FF">        "output_desc"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#79B8FF">                "name"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"y"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">                "param_type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"required"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">                "format"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">                    "ND"</span></span>
+<span class="line"><span style="color:#E1E4E8">                ],</span></span>
+<span class="line"><span style="color:#79B8FF">                "type"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">                    "fp16"</span></span>
+<span class="line"><span style="color:#E1E4E8">                ]</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        ]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">]</span></span></code></pre>
+<p>使用以下命令</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#B392F0">./msopgen</span><span style="color:#9ECBFF"> gen</span><span style="color:#79B8FF"> -i</span><span style="color:#E1E4E8"> ${JSON_FILE_PATH}</span><span style="color:#9ECBFF">/sinh.json</span><span style="color:#79B8FF"> -f</span><span style="color:#9ECBFF"> pytorch</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> ai_core-ascend910</span><span style="color:#79B8FF"> -lan</span><span style="color:#9ECBFF"> cpp</span><span style="color:#79B8FF"> -out</span><span style="color:#E1E4E8"> ${OUTPUT_PATH}</span></span></code></pre>
+<p><img src="https://s2.loli.net/2025/08/12/4XwJGqgjhnIMHi3.png" alt="Structure"></p>
+<p>该结构以及相关文件能够让初学者更深入的理解CANN与算子的调用逻辑。</p>
+<p><img src="https://s2.loli.net/2025/08/12/fJlxt58sjDUiZ17.png" alt="调用逻辑"></p>
+<h2 id="ref">REF</h2>
+<ol>
+<li>Huawei docs (W3)</li>
+<li>[【CANN训练营】Ascend算子开发入门笔记-云社区-华为云](<a href="https://bbs.huaweicloud.com/blogs/412456#:~:text=0%E7%BA%A7%E4%B8%B0%E5%AF%8C%E5%8A%9F%E8%83%BD%E8%AE%A1%E7%AE%97API%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%8C%E6%95%B4%E5%8F%91%E6%8C%A5%E7%A1%AC%E4%BB%B6%E4%BC%98%E5%8A%BF%E7%9A%84%E8%AE%A1%E7%AE%97API%EF%BC%8C%E8%AF%A5%E5%8A%9F%E8%83%BD%E5%8F%AF%E4%BB%A5%E5%85%85%E5%88%86%E5%8F%91%E6%8C%A5CANN%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E7%9A%84%E5%BC%BA%E5%A4%A7%E6%8C%87%E4%BB%A4%2C%E6%94%AF%E6%8C%81%E5%AF%B9%E6%AF%8F%E4%B8%AA%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84repeattimes%2Crepetstride%2CMASK%E7%9A%84%E6%93%8D%E4%BD%9C%E3%80%82,%E8%B0%83%E7%94%A8%E7%B1%BB%E4%BC%BC%EF%BC%9AAdd">https://bbs.huaweicloud.com/blogs/412456#:~:text=0级丰富功能计算API，可以完整发挥硬件优势的计算API，该功能可以充分发挥CANN系列芯片的强大指令%2C支持对每个操作数的repeattimes%2Crepetstride%2CMASK的操作。,调用类似：Add</a> (dst%2Csrc1%2Csrc2%2CrepeatTimes%2CrepeatParams)%3B)</li>
+<li><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/82RC1alpha001/opdevg/Ascendcopdevg/atlas_ascendc_10_0008.html">基本架构-CANN社区版8.2.RC1.alpha001-昇腾社区</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/687100816">(99+ 封私信 / 80 条消息) Ascend C算子开发（入门）笔记一：基础概念 - 知乎</a></li>
+<li><a href="https://www.hiascend.com/developer/courses/detail/1925473416036966402">GEMM类算子调优-昇腾社区</a></li>
+<li><a href="https://www.hiascend.com/developer/courses/detail/1691696509765107713">Ascend C算子开发（入门）-昇腾社区</a></li>
+<li><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/82RC1alpha001/opdevg/Ascendcopdevg/atlas_ascendc_10_0001.html">Ascend C简介-CANN社区版8.2.RC1.alpha001-昇腾社区</a></li>
+</ol> </article>  </div> </article> </main> <footer class="border-t border-gray-200 bg-white text-center py-4 mt-8"> <p class="text-sm text-gray-500">
+© 2025 我的博客
+</p> </footer> </body></html>
