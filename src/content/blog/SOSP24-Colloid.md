@@ -2,8 +2,8 @@
 title: "SOSP24-Tiered Memory Management: Access Latency is the Key!"
 date: 2025-08-12 02:42:00
 categories:
-- 专题
-- SOSP24
+- SOSP
+- 2024
 tags: [异构内存, 内存延迟]
 
 
