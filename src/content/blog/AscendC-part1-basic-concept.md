@@ -1,6 +1,6 @@
 ---
 title: "Ascend C算子开发 Part1基本概念"
-date: 2025-04-24 15:01:39
+date: 2025-08-12 17:39:00
 categories:
 - Ascend
 - 算子开发
