@@ -16,7 +16,7 @@ const { title, date } = Astro.props;
     </header>
 
     <main class="max-w-3xl mx-auto px-4 py-8">
-      <article>
+      <article class="markdown-body">
         <h1 class="text-3xl font-bold mb-2">{title}</h1>
         <div class="text-sm text-gray-500 mb-6">
           <time datetime={date}
@@ -36,3 +36,13 @@ const { title, date } = Astro.props;
     </footer>
   </body>
 </html>
+
+<style>
+  /* Markdown 图片统一视觉大小 */
+  .markdown-body img {
+    max-height: 300px; /* 高度统一 */
+    width: auto; /* 宽度按比例缩放 */
+    display: block;
+    margin: 1rem auto;
+  }
+</style>
