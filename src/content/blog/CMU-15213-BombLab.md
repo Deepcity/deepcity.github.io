@@ -11,7 +11,7 @@ tags: [CMU-lab, c, 汇编, 反编译]
 
 # CMU-15213-BombLab
 
-## bomblab
+## BombLab
 
 要求通过反汇编与debuger，借助主函数源文件实现对6个密码的findout。
 
