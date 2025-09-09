@@ -1,5 +1,5 @@
 ---
-title: "ServerlessLLM: Low-Latency Serverless Inference for Large Language Models"
+title: "OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models"
 date: 2025-08-12 02:42:00
 categories:
 - OSDI
