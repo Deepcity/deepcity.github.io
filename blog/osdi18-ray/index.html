@@ -1,0 +1,336 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>OSDI18-A Distributed Framework for Emerging AI Applications | 我的博客</title></head> <body class="min-h-screen bg-gray-50 text-gray-900"> <header class="border-b border-gray-200 bg-white shadow-sm"> <div class="max-w-3xl mx-auto px-4 py-4"> <a href="/" class="text-blue-500 hover:underline">← 返回首页</a> </div> </header> <main class="max-w-3xl mx-auto px-4 py-8"> <article class="markdown-body"> <h1 class="text-3xl font-bold mb-2">OSDI18-A Distributed Framework for Emerging AI Applications</h1> <div class="text-sm text-gray-500 mb-6"> <time datetime="Thu Sep 11 2025 06:42:00 GMT+0800 (China Standard Time)">2025/9/11</time> </div> <div class="prose prose-lg max-w-none">  <article> <h2 id="ray-a-distributed-framework-for-emerging-ai-applications">Ray: A Distributed Framework for Emerging AI Applications</h2>
+<h3 id="read-motivate">Read Motivate</h3>
+<p>由<code>ServerlessLLM: Low-Latency Serverless Inference for Large Language Models</code>作为对比标准引入。[Ray的官方Github仓库](<a href="https://github.com/ray-project/ray">ray-project/ray: Ray is an AI compute engine. Ray consists of a core distributed runtime and a set of AI Libraries for accelerating ML workloads.</a>)Star数已有38k（截至2025年9月）。由<strong>UC Berkeley</strong>的<strong>RISE</strong>Lab发布，国内主要是蚂蚁在用。</p>
+<h3 id="introdaction">Introdaction</h3>
+<p>Ray是一个分布式计算框架系统，为现代AI应用而设计。在论文中Ray的设计的经典应用场景为强化学习（RL）的三个过程<code>Simulation</code>、<code>Train</code>，<code>Serving</code>而设计。时至今日，Ray适用于任何分布式计算的任务包括分布式训练，目前支持库包括超参数调优<code>Ray tune</code>，梯度下降<code>Ray SGD</code>，推理服务<code>RaySERVE</code>，分布式数据<code>Dataset</code>以及分布式增强学习<code>RLlib</code>，详情如下图。</p>
+<p><img src="https://s2.loli.net/2025/09/11/KcqghRQ25HUZFuY.webp" alt="Third party" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/KcqghRQ25HUZFuY.webp?w=640 640w, https://s2.loli.net/2025/09/11/KcqghRQ25HUZFuY.webp?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p>在Ray论文的slide中，Overview这么介绍Ray面对的需求。</p>
+<ul>
+<li><strong>足够灵活</strong>：在功能，可用和资源类型上需要足够灵活</li>
+<li><strong>高效</strong>：在程序调度上必须保持高效</li>
+<li><strong>易于维护</strong>：程序必须拥有足够的故障容错和健壮性</li>
+</ul>
+<p><img src="https://s2.loli.net/2025/09/10/Nuypm4ratPczR8X.png" alt="Overview" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/10/Nuypm4ratPczR8X.png?w=640 640w, https://s2.loli.net/2025/09/10/Nuypm4ratPczR8X.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<h3 id="motivation">Motivation</h3>
+<p>文章首先从过去的两个十年（18年）讲起，谈到许多组织对大量数据的收集和利用，导致了大量批处理，流处理，图像处理的框架开发。对大量数据级的分析是这些框架的核心部分，引领了“大数据”时代的起始。</p>
+<p>而监督学习作为当下最主流的ML范式之一，在监督学习中，每一条数据都对应着一个相对应的标签，监督学习的目的是构建一个能够将数据映射为标签的模型，其中最主流的模型之一是深度神经网络，而深度神经网络的复杂性（不可解释，复杂的大结构）导致为其服务的框架（TensorFlow，MXNet，pyTorch等）都专注于利用硬件（GPU\TPU\NPU）加速神经网络的运行。然而AI的前景要远比监督学习任务宽泛。</p>
+<p>Ray的设计者认为，下一代的AI应用将与环境存在持续、连续的交互，并从交互的反馈中学习，这naturally framed into Reinforcement Lreanings——在一个不确定的环境中，根据有限的，非严格实时的信息调整policy，并达成目标。这要求达成三个目标：</p>
+<ol>
+<li><strong>Simulation</strong>：通过给定（随机）的policy在环境中的模拟评估一个策略并给出相应的反馈，使智能体能够了解到选择（action）对任务的短长期影响</li>
+<li><strong>Train</strong>：分布式训练。这一点与传统的监督学习相似。策略的改进通常是由分布式的GPU集群进行的深度神经网络的方法进行的。其中使用的数据就来自SImulation。</li>
+<li><strong>Serving</strong>：通过将policy作为服务部署，应用于交互式的闭环或开环场景上。</li>
+</ol>
+<p><img src="https://s2.loli.net/2025/09/10/f3ynUtgcDJ9EKG7.png" alt="Example of an RL system" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/10/f3ynUtgcDJ9EKG7.png?w=640 640w, https://s2.loli.net/2025/09/10/f3ynUtgcDJ9EKG7.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p>为满足RL、超参数微调，分布式训练的需求，设计框架必须满足如下图所示的key features</p>
+<ul>
+<li>不同类型，并发的计算</li>
+<li>动态的任务拓扑图</li>
+<li>高吞吐量（Task and Object）与低延迟</li>
+<li>透明的故障容错基址</li>
+<li>任务并行和actor programming models（ 带状态的执行者编程模型）</li>
+<li>横向的扩展性（能够在大规模的CPU与GPU集群上保持线性的稳定性能增长）</li>
+</ul>
+<p><img src="https://s2.loli.net/2025/09/10/jqEZsb8ry3INPtX.png" alt="backgroud" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/10/jqEZsb8ry3INPtX.png?w=640 640w, https://s2.loli.net/2025/09/10/jqEZsb8ry3INPtX.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p>现有的框架，例如MapReduce、Apache Spark、Dryad批处理同步并行系统用于分布式训练并不支持细粒度的模拟或policy部署。CIEL、Dask任务并行框架缺少了部分对分布式训练和服务的支持。而流系统也是一样。而分布式的深度学习框架则不原生支持模拟和服务。最后模型服务例如TensorFLow Serving和Cliper不支持训练和模拟</p>
+<blockquote>
+<p>Bulk-synchronous parallel systems such as MapReduce [20], Apache Spark [64], and Dryad [28] do not support fine-grained simulation or policy serving. Taskparallel systems such as CIEL [40] and Dask [48] provide little support for distributed training and serving. The same is true for streaming systems such as Naiad [39] and Storm [31]. Distributed deep-learning frameworks such as TensorFlow [7] and MXNet [18] do not naturally support simulation and serving. Finally, model-serving systems such as TensorFlow Serving [6] and Clipper [19] support neither training nor simulation.</p>
+</blockquote>
+<p><img src="https://s2.loli.net/2025/09/11/w9BbGfDWMvJERdh.png" alt="Existing Solutions" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/w9BbGfDWMvJERdh.png?w=640 640w, https://s2.loli.net/2025/09/11/w9BbGfDWMvJERdh.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p>虽然通过缝合现有的系统可以开发端到端的解决方案或者像AlphaGo一样开发单独的系统。但这样的方案带来了巨大的系统工程的负担。</p>
+<blockquote>
+<p>Horovod [53] for distributed training, Clipper [19] for serving, and CIEL [40] for simulation</p>
+</blockquote>
+<p>因此需要一个分布式计算框架，用于支持异构的计算资源，不同层级的执行任务，动态的计算图，并在毫秒级的延迟下分布式处理百万级别的任务数量。</p>
+<p><img src="https://s2.loli.net/2025/09/10/Q1HaBmJb3EWFNK2.png" alt="Problem Statement" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/10/Q1HaBmJb3EWFNK2.png?w=640 640w, https://s2.loli.net/2025/09/10/Q1HaBmJb3EWFNK2.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<h3 id="architecture">Architecture</h3>
+<p>Ray在如今的简易架构图如下，如今的Ray由 Ray Core 和 Ray AI Libraries 两部分组成，拥有丰富的生态系统。</p>
+<p><img src="https://s2.loli.net/2025/09/11/HGjbm71hFWagLk3.png" alt="Arch25" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/HGjbm71hFWagLk3.png?w=640 640w, https://s2.loli.net/2025/09/11/HGjbm71hFWagLk3.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p><img src="https://s2.loli.net/2025/09/11/r1nD5qwbgaLCYmS.jpg" alt="map-of-ray" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/r1nD5qwbgaLCYmS.jpg?w=640 640w, https://s2.loli.net/2025/09/11/r1nD5qwbgaLCYmS.jpg?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<h4 id="raycore">RayCore</h4>
+<p>Ray的系统架构分为两个部分<strong>Application Layer</strong>和<strong>System Layer</strong>。</p>
+<p>其中<strong>Application Layer</strong>包含三种不同进程 <strong>Driver</strong>, <strong>Worker</strong> , <strong>Actor</strong>。分别用于执行用户程序，接受源自driver或其他worker的任务的无状态进程，由Worker或Driveer现实实例化连续执行函数的有状态进程。其中worker是自动创建并且被系统层指派任务，并且当一个远端函数被声明时，该函数会将被自动发布给所有worker，worker顺序执行任务，并不维护本地状态。Actor执行时进调用其公开的函数，每个函数的执行都取决于前一个函数的返回状态。</p>
+<blockquote>
+<ul>
+<li>Driver: A process executing the user program.</li>
+<li>Worker: A stateless process that executes tasks (remote functions) invoked by a driver or another worker. Workers are started automatically and assigned tasks by the system layer. When a remote function is declared, the function is automatically published to all workers. A worker executes tasks serially, with no local state maintained across tasks.</li>
+<li>Actor: A stateful process that executes, when invoked, only the methods it exposes. Unlike a worker, an actor is explicitly instantiated by a worker or a driver. Like workers, actors execute methods serially, except that each method depends on the state resulting from the previous method execution.</li>
+</ul>
+</blockquote>
+<p>而 <strong>System Layer</strong> 同样包含三种不同的设计。<strong>Global Control Store (GCS)</strong> 、<strong>Bottom-up distributed scheduler</strong>、<strong>In-memory distributed object store - Apache Arrow</strong>。GCS是一个key-value store的pubsub全局控制器，存储所有Object的元数据位置同时采用分片实现规模化，并用分片链复制提供故障容忍。Bottom-up distributed scheduler是一种调度设计，它通过设置多个Global Scheduler与Local Scheduler（单node单个）消除了调度器在高并发低延迟的分布式任务中的瓶颈。In-memory distributed object store - Apache Arrow是一种以Apache Arrow数据格式存储的零拷贝数据共享机制，用于在统一节点的任务之间进行数据交换。</p>
+<blockquote>
+<p>The global control store (GCS) maintains the entire control state of the system, and it is a unique feature of our design. At its core, GCS is a key-value store with pubsub functionality. We use sharding to achieve scale, and per-shard chain replication [61] to provide fault tolerance. The primary reason for the GCS and its design is to maintain fault tolerance and low latency for a system that can dynamically spawn millions of tasks per second.</p>
+</blockquote>
+<p><img src="https://s2.loli.net/2025/09/11/OpTzXofmnHjhgsJ.png" alt="CoreArch" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/OpTzXofmnHjhgsJ.png?w=640 640w, https://s2.loli.net/2025/09/11/OpTzXofmnHjhgsJ.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<h4 id="application-layer">Application Layer</h4>
+<ul>
+<li>
+<p>Ray的核心API（部分</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>代码</th><th>说明</th></tr></thead><tbody><tr><td>futures = f.remote(args)</td><td>远程地执行函数f。f.remote()以普通对象或future对象作为输入，返回一个或多个future对象，非阻塞执行。</td></tr><tr><td>objects = ray.get(futures)</td><td>返回与一个或多个future对象相关联的真实值，阻塞执行</td></tr><tr><td>ready_futures = ray.wait(futures, k, timeout)</td><td>当futures中有k个future完成时，或执行时间超过timeout时，返回futures中已经执行完的future</td></tr><tr><td>actor = Class.remote(args) futures = actor.method.remote(args)</td><td>将一个类实例化为一个远程的行动器，并返回它的一个句柄。然后调用这个行动器的method方法，并返回一个或多个future. 两个过程均为非阻塞的。</td></tr></tbody></table>
+</li>
+<li>
+<p>Drvier在此处不过多赘述。</p>
+</li>
+<li>
+<p>Task，指在无状态的工作器（worker）中执行的远程函数。远程函数被调用时会立即返回一个future对象，而真正的返回值可以通过ray.get(&#x3C;future对象>)的方式来获取。或通过wait等待部分future完成。</p>
+<p><strong>任务的编程范式</strong>如下：</p>
+<ol>
+<li>注册任务：在需要注册为任务的函数上加上@ray.remote装饰器</li>
+<li>提交任务：在调用具有@ray.remote装饰器的函数时，需要带上.remote()而不是直接调用</li>
+<li>非阻塞提交：无论任务的运行需要多少时间，在提交任务后都会立即返回一个ObjectRef对象</li>
+<li>按需阻塞获取结果：在你需要函数的返回值时，可以通过ray.get来获取</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 全流程eg</span></span>
+<span class="line"><span style="color:#B392F0">@ray.remote</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> f</span><span style="color:#E1E4E8">(x):</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> x </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> x</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">object_ref </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> f.remote(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">assert</span><span style="color:#E1E4E8"> ray.get(object_ref) </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> 4</span></span></code></pre>
+<p>任务是无状态的，任务所操作的对象都可以看作不可变对象(Immutable Objects)，或者任务调用可以看作一个无副作用的(Side-effect Free)表达式，任务的输出（返回值）仅与输入（实参）有关。</p>
+<blockquote>
+<p>Remote functions operate on immutable objects and are expected to be stateless and side-effect free: their outputs are determined solely by their inputs. This implies idempotence, which simplifies fault tolerance through function re-execution on failure.</p>
+</blockquote>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 声明两个功能相同的函数，一个是Ray任务，另一个是普通的Python函数</span></span>
+<span class="line"><span style="color:#B392F0">@ray.remote</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> append_one</span><span style="color:#E1E4E8">(container):</span></span>
+<span class="line"><span style="color:#E1E4E8">    container.append(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> container</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> local_append_one</span><span style="color:#E1E4E8">(container):</span></span>
+<span class="line"><span style="color:#E1E4E8">    container.append(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> container</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">container </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">object_ref </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> append_one.remote(container)</span></span>
+<span class="line"><span style="color:#E1E4E8">result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> ray.get(object_ref) </span><span style="color:#6A737D"># 此处可确保函数已经在远程执行完成</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(result) </span><span style="color:#6A737D"># [1]</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(container) </span><span style="color:#6A737D"># []; 远程函数未对container产生副作用</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">local_append_one(container)</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(container) </span><span style="color:#6A737D"># [1]; 本地函数对container产生了副作用</span></span></code></pre>
+<blockquote>
+<p>这样设计的优点是能在函数执行出错时自动重新执行函数（因为不依赖于其他任务，可以在任意时候独立地执行），以提高容错性；缺点是限制了函数对全局变量或内存引用的访问。任务的设计使得Ray具备以下能力：</p>
+<ul>
+<li>细粒度负载均衡：利用任务级粒度的负载感知调度来进行细粒度的负载均衡</li>
+<li>输入数据本地化：每个任务可以在存有它所需要的数据的节点上调度</li>
+<li>较低的恢复开销：无需记录检查点或恢复到中间状态</li>
+</ul>
+<p>@ zhihu liadrinz</p>
+</blockquote>
+</li>
+<li>
+<p>Actor，行动器用来表达有状态的计算任务。每个行动器都会暴露一些可供远程调用的方法，类似于任务中的远程函数，不同的是，使用f.remote顺序地提交若干个远程函数后，这些函数是并行执行的，但在同一个actor下使用actor.method.remote顺序地提交若干个远程方法后，这些方法将串行地执行。但是，不同actor之间的调用是可以并行的。可以用一个图来描述任务和行动器的区别和联系：</p>
+<p><img src="https://s2.loli.net/2025/09/11/CGorspS3EFHaOWy.jpg" alt="img" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/CGorspS3EFHaOWy.jpg?w=640 640w, https://s2.loli.net/2025/09/11/CGorspS3EFHaOWy.jpg?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p><strong>行动器的编程范式</strong>如下：</p>
+<ol>
+<li>注册行动器：在需要注册为行动器的类上加上@ray.remote装饰器</li>
+<li>实例化行动器：相比于普通Python类的实例化，需要在类名后加上.remote</li>
+<li>提交方法调用：调用行动器的方法时，同样需要带上.remote()而不是直接调用</li>
+<li>非阻塞提交：无论方法的运行需要多少时间，在提交任务后都会立即返回一个ObjectRef对象（同一行动器实例下，方法会按照提交顺序串行地运行）</li>
+<li>按需阻塞获取结果：在需要方法运行的返回值时，可以通过ray.get来获取</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 全流程eg</span></span>
+<span class="line"><span style="color:#B392F0">@ray.remote</span></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> Counter</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">object</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.value </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> increment</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.value </span><span style="color:#F97583">+=</span><span style="color:#79B8FF"> 1</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.value</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">counter </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Counter.remote()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">refs </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">for</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#E1E4E8">    ref </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> counter.increment.remote()</span></span>
+<span class="line"><span style="color:#E1E4E8">    refs.append(ref)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">for</span><span style="color:#E1E4E8"> i, ref </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> enumerate</span><span style="color:#E1E4E8">(refs):</span></span>
+<span class="line"><span style="color:#F97583">    assert</span><span style="color:#E1E4E8"> ray.get(ref) </span><span style="color:#F97583">==</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> 1</span></span></code></pre>
+<blockquote>
+<p>行动器的设计使得Ray具备更高效的细粒度更新能力。因为行动器是一种高内聚的设计，状态与可能改变状态的操作被设计在一个类中，使得这些操作不依赖于外界的状态，从而在更新状态时省去了许多序列化和反序列化的开销。一个例子是使用行动器来实现参数服务器，在这个应用中，参数是状态，基于状态的操作便是训练. 在传统的分布式训练框架，如PyTorch中，分布式训练的每个训练进程都维护了一份参数信息，并且都各自计算出一个梯度，进程之间需要交换梯度信息以计算出总梯度和更新后的参数，这就意味着梯度需要被序列化和反序列化以便在进程间传递。使用行动器的架构可以使整个系统中只维护一份参数信息，并且对于同一份参数的更新操作都是串行的。另外，提交参数更新的请求是非阻塞的，参数更新是GPU密集型的任务，因此在提交完后还可以并行地去做CPU密集型的任务，这也是Ray框架异构性的体现。</p>
+<p>@ zhihu liadrinz</p>
+</blockquote>
+<blockquote>
+<p>什么是异构性？</p>
+<p>这里的**“异构性”**指的并不是我们常说的 <strong>“异构硬件平台”（heterogeneous hardware）</strong>，例如 GPU + CPU + FPGA 混合这种情况，而是更偏向 <strong>Ray 框架在任务调度和执行层面对不同类型计算资源（CPU 与 GPU）的利用方式</strong>。</p>
+<p>我来帮你拆解一下：</p>
+<hr>
+<h3 id="1-背景参数更新任务的特点">1. 背景：参数更新任务的特点</h3>
+<ul>
+<li><strong>参数更新</strong>：通常是 <strong>GPU 密集型任务</strong>（比如矩阵运算、反向传播、参数加和），需要大量 GPU 算力。</li>
+<li><strong>请求提交/调度</strong>：是 <strong>CPU 密集型任务</strong>（比如构造请求对象、任务调度、日志、数据预处理）。</li>
+</ul>
+<p>传统框架（比如 PyTorch DDP）：</p>
+<ul>
+<li>每个进程都维护一份参数 → 梯度要 <strong>序列化/反序列化并跨进程传输</strong>。</li>
+<li>在同步梯度阶段，进程常常需要等待通信完成，CPU 和 GPU 很容易出现 <strong>互相等待的情况</strong>。</li>
+</ul>
+<hr>
+<h3 id="2-ray-的-actor-模型带来的不同">2. Ray 的 Actor 模型带来的不同</h3>
+<ul>
+<li><strong>状态集中管理</strong>：Actor 内部保存唯一一份参数状态，更新操作在 Actor 内部完成，不必序列化/反序列化参数 → 节省通信开销。</li>
+<li><strong>请求非阻塞</strong>：训练进程把“更新请求”发给参数服务器 Actor 后就可以立刻返回，不需要等待 GPU 执行更新完成。</li>
+</ul>
+<hr>
+<h3 id="3-这里异构性的含义">3. 这里“异构性”的含义</h3>
+<p>当文中说 <strong>“这也是 Ray 框架异构性的体现”</strong> 时，指的是：</p>
+<ul>
+<li><strong>CPU 和 GPU 的工作负载被解耦</strong>。</li>
+<li>训练进程在 <strong>CPU 上还能继续做预处理、调度、任务提交等操作</strong>，而 GPU 上的 Actor 正在执行更新操作。</li>
+<li>换句话说，<strong>CPU 密集型任务和 GPU 密集型任务可以并行化，不是互相阻塞</strong>。</li>
+</ul>
+<hr>
+<h3 id="4-总结">4. 总结</h3>
+<p>所以这里的“异构性”指的是 <strong>Ray 框架对异构计算资源（CPU/GPU）的利用能力</strong>，表现为：</p>
+<ul>
+<li><strong>非阻塞请求</strong> + <strong>Actor 内部状态集中管理</strong> → 让 <strong>CPU 与 GPU 的任务可以异步并行执行</strong>，提升整体效率。</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>Ray采用动态任务图计算模型，其中远程函数和actor方法的执行在他们的输入到达GCS时自动由<strong>System Layer</strong>触发。下面用论文中的一个例子描述一个计算算图是如何从用户程序中抽象出来的。</p>
+<p>这是一个使用Ray Core API构建的伪代码用户程序。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#B392F0">@ray.remote</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> create_policy</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#6A737D">    # 随机初始化策略</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> policy</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">@ray.remote</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">num_gpus</span><span style="color:#F97583">=</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> Simulator</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">object</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#6A737D">        # 初始化环境</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.env </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Environment()</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> rollout</span><span style="color:#E1E4E8">(self, policy, num_steps):</span></span>
+<span class="line"><span style="color:#E1E4E8">        observations </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"><span style="color:#E1E4E8">        observation </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.env.current_state()</span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8"> _ </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(num_steps):</span></span>
+<span class="line"><span style="color:#E1E4E8">            action </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> policy(observation)</span></span>
+<span class="line"><span style="color:#E1E4E8">            observation </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.env.step(action)</span></span>
+<span class="line"><span style="color:#E1E4E8">            observations.append(observation)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> observations</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">@ray.remote</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">num_gpus</span><span style="color:#F97583">=</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> update_policy</span><span style="color:#E1E4E8">(policy, </span><span style="color:#F97583">*</span><span style="color:#E1E4E8">rollouts):</span></span>
+<span class="line"><span style="color:#6A737D">    # 更新策略</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> policy</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">@ray.remote</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> train_policy</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#6A737D">    # 创建策略</span></span>
+<span class="line"><span style="color:#E1E4E8">    policy_id </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> create_policy.remote()</span></span>
+<span class="line"><span style="color:#6A737D">    # 创建10个行动器(仿真器)</span></span>
+<span class="line"><span style="color:#E1E4E8">    simulators </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [Simulator.remote() </span><span style="color:#F97583">for</span><span style="color:#E1E4E8"> _ </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#6A737D">    # 做100次训练</span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8"> _ </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">100</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#6A737D">        # 每个行动器做一次预演</span></span>
+<span class="line"><span style="color:#E1E4E8">        rollout_ids </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [s.rollout.remote(policy_id) </span><span style="color:#F97583">for</span><span style="color:#E1E4E8"> s </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> simulators]</span></span>
+<span class="line"><span style="color:#6A737D">        # 使用预演生成的轨迹来更新策略</span></span>
+<span class="line"><span style="color:#E1E4E8">        policy_id </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> update_policy.remote(policy_id, </span><span style="color:#F97583">*</span><span style="color:#E1E4E8">rollout_ids)</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> ray.get(policy_id)</span></span></code></pre>
+<p>可见远端方法<code>create_policy</code>、<code>update_policy</code>、<code>train_policy</code>与Actor<code>Simulator</code>。</p>
+<p>首先不考虑Actor，考虑定义数据流与控制流，即箭头指向数据传输方向与箭头指向调用的函数方向。然后定义Actor的状态流，即整体为Actor执行的拓扑函数顺序图。考虑设计计算图如下：</p>
+<p><img src="https://s2.loli.net/2025/09/11/delA7aDJiFky8Mp.png" alt="calculation graphy" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/delA7aDJiFky8Mp.png?w=640 640w, https://s2.loli.net/2025/09/11/delA7aDJiFky8Mp.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p>在这里只画出了两个Actor。但不同Simulator之间的过程都是并行的。而同一个模拟器的不同批次的rollout之间之所以是串行的，是因为每次rollout可能改变环境的状态，下一次rollout必须使用前一次rollout结束的状态作为开始状态。</p>
+</li>
+</ul>
+<h4 id="system-layer">System Layer</h4>
+<ul>
+<li>
+<p><strong>GCS</strong></p>
+<p>GCS设计的初衷是让系统中的各个组件都变得尽可能地无状态，因此GCS维护了一些全局状态：</p>
+<ul>
+<li>对象表 (Object Table)：记录每个对象存在于哪些节点</li>
+<li>任务表 (Task Table)：记录每个任务运行于哪个节点</li>
+<li>函数表 (Function Table)：记录用户进程中定义的远程函数</li>
+<li>事件日志 (Event Logs)：记录任务运行日志</li>
+</ul>
+</li>
+<li>
+<p><strong>Bottom-up distributed scheduler</strong></p>
+<p>Ray中的任务调度器被分为两层，由一个全局调度器和每个节点各自的局部调度器组成。为了避免全局调度器负载过重，<strong>在节点创建的任务首先被提交到局部调度器，如果该节点没有过载且节点资源能够满足任务的需求（如GPU的需求），则任务将在本地被调度，否则任务才会被传递到全局调度器</strong>，考虑将任务调度到远端。由于Ray首先考虑在本地调度，本地不满足要求才考虑在远端调用，因此这样的调度方式也被称为自底向上的调度。</p>
+<p><img src="https://s2.loli.net/2025/09/11/aoNXyvuHJCAtMWw.png" alt="Bottom-up distributed scheduler" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/aoNXyvuHJCAtMWw.png?w=640 640w, https://s2.loli.net/2025/09/11/aoNXyvuHJCAtMWw.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+</li>
+<li>
+<p>局部性原理的对象存储器</p>
+<p>Ray实现了一个内存式的分布式存储系统来存储每个任务的输入和输出。Ray通过内存共享机制在每个节点上实现了一个对象存储器 (Object Store)，从而使在同一个节点运行的任务之间不需要拷贝就可以共享数据。当一个任务的输入不在本地时，则会在执行之前将它的输入复制到本地的对象存储器中。同样地，任务总会将输出写入到本地的对象存储器中。这样的复制机制可以减少任务的执行时间，因为<strong>任务永远只会从本地对象存储器中读取数据（否则任务不会被调度）</strong>，并且消除了热数据可能带来的潜在的瓶颈。</p>
+<p><strong>注意</strong>：GCS中本身并不存放Object，存放的是Object的元数据，数据间的通信并不直接经过GCS，解耦了task dispatch与 task scheduler是GCS，Object Storage designed的main idea。</p>
+</li>
+</ul>
+<h4 id="putting-everything-together">Putting Everything Together</h4>
+<p>这里从进程的角度分析</p>
+<p><img src="https://s2.loli.net/2025/09/11/aU2K7CcszSDAqMw.png" alt="Overview" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/11/aU2K7CcszSDAqMw.png?w=640 640w, https://s2.loli.net/2025/09/11/aU2K7CcszSDAqMw.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p>图4描述了任务的定义、提交和执行的过程</p>
+<ol start="0">
+<li>【定义远程函数】位于$N_1$的用户程序中定义的远程函数add被装载到GCS的函数表中，位于$N_2$的工作器从GCS中读取并装载远程函数add</li>
+<li>【提交任务】位于$N_1$的用户程序向本地调度器提交add(a, b)的任务</li>
+<li>【提交任务到全局】本地调度器将任务提交至全局调度器</li>
+<li>【检查对象表】全局调度器从GCS中找到add任务所需的实参a, b，发现a在$N_1$上，b在$N_2$上（a, b 已在用户程序中事先定义）</li>
+<li>【执行全局调度】由上一步可知，任务的输入平均地分布在两个节点，因此全局调度器随机选择一个节点进行调度，此处选择了$N_2$</li>
+<li>【检查任务输入】 的局部调度器检查任务所需的对象是否都在$N_2$的本地对象存储器中</li>
+<li>【查询缺失输入】 的局部调度器发现任务所需的a不在$N_2$中，在GCS中查找后发现a在$N_1$中</li>
+<li>【对象复制】将a从$N_1$复制到$N_2$</li>
+<li>【执行局部调度】在 的工作器上执行add(a, b)的任务</li>
+<li>【访问对象存储器】add(a, b)访问局部对象存储器中相应的对象</li>
+</ol>
+<p>图5描述了获取任务执行结果的的过程</p>
+<ol>
+<li>【提交get请求】向本地调度器提交ray.get的请求，期望获取add任务执行的返回值</li>
+<li>【注册回调函数】$N_1$本地没有存储返回值，所以根据返回值对象的引用id_c在GCS的对象表中查询该对象位于哪个节点，假设此时任务没有执行完成，那么对象表中找不到id_c，因此$N_1$的对象存储器会注册一个回调函数，当GCS对象表中出现id_c时触发该回调，将c从对应的节点复制到$N_1$上</li>
+<li>【任务执行完毕】$N_2$上的add任务执行完成，返回值c被存储到$N_2$的对象存储器中</li>
+<li>【将对象同步到GCS】$N_2$将c及其引用id_c存入GCS的对象表中</li>
+<li>【触发回调函数】2中注册的回调函数被触发</li>
+<li>【执行回调函数】将c从$N_2$复制到$N_1$</li>
+<li>【返回用户程序】将c返回给用户程序，任务结束</li>
+</ol>
+<h3 id="ray-update-log">Ray Update Log</h3>
+<p>2016 年，UC Berkeley 的 RISELab 发布了一个新的分布式计算框架 Ray。</p>
+<p>2017 年，发布 Ray 相关论文之后，受到业内的广泛关注，国内主要是蚂蚁集团采用并贡献了 Ray。</p>
+<p>2020 年，Ray 发布了 1.0 版本，引入 Placement Group 特性，增加了用户自定义任务编排的灵活性，为后续的 Ray AI Libraries 和 vLLM 等项目提供了基础支持。</p>
+<p>2021 年，Ray 发布了 1.5 版本，发布 Ray Data Alpha，弥补了 Ray 在 AI 数据处理和离线推理领域的空白，后续在 AI 数据处理方面得到广泛应用。</p>
+<p>2022 年，Ray 发布了 2.0 版本，引入 Ray AIR（Ray AI Runtime）概念，聚焦 AI 生态，使用户能够基于此快速构建 AI 基建。</p>
+<p>2023 年，Ray 发布了 2.9 版本，引入 Streaming Generator，原生支持流式推理能力，更好地适配大模型场景。大模型推理引擎 vLLM 基于 Ray Core 及 Ray Serve 构建分布式推理能力，进一步丰富了 Ray 的 AI 生态。</p>
+<p>2024 年，Ray 发布了 Ray 2.32 版本，引入 Ray DAG，更好地支持 AI 场景下异构设备间的通信，持续推动 Ray 在分布式计算尤其是 AI 领域的应用和发展。</p>
+<p>目前 Ray 最新的版本是 2.42.0。</p>
+<h3 id="ref">REF</h3>
+<ol>
+<li><a href="https://www.usenix.org/conference/osdi18/presentation/moritz">Ray: A Distributed Framework for Emerging AI Applications | USENIX</a></li>
+<li><a href="https://www.cl.cam.ac.uk/~ey204/teaching/ACS/R244_2018_2019/presentation/S2/RAY_Devin.pdf">cl.cam.ac.uk/~ey204/teaching/ACS/R244_2018_2019/presentation/S2/RAY_Devin.pdf</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/460600694">Ray分布式计算框架详解 - 知乎</a></li>
+<li><a href="https://www.chenshaowen.com/blog/what-is-ray.html">分布式计算框架 Ray – 陈少文的网站</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/23824881486">Ray 分布式计算 ｜ 从入门到实践 - 知乎</a></li>
+<li><a href="https://developer.aliyun.com/article/1512422">机器学习分布式框架Ray-阿里云开发者社区</a></li>
+</ol> </article>  </div> </article> </main> <footer class="border-t border-gray-200 bg-white text-center py-4 mt-8"> <p class="text-sm text-gray-500">
+© 2025 我的博客
+</p> </footer> </body></html>

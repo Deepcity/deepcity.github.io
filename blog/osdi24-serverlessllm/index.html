@@ -1,12 +1,11 @@
-<!DOCTYPE html><html lang="zh-CN" data-astro-cid-5avybfdb> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models | 我的博客</title><style>.markdown-body[data-astro-cid-5avybfdb] img[data-astro-cid-5avybfdb]{max-height:300px;width:auto;display:block;margin:1rem auto}
-</style></head> <body class="min-h-screen bg-gray-50 text-gray-900" data-astro-cid-5avybfdb> <header class="border-b border-gray-200 bg-white shadow-sm" data-astro-cid-5avybfdb> <div class="max-w-3xl mx-auto px-4 py-4" data-astro-cid-5avybfdb> <a href="/" class="text-blue-500 hover:underline" data-astro-cid-5avybfdb>← 返回首页</a> </div> </header> <main class="max-w-3xl mx-auto px-4 py-8" data-astro-cid-5avybfdb> <article class="markdown-body" data-astro-cid-5avybfdb> <h1 class="text-3xl font-bold mb-2" data-astro-cid-5avybfdb>OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models</h1> <div class="text-sm text-gray-500 mb-6" data-astro-cid-5avybfdb> <time datetime="Tue Sep 09 2025 06:42:00 GMT+0800 (China Standard Time)" data-astro-cid-5avybfdb>2025/9/9</time> </div> <div class="prose prose-lg max-w-none" data-astro-cid-5avybfdb>  <article> <h2 id="osdi24-serverlessllm-low-latency-serverless-inference-for-large-language-models">OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models</h2>
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models | 我的博客</title></head> <body class="min-h-screen bg-gray-50 text-gray-900"> <header class="border-b border-gray-200 bg-white shadow-sm"> <div class="max-w-3xl mx-auto px-4 py-4"> <a href="/" class="text-blue-500 hover:underline">← 返回首页</a> </div> </header> <main class="max-w-3xl mx-auto px-4 py-8"> <article class="markdown-body"> <h1 class="text-3xl font-bold mb-2">OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models</h1> <div class="text-sm text-gray-500 mb-6"> <time datetime="Tue Sep 09 2025 06:42:00 GMT+0800 (China Standard Time)">2025/9/9</time> </div> <div class="prose prose-lg max-w-none">  <article> <h2 id="osdi24-serverlessllm-low-latency-serverless-inference-for-large-language-models">OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models</h2>
 <h3 id="overview">Overview</h3>
 <p>这个系统模块通过对输入token以及模型参数进行分片的方式，以及一种特殊的overlap的请求抢占方式构建基于局部性与大量本地异构内存的推理延迟优化方案。</p>
 <h3 id="backgroud">Backgroud</h3>
-<p><img src="https://s2.loli.net/2025/09/08/SGEwQuHByjh2xON.png" alt="Booming LLM inference workload"></p>
-<p><img src="https://s2.loli.net/2025/09/08/A842gcWzGCwBXP3.png" alt="LLM Serverless inference 101"></p>
+<p><img src="https://s2.loli.net/2025/09/08/SGEwQuHByjh2xON.png" alt="Booming LLM inference workload" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/08/SGEwQuHByjh2xON.png?w=640 640w, https://s2.loli.net/2025/09/08/SGEwQuHByjh2xON.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p><img src="https://s2.loli.net/2025/09/08/A842gcWzGCwBXP3.png" alt="LLM Serverless inference 101" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/08/A842gcWzGCwBXP3.png?w=640 640w, https://s2.loli.net/2025/09/08/A842gcWzGCwBXP3.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
 <p>随着大模型运用逐渐广泛，对不同模型部署的需求也越来越多，包括开源，微调和定制化的模型服务。在现有的服务中，购买GPU服务器是最直接的方式，但这样的成本过于昂贵，租借服务器又会有利用不充分的问题，使用API则无法满足大模型的定制化服务。因此业界都在关注如何使用GPU算力集群去做下一代的AI平台的推理部署，即<code>serverless clusters</code>。</p>
-<p><img src="https://s2.loli.net/2025/09/08/epkcqJRYFGA1waM.png" alt="System components in serverless clusters"></p>
+<p><img src="https://s2.loli.net/2025/09/08/epkcqJRYFGA1waM.png" alt="System components in serverless clusters" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/08/epkcqJRYFGA1waM.png?w=640 640w, https://s2.loli.net/2025/09/08/epkcqJRYFGA1waM.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
 <p>这张图说明25%的函数有60%的冷启动开销，另外有40%的函数有25%的冷启动开销，给出了两个性能指标定义TTFT，TPOT，两个极其重要的推理性能指标，分别描述“首次响应时间”，“间隔响应时间”。</p>
 <h3 id="main-idea">Main Idea</h3>
 <ul>
@@ -17,19 +16,19 @@
 <h3 id="the-root-principle">The root principle</h3>
 <p>优化从SSD到DRAM以及GPU中的数据传输，通过模型迁移策略提高整体的推理效率。</p>
 <h3 id="冷启动友好的ckpt加载">冷启动友好的ckpt加载</h3>
-<p><img src="https://s2.loli.net/2025/09/09/AG5z9ue4Tncd3Mg.png" alt="Cold-start-friendly checkpoint loading"></p>
+<p><img src="https://s2.loli.net/2025/09/09/AG5z9ue4Tncd3Mg.png" alt="Cold-start-friendly checkpoint loading" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/09/AG5z9ue4Tncd3Mg.png?w=640 640w, https://s2.loli.net/2025/09/09/AG5z9ue4Tncd3Mg.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
 <p>异步进行模型初始化与多层的二进制数据（参数与token）加载。并在最后进行同步。</p>
 <p>这里定义了<code>Tensor index file</code>，通过结构化加载的二进制数据做pipeline并行。</p>
 <h3 id="异构加载模型">异构加载模型</h3>
-<p><img src="https://s2.loli.net/2025/09/09/sOJ2Tqbrk9i6BjL.png" alt="Fast and predictable multi-tier loading"></p>
-<p><img src="https://s2.loli.net/2025/09/09/tM1zS7huOlkJTef.png" alt="Checkpoint loading performance">这里采用四种方式，最终将效率提高了5-8倍，在Mini-IO、SATA-SSD下优化表现不是很明显，但在NVMe中表现显著，这是由于Pytorch与safetensor的方式并没有完全利用NVMe的带宽容量。</p>
+<p><img src="https://s2.loli.net/2025/09/09/sOJ2Tqbrk9i6BjL.png" alt="Fast and predictable multi-tier loading" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/09/sOJ2Tqbrk9i6BjL.png?w=640 640w, https://s2.loli.net/2025/09/09/sOJ2Tqbrk9i6BjL.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p><img src="https://s2.loli.net/2025/09/09/tM1zS7huOlkJTef.png" alt="Checkpoint loading performance" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/09/tM1zS7huOlkJTef.png?w=640 640w, https://s2.loli.net/2025/09/09/tM1zS7huOlkJTef.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px">这里采用四种方式，最终将效率提高了5-8倍，在Mini-IO、SATA-SSD下优化表现不是很明显，但在NVMe中表现显著，这是由于Pytorch与safetensor的方式并没有完全利用NVMe的带宽容量。</p>
 <p>这里有几点需要注意：</p>
 <ol>
 <li>有前面划分数据的方式才会有后面可行的优化方式，例如pipeline并行就需要严格的数据划分。（异步下的同步操作）</li>
 <li>数据的划分是在远端服务器（数据本身）就已经做好的，因此才能被<code>model load scheduler</code>调度</li>
 </ol>
 <h3 id="推理迁移">推理迁移</h3>
-<p><img src="https://s2.loli.net/2025/09/09/A5MwC19hdy83TOz.png" alt="Why live migration is crucial for locality-driven inference?"></p>
+<p><img src="https://s2.loli.net/2025/09/09/A5MwC19hdy83TOz.png" alt="Why live migration is crucial for locality-driven inference?" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/09/A5MwC19hdy83TOz.png?w=640 640w, https://s2.loli.net/2025/09/09/A5MwC19hdy83TOz.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
 <p>这里说明了为什么设计抢夺式的推理是整体更优的。</p>
 <p>就是一个原因，加载模型和迁移的操作是异步的，通过抢夺式设计可以预先加载模型，然后迁移模型的推理。</p>
 <p>这里有两点值得注意：</p>
@@ -39,13 +38,13 @@
 </ul>
 <p>详情可以看silde中的动画效果，做的还是不错。</p>
 <h3 id="有效的热迁移">有效的“热”迁移</h3>
-<p><img src="https://s2.loli.net/2025/09/09/gvL1aowGtekHy6T.png" alt="Efficient Live migration"></p>
+<p><img src="https://s2.loli.net/2025/09/09/gvL1aowGtekHy6T.png" alt="Efficient Live migration" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/09/gvL1aowGtekHy6T.png?w=640 640w, https://s2.loli.net/2025/09/09/gvL1aowGtekHy6T.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
 <p>kv-cache相当大（大于10GB），因此直接迁移kv-cache的操作不合理，其次TPOT的实践需要做到非常小（50ms），因此迁移的操作需要做到成本很低。启发是profill要远比decoding要快，不能直接迁移kv-cache而可以在加载模型后做一个kv-cache的异步计算，减少最后迁移时的冲突开销。</p>
 <h3 id="模型存放策略">模型存放策略</h3>
-<p><img src="https://s2.loli.net/2025/09/09/Mp9DiGC8EsKUY1w.png" alt="Locality-aware GPU allocation"></p>
+<p><img src="https://s2.loli.net/2025/09/09/Mp9DiGC8EsKUY1w.png" alt="Locality-aware GPU allocation" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/09/Mp9DiGC8EsKUY1w.png?w=640 640w, https://s2.loli.net/2025/09/09/Mp9DiGC8EsKUY1w.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
 <p>最后介绍了在单卡A100上的模型分配操作，总体思想是两种选择，从DRAM中加载与从SSD中加载，认为从SSD中加载的方式由于DRAM抢占GPU原有模型。</p>
 <h3 id="实验">实验</h3>
-<p><img src="https://s2.loli.net/2025/09/09/1pWEI3gQe8MbLan.png" alt="Entire ServerlessLLM in action"></p>
-<p>在$4\times 4$的a40集群上进行的实验遥遥领先。</p> </article>  </div> </article> </main> <footer class="border-t border-gray-200 bg-white text-center py-4 mt-8" data-astro-cid-5avybfdb> <p class="text-sm text-gray-500" data-astro-cid-5avybfdb>
+<p><img src="https://s2.loli.net/2025/09/09/1pWEI3gQe8MbLan.png" alt="Entire ServerlessLLM in action" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2025/09/09/1pWEI3gQe8MbLan.png?w=640 640w, https://s2.loli.net/2025/09/09/1pWEI3gQe8MbLan.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
+<p>在$4\times 4$的a40集群上进行的实验遥遥领先。</p> </article>  </div> </article> </main> <footer class="border-t border-gray-200 bg-white text-center py-4 mt-8"> <p class="text-sm text-gray-500">
 © 2025 我的博客
 </p> </footer> </body></html>

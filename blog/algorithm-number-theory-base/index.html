@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" data-astro-cid-5avybfdb> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>算法数论基础 | 我的博客</title><style>.markdown-body[data-astro-cid-5avybfdb] img[data-astro-cid-5avybfdb]{max-height:300px;width:auto;display:block;margin:1rem auto}
-</style></head> <body class="min-h-screen bg-gray-50 text-gray-900" data-astro-cid-5avybfdb> <header class="border-b border-gray-200 bg-white shadow-sm" data-astro-cid-5avybfdb> <div class="max-w-3xl mx-auto px-4 py-4" data-astro-cid-5avybfdb> <a href="/" class="text-blue-500 hover:underline" data-astro-cid-5avybfdb>← 返回首页</a> </div> </header> <main class="max-w-3xl mx-auto px-4 py-8" data-astro-cid-5avybfdb> <article class="markdown-body" data-astro-cid-5avybfdb> <h1 class="text-3xl font-bold mb-2" data-astro-cid-5avybfdb>算法数论基础</h1> <div class="text-sm text-gray-500 mb-6" data-astro-cid-5avybfdb> <time datetime="Sun Aug 25 2024 00:38:26 GMT+0800 (China Standard Time)" data-astro-cid-5avybfdb>2024/8/25</time> </div> <div class="prose prose-lg max-w-none" data-astro-cid-5avybfdb>  <article> <h1 id="算法数论基础">算法数论基础</h1>
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>算法数论基础 | 我的博客</title></head> <body class="min-h-screen bg-gray-50 text-gray-900"> <header class="border-b border-gray-200 bg-white shadow-sm"> <div class="max-w-3xl mx-auto px-4 py-4"> <a href="/" class="text-blue-500 hover:underline">← 返回首页</a> </div> </header> <main class="max-w-3xl mx-auto px-4 py-8"> <article class="markdown-body"> <h1 class="text-3xl font-bold mb-2">算法数论基础</h1> <div class="text-sm text-gray-500 mb-6"> <time datetime="Sun Aug 25 2024 00:38:26 GMT+0800 (China Standard Time)">2024/8/25</time> </div> <div class="prose prose-lg max-w-none">  <article> <h1 id="算法数论基础">算法数论基础</h1>
 <h2 id="前言需要用到的偏僻语法知识">前言：需要用到的偏僻语法知识</h2>
 <h3 id="c随机数函数">c++随机数函数</h3>
 <p><a href="https://zhuanlan.zhihu.com/p/442008589">如何优雅的用 C++生成随机数 - 知乎 (zhihu.com)</a></p>
@@ -19,7 +18,7 @@
 <h3 id="预定义算法">预定义算法</h3>
 <p>算法包括 minstd_rand0、minstd_rand、mt19937、mt19937_64、ranlux24_base、ranlux48_base 等。</p>
 <p>以下是费马小定理素性检验的随机数实际应用</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;random></span></span>
 <span class="line"></span>
@@ -83,14 +82,14 @@
 <h3 id="最大公约数">最大公约数</h3>
 <p>gcd 即最大公约数 lcm 即最小公倍数</p>
 <h2 id="gcd-的具体实现与算法优化">gcd 的具体实现与算法优化</h2>
-<p><img src="https://s2.loli.net/2024/08/24/hjFAPLWQ98seZr5.png" alt="image-20220508102231840"></p>
+<p><img src="https://s2.loli.net/2024/08/24/hjFAPLWQ98seZr5.png" alt="image-20220508102231840" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2024/08/24/hjFAPLWQ98seZr5.png?w=640 640w, https://s2.loli.net/2024/08/24/hjFAPLWQ98seZr5.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
 <p><strong>gcd 的基础实现</strong></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">int</span><span style="color:#B392F0"> gcd</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> a</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> b</span><span style="color:#E1E4E8">)</span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">int</span><span style="color:#B392F0"> gcd</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> a</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> b</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"><span style="color:#E1E4E8">{</span></span>
 <span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> b </span><span style="color:#F97583">?</span><span style="color:#B392F0"> gcd</span><span style="color:#E1E4E8">(b, a </span><span style="color:#F97583">%</span><span style="color:#E1E4E8"> b) </span><span style="color:#F97583">:</span><span style="color:#E1E4E8"> a;</span></span>
 <span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
 <p><strong>gcd 的运算符优化</strong></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>int gcd(int a, int b) {</span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>int gcd(int a, int b) {</span></span>
 <span class="line"><span>    // make sure a >= b.</span></span>
 <span class="line"><span>    if (a &#x3C; b) {</span></span>
 <span class="line"><span>        std::swap(a, b);</span></span>
@@ -116,7 +115,7 @@
 <span class="line"><span>}</span></span></code></pre>
 <h2 id="素数检验算法">素数检验算法</h2>
 <h3 id="纯暴力-o-n">纯暴力 O( n )</h3>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">bool</span><span style="color:#B392F0"> isprime</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> x</span><span style="color:#E1E4E8">)</span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">bool</span><span style="color:#B392F0"> isprime</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> x</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"><span style="color:#E1E4E8">{</span></span>
 <span class="line"><span style="color:#F97583">	for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> i</span><span style="color:#F97583">=</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">;i</span><span style="color:#F97583">&#x3C;=</span><span style="color:#E1E4E8">x</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">i;i</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"><span style="color:#F97583">		if</span><span style="color:#E1E4E8">(x</span><span style="color:#F97583">%</span><span style="color:#E1E4E8">i</span><span style="color:#F97583">==</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">)</span><span style="color:#F97583">return</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">;</span></span>
@@ -125,7 +124,7 @@
 <h3 id="费马素性检验">费马素性检验</h3>
 <p>那么反过来呢？如果存在某个 $a^{p-1}\equiv 1(mod\ p)$，是否就能判定 $p$ 是素数呢？<strong>并不行</strong>，例如 $2^{341-1}\equiv 1 (mod341)$，但 $341$ 是合数，满足该同余等式的合数被称为 <strong>费马伪素数</strong>。</p>
 <p>幸好，一个合数是费马伪素数的概率并不是很高。所以我们可以多测试几个 $a$。只要存在某个 $a^{p-1}\not \equiv 1 (mod\ p)$，即可说明 $p$ 不是素数。而如果多组测试下来 $a^{p-1}\equiv 1$ 都成立，那它就 <strong>很可能</strong> 是素数了。</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">bool</span><span style="color:#B392F0"> isPrime</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> x</span><span style="color:#E1E4E8">)</span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">bool</span><span style="color:#B392F0"> isPrime</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> x</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"><span style="color:#E1E4E8">{</span></span>
 <span class="line"><span style="color:#F97583">	if</span><span style="color:#E1E4E8"> (x </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 3</span><span style="color:#E1E4E8">)</span><span style="color:#F97583">return</span><span style="color:#E1E4E8"> x </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> 2</span><span style="color:#E1E4E8">;</span></span>
 <span class="line"><span style="color:#F97583">	for</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">; i </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 12</span><span style="color:#E1E4E8">; i</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">)</span></span>
@@ -148,9 +147,9 @@
 <p><a href="https://www.acwing.com/problem/content/1295/">1293 夏洛特和他的女朋友</a></p>
 <p>看到这道题，最先开始的想法，对每个数与其质因子连一条线，对建出来的图，做染色，保证每一条边的两个端点是不同颜色</p>
 <p>但这并非正解，对于每一条边，其两端的链接必定是一个合数和一个素数，因此该图为一个二分图</p>
-<p><img src="https://s2.loli.net/2024/08/24/zKgVIluDya9mUxJ.png" alt="image-20220519164522508"></p>
+<p><img src="https://s2.loli.net/2024/08/24/zKgVIluDya9mUxJ.png" alt="image-20220519164522508" loading="lazy" decoding="async" class="mx-auto rounded-lg shadow" srcset="https://s2.loli.net/2024/08/24/zKgVIluDya9mUxJ.png?w=640 640w, https://s2.loli.net/2024/08/24/zKgVIluDya9mUxJ.png?w=1280 1280w" sizes="(max-width: 768px) 100vw, 768px"></p>
 <p>剩下的很简单，n &#x3C;3时ans=1，n> = 3 时 ans = 2；</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
 <span class="line"></span>
@@ -193,7 +192,7 @@
 <h2 id="素数筛思想的实际应用">素数筛思想的实际应用</h2>
 <p>对于每个区间内的所有数，合数必有一个 sqrt（a）的因子，故可通过预处理出 5*10^4 内的所有素数，再通过筛查质因子处理出每一个合数</p>
 <p><a href="https://www.acwing.com/problem/content/198/">196 质数距离</a></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#E1E4E8">using namespace std;</span></span>
 <span class="line"></span>
@@ -258,7 +257,7 @@
 $$
 s = n/p + n/p^2 + n/p^3 + n/p^4…
 $$</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#E1E4E8">using namespace std;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#F97583">typedef</span><span style="color:#F97583"> long</span><span style="color:#F97583"> long</span><span style="color:#E1E4E8"> ll;</span></span>
@@ -297,7 +296,7 @@ $$</p>
 <h3 id="约数之和">约数之和</h3>
 <p>约数定理 n 的 $(a_1+1)(a_2+1)…(a_k+1)$ 个正约数之和为 $(p_1^0+p_1^1+…p_1^{a1})(p_2^0+p_2^1+…+p_2^{a2})…(p_k^0+p_k^1+..+p_k^{ak})$</p>
 <p><a href="https://www.acwing.com/activity/content/problem/content/8046/">AcWing 97. 约数之和（算法提高课） - AcWing</a></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>#include &#x3C;cstdio></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>#include &#x3C;cstdio></span></span>
 <span class="line"><span></span></span>
 <span class="line"><span>const int mod = 9901;</span></span>
 <span class="line"><span></span></span>
@@ -350,7 +349,7 @@ $$</p>
 <h3 id="求给定元素集中每一个数字的约数个数">求给定元素集中每一个数字的约数个数</h3>
 <p>利用筛法思想，对于每一个数字枚举他的倍数</p>
 <p><a href="https://www.acwing.com/problem/content/1293/">1291 轻拍牛头</a></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
@@ -380,7 +379,7 @@ $$</p>
 <p><a href="https://www.acwing.com/problem/content/1296/">1294 樱花</a></p>
 <p>$1/x+1/y=1/n!$ => $y=n!+n!^2/(x-n!)$</p>
 <p>因为 x, y 为正整数，因此要求的个数等价于 $n!^2$ 的约数个数</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
@@ -431,7 +430,7 @@ $$</p>
 </ul>
 <p>注意可行性剪枝</p>
 <p><a href="https://www.acwing.com/problem/content/200/">198 反素数</a></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
@@ -470,7 +469,7 @@ $$</p>
 <h3 id="分解质因数优化暴力枚举约数">分解质因数优化暴力枚举约数</h3>
 <p><a href="https://www.acwing.com/problem/content/200/">198 反素数</a></p>
 <p><strong>2e9 次方以内的数的最多约数的数共有 1600 左右的约数数量</strong></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
 <span class="line"></span>
@@ -583,7 +582,7 @@ $$
 </ol>
 <p><strong>证明</strong></p>
 <p>若 x, y 为非互质的数则存在这么一个整数点(x/d, y/d)使得其与(x, y)处于同一直线且位于(x, y)的左下方</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
@@ -635,7 +634,7 @@ $$
 <span class="line"><span style="color:#E1E4E8">    }</span></span>
 <span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
 <p><a href="https://www.acwing.com/problem/content/222/">220 最大公约数</a></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
@@ -708,7 +707,7 @@ $$
 $ax≡1(modb)$</p>
 <p>=> $ax-by=1$</p>
 <p>且 x 一定为正值（数学中的取模不会取到正值）</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#E1E4E8">using namespace std;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#F97583">int</span><span style="color:#B392F0"> exgcd</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> a</span><span style="color:#E1E4E8">,</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> b</span><span style="color:#E1E4E8">,</span><span style="color:#F97583">int&#x26;</span><span style="color:#FFAB70"> x</span><span style="color:#E1E4E8">,</span><span style="color:#F97583">int&#x26;</span><span style="color:#FFAB70"> y</span><span style="color:#E1E4E8">)</span></span>
@@ -736,7 +735,7 @@ $ax≡1(modb)$</p>
 <p>=> $(m-n)x=b-a+yL$
 [数论，算法]g
 => $(m-n)x-yL=b-a$</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"></span>
@@ -780,7 +779,7 @@ $ax≡1(modb)$</p>
 <p>eular 定理：对于 α^phi(n)^= 1(mod n) (α, n)= 1</p>
 <p>根据 eular 与 10^x^ = 1(mod C)</p>
 <p>枚举 phi(c)的约数，最小的 10^i%c == 1 即为答案</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"></span>
@@ -873,7 +872,7 @@ $ax≡1(modb)$</p>
 <p>$M_it_i=1(mod\quad m_i)$</p>
 <p>$x=\sum a_iM_it_i$</p>
 <p>==构造解，硬记，比较难==</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
@@ -928,7 +927,7 @@ $ax≡1(modb)$</p>
 <p>{ {0,1,0}</p>
 <p>{1,1,1}</p>
 <p>{0,0,1}}= Fn+1 ={fn+1，fn+2，sn+1};</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>#include&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>#include&#x3C;iostream></span></span>
 <span class="line"><span>#include&#x3C;vector [数论，算法]g></span></span>
 <span class="line"><span>#include&#x3C;cstring></span></span>
 <span class="line"><span>#include&#x3C;cstdio></span></span>
@@ -1009,7 +1008,7 @@ $ax≡1(modb)$</p>
 <p>{0,0,0,1}</p>
 <p>};= Fn+1 ={fn+1.fn+2, sn+1, sn+2}</p>
 <p>ps: 为了简化代码，我们将初始的 F1 扩展为二维矩阵</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;algorithm></span></span>
 <span class="line"></span>
@@ -1129,7 +1128,7 @@ $ax≡1(modb)$</p>
 <h4 id="线性基的构造方法">线性基的构造方法</h4>
 <p>对原集合的每一个数 p 转化为二进制，从高位向低位扫，对于第 x 位为 1 的，如果 $a_x$ 不存在，那么令 $a_x = p$ 并结束扫描，如果存在，令 $p_i=p_ixor a_x$</p>
 <p>code:</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">inline</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> insert</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">long</span><span style="color:#F97583"> long</span><span style="color:#FFAB70"> x</span><span style="color:#E1E4E8">) {</span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">inline</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> insert</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">long</span><span style="color:#F97583"> long</span><span style="color:#FFAB70"> x</span><span style="color:#E1E4E8">) {</span></span>
 <span class="line"><span style="color:#F97583">  for</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 55</span><span style="color:#E1E4E8">; i </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">; i</span><span style="color:#F97583">--</span><span style="color:#E1E4E8">) {</span></span>
 <span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">!</span><span style="color:#E1E4E8">(x </span><span style="color:#F97583">>></span><span style="color:#E1E4E8"> i))</span><span style="color:#6A737D">  // x的第i位是0</span></span>
 <span class="line"><span style="color:#F97583">      continue</span><span style="color:#E1E4E8">;</span></span>
@@ -1149,7 +1148,7 @@ $ax≡1(modb)$</p>
 <p>如 a1:0001000 a2:0000010 a3:00000001</p>
 <p>从小到大存入一个容器中，再枚举查询的第 k 大的 k 值某一位上是否为 1，如果是 1，则将 ans 异或上对应下标的线性基数组中的值</p>
 <p>注意如果线性基的大小与原数组的大小不一样，说明原数组是线性相关的，此时则需要将 k-1，在进行查询（0 是最小的）</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;queue></span></span>
@@ -1292,7 +1291,7 @@ $ax≡1(modb)$</p>
 <p>[P4151 <a href="https://www.luogu.com.cn/problem/P4151">WC2011]最大 XOR 和路径 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></p>
 <p>求从 1 到 n 的最大路径异或和，首先在纸上作图，发现，来回的走一条路径是等价于没有走过的，因此，我们可以从图上的任一点到达另一点后走回来是等价于停留在原地的，因此我们可以将 1-n 的路径拓展到所有的点上而保持值不变，通过观察，我们可以发现，环可以为我们的路径权值提供贡献值，因为它们是可以在（扩展到全图后的路径）路径中走奇数遍的。</p>
 <p>因此，我们 dfs 对环建立线性基，刚开始随机选取一条 1-n 的路径，与线性基异或取最大值（注意，因为 ans 刚开始并不是 0，因此每次选取需要 max）</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;queue></span></span>
@@ -1434,7 +1433,7 @@ $ax≡1(modb)$</p>
 <p>该题要求将一个数组分成若干个段，保证段本身，段与段之间的异或都不为 0 的最大段数量</p>
 <p>由于段与段之间的异或和不为 0，因此，可判断，各段的异或值是线性无关的，且根据题目要求各段的异或值是不为 0 的，因此，数组中线性相关的值必须放在同一段里另外加任意值。</p>
 <p>应该敏锐的察觉到，上述特性与线性基的特性高度重合，因此，题目所求的值即位线性基的大小</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;iostream></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstring></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;cstdio></span></span>
 <span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF">&#x3C;queue></span></span>
@@ -1549,6 +1548,6 @@ $ax≡1(modb)$</p>
 <p>如果 k 为奇数</p>
 <p>$F[k]=F[1]+\sum{_{i=1}^{k/2}}F[2*i]$</p>
 <p>如果 k 为偶数</p>
-<p>$F[k]=\sum{_{i=1}^{k/2}}F[2*i-1]$</p> </article>  </div> </article> </main> <footer class="border-t border-gray-200 bg-white text-center py-4 mt-8" data-astro-cid-5avybfdb> <p class="text-sm text-gray-500" data-astro-cid-5avybfdb>
+<p>$F[k]=\sum{_{i=1}^{k/2}}F[2*i-1]$</p> </article>  </div> </article> </main> <footer class="border-t border-gray-200 bg-white text-center py-4 mt-8"> <p class="text-sm text-gray-500">
 © 2025 我的博客
 </p> </footer> </body></html>
