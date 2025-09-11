@@ -10,7 +10,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.12.9"
+    "@astrojs/markdown-remark": "^6.3.6",
+    "astro": "^5.12.9",
+    "r": "^0.0.5",
+    "rehype-img-size": "^1.0.1",
+    "remark-gfm": "^4.0.1",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@astrojs/react": "^4.3.0",
