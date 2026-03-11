@@ -1,5 +1,5 @@
 ---
-title: "Ascend C算子开发 Part1基本概念"
+title: "Ascend C 算子开发 Part1 基本概念"
 pubDatetime: 2025-08-12T17:39:00Z
 description: "华为 Ascend C 算子开发系列第一部分，介绍 CANN 架构、Ascend C 编程模型及基本概念。"
 slug: "ascendc-part1-basic-concept"
@@ -7,7 +7,6 @@ draft: false
 tags:
   - "Ascend"
   - "LLM"
-  - "算子"
   - "c++"
   - "算子开发"
 ---
