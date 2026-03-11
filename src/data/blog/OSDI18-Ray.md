@@ -1,5 +1,5 @@
 ---
-title: "OSDI18-A Distributed Framework for Emerging AI Applications"
+title: "OSDI18-Ray A Distributed Framework for Emerging AI Applications"
 pubDatetime: 2025-09-10T22:42:00Z
 description: "OSDI 2018 论文阅读笔记：Ray — 面向新兴 AI 应用的分布式计算框架。"
 slug: "osdi18-ray"
