@@ -22,8 +22,9 @@ tags:
 ### Start Version
 
 CSAPP实际上给出了一个基本可运行的版本，你可以参考它来实现初始化堆空间的功能。
+
 ```c
-/* 
+/*
  * mm_init - initialize the malloc package.
  */
 int mm_init(void)
@@ -31,7 +32,7 @@ int mm_init(void)
     return 0;
 }
 
-/* 
+/*
  * mm_malloc - Allocate a block by incrementing the brk pointer.
  *     Always allocate a block whose size is a multiple of the alignment.
  */
@@ -62,7 +63,7 @@ void *mm_realloc(void *ptr, size_t size)
     void *oldptr = ptr;
     void *newptr;
     size_t copySize;
-    
+
     newptr = mm_malloc(size);
     if (newptr == NULL)
       return NULL;
@@ -133,20 +134,20 @@ Total            -       -         -     -
 
 有些地方会出现valid无效的情况，这是因为整体的实现过程太过简单,没有考虑到内存的复用与释放。
 
-
 - **util**指标的计算公式为：
-$$
-\text{util} = \frac{\text{测试过程中某个时刻用户实际请求的总 payload 大小最大值}}{\text{你向堆申请的总空间大小（通过 mem_sbrk）}}
-$$
+
+  $$
+  \text{util} = \frac{\text{测试过程中某个时刻用户实际请求的总 payload 大小最大值}}{\text{你向堆申请的总空间大小（通过 mem_sbrk）}}
+  $$
 
 - **ops**指标表示在该 trace 中，malloc/free/realloc 操作的总次数。
 
 - **secs**指标表示该 trace 中，所有 malloc/free/realloc 操作所花费的总时间，单位为秒。
 
 - **Kops**指标表示每千次操作所花费的时间，计算公式为：
-$$
-Kops=\frac{secs}{ops}÷1000
-$$
+  $$
+  Kops=\frac{secs}{ops}÷1000
+  $$
 
 ### Implicit Free List
 
@@ -316,7 +317,7 @@ void *best_fit(size_t asize){
 然后重构`mm_malloc`函数，使用最佳适配算法。
 
 ```c
-/* 
+/*
  * mm_malloc - Allocate a block by incrementing the brk pointer.
  *     Always allocate a block whose size is a multiple of the alignment.
  */
@@ -358,7 +359,7 @@ void *mm_malloc(size_t size)
 然后是`mm_free`函数与`mm_init`函数。
 
 ```c
-/* 
+/*
  * mm_init - initialize the malloc package.
  */
 int mm_init(void)
@@ -537,7 +538,7 @@ Perf index = 45 (util) + 13 (thru) = 58/100
 #define WSIZE 4
 #define DSIZE 8
 
-/* 
+/*
  * rounds up to the nearest multiple of ALIGNMENT
  * 工作原理是通过将数&~0x7(二进制为1111....1000)，则数二进制下最后 3 位的值被清除，
  * 数必定是8（二进制下位1000）的倍数. 这个操作一般是向下取8的倍数
@@ -549,7 +550,7 @@ Perf index = 45 (util) + 13 (thru) = 58/100
 /*Define the size of an application for heap expansion*/
 #define CHUNKSIZE (1<<12)
 /*
- * Access the content in p in the form of unsigned int *, 
+ * Access the content in p in the form of unsigned int *,
  * because the p we get is initially in the form of void *,
  * and later we will need to use the value in p for calculations, so we need to convert it
  * So this is just a macro defined so that we don't keep writing type conversions repeatedly
@@ -716,11 +717,11 @@ static void unlock_freelt(void *bp)
     /*bug2:注意这里这里两个指针是NULL的情况,为了提高空间的利用率，我这里没有给空闲列表分别在最前和最后加上哨兵*/
     if (freelt_pred != NULL)
         PUTP(SUCCP(freelt_pred), freelt_next);
-    else 
+    else
         freelt_hd = freelt_next; //freelt_hd以前所指向的块被作为分配块了，所以要指向bp后面的块
     if (freelt_next != NULL)
         PUTP(PREDP(freelt_next), freelt_pred);
-    else 
+    else
         freelt_ft = freelt_pred;
 }
 
@@ -797,7 +798,7 @@ static void *extend_heap(size_t byteNum)
     return coalesce(tp);
 }
 
-/* 
+/*
  * mm_init - initialize the malloc package.
  * 常规操作，将填充块，序言块和结尾块添加上去。
  * 同时还要申请初始的堆空闲块
@@ -815,7 +816,7 @@ int mm_init(void)
     PUT(tp + (1*WSIZE), PACK(DSIZE, 1));
     PUT(tp + (2*WSIZE), PACK(DSIZE, 1));
     PUT(tp + (3*WSIZE), PACK(0, 1));
-    
+
     if ((tp = extend_heap(CHUNKSIZE)) == NULL)
         return -1;
     return 0;
@@ -855,7 +856,7 @@ static void *find_fit(size_t size){
 static void place(void *bp, size_t size)
 {
     size_t csize = GET_SIZE(HDRP(bp));
-    
+
     if ((csize - size) >= (3 * DSIZE)){
         /*
          * bug7: 要先对显式链表操作，否则会出现bug,因为我们的pred和succ在分配块中会被占据
@@ -883,15 +884,15 @@ static void place(void *bp, size_t size)
         PUT(FTRP(bp), PACK(csize, 1));
     }
 }
-/* 
+/*
  * mm_malloc - Allocate a block by incrementing the brk pointer.
  *     Always allocate a block whose size is a multiple of the alignment.
  */
 /*
- * 由于我使用了显示空闲链表，一个指针占用8字节，我有两个（pred,succ），同时还要加上头部和尾部（各4字节）. 
+ * 由于我使用了显示空闲链表，一个指针占用8字节，我有两个（pred,succ），同时还要加上头部和尾部（各4字节）.
  * 所以空闲块的大小最小为24字节+8字节=32字节
  * 但是分配完后两个指针（pred,succ）就不要了，所以这个时候最小块大小为8字节+8字节=16字节
- * 
+ *
  * mm_malloc 函数返回一个指向至少 size 字节大小的分配块的指针。
  * 整个分配的块应该位于堆区域内，并且不应与任何其他已分配的块重叠。
  */
@@ -905,7 +906,7 @@ void *mm_malloc(size_t size)
         return NULL;
     if (size <= DSIZE)
         asize = 2 * DSIZE; /*bug6: 最小分配块大小为16字节*/
-    else 
+    else
         asize = ALIGN(size + SIZE_T_SIZE); /*这里还要加上头部和尾部的总共8个字节*/
     if ((bp = find_fit(asize)) != NULL){
         place(bp, asize);
@@ -959,7 +960,7 @@ void *mm_realloc(void *ptr, size_t size)
     size_t lastsize;
 
     if (ptr != NULL && size == 0){
-        mm_free(ptr);  
+        mm_free(ptr);
         return ptr;
     }
     if (ptr == NULL){
@@ -970,7 +971,7 @@ void *mm_realloc(void *ptr, size_t size)
     /*获取要改变的真正大小asize*/
     if (size <= DSIZE)
         asize = 2 * DSIZE;
-    else 
+    else
         asize = ALIGN(size + SIZE_T_SIZE); /*这里还要加上头部和尾部的总共8个字节*/
     nsize = GET_SIZE(HDRP(ptr));
     /*然后与当前已经分配的大小进行对比*/

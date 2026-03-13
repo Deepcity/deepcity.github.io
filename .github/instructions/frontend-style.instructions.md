@@ -11,13 +11,13 @@ applyTo: "{src/styles/**,src/components/**,src/layouts/**}"
 
 ### 颜色变量（定义于 `src/styles/global.css`）
 
-| 变量 | 亮色模式 | 暗色模式 | 用途 |
-|------|---------|---------|------|
-| `--background` | `#fdfdfd` | `#212737` | 页面背景 |
-| `--foreground` | `#282728` | `#eaedf3` | 正文文字 |
-| `--accent` | `#006cac` | `#ff6b01` | 强调色（链接、标记） |
-| `--muted` | `#e6e6e6` | `#343f60` | 静音色（代码背景、滚动条） |
-| `--border` | `#ece9e9` | `#ab4b08` | 边框色 |
+| 变量           | 亮色模式  | 暗色模式  | 用途                       |
+| -------------- | --------- | --------- | -------------------------- |
+| `--background` | `#fdfdfd` | `#212737` | 页面背景                   |
+| `--foreground` | `#282728` | `#eaedf3` | 正文文字                   |
+| `--accent`     | `#006cac` | `#ff6b01` | 强调色（链接、标记）       |
+| `--muted`      | `#e6e6e6` | `#343f60` | 静音色（代码背景、滚动条） |
+| `--border`     | `#ece9e9` | `#ab4b08` | 边框色                     |
 
 ### Tailwind 映射（`@theme inline`）
 
@@ -48,6 +48,7 @@ applyTo: "{src/styles/**,src/components/**,src/layouts/**}"
 定义于 `src/styles/typography.css`，扩展 `@tailwindcss/typography` 的 `prose` 类。
 
 **关键规则：**
+
 - 标题（h1-h4, th）：`text-foreground`，`mb-3`
 - H3 额外 `italic`
 - 链接：`text-foreground`，`decoration-dashed`，`underline-offset-4`，hover 时 `text-accent`
@@ -80,8 +81,12 @@ html[data-theme="dark"] .astro-code {
 ### 最大宽度
 
 ```css
-@utility max-w-app { @apply max-w-3xl; }
-@utility app-layout { @apply mx-auto w-full max-w-app px-4; }
+@utility max-w-app {
+  @apply max-w-3xl;
+}
+@utility app-layout {
+  @apply mx-auto w-full max-w-app px-4;
+}
 ```
 
 页面内容区最大宽度 `max-w-3xl`（48rem），水平居中，`px-4` 内边距。

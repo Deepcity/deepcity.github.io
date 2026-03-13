@@ -11,6 +11,7 @@ tags:
   - "指令集"
   - "流水线处理器"
 ---
+
 # ArchitectureLab
 
 ## Declaration
@@ -62,20 +63,20 @@ pipe-full.hcl  --hcl2c-->  pipe-full.c  --gcc-->  pipe-full (可执行模拟器)
 
 **isa**: `Instruction Set Architecture implementation`（指令集实现）
 
-  这是 Y86-64 的“指令集定义代码”，相当于解释器，规定了每条指令的含义和执行方式。
+这是 Y86-64 的“指令集定义代码”，相当于解释器，规定了每条指令的含义和执行方式。
 
-​  在 misc/ 目录下，它和 yis.c 配合使用。
+​ 在 misc/ 目录下，它和 yis.c 配合使用。
 
-  yis.c 是模拟器的框架，isa.c 提供了指令级别的具体实现。
+yis.c 是模拟器的框架，isa.c 提供了指令级别的具体实现。
 
-  比如 isa.c 里会有类似：
+比如 isa.c 里会有类似：
 
- ```c
+```c
 case I_ADDQ:
-  val = get_reg(ra) + get_reg(rb);
-  set_reg(rb, val);
-  break;
- ```
+ val = get_reg(ra) + get_reg(rb);
+ set_reg(rb, val);
+ break;
+```
 
 **Y86指令集**: 为csapp自定义的一套指令集，具体在CS:APP（第三版）第四章 S4.1 - S4.2部分有阐述。包括
 
@@ -87,25 +88,25 @@ case I_ADDQ:
 - 栈操作（`pushq`, `popq`）
 - 停止指令（`halt`, `nop`）
 
-| 类别   | 指令示例              | 说明                             |
-| ---- | ----------------- | ------------------------------ |
+| 类别     | 指令示例          | 说明                           |
+| -------- | ----------------- | ------------------------------ |
 | 数据传送 | `rrmovq rA,rB`    | rB ← rA                        |
-|      | `irmovq V,rB`     | rB ← V                         |
-|      | `mrmovq D(rB),rA` | rA ← M\[rB+D]                  |
-|      | `rmmovq rA,D(rB)` | M\[rB+D] ← rA                  |
+|          | `irmovq V,rB`     | rB ← V                         |
+|          | `mrmovq D(rB),rA` | rA ← M\[rB+D]                  |
+|          | `rmmovq rA,D(rB)` | M\[rB+D] ← rA                  |
 | 算术逻辑 | `addq rA,rB`      | rB ← rB + rA                   |
-|      | `subq rA,rB`      | rB ← rB - rA                   |
-|      | `andq rA,rB`      | rB ← rB & rA                   |
-|      | `xorq rA,rB`      | rB ← rB ^ rA                   |
-| 跳转   | `jmp Dest`        | 无条件跳转                          |
-|      | `je Dest`         | ZF=1 时跳转                       |
-|      | `jne Dest`        | ZF=0 时跳转                       |
-| 栈操作  | `pushq rA`        | %rsp ← %rsp - 8; M\[%rsp] ← rA |
-|      | `popq rA`         | rA ← M\[%rsp]; %rsp ← %rsp + 8 |
-| 调用   | `call Dest`       | pushq %rip; jmp Dest           |
-|      | `ret`             | popq %rip                      |
-| 特殊   | `halt`            | 停止执行                           |
-|      | `nop`             | 空操作                            |
+|          | `subq rA,rB`      | rB ← rB - rA                   |
+|          | `andq rA,rB`      | rB ← rB & rA                   |
+|          | `xorq rA,rB`      | rB ← rB ^ rA                   |
+| 跳转     | `jmp Dest`        | 无条件跳转                     |
+|          | `je Dest`         | ZF=1 时跳转                    |
+|          | `jne Dest`        | ZF=0 时跳转                    |
+| 栈操作   | `pushq rA`        | %rsp ← %rsp - 8; M\[%rsp] ← rA |
+|          | `popq rA`         | rA ← M\[%rsp]; %rsp ← %rsp + 8 |
+| 调用     | `call Dest`       | pushq %rip; jmp Dest           |
+|          | `ret`             | popq %rip                      |
+| 特殊     | `halt`            | 停止执行                       |
+|          | `nop`             | 空操作                         |
 
 详细指令集查看`isa.c`与`isa.h`也有定义。但是注意，复杂的调用语句例如 `0x0(%rbp, %rsi, 1)` 的调用方法仍需要查看具体实现或直接进行尝试。
 
@@ -156,7 +157,7 @@ Changes to memory:
 
 > Your task is to write and simulate the following three Y86-64 programs. The required behavior of these programs is defined by the example C functions in examples.c. Be sure to put your name and ID in a comment at the beginning of each program. You can test your programs by first assemblying them with the program YAS and then running them with the instruction set simulator YIS.
 >
->In all of your Y86-64 functions, you should follow the x86-64 conventions for passing function arguments, using registers, and using the stack. This includes saving and restoring any callee-save registers that you use.
+> In all of your Y86-64 functions, you should follow the x86-64 conventions for passing function arguments, using registers, and using the stack. This includes saving and restoring any callee-save registers that you use.
 
 这一部分的内容主要在`./sim/misc`中进行，c语言逻辑存放在 `examples.c` 文件中。
 
@@ -172,7 +173,7 @@ Changes to memory:
 
 ```assembly
 # Execution begins at address 0
- .pos 0 
+ .pos 0
  irmovq stack,%rsp
  call main
  halt
@@ -200,11 +201,11 @@ sum_list: irmovq $0,%rax   # val=0
 loop:  mrmovq (%rdi), %rsi  # Get ls->val
   addq %rsi, %rax      # val += ls->val
   mrmovq 8(%rdi), %rdi   # ls = ls->next
-test: 
+test:
  andq %rdi, %rdi      # Set CC
  jne  loop        # Stop when next=0
  ret
- 
+
 # Stack starts here and grows to lower addresses
  .pos 0x200
 stack:
@@ -219,7 +220,7 @@ stack:
 当编译时可能会遇到报错，与gcc的编译报错类似，会提示在哪一行出现的错误和可能的原因
 
 ```shell
-ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Architecture-Lab/sim/misc$ ./yas ../y86-code/sum.ys 
+ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Architecture-Lab/sim/misc$ ./yas ../y86-code/sum.ys
 Error on line 30: Missing Colon
 Line 30, Byte 0x0085:   xor 1(%rdi) 1(rdi)                              # Set CC
 Error on line 37: Missing end-of-line on final line
@@ -231,7 +232,7 @@ Line 37, Byte 0x0200:   .pos 0x200
 
 ```assembly
 # Execution begins at address 0
- .pos 0 
+ .pos 0
  irmovq stack,%rsp
  call main
  halt
@@ -265,7 +266,7 @@ rsum_list: andq %rdi,%rdi # Set CC if(ls)
  ret
 end: xorq %rax,%rax    # return 0
  ret
- 
+
 # Stack starts here and grows to lower addresses
  .pos 0x200
 stack:
@@ -281,7 +282,7 @@ stack:
 
 ```assembly
 # Execution begins at address 0
- .pos 0 
+ .pos 0
  irmovq stack,%rsp
  call main
  halt
@@ -319,7 +320,7 @@ rsum_list: andq %rdi,%rdi # Set CC if(ls)
  ret
 end: xorq %rax,%rax    # return 0
  ret
- 
+
 # Stack starts here and grows to lower addresses
  .pos 0x200
 stack:
@@ -356,7 +357,7 @@ Changes to memory:
 
 ```assembly
 # Execution begins at address 0
- .pos 0 
+ .pos 0
  irmovq stack,%rsp
  call main
  halt
@@ -386,7 +387,7 @@ copy_block: irmovq $0,%rax # result = 0
  irmovq $1,%rcx       # Constant 1
  irmovq $8,%rbp      # Constant 8
  jmp  test
-loop: mrmovq (%rdi),%r8   # val = *src 
+loop: mrmovq (%rdi),%r8   # val = *src
  addq %rbp,%rdi   # src++
  rmmovq %r8,(%rsi)     # dest = val
  addq %rbp,%rsi   # dest++
@@ -496,7 +497,7 @@ SEQ的顺序硬件实现如下所示
 
 可以推测出iaddq的指令流程应该如下所示
 
-``` text
+```text
 #  iaddq V,rB
 #phaseFetch
 # icode:ifun <-- M1[PC]
@@ -509,7 +510,7 @@ SEQ的顺序硬件实现如下所示
 # valE <-- valC+valB
 # set CC
 #phaseMemory
-# 
+#
 #phaseWriteBack
 # R[rB] <-- valE
 #phaseUpdatePC
@@ -566,13 +567,13 @@ word ifun = [
 一个列表一样的结构分割了一些命令，典型的是icode中的INOP，在书中有提到1在hcl中是默认值。可以注意到imem_code, imem_ifun应是直接从指令内存中提取的变量，INOP由于是空指令不执行任何命令被放在了imem_error位置，而ifun则是FNONE类似一个空指令的表达。
 
 ```hcl
-bool instr_valid = icode in 
+bool instr_valid = icode in
  { INOP, IHALT, IRRMOVQ, IIRMOVQ, IRMMOVQ, IMRMOVQ,
         IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IIADDQ };
 
 # Does fetched instruction require a regid byte?
 bool need_regids =
- icode in { IRRMOVQ, IOPQ, IPUSHQ, IPOPQ, 
+ icode in { IRRMOVQ, IOPQ, IPUSHQ, IPOPQ,
        IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ };
 
 # Does fetched instruction require a constant word?
@@ -667,16 +668,16 @@ rm asum.seq asumr.seq cjr.seq j-cc.seq poptest.seq pushquestion.seq pushtest.seq
 
 ```sh
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Architecture-Lab/sim/seq$ (cd ../ptest; make SIM=../seq/ssim)
-./optest.pl -s ../seq/ssim 
+./optest.pl -s ../seq/ssim
 Simulating with ../seq/ssim
   All 49 ISA Checks Succeed
-./jtest.pl -s ../seq/ssim 
+./jtest.pl -s ../seq/ssim
 Simulating with ../seq/ssim
   All 64 ISA Checks Succeed
-./ctest.pl -s ../seq/ssim 
+./ctest.pl -s ../seq/ssim
 Simulating with ../seq/ssim
   All 22 ISA Checks Succeed
-./htest.pl -s ../seq/ssim 
+./htest.pl -s ../seq/ssim
 Simulating with ../seq/ssim
   All 600 ISA Checks Succeed
 ```
@@ -805,13 +806,13 @@ Simulating with ../pipe/psim
 
 ```hcl
 # Is instruction valid?
-bool instr_valid = f_icode in 
+bool instr_valid = f_icode in
  { INOP, IHALT, IRRMOVQ, IIRMOVQ, IRMMOVQ, IMRMOVQ,
    IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IIADDQ };
-   
+
 # Does fetched instruction require a regid byte?
 bool need_regids =
- f_icode in { IRRMOVQ, IOPQ, IPUSHQ, IPOPQ, 
+ f_icode in { IRRMOVQ, IOPQ, IPUSHQ, IPOPQ,
        IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ };
 
 
@@ -844,7 +845,7 @@ word aluA = [
 
 ## Select input B to ALU
 word aluB = [
- E_icode in { IRMMOVQ, IMRMOVQ, IOPQ, ICALL, 
+ E_icode in { IRMMOVQ, IMRMOVQ, IOPQ, ICALL,
        IPUSHQ, IRET, IPOPQ, IIADDQ } : E_valB;
  E_icode in { IRRMOVQ, IIRMOVQ } : 0;
  # Other instructions don't need ALU
@@ -1223,7 +1224,7 @@ Loop1:
     mrmovq  8(%rdi), %r9    # src[1] -> r9
     andq    %r8, %r8        # r8 set Z,S
     rmmovq  %r8, (%rsi)     # r8 -> dst[0]
-    rmmovq  %r9, 8(%rsi)    # r9 -> dst[1]    
+    rmmovq  %r9, 8(%rsi)    # r9 -> dst[1]
     jle     Loop2           # 判断 r8是否<= 0
     iaddq   $1, %rax        # count++
 Loop2:
@@ -1291,9 +1292,9 @@ Test1:
 
 # len in [0, 1, ..., 9]
 Root:                       # 处理所有长度小于10，这里用到了二分跳转, 不过没有进行到底
-    iaddq   $6, %rdx        # len - 4   
+    iaddq   $6, %rdx        # len - 4
     jl      Left            # len < 4
-    jg      Right           # len > 4   
+    jg      Right           # len > 4
     je      R4              # len = 4
 
 # len in [0, 1, 2, 3]
@@ -1342,7 +1343,7 @@ R6:
     jle     R61
     iaddq   $1, %rax
 R61:
-    rmmovq  %r8, 40(%rsi)   
+    rmmovq  %r8, 40(%rsi)
     andq    %r8, %r8
 R5:
     mrmovq  32(%rdi), %r8
@@ -1383,7 +1384,7 @@ R11:
     iaddq   $1, %rax
 ```
 
-这里使用两个寄存器r8,r9，实现了2*5=10阶的循环展开。最后二分了一下处理尾端数组。
+这里使用两个寄存器r8,r9，实现了2\*5=10阶的循环展开。最后二分了一下处理尾端数组。
 
 **这里为什么要是用两个寄存器进行循环展开？**
 
@@ -1874,6 +1875,7 @@ UPDATE
 
 这个时候如果我们回头看看小于10的所有情况
 **loop4**
+
 ```sh
         ncopy_loop4
 0       15
@@ -1888,7 +1890,9 @@ UPDATE
 9       80      8.89
 10      90      9.00
 ```
+
 **loop10**
+
 ```sh
         ncopy_10
 0       26
@@ -1906,7 +1910,7 @@ UPDATE
 
 这里虽然在1的时候略逊一筹，低了5个CPE，但是根本无伤大雅，因为，在这个10展开的尾数处理中通过二分确定长度的方式，根本上减少了一个长度值的维护。即使在1的性能上有损失，也是值得的。加个特判的trade-off是不值得的。
 
-***某种程度上可以说这份代码已经是除修改pipe-full以外的最优解。***
+**_某种程度上可以说这份代码已经是除修改pipe-full以外的最优解。_**
 
 最后在ref8加一个对pipe-full.hcl下手的blog。
 

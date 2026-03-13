@@ -10,6 +10,7 @@ tags:
   - "群体人工智能"
   - "PSO"
 ---
+
 # 群体人工智能Part1-PSO
 
 ## 群体智能
@@ -84,7 +85,7 @@ class ParticleSwarmOptimization(Swarm):
         self.velocities = np.zeros_like(self.particles)  # 粒子速度
         self.personal_best = self.particles.copy()  # 每个粒子的历史最优位置
         self.personal_best_fitness = np.full(num_particles, float('inf'))  # 每个粒子的历史最优适应度
-        
+
         # 记录轨迹
         self.trajectory = np.zeros((num_particles, num_iterations, dimensions))
 
@@ -92,7 +93,7 @@ class ParticleSwarmOptimization(Swarm):
         """执行PSO优化并可视化过程。"""
         plt.ion()  # 开启交互模式
         fig, ax = plt.subplots()
-        
+
         for iteration in range(self.num_iterations):
             # 计算适应度
             fitness = np.apply_along_axis(self.objective_function, 1, self.particles)
@@ -127,10 +128,10 @@ class ParticleSwarmOptimization(Swarm):
             ax.clear()
             # 绘制轨迹
             for i in range(self.num_particles):
-                ax.plot(self.trajectory[i, :iteration + 1, 0], 
-                        self.trajectory[i, :iteration + 1, 1], 
+                ax.plot(self.trajectory[i, :iteration + 1, 0],
+                        self.trajectory[i, :iteration + 1, 1],
                         c='lightgray', alpha=0.1)  # 设置较浅的颜色和透明度
-            
+
             # 绘制当前粒子的位置
             ax.scatter(self.particles[:, 0], self.particles[:, 1], c='blue', label='Particles')
             # 绘制最佳解的位置
@@ -269,6 +270,5 @@ pso.optimize()
 
 ## 参考文献
 
-1. [Python实现群智能算法_群体智能算法python代码-CSDN博客](https://blog.csdn.net/qq_42568323/article/details/142185146?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Position-3-142185146-blog-121969835.235^v43^pc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Position-3-142185146-blog-121969835.235^v43^pc_blog_bottom_relevance_base6&utm_relevant_index=5)
+1. [Python实现群智能算法\_群体智能算法python代码-CSDN博客](https://blog.csdn.net/qq_42568323/article/details/142185146?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Position-3-142185146-blog-121969835.235^v43^pc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Position-3-142185146-blog-121969835.235^v43^pc_blog_bottom_relevance_base6&utm_relevant_index=5)
 2. [群体智能优化算法 - 知乎](https://zhuanlan.zhihu.com/p/467844674)
-

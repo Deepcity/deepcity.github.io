@@ -10,9 +10,10 @@ tags:
   - "OSDI"
   - "论文阅读"
 ---
+
 ## Ray: A Distributed Framework for Emerging AI Applications
 
-### Read Motivate 
+### Read Motivate
 
 由`ServerlessLLM: Low-Latency Serverless Inference for Large Language Models`作为对比标准引入。[Ray的官方Github仓库]([ray-project/ray: Ray is an AI compute engine. Ray consists of a core distributed runtime and a set of AI Libraries for accelerating ML workloads.](https://github.com/ray-project/ray))Star数已有38k（截至2025年9月）。由**UC Berkeley**的**RISE**Lab发布，国内主要是蚂蚁在用。
 
@@ -83,7 +84,7 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
 
 其中**Application Layer**包含三种不同进程 **Driver**, **Worker** , **Actor**。分别用于执行用户程序，接受源自driver或其他worker的任务的无状态进程，由Worker或Driveer现实实例化连续执行函数的有状态进程。其中worker是自动创建并且被系统层指派任务，并且当一个远端函数被声明时，该函数会将被自动发布给所有worker，worker顺序执行任务，并不维护本地状态。Actor执行时进调用其公开的函数，每个函数的执行都取决于前一个函数的返回状态。
 
-> - Driver: A process executing the user program.  
+> - Driver: A process executing the user program.
 > - Worker: A stateless process that executes tasks (remote functions) invoked by a driver or another worker. Workers are started automatically and assigned tasks by the system layer. When a remote function is declared, the function is automatically published to all workers. A worker executes tasks serially, with no local state maintained across tasks.
 > - Actor: A stateful process that executes, when invoked, only the methods it exposes. Unlike a worker, an actor is explicitly instantiated by a worker or a driver. Like workers, actors execute methods serially, except that each method depends on the state resulting from the previous method execution.
 
@@ -97,11 +98,11 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
 
 - Ray的核心API（部分
 
-  | 代码                                                         | 说明                                                         |
-  | ------------------------------------------------------------ | ------------------------------------------------------------ |
-  | futures = f.remote(args)                                     | 远程地执行函数f。f.remote()以普通对象或future对象作为输入，返回一个或多个future对象，非阻塞执行。 |
-  | objects = ray.get(futures)                                   | 返回与一个或多个future对象相关联的真实值，阻塞执行           |
-  | ready_futures = ray.wait(futures, k, timeout)                | 当futures中有k个future完成时，或执行时间超过timeout时，返回futures中已经执行完的future |
+  | 代码                                                           | 说明                                                                                                                                 |
+  | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+  | futures = f.remote(args)                                       | 远程地执行函数f。f.remote()以普通对象或future对象作为输入，返回一个或多个future对象，非阻塞执行。                                    |
+  | objects = ray.get(futures)                                     | 返回与一个或多个future对象相关联的真实值，阻塞执行                                                                                   |
+  | ready_futures = ray.wait(futures, k, timeout)                  | 当futures中有k个future完成时，或执行时间超过timeout时，返回futures中已经执行完的future                                               |
   | actor = Class.remote(args) futures = actor.method.remote(args) | 将一个类实例化为一个远程的行动器，并返回它的一个句柄。然后调用这个行动器的method方法，并返回一个或多个future. 两个过程均为非阻塞的。 |
 
 - Drvier在此处不过多赘述。
@@ -109,7 +110,6 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
 - Task，指在无状态的工作器（worker）中执行的远程函数。远程函数被调用时会立即返回一个future对象，而真正的返回值可以通过ray.get(<future对象>)的方式来获取。或通过wait等待部分future完成。
 
   **任务的编程范式**如下：
-
   1. 注册任务：在需要注册为任务的函数上加上@ray.remote装饰器
   2. 提交任务：在调用具有@ray.remote装饰器的函数时，需要带上.remote()而不是直接调用
   3. 非阻塞提交：无论任务的运行需要多少时间，在提交任务后都会立即返回一个ObjectRef对象
@@ -120,7 +120,7 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
   @ray.remote
   def f(x):
       return x * x
-  
+
   object_ref = f.remote(2)
   assert ray.get(object_ref) == 4
   ```
@@ -135,18 +135,18 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
   def append_one(container):
       container.append(1)
       return container
-  
+
   def local_append_one(container):
       container.append(1)
       return container
-  
+
   container = []
-  
+
   object_ref = append_one.remote(container)
   result = ray.get(object_ref) # 此处可确保函数已经在远程执行完成
   print(result) # [1]
   print(container) # []; 远程函数未对container产生副作用
-  
+
   local_append_one(container)
   print(container) # [1]; 本地函数对container产生了副作用
   ```
@@ -164,7 +164,6 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
   ![img](https://s2.loli.net/2025/09/11/CGorspS3EFHaOWy.jpg)
 
   **行动器的编程范式**如下：
-
   1. 注册行动器：在需要注册为行动器的类上加上@ray.remote装饰器
   2. 实例化行动器：相比于普通Python类的实例化，需要在类名后加上.remote
   3. 提交方法调用：调用行动器的方法时，同样需要带上.remote()而不是直接调用
@@ -177,19 +176,19 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
   class Counter(object):
       def __init__(self):
           self.value = 0
-  
+
       def increment(self):
           self.value += 1
           return self.value
-  
+
   counter = Counter.remote()
-  
+
   refs = []
-  
+
   for i in range(10):
       ref = counter.increment.remote()
       refs.append(ref)
-  
+
   for i, ref in enumerate(refs):
       assert ray.get(ref) == i + 1
   ```
@@ -204,7 +203,7 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
   >
   > 我来帮你拆解一下：
   >
-  > ------
+  > ***
   >
   > ### 1. 背景：参数更新任务的特点
   >
@@ -216,14 +215,14 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
   > - 每个进程都维护一份参数 → 梯度要 **序列化/反序列化并跨进程传输**。
   > - 在同步梯度阶段，进程常常需要等待通信完成，CPU 和 GPU 很容易出现 **互相等待的情况**。
   >
-  > ------
+  > ***
   >
   > ### 2. Ray 的 Actor 模型带来的不同
   >
   > - **状态集中管理**：Actor 内部保存唯一一份参数状态，更新操作在 Actor 内部完成，不必序列化/反序列化参数 → 节省通信开销。
   > - **请求非阻塞**：训练进程把“更新请求”发给参数服务器 Actor 后就可以立刻返回，不需要等待 GPU 执行更新完成。
   >
-  > ------
+  > ***
   >
   > ### 3. 这里“异构性”的含义
   >
@@ -233,7 +232,7 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
   > - 训练进程在 **CPU 上还能继续做预处理、调度、任务提交等操作**，而 GPU 上的 Actor 正在执行更新操作。
   > - 换句话说，**CPU 密集型任务和 GPU 密集型任务可以并行化，不是互相阻塞**。
   >
-  > ------
+  > ***
   >
   > ### 4. 总结
   >
@@ -250,8 +249,8 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
   def create_policy():
       # 随机初始化策略
       return policy
-  
-  
+
+
   @ray.remote(num_gpus=1)
   class Simulator(object):
       def __init__(self):
@@ -265,14 +264,14 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
               observation = self.env.step(action)
               observations.append(observation)
           return observations
-  
-  
+
+
   @ray.remote(num_gpus=2)
   def update_policy(policy, *rollouts):
       # 更新策略
       return policy
-  
-  
+
+
   @ray.remote
   def train_policy():
       # 创建策略
@@ -301,7 +300,6 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
 - **GCS**
 
   GCS设计的初衷是让系统中的各个组件都变得尽可能地无状态，因此GCS维护了一些全局状态：
-
   - 对象表 (Object Table)：记录每个对象存在于哪些节点
   - 任务表 (Task Table)：记录每个任务运行于哪个节点
   - 函数表 (Function Table)：记录用户进程中定义的远程函数
@@ -374,4 +372,3 @@ Ray的系统架构分为两个部分**Application Layer**和**System Layer**。
 4. [分布式计算框架 Ray – 陈少文的网站](https://www.chenshaowen.com/blog/what-is-ray.html)
 5. [Ray 分布式计算 ｜ 从入门到实践 - 知乎](https://zhuanlan.zhihu.com/p/23824881486)
 6. [机器学习分布式框架Ray-阿里云开发者社区](https://developer.aliyun.com/article/1512422)
-
