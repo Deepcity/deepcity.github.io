@@ -10,6 +10,7 @@ tags:
   - "c++"
   - "算子开发"
 ---
+
 # Ascend C算子开发 Part1基本概念
 
 ## 引言
@@ -31,8 +32,6 @@ Ascend C的文档写的并不是很好，如果直接上手会导致许多问题
 ![AscentOverview](https://s2.loli.net/2025/08/12/6TRpG9lbkJjELuK.png)
 
 ![Ascend Structure](https://s2.loli.net/2025/08/12/5q6pVglDnECLI2m.png)
-
-
 
 **内存层次**
 
@@ -62,7 +61,7 @@ MTE1,2,3：传输单元
 
 `abs(src1, dst1, repeatnum, repeatstride, mask, srcblckstr,dst1blckstr)`这是一个0级计算api
 
-- 内部SIMD（Single Instruction, Multiple Data）计算是固定32B*8=256B的宽度进行repeat计算
+- 内部SIMD（Single Instruction, Multiple Data）计算是固定32B\*8=256B的宽度进行repeat计算
 - 指定BlockStride即参5（32B单位）
 - 指定RepeatStride即参4（32B单位）和repeatNum即参3
 - 指定一个128bits的MASK作用于每个repeat上的128个FP16 element
@@ -144,7 +143,7 @@ void add_kernel(half* input_a, half* input_b, half* output, int size) {
 | Ascend C          | AI Core上的高性能计算函数，专为AI计算优化           |
 | 机器学习（如SVM） | 指“核技巧”中的数学函数（如RBF核）——**完全不同概念** |
 
-> ⚠️ 在Ascend C上下文中，“核函数”指 **执行在AI Core上的计算内核**，不是SVM中的核函数。 
+> ⚠️ 在Ascend C上下文中，“核函数”指 **执行在AI Core上的计算内核**，不是SVM中的核函数。
 
 **Summary**：`__global__ __aicore__ void [kernelname] [argumnet_list]`
 
@@ -158,7 +157,7 @@ void add_kernel(half* input_a, half* input_b, half* output, int size) {
 
 ### 核函数调用
 
-***只有NPU模式下才能调用核函数***
+**_只有NPU模式下才能调用核函数_**
 
 核函数只能使用内核调用符`<<<...>>>`这种语法形式，来规定和函数的执行配置。
 
@@ -191,34 +190,26 @@ kernel_name<<<blockDim, l2ctrl, stream>>>(argument list);
 
 ```json
 [
-    {
-        "op": "SinhCustom",
-        "language":"cpp",
-        "input_desc": [
-            {
-                "name": "x",
-                "param_type": "required",
-                "format": [
-                    "ND"
-                ],
-                "type": [
-                    "fp16"
-                ]
-            }
-        ],
-        "output_desc": [
-            {
-                "name": "y",
-                "param_type": "required",
-                "format": [
-                    "ND"
-                ],
-                "type": [
-                    "fp16"
-                ]
-            }
-        ]
-    }
+  {
+    "op": "SinhCustom",
+    "language": "cpp",
+    "input_desc": [
+      {
+        "name": "x",
+        "param_type": "required",
+        "format": ["ND"],
+        "type": ["fp16"]
+      }
+    ],
+    "output_desc": [
+      {
+        "name": "y",
+        "param_type": "required",
+        "format": ["ND"],
+        "type": ["fp16"]
+      }
+    ]
+  }
 ]
 ```
 
@@ -243,4 +234,3 @@ kernel_name<<<blockDim, l2ctrl, stream>>>(argument list);
 5. [GEMM类算子调优-昇腾社区](https://www.hiascend.com/developer/courses/detail/1925473416036966402)
 6. [Ascend C算子开发（入门）-昇腾社区](https://www.hiascend.com/developer/courses/detail/1691696509765107713)
 7. [Ascend C简介-CANN社区版8.2.RC1.alpha001-昇腾社区](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/82RC1alpha001/opdevg/Ascendcopdevg/atlas_ascendc_10_0001.html)
-

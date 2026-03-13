@@ -10,10 +10,12 @@ tags:
   - "Microsoft"
   - "365"
 ---
+
 ⚠⚠⚠：不规范的使用加上网络的不稳定可能导致文件丢失
 
 危险行为：
-- 将大量文件从更改目录（尤其是更改到个人保管库）并不等待同步后关机 
+
+- 将大量文件从更改目录（尤其是更改到个人保管库）并不等待同步后关机
 
 ## Declaration
 
@@ -45,7 +47,7 @@ dong dong dong …
 
 然而微信、QQ却并没有这么做，这导致OneDrive在面对其动辄上百个文件的占用时发生同步中断，对这些文件修改的抢夺式占用持之以恒的影响着OneDrive的运行效率并提高了OneDrive的运行开销。并且其奇怪的文件命名，持之以恒的文件删除也污染着本清晰易懂的回收站。
 
-***实现聊天记录同步是可行的，但这值得吗？***
+**_实现聊天记录同步是可行的，但这值得吗？_**
 
 ### 网络
 
@@ -106,6 +108,5 @@ dong dong dong …
 2. [Onedrive个人版在国内是否无法使用？ - 知乎](https://www.zhihu.com/question/374761089)
 3. [Microsoft OneDrive 的使用心得，真香 - 知乎](https://zhuanlan.zhihu.com/p/108601590)
 4. [RE:【問題】OneDrive簡直就是個智障系統 @電腦應用綜合討論 哈啦板 - 巴哈姆特](https://forum.gamer.com.tw/Co.php?bsn=60030&sn=2462412)
-5. [分享OneDrive三年使用心得_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1qq4y177uB/)
-6. [OneDrive 从入门到精通，含各种高级用法_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1pG411h7AH/)
-
+5. [分享OneDrive三年使用心得\_哔哩哔哩\_bilibili](https://www.bilibili.com/video/BV1qq4y177uB/)
+6. [OneDrive 从入门到精通，含各种高级用法\_哔哩哔哩\_bilibili](https://www.bilibili.com/video/BV1pG411h7AH/)

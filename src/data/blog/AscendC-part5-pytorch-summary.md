@@ -32,7 +32,6 @@ tags:
 
 ![opp reg distribution](https://s2.loli.net/2025/10/19/WA7F9aXNZq6QUJo.png)
 
-
 ## 适配插件开发
 
 目的主要是为了适配pytorch中算子API的调用参数和属性的格式转换，总共分为以下四步。
@@ -64,7 +63,6 @@ tags:
   - 输入数据与真值数据的生成文件
   - Ascend C算子的核函数实现文件
   - 应用程序入口文件的main.cpp，主要修改Tiiling相关
-  
 - 用于判断是否处于CPU模式的宏是`__CCE_KT_TEST__`
 
 - 使用NPU仿真实验蛀牙是为了得到数据的计算模拟与指令时序仿真
@@ -90,13 +88,11 @@ tags:
 - Shape推导是算子模型执行必须的，而不是算子API执行必须的
 
 - 单算子API执行需要
-
   1. 初始化AscendCL
   2. 计算workspace并执行算子
   3. AscendCL去初始化
 
 - 单算子模型执行需要
-
   1. 初始化AscendCL
   2. 加载算子模型文件
   3. AscendCL去初始化
@@ -122,4 +118,3 @@ tags:
 1. Huawei w3
 2. Huawei ilearning
 3. [pytorch: Ascend Extension for PyTorch](https://gitee.com/ascend/pytorch)
-

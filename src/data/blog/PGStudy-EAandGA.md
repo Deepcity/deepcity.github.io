@@ -31,13 +31,13 @@ GA 与 EA 并非是相同的事物，两者是包含关系——GA被包含于EA
 
 <!--more-->
 
-## 名词定义  Definition
+## 名词定义 Definition
 
 - **Phenotypes 表：** the solutions within the original problem context 原始问题上下文中的解决方案
 - **Genotypes 基因：**Represent the phenotye 表示表型的编码
 - **Fitness 适应度：**A measure from some function 来自某个函数的度量，作为选择的基础，定义哪一个是更好的。
 - **Population 种群：**Collection of individual genotypes 单个基因型的集合，通常大小恒定。在进化过程中发生变化
-- **Recombination 重组：**A binary variation  一种二元变体，其中两个后代由两个亲本基因型创建，在词过程中混合了它们的属性
+- **Recombination 重组：**A binary variation 一种二元变体，其中两个后代由两个亲本基因型创建，在词过程中混合了它们的属性
 - **Mutation 突变：**A unary variation performed on a single genotype对单个基因型进行的变异，这种变化是随机的
 - **Survivor Selection 幸存者选择：**The process of determining which individuals确定哪些个体（由其基因型代表）将在下一代种群中保留的过程
 
@@ -69,7 +69,7 @@ Furthermore, adjustments may be required after recombination and/or mutation, **
 
 在参考的blog中作者通过TSP问题做为典型，这里照搬。
 
- For example, if there are 12 cities to choose from, the genotype can be `[9,2,6,1,7,8,11,0,4,3,10,5]`. 
+For example, if there are 12 cities to choose from, the genotype can be `[9,2,6,1,7,8,11,0,4,3,10,5]`.
 
 - `[9,2,6,1,7,8,11,0,4,3,10,5]`就是一种排列的基因表示
 
@@ -82,7 +82,7 @@ class Evolutionary:
         genome = np.arange(length)
         np.random.shuffle(genome)
         return genome
-        
+
     def generate_population(self, size, genome_length):
         population = [self.generate_genome(genome_length) for _ in range(size)]
         return population
@@ -122,14 +122,13 @@ You will see that **all negative weights have zero chance of being selected**, a
 
 - TPS中常见的Fitness取值为取反城市间的距离
 
-  In TPS, one common way of representing the fitness is by negating the distance between cities. 
+  In TPS, one common way of representing the fitness is by negating the distance between cities.
 
   In this case, we need to normalize the fitness such that they are positive. This could be done by subtracting from the minimum (ie. most negative) fitness, add then adding some small epsilon to that even the worse solution has a non-zero chance of being selected.
 
   具体的方式是，对适应度进行归一化，并**保持其为正**。保持其为正的过程可以通过减去最小负数值然后加上$\epsilon$
 
 - 对于这个最小负数值也可以选择一个基线值baseline，baseline的选取会影响到个体的相对适应度和选择概率
-
   - 如果基线值过高，适应度的差异会被压缩，导致不同解的选择概率差异变小。
   - 如果基线值过低，适应度差异被放大，导致较优解的选择概率更高，较差解被选中的可能性更小。
 
@@ -159,9 +158,9 @@ class Evolutionary:
                 population=population, k=k
             )
             return (
-                sorted(sub_population1, key=fitness_func, reverse=True)[0], 
+                sorted(sub_population1, key=fitness_func, reverse=True)[0],
                 sorted(sub_population2, key=fitness_func, reverse=True)[0]
-            )        
+            )
         else: # roulette wheel
             min_fitness = min([fitness_func(gene) for gene in population])
             selected = random.choices(
@@ -227,7 +226,7 @@ class Evolutionary:
     def __init__(self, task):
         self.task = task
 
-    
+
     def partial_map_crossover(self, parent1, parent2):
         n = len(parent1)
         point = random.randint(0, n-1)
@@ -240,29 +239,29 @@ class Evolutionary:
             if (j in child2) == False:
                 child2.append(j)
         return child1, child2
-    
-    
+
+
     def run_evolution(self, population_size, generation_limit=5000, fitness_limit=1e99, crossover='single', verbose=True):
         ## ... define population ...
-        
+
         best_fitness_seen = -1e9
         for i in tqdm(range(generation_limit)):
             population = sorted(
                 population, key=lambda genome: self.task.fitness(genome), reverse=True
             )
             fitness = self.task.fitness(population[0])
-            
+
             if verbose and (fitness > best_fitness_seen):
                 best_fitness_seen = fitness
                 self.task.visualize(population[0], save_id=i)
             if fitness >= fitness_limit:
                 break
-            
+
             ## ... elitism; keep best individuals and variants of them ...
-            
+
             for j in range((population_size - n_keep)//2):
                 parents = self.selection(
-                    population, self.task.fitness, 
+                    population, self.task.fitness,
                     method='tournament'
                 )
                 if random.random() < 0.9:
@@ -274,15 +273,15 @@ class Evolutionary:
                     offspring_b = self.swop(offspring_b)
                 next_generation += [offspring_a, offspring_b]
             population = next_generation
-        
+
         best_genome = population[0]
         return best_genome
 
-    
+
     def selection(self, ...):
         ## tournament or roulette wheel, or combination
-    
-    
+
+
     def shift_to_end(self, genome, num=1):
         new_genome = deepcopy(genome)
         for _ in range(num):
@@ -296,7 +295,7 @@ class Evolutionary:
                 new_genome[-1] = ref   # bring to last
         return new_genome
 
-    
+
     def swop(self, genome, num=1):
         new_genome = deepcopy(genome)
         for _ in range(num):
@@ -310,7 +309,7 @@ class Evolutionary:
 > ```python
 > # example
 > from tqdm import tqdm
-> 
+>
 > for i in tqdm(range(100)):
 >  # 执行一些操作
 >  pass
@@ -332,7 +331,7 @@ class Evolutionary:
 
   ```python
   next_generation = population[:n_top]   # keep the n_top fittest individuals
-  
+
   for _ in range(n_perturb):
       # select a candidate from population[:n_top]
       if np.random.random() < p_shift:
@@ -340,7 +339,7 @@ class Evolutionary:
       if np.random.random() < p_swop:
           candidate = self.swop(candidate)
       next_generation += [candidate]
-  
+
   n_keep = n_top + n_perturb
   ```
 
@@ -368,7 +367,7 @@ class Salesman:
             self.num_cities = len(self.city_locations)
             self.x_lim = np.max(np.array(self.city_locations)[:,0])
             self.y_lim = np.max(np.array(self.city_locations)[:,1])
-        
+
         else:   # generate randomly
             self.num_cities = num_cities
             self.x_lim = x_lim
@@ -379,8 +378,8 @@ class Salesman:
                 (x,y) for x,y in zip(x_loc,y_loc)
             ]
         self.distances = self.calculate_distances()
-    
-    
+
+
     def calculate_distances(self):
         distances = np.zeros((self.num_cities, self.num_cities))
         for i in range(self.num_cities):
@@ -389,27 +388,27 @@ class Salesman:
                 distances[i][j] = distances[j][i] = dist
         return distances
 
-    
+
     def fitness(self, solution):
         total_distance = 0
         for i in range(self.num_cities - 1):
             total_distance += self.distances[solution[i]][solution[i+1]]
         fitness = -total_distance
         return fitness
-    
-           
+
+
     def visualize(self, solution, save_id=None):
         n = len(solution)
         assert n == len(self.city_locations), 'The solution must correspond to all cities'
         for i, (x,y) in enumerate(self.city_locations):
             plt.plot(x, y, "ro")
             plt.annotate(i, (x, y))
-        
+
         ordered_cities = [self.city_locations[idx] for idx in solution]
         x_coord = [x for (x,y) in  ordered_cities]
         y_coord = [y for (x,y) in  ordered_cities]
         distance = -self.fitness(solution)
-        
+
         plt.plot(x_coord, y_coord, "gray")
         plt.title("Connected cities (%.1f) according to solution" % distance)
         if save_id is not None:
@@ -420,7 +419,7 @@ class Salesman:
             plt.show()
 ```
 
-### Train and observe 
+### Train and observe
 
 ```python
 salesman = Salesman(
@@ -472,11 +471,11 @@ class Evolutionary:
 	def generate_genome(self,point_nums):
 		genome = [[i,random.randint(0,point_nums[i]-1)] for i in range(0,len(point_nums))]
 		return genome
-	
+
 	def generate_population(self, size, point_nums):
 		population = [self.generate_genome(point_nums) for _ in range(size)]
 		return population
-	
+
 	def partial_map_crossover(self, parent1, parent2):
 		n = len(parent1)
 		point = random.randint(0, n-1)
@@ -491,10 +490,10 @@ class Evolutionary:
 				child2.append(j)
 
 		return child1, child2
-	
+
 	def run_evolution(self, population_size, generation_times,fitness_limit=1e99, crossover='pmx', verbose=True):
 		population = self.generate_population(population_size, self.task.point_nums)
-		
+
 		best_fitness_seen = -1e9
 		for i in range(generation_times):
 			population = sorted(
@@ -508,7 +507,7 @@ class Evolutionary:
 				break
 
 				# self.task.visualize(population[0],save_id = i)
-			next_generation = population[:n_top] 
+			next_generation = population[:n_top]
 
 			# print(self.task.point_nums)
 			for _ in range(n_perturb):
@@ -533,7 +532,7 @@ class Evolutionary:
 
 			for j in range((population_size - n_keep)//2):
 				parents = self.selection(
-					population, self.task.fitness, 
+					population, self.task.fitness,
 					method='tournament'
 				)
 				if random.random() < 0.9:
@@ -545,10 +544,10 @@ class Evolutionary:
 					offspring_b = self.swop(offspring_b)
 				next_generation += [offspring_a, offspring_b]
 			population = next_generation
-        
+
 		best_genome = population[0]
 		return best_genome
-	
+
 	def selection(self, population, fitness_func, method='tournament'):
 		if method == 'tournament':
 			k = min(5, int(0.02*len(population)))
@@ -559,9 +558,9 @@ class Evolutionary:
 				population=population, k=k
 			)
 			return (
-				sorted(sub_population1, key=fitness_func, reverse=True)[0], 
+				sorted(sub_population1, key=fitness_func, reverse=True)[0],
 				sorted(sub_population2, key=fitness_func, reverse=True)[0]
-			)  
+			)
 		else: # roulette wheel
 			min_fitness = min([fitness_func(gene) for gene in population])
 			selected = random.choices(
@@ -570,7 +569,7 @@ class Evolutionary:
 				k=2
 			)
 		return tuple(selected)
-	
+
 	def shift_to_end(self, genome, num=1):
 		new_genome = copy.deepcopy(genome)
 		for _ in range(num):
@@ -583,14 +582,14 @@ class Evolutionary:
 				new_genome[a:-1] = new_genome[a+1:]
 				new_genome[-1] = ref   # bring to last
 		return new_genome
-	
+
 	def swop(self, genome, num=1):
 		new_genome = copy.deepcopy(genome)
 		for _ in range(num):
 			a, b = random.sample(range(len(genome)), k=2)
 			new_genome[a], new_genome[b] = genome[b], genome[a]
 		return new_genome
-	
+
 
 class Solution:
 	def __init__(self, points):
@@ -614,7 +613,7 @@ class Solution:
 																						self.points[solution[0][0]][solution[0][1]])
 		fitness = -total_distance
 		return fitness
-	
+
 	def visualize(self, solution, save_id = None):
 		n = len(solution)
 		assert n == len(self.point_nums), 'The solution must correspond to all cities'
@@ -622,13 +621,13 @@ class Solution:
 			for i, (x,y) in enumerate(profile):
 				plt.plot(x, y, "o")
 				plt.annotate(i, (x, y))
-        
+
 		ordered_points= [self.points[idx][pidx] for (idx,pidx) in solution]
 		ordered_points.append(self.points[solution[0][0]][solution[0][1]])
 		x_coord = [x for (x,y) in  ordered_points]
 		y_coord = [y for (x,y) in  ordered_points]
 		distance = -self.fitness(solution)
-        
+
 		plt.plot(x_coord, y_coord, "gray")
 		plt.title("Connected point (%.1f) according to solution" % distance)
 		if save_id is not None:
@@ -637,7 +636,7 @@ class Solution:
 			plt.close()
 		else:
 			plt.show()
-  
+
 
 points = [eval(group) for group in input().split('@')]
 # print([len(t) for t in points])
@@ -654,4 +653,3 @@ print([points[idx][pidx] for (idx,pidx) in best_genome])
 ## Ref Resource参考资料
 
 1. [Evolutionary Algorithm — Selections Explained | by James Koh, PhD | Towards Data Science](https://towardsdatascience.com/evolutionary-algorithm-selections-explained-2515fb8d4287)
-

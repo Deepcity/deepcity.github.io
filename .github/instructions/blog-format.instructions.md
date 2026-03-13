@@ -12,17 +12,17 @@ applyTo: "src/data/blog/**"
 ### 必填字段
 
 ```yaml
-title: "文章标题"                        # 字符串，不能为空
-pubDatetime: 2025-08-24T20:29:00Z       # ISO 8601，必须带 Z 后缀
-description: "30-60 字中文摘要"          # 简洁描述文章核心内容
+title: "文章标题" # 字符串，不能为空
+pubDatetime: 2025-08-24T20:29:00Z # ISO 8601，必须带 Z 后缀
+description: "30-60 字中文摘要" # 简洁描述文章核心内容
 ```
 
 ### 推荐字段
 
 ```yaml
-slug: "kebab-case-slug"                 # 从文件名推导，全小写，连字符分隔
-draft: false                            # 显式声明发布状态
-tags:                                   # 2-6 个标签，中英文均可
+slug: "kebab-case-slug" # 从文件名推导，全小写，连字符分隔
+draft: false # 显式声明发布状态
+tags: # 2-6 个标签，中英文均可
   - "标签1"
   - "标签2"
 ```
@@ -30,13 +30,13 @@ tags:                                   # 2-6 个标签，中英文均可
 ### 可选字段
 
 ```yaml
-author: "Deepcity"                      # 默认使用站点配置，通常省略
-modDatetime: 2025-09-01T10:00:00Z       # 文章修改时设置
-featured: true                          # 首页置顶
-ogImage: "./og-image.png"               # 自定义 OG 图片
-canonicalURL: "https://..."             # 规范链接
-hideEditPost: true                      # 隐藏"在 GitHub 上编辑"
-timezone: "Asia/Shanghai"               # 默认使用站点配置
+author: "Deepcity" # 默认使用站点配置，通常省略
+modDatetime: 2025-09-01T10:00:00Z # 文章修改时设置
+featured: true # 首页置顶
+ogImage: "./og-image.png" # 自定义 OG 图片
+canonicalURL: "https://..." # 规范链接
+hideEditPost: true # 隐藏"在 GitHub 上编辑"
+timezone: "Asia/Shanghai" # 默认使用站点配置
 ```
 
 ### 完整示例

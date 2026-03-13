@@ -29,12 +29,13 @@ Tiling实际上就是对输入数据在CopyIn、Compute、CopyOut阶段前做的
 Tiling在AscendC中直接表现为一个struct，简称**Tiling结构体**。
 
 - Tiling结构体的定义在Tiling头文件中，其中的结构体参数表示如何对数据进行切分，以及决定计算过程的一些细节，在Host侧实例化，并通过指针传入kernel函数中，如：
+
   ```cpp
   struct AddCustomTilingData{
       uint32_t totalLength;
       uint32_t tileNum;
   }
-  
+
   __global__ __aicore__ void add_custom(GM_ADDR x, GM_ADDR y, GM_ADDR z, GM_ADDR workspace, GM_ADDR tiling)
   ```
 
@@ -59,7 +60,7 @@ constexpr int32_t BUFFER_NUM = 2;                                     // tensor 
 constexpr int32_t TILE_LENGTH = BLOCK_LENGTH / TILE_NUM / BUFFER_NUM; // separate to 2 parts, due to double buffer
 
 ...
-    
+
 extern "C" __global__ __aicore__ void sinh_custom(GM_ADDR x, GM_ADDR y)
 {
     KernelSinh op;
@@ -103,7 +104,6 @@ flowchart TD
 > - TOTAL_LENGTH: 总共需要计算的数据个数
 > - TILE_NUM: 切分的数据分块个数
 > - USER_CORE_NUM为参与并行计算使用的核数，有独立接口`GetBlockNum()`可以在核函数中获得
->
 
 ## 动态Shape场景下算子类定义中的额外变量
 
@@ -150,7 +150,7 @@ this->tileLength = this.blockLength / tileNum /BUFFER_NUM;
 
 ![diff](https://s2.loli.net/2025/10/18/KcqQ5BLvItJ98Xp.png)
 
- ## CPU与NPU孪生调试
+## CPU与NPU孪生调试
 
 孪生调试指同一份代码，CPU/NPU两侧的调试运行
 
@@ -170,8 +170,8 @@ this->tileLength = this.blockLength / tileNum /BUFFER_NUM;
 
 本质是使用Model仿真器运行算子，得到数据的计算模拟和指令的时序仿真，运行后会得到`*.dump`与`*.vcd`文件，用于进行算子运行过程的分析
 
-- 每个AICore会生成一个core*_summary_log文本文件例如core_summary_log。存放端到端的信息，例如执行了多少个cycle以及流水线的占用时间，查看是memory bound 还是 vector bound
-- 每个AICore会生成一个*.vcd文件，例如core0_wave.vcd。可以得到一个波形图，看到高低电平侧面分析是否有工作。通过GTKWave查看pipeline工作流程。
+- 每个AICore会生成一个core\*\_summary_log文本文件例如core_summary_log。存放端到端的信息，例如执行了多少个cycle以及流水线的占用时间，查看是memory bound 还是 vector bound
+- 每个AICore会生成一个\*.vcd文件，例如core0_wave.vcd。可以得到一个波形图，看到高低电平侧面分析是否有工作。通过GTKWave查看pipeline工作流程。
 
 使用Model仿真器实际上走的还是NPU的编译过程，只是实际调用的动态库文件替换成了Model仿真器指定的库文件，从而达到了“真实上板”与“仿真上板”的目的，运行model仿真不需要使用真实的NPU环境。
 
@@ -179,4 +179,4 @@ this->tileLength = this.blockLength / tileNum /BUFFER_NUM;
 
 1. Huawei docs(W3)
 1. Huawei ilearning
-1. 
+1.

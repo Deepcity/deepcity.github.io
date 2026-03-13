@@ -11,6 +11,7 @@ tags:
   - "OSDI"
   - "论文阅读"
 ---
+
 ## OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models
 
 ### Overview
@@ -90,6 +91,3 @@ kv-cache相当大（大于10GB），因此直接迁移kv-cache的操作不合理
 ![Entire ServerlessLLM in action](https://s2.loli.net/2025/09/09/1pWEI3gQe8MbLan.png)
 
 在$4\times 4$的a40集群上进行的实验遥遥领先。
-
-
-
