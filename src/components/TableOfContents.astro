@@ -1,0 +1,78 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+
+const toc = headings.filter(({ depth }) => depth >= 2 && depth <= 4);
+---
+
+{
+  toc.length > 0 && (
+    <nav id="toc" aria-label="目录">
+      <p class="mb-3 text-sm font-semibold text-foreground">目录</p>
+      <ul class="space-y-1 text-sm">
+        {toc.map(({ depth, slug, text }) => (
+          <li>
+            <a
+              href={`#${slug}`}
+              data-toc-slug={slug}
+              class:list={[
+                "toc-link block py-0.5 leading-snug text-foreground/50 transition-colors duration-150 hover:text-accent",
+                depth === 3 && "pl-3",
+                depth === 4 && "pl-6",
+              ]}
+            >
+              {text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<script>
+  function initToc() {
+    const links = document.querySelectorAll<HTMLAnchorElement>(".toc-link");
+    if (!links.length) return;
+
+    const headingEls = document.querySelectorAll<HTMLElement>(
+      "#article h2, #article h3, #article h4"
+    );
+    if (!headingEls.length) return;
+
+    const setActive = (id: string) => {
+      links.forEach(l => {
+        const isActive = l.dataset.tocSlug === id;
+        l.classList.toggle("text-accent", isActive);
+        l.classList.toggle("font-medium", isActive);
+        l.classList.toggle("text-foreground/50", !isActive);
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+            break;
+          }
+        }
+      },
+      { rootMargin: "0px 0px -70% 0px", threshold: 0 }
+    );
+
+    headingEls.forEach(el => observer.observe(el));
+  }
+
+  initToc();
+  document.addEventListener("astro:after-swap", initToc);
+</script>
