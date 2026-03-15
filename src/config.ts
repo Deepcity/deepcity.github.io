@@ -2,7 +2,7 @@ export const SITE = {
   website: "https://deepcity.github.io/",
   author: "Deepcity",
   profile: "https://github.com/Deepcity",
-  desc: "Deepcity 的个人博客 — 系统、算法与 AI 领域的学习笔记与论文阅读。",
+  desc: "Deepcity 的个人博客 — 系统、算法、Agent 与 AI 基础设施方向的学习笔记与论文阅读。",
   title: "Deepcity's Blog",
   ogImage: "og-default.png",
   lightAndDarkMode: true,

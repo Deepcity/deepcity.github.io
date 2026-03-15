@@ -55,7 +55,7 @@ tags:
 
 ```mermaid
 flowchart TD
-	Start --> compile{编译算子的方式}
+	Start --> compile{编译算子的方式} 
 	ifone{编译执行任务通过一个接口下发}
 	compile -- 算子相关数据保存在内存中 --> ifone
 	atccompile[使用ATC工具编译算子算子]
@@ -85,7 +85,7 @@ flowchart TD
 	**aclopExecuteV2**] --> aclrtsync2[同步等待
 	**aclrtSynchronizcStream**] --> aclrtfree2[释放内存
 	**aclrtFree**] --> End
-
+	
 	atccompile --> load[加载算子模型文件
 	**aclopSetModelDir**或
 	**aclopLoad**]
@@ -100,6 +100,8 @@ flowchart TD
 	**aclrtSynchronizcStream**] --> aclrtfree3[释放内存
 	**aclrtFree**] --> End
 ```
+
+
 
 这么复杂，~~我在造火箭吗~~。
 
@@ -131,25 +133,26 @@ op_ut_run --case_files= tset_add_custom_impl.py		\
 		  --soc_version=Ascend910A					\
 		  --case_name=add_custom_1					\
 		  --ascendc_op_path=add_custom.cpp			\
-		  --block_dim=8
+		  --block_dim=8								
 ```
 
 > op_ut_run 工具会产生许多文件包括`data/`，`model/`，`report`...，其中report是有关测试结果的报告，model是算子相关的dump，REF3中有提到该工具的文档，可以将dump文件进行一个转化
 
 在自定义算子UT测试脚本中总体通过多次调用`ut_case.add_precision_case()`函数去调用函数。
 
-由于浮点数的原因，这里使用两个0.05去判断整体的误差概念。然而，这仅仅只是一种朴素的判断方式，通常我们认为误差是“左右随机分布”的，然而可能由于某些原因，当出现统计学上的逻辑误差（例如计算值整体略微偏大），这里是检查不出来的。
+由于浮点数的原因，这里使用两个0.05去判断整体的误差概念。然而，这仅仅只是一种朴素的判断方式，通常我们认为误差是“左右随机分布”的，然而可能由于某些原因，当出现统计学上的逻辑误差（例如计算值整体略微偏大），这里是检查不出来的。 
 
 - **absolute tolerance, atol**: 用于限制结果之间的绝对差
 
-  $$
-  ∣xtest−xgolden∣≤atol
-  $$
+$$
+∣xtest−xgolden∣≤atol
+$$
 
 - **relative tolerance, rtol**: 同于限制结果之间的相对误差
-  $$
-  \frac{∣xgolden-xtest∣}{∣xgolden∣}≤rtol
-  $$
+
+$$
+\frac{∣xgolden-xtest∣}{∣xgolden∣}≤rtol
+$$
 
 通常情况下（pytest,numpy.testing.assert_alloclose），这两者会同时存在
 
