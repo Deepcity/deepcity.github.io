@@ -3,12 +3,10 @@ import { readFile } from "node:fs/promises";
 const LOCAL_FALLBACK_FONT =
   "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf";
 
-function toArrayBuffer(buffer: Uint8Array) {
-  const view = new Uint8Array(buffer);
-  return view.buffer.slice(
-    view.byteOffset,
-    view.byteOffset + view.byteLength
-  ) as ArrayBuffer;
+function toArrayBuffer(buffer: ArrayBufferView) {
+  const copy = new Uint8Array(buffer.byteLength);
+  copy.set(new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength));
+  return copy.buffer;
 }
 
 async function loadGoogleFont(
