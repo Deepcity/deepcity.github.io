@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 const LOCAL_FALLBACK_FONT =
   "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf";
 
-function toArrayBuffer(buffer: Buffer<ArrayBufferLike>) {
+function toArrayBuffer(buffer: Uint8Array) {
   const view = new Uint8Array(buffer);
   return view.buffer.slice(
     view.byteOffset,

@@ -89,14 +89,11 @@ const nextPost =
 ---
 
 <Layout {...layoutProps}>
-  <Header />
-  <BackButton />
+  <Header layoutWidth="wide" />
+  <BackButton layoutWidth="wide" />
   <main
     id="main-content"
-    class:list={[
-      "mx-auto w-full max-w-6xl px-4 pb-12",
-      { "mt-8": !SITE.showBackButton },
-    ]}
+    class:list={["app-layout-wide pb-12", { "mt-8": !SITE.showBackButton }]}
     data-pagefind-body
   >
     <h1

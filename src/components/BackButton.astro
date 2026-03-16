@@ -2,11 +2,18 @@
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
+
+interface Props {
+  layoutWidth?: "default" | "wide";
+}
+
+const { layoutWidth = "default" } = Astro.props;
+const layoutClass = layoutWidth === "wide" ? "app-layout-wide" : "app-layout";
 ---
 
 {
   SITE.showBackButton && (
-    <div class="app-layout flex items-center justify-start">
+    <div class:list={[layoutClass, "flex items-center justify-start"]}>
       <LinkButton
         id="back-button"
         href="/"

@@ -8,7 +8,13 @@ import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
 
+interface Props {
+  layoutWidth?: "default" | "wide";
+}
+
+const { layoutWidth = "default" } = Astro.props;
 const { pathname } = Astro.url;
+const layoutClass = layoutWidth === "wide" ? "app-layout-wide" : "app-layout";
 
 // Remove trailing slash from current pathname if exists
 const currentPath =
@@ -31,7 +37,10 @@ const isActive = (path: string) => {
 </a>
 
 <header
-  class="app-layout flex flex-col items-center justify-between sm:flex-row"
+  class:list={[
+    layoutClass,
+    "flex flex-col items-center justify-between sm:flex-row",
+  ]}
 >
   <div
     id="top-nav-wrap"

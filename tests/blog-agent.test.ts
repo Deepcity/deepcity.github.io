@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import path from "node:path";
 import { parseMarkdownDocument, stringifyMarkdownDocument } from "../src/agent/frontmatter.js";
 import { inferCodeFenceLanguage } from "../src/agent/markdown.js";
+import { inferAgentModelMeta } from "../src/agent/model-meta.js";
 import { getSidecarPathForPost } from "../src/agent/pathing.js";
 import { loadContentSchemaRules } from "../src/agent/schema.js";
 
@@ -48,3 +49,32 @@ test("code fence language inference catches common shell blocks", () => {
   assert.equal(inferred.language, "sh");
 });
 
+test("agent model meta recognizes major LLM families", () => {
+  assert.equal(
+    inferAgentModelMeta("openai", "gpt5.4").brand,
+    "chatgpt"
+  );
+  assert.equal(
+    inferAgentModelMeta("xai", "grok-4").brand,
+    "grok"
+  );
+  assert.equal(
+    inferAgentModelMeta("gemini", "gemini-3.1-pro").brand,
+    "gemini"
+  );
+  assert.equal(
+    inferAgentModelMeta("anthropic", "claude-opus4.6").brand,
+    "claude"
+  );
+  assert.equal(
+    inferAgentModelMeta("dashscope", "qwen-max").brand,
+    "qwen"
+  );
+});
+
+test("agent model meta marks heuristic reviews as non-llm", () => {
+  const meta = inferAgentModelMeta("heuristic", "heuristic-v1");
+
+  assert.equal(meta.brand, "heuristic");
+  assert.equal(meta.isLlm, false);
+});
