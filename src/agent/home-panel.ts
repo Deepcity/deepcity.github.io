@@ -297,6 +297,7 @@ function buildGeminiHomePanelPrompt(baseSidecar, snapshots) {
     "highlights 是 3 到 4 个字符串，每项一句话。",
     "recommended_paths 是 3 到 4 个对象，每个对象都必须包含 label、href、description。",
     "只能使用允许的 href，不要虚构文章、路径、数量或主题。",
+    "所有 href 必须保持站内 canonical route 形式，也就是全小写 kebab-case。",
     "",
     `站点统计: ${JSON.stringify(baseSidecar.content_stats)}`,
     `启发式 summary: ${baseSidecar.summary}`,

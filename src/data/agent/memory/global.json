@@ -6,6 +6,15 @@
     "fallback": "heuristic",
     "model": "gemini-2.5-flash"
   },
+  "site_path_policy": {
+    "filename_style": "lower-kebab-case",
+    "route_style": "lower-kebab-case",
+    "examples": {
+      "file_name": "api-agent-embedding-mcp-skills.md",
+      "route_path": "/posts/api-agent-embedding-mcp-skills"
+    },
+    "rule": "所有文章文件名、slug 与站内文章链接统一使用小写字母和连字符的 kebab-case 形式。"
+  },
   "prompt_version": "v1",
   "review_rubric": {
     "structural": [
@@ -17,7 +26,8 @@
     "technical": [
       "概念定义是否清楚",
       "论证与例子是否支撑主题",
-      "术语是否与既有系列保持一致"
+      "术语是否与既有系列保持一致",
+      "所有文章文件名、slug 与站内 route path 应统一为小写 kebab-case"
     ],
     "severity_levels": {
       "info": "可选优化，不影响构建与阅读",

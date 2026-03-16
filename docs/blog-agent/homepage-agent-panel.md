@@ -44,6 +44,10 @@ sidecar 内容关注的是“站点导览”，而不是“文章审稿”，因
 - `recommended_paths`
 - `content_stats`
 
+其中 `recommended_paths[].href` 必须使用站内 canonical route，也就是全小写 kebab-case，例如：
+
+- `/posts/api-agent-embedding-mcp-skills`
+
 ## 4. 独立 CLI 命令
 
 首页 Agent 面板对应独立命令：

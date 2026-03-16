@@ -69,9 +69,17 @@ export function getRoutePathFromFile(filePath) {
   const dirSegments = segments
     .filter(segment => segment !== "" && !segment.startsWith("_"))
     .map(segment => slugifyStr(segment));
-  const slug = postId.split("/").slice(-1).join("/");
+  const slug = slugifyStr(postId.split("/").slice(-1).join("/"));
 
   return ["/posts", ...dirSegments, slug].join("/");
+}
+
+function canonicalizePathInput(value) {
+  return value
+    .split("/")
+    .filter(Boolean)
+    .map(segment => slugifyStr(segment))
+    .join("/");
 }
 
 export async function resolvePostInput(input) {
@@ -101,11 +109,15 @@ export async function resolvePostInput(input) {
     const relativePath = getPostRelativePath(filePath);
     const withoutExtension = relativePath.replace(/\.md$/u, "");
     const postId = getPostIdFromFilePath(filePath);
+    const canonicalPostId = slugifyStr(postId);
+    const canonicalRelativePath = canonicalizePathInput(withoutExtension);
 
     return (
       relativePath === trimmedInput ||
       withoutExtension === normalizedInput ||
-      postId === normalizedInput
+      postId === normalizedInput ||
+      canonicalPostId === normalizedInput ||
+      canonicalRelativePath === canonicalizePathInput(normalizedInput)
     );
   });
 

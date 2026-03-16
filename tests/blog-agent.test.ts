@@ -6,7 +6,11 @@ import { parseMarkdownDocument, stringifyMarkdownDocument } from "../src/agent/f
 import { applyHomePanelGuide, buildHomePanelData } from "../src/agent/home-panel.js";
 import { inferCodeFenceLanguage } from "../src/agent/markdown.js";
 import { inferAgentModelMeta } from "../src/agent/model-meta.js";
-import { getHomeSidecarPath, getSidecarPathForPost } from "../src/agent/pathing.js";
+import {
+  getHomeSidecarPath,
+  getRoutePathFromFile,
+  getSidecarPathForPost,
+} from "../src/agent/pathing.js";
 import { loadContentSchemaRules } from "../src/agent/schema.js";
 
 test("frontmatter parse and stringify preserve basic fields", () => {
@@ -48,6 +52,21 @@ test("home sidecar path uses the site directory", () => {
   const sidecarPath = getHomeSidecarPath();
 
   assert.match(sidecarPath, /src\/data\/agent\/site\/index\.json$/u);
+});
+
+test("agent route path canonicalizes post ids to lower kebab-case", () => {
+  const filePath = path.join(
+    process.cwd(),
+    "src",
+    "data",
+    "blog",
+    "API-Agent-Embedding-MCP-Skills.md"
+  );
+
+  assert.equal(
+    getRoutePathFromFile(filePath),
+    "/posts/api-agent-embedding-mcp-skills"
+  );
 });
 
 test("code fence language inference catches common shell blocks", () => {
@@ -94,7 +113,7 @@ test("home panel builder summarizes site themes and entry points", () => {
       description: "记录 ShellLab 的实现与调试过程。",
       excerpt: "ShellLab 实验记录。",
       file_path: "src/data/blog/CMU-15213-ShellLab.md",
-      route_path: "/posts/CMU-15213-ShellLab",
+      route_path: "/posts/cmu-15213-shelllab",
       pubDatetime: "2026-03-12T00:00:00Z",
       tags: ["CMU15213"],
       document: { data: { featured: true } },
@@ -105,7 +124,7 @@ test("home panel builder summarizes site themes and entry points", () => {
       description: "梳理 Agent、MCP 与 Embedding 的关系。",
       excerpt: "Agent 工程综述。",
       file_path: "src/data/blog/API-Agent-Embedding-MCP-Skills.md",
-      route_path: "/posts/API-Agent-Embedding-MCP-Skills",
+      route_path: "/posts/api-agent-embedding-mcp-skills",
       pubDatetime: "2026-03-10T00:00:00Z",
       tags: ["Agent", "MCP", "LLM"],
       document: { data: { featured: false } },
@@ -116,7 +135,7 @@ test("home panel builder summarizes site themes and entry points", () => {
       description: "Ascend C 算子开发入门。",
       excerpt: "Ascend C 基础概念。",
       file_path: "src/data/blog/AscendC-part1-basic-concept.md",
-      route_path: "/posts/AscendC-part1-basic-concept",
+      route_path: "/posts/ascendc-part1-basic-concept",
       pubDatetime: "2026-03-08T00:00:00Z",
       tags: ["AscendC"],
       document: { data: { featured: false } },
@@ -131,7 +150,7 @@ test("home panel builder summarizes site themes and entry points", () => {
   assert.ok(
     sidecar.highlights.some(item => item.includes("sidecar JSON"))
   );
-  assert.equal(sidecar.recommended_paths[0].href, "/posts/CMU-15213-ShellLab");
+  assert.equal(sidecar.recommended_paths[0].href, "/posts/cmu-15213-shelllab");
 });
 
 test("home panel guide merge accepts Gemini output and sanitizes routes", () => {
@@ -142,7 +161,7 @@ test("home panel guide merge accepts Gemini output and sanitizes routes", () => 
       description: "梳理 Agent、MCP 与 Embedding 的关系。",
       excerpt: "Agent 工程综述。",
       file_path: "src/data/blog/API-Agent-Embedding-MCP-Skills.md",
-      route_path: "/posts/API-Agent-Embedding-MCP-Skills",
+      route_path: "/posts/api-agent-embedding-mcp-skills",
       pubDatetime: "2026-03-10T00:00:00Z",
       tags: ["Agent", "MCP", "LLM"],
       document: { data: { featured: false } },
@@ -158,7 +177,7 @@ test("home panel guide merge accepts Gemini output and sanitizes routes", () => 
       recommended_paths: [
         {
           label: "Agent 主题入口",
-          href: "/posts/API-Agent-Embedding-MCP-Skills",
+          href: "/posts/api-agent-embedding-mcp-skills",
           description: "从 Agent 工程主题切入。",
         },
         {
@@ -182,7 +201,7 @@ test("home panel guide merge accepts Gemini output and sanitizes routes", () => 
   assert.deepEqual(merged.recommended_paths, [
     {
       label: "Agent 主题入口",
-      href: "/posts/API-Agent-Embedding-MCP-Skills",
+      href: "/posts/api-agent-embedding-mcp-skills",
       description: "从 Agent 工程主题切入。",
     },
   ]);

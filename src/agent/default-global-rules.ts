@@ -10,6 +10,16 @@ export const DEFAULT_GLOBAL_RULES = {
     fallback: "heuristic",
     model: DEFAULT_MODEL,
   },
+  site_path_policy: {
+    filename_style: "lower-kebab-case",
+    route_style: "lower-kebab-case",
+    examples: {
+      file_name: "api-agent-embedding-mcp-skills.md",
+      route_path: "/posts/api-agent-embedding-mcp-skills",
+    },
+    rule:
+      "所有文章文件名、slug 与站内文章链接统一使用小写字母和连字符的 kebab-case 形式。",
+  },
   review_rubric: {
     structure: [
       "正文默认从 H2 开始，不应在正文中重复 H1",
@@ -20,6 +30,7 @@ export const DEFAULT_GLOBAL_RULES = {
       "技术点评优先关注论证链条、概念解释、实现细节与实验依据",
       "当文章属于课程实验或论文阅读时，优先指出缺失的关键机制与复现实证",
       "对标签、slug、description 等软规则只给建议，不默认改写",
+      "所有文章文件名、slug 与站内 route path 应统一为小写 kebab-case",
     ],
     severity_policy: {
       info: "体验性建议，不影响构建",

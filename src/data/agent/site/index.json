@@ -2,13 +2,13 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-03-16T07:19:31.493Z",
+  "generated_at": "2026-03-16T07:32:43.911Z",
   "run_mode": "build-home-panel",
   "provider": "gemini",
   "model": "gemini-3.1-pro-preview",
-  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦系统基础、算子开发、Agent 工程及顶级论文阅读等主题，帮助首次访问者快速理解站点内容主线，并跳转到最值得先读的入口。",
-  "agent_role": "这个首页 Agent 是构建期生成的静态导览员，并非在线客服。它负责概括博客主线主题、解释文章页 Agent Review 的作用，并把读者引导至最有代表性的内容入口。",
-  "site_overview": "站点当前收录 19 篇文章，暂无精选。内容围绕系统基础、算子开发、Agent 工程及 OSDI 论文展开，兼顾实验、阅读与 AI 基础设施实践。最近更新是《API Agent: Embedding, MCP, Skills》。",
+  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 CMU 15-213、Ascend C 算子开发、Agent 工程及系统论文等主题，帮助首次访问者快速理解内容主线，跳转至核心阅读入口。",
+  "agent_role": "这个首页 Agent 是构建期生成的静态导览员，非在线客服。它负责概括博客主题、解释文章页 Agent Review 的作用，并将读者引导至站内最有代表性的内容入口。",
+  "site_overview": "站点当前收录 19 篇文章，围绕 CMU 15-213 实验、Ascend C 算子、Agent 工程与 OSDI 论文展开，涵盖 AI 基建与工程实践。最近更新为《API Agent》。",
   "focus_topics": [
     "CMU 15-213 实验与系统基础",
     "Ascend C 算子开发",
@@ -16,26 +16,26 @@
     "OSDI / SOSP 论文阅读"
   ],
   "highlights": [
-    "首页精选与最近发布共同构成阅读入口，当前已收录 19 篇文章。",
-    "站点主线集中在系统基础、算子开发与 AI 基础设施实践，适合按专题连续阅读。",
-    "最近更新的重点篇章是《API Agent: Embedding, MCP, Skills》。",
-    "文章页中的 Agent Review 来自预先生成的 sidecar JSON，访问时不会触发在线请求。"
+    "当前已收录 19 篇文章，共同构成技术阅读体系入口。",
+    "站点主线集中在系统实验、算子开发、Agent 工程与顶会论文，适合按专题连续阅读。",
+    "最近文章为《API Agent: Embedding, MCP, Skills》，深入探索 Agent 与 MCP 编排。",
+    "文章页面的 Agent Review 均由静态生成，阅读时不会触发在线请求。"
   ],
   "recommended_paths": [
     {
       "label": "最近更新：API Agent: Embedding, MCP, Skills",
-      "href": "/posts/API-Agent-Embedding-MCP-Skills",
-      "description": "基于 Gemini API Cookbook 的 Agent 实操笔记，梳理 Embedding、Function Calling、MCP、Skills 与编…"
+      "href": "/posts/api-agent-embedding-mcp-skills",
+      "description": "基于 Gemini API Cookbook 的 Agent 实操笔记，梳理 Embedding、Function Calling、MCP、Skills 与编排层关系。"
+    },
+    {
+      "label": "CMU 15-213 实验与系统基础",
+      "href": "/posts/cmu-15213-malloclab",
+      "description": "最近相关更新是《CMU-15213-MallocLab》。"
     },
     {
       "label": "Ascend C 算子开发",
-      "href": "/posts/AscendC-part5-pytorch-summary",
+      "href": "/posts/ascendc-part5-pytorch-summary",
       "description": "最近相关更新是《Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结》。"
-    },
-    {
-      "label": "OSDI / SOSP 论文阅读",
-      "href": "/posts/OSDI18-Ray",
-      "description": "最近相关更新是《OSDI18-Ray A Distributed Framework for Emerging AI Applications》。"
     },
     {
       "label": "浏览全部文章",

@@ -106,6 +106,8 @@
 - `hard_checks`
 - `fixes_applied`
 
+其中 `route_path` 应始终使用站内 canonical route 形式，即全小写 kebab-case，例如 `/posts/api-agent-embedding-mcp-skills`。
+
 设计原则：
 
 - 页面渲染只读 sidecar，不触发运行时推理。

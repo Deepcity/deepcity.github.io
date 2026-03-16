@@ -195,6 +195,39 @@ export function runChecks(snapshot, schemaRules, globalRules, options = {}) {
     }
   }
 
+  const postId = getPostIdFromFilePath(options.filePath);
+  const canonicalPostId = slugifyStr(postId);
+
+  if (postId !== canonicalPostId) {
+    issues.push({
+      code: "non-canonical-post-id",
+      severity: "warn",
+      message: `文件名 \`${postId}.md\` 不符合站点路径规范，建议改为 \`${canonicalPostId}.md\`，站内文章链接统一使用小写 kebab-case。`,
+      fixable: false,
+    });
+    actionItems.push("统一文章文件名与站内文章链接为小写 kebab-case。");
+  }
+
+  if (
+    typeof document.data.slug === "string" &&
+    document.data.slug.trim() !== "" &&
+    document.data.slug !== slugifyStr(document.data.slug)
+  ) {
+    suggestions.slug_suggestion = slugifyStr(document.data.slug);
+    issues.push({
+      code: "non-canonical-slug",
+      severity: "warn",
+      message: "`slug` 应使用小写 kebab-case，避免站内链接出现大小写漂移。",
+      fixable: allowUnsafeFixes,
+      fixed: allowUnsafeFixes,
+    });
+
+    if (allowUnsafeFixes) {
+      setDocumentField(document, "slug", suggestions.slug_suggestion);
+      fixesApplied.push("将 `slug` 规范化为小写 kebab-case。");
+    }
+  }
+
   const originalTags = Array.isArray(document.data.tags)
     ? document.data.tags.map(String)
     : [];
