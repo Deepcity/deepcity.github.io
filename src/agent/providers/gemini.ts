@@ -69,6 +69,20 @@ function buildPrompt(input, context) {
   ].join("\n");
 }
 
+function buildTextRequestPayload(prompt) {
+  return JSON.stringify({
+    generationConfig: {
+      responseMimeType: "application/json",
+    },
+    contents: [
+      {
+        role: "user",
+        parts: [{ text: prompt }],
+      },
+    ],
+  });
+}
+
 function formatError(error) {
   if (!error) {
     return "unknown error";
@@ -84,18 +98,51 @@ function formatError(error) {
   return cause && cause !== message ? `${message}; cause: ${cause}` : message;
 }
 
-function buildRequestPayload(input, context) {
-  return JSON.stringify({
-    generationConfig: {
-      responseMimeType: "application/json",
-    },
-    contents: [
-      {
-        role: "user",
-        parts: [{ text: buildPrompt(input, context) }],
-      },
-    ],
-  });
+export function resolveGeminiConfig(options = {}) {
+  const apiKey = options.apiKey ?? process.env.GEMINI_API_KEY;
+  const model = options.model ?? process.env.BLOG_AGENT_MODEL ?? DEFAULT_MODEL;
+
+  return {
+    apiKey,
+    model,
+    available: Boolean(apiKey),
+    unavailable_reason: apiKey ? null : "Missing GEMINI_API_KEY",
+  };
+}
+
+export async function requestGeminiJson(options = {}) {
+  const gemini = resolveGeminiConfig(options);
+
+  if (!gemini.apiKey) {
+    throw new Error("GEMINI_API_KEY is required for Gemini provider");
+  }
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${gemini.model}:generateContent?key=${gemini.apiKey}`;
+  const body = buildTextRequestPayload(String(options.prompt ?? ""));
+  let payload;
+
+  try {
+    payload = await requestWithFetch(url, body);
+  } catch (fetchError) {
+    try {
+      payload = await requestWithCurl(url, body);
+    } catch (curlError) {
+      throw new Error(
+        `Gemini request failed via fetch (${formatError(fetchError)}) and curl (${formatError(curlError)})`
+      );
+    }
+  }
+
+  const text = payload.candidates?.[0]?.content?.parts
+    ?.map(part => part.text ?? "")
+    .join("")
+    .trim();
+
+  if (!text) {
+    throw new Error("Gemini returned an empty review");
+  }
+
+  return extractJsonPayload(text);
 }
 
 async function requestWithFetch(url, body) {
@@ -180,45 +227,21 @@ function requestWithCurl(url, body) {
 }
 
 export function createGeminiProvider(options = {}) {
-  const apiKey = options.apiKey ?? process.env.GEMINI_API_KEY;
-  const model = options.model ?? process.env.BLOG_AGENT_MODEL ?? DEFAULT_MODEL;
+  const gemini = resolveGeminiConfig(options);
 
   return {
     name: "gemini",
-    model,
-    available: Boolean(apiKey),
-    unavailable_reason: apiKey ? null : "Missing GEMINI_API_KEY",
+    model: gemini.model,
+    available: gemini.available,
+    unavailable_reason: gemini.unavailable_reason,
     async generateReview(input, context) {
-      if (!apiKey) {
-        throw new Error("GEMINI_API_KEY is required for Gemini provider");
-      }
+      const payload = await requestGeminiJson({
+        apiKey: gemini.apiKey,
+        model: gemini.model,
+        prompt: buildPrompt(input, context),
+      });
 
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-      const body = buildRequestPayload(input, context);
-      let payload;
-
-      try {
-        payload = await requestWithFetch(url, body);
-      } catch (fetchError) {
-        try {
-          payload = await requestWithCurl(url, body);
-        } catch (curlError) {
-          throw new Error(
-            `Gemini request failed via fetch (${formatError(fetchError)}) and curl (${formatError(curlError)})`
-          );
-        }
-      }
-
-      const text = payload.candidates?.[0]?.content?.parts
-        ?.map(part => part.text ?? "")
-        .join("")
-        .trim();
-
-      if (!text) {
-        throw new Error("Gemini returned an empty review");
-      }
-
-      return sanitizeReview(extractJsonPayload(text));
+      return sanitizeReview(payload);
     },
     async generateFixes() {
       return { fixes: [] };

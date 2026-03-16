@@ -6,10 +6,11 @@ import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import Card from "@/components/Card.astro";
+import HomeAgentPanel from "@/components/HomeAgentPanel.astro";
+import { loadHomeAgentSidecar } from "@/agent/site";
 import getSortedPosts from "@/utils/getSortedPosts";
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
 
 const posts = await getCollection("blog");
@@ -17,135 +18,151 @@ const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const homeAgentSidecar = await loadHomeAgentSidecar();
+const homeRecentPostLimit = Math.min(recentPosts.length, 8);
 ---
 
 <Layout>
-  <Header />
-  <main id="main-content" data-layout="index" class="app-layout">
-    <!-- Hero: Personal Introduction -->
-    <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
-      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        Deepcity
-      </h1>
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="inline-block"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
-        />
-        <span class="sr-only">RSS Feed</span>
-      </a>
+  <Header layoutWidth="wide" />
+  <main id="main-content" data-layout="index" class="app-layout-wide pb-12">
+    <div
+      class="pt-8 flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-10"
+    >
+      <div class="min-w-0">
+        <!-- Hero: Personal Introduction -->
+        <section id="hero" class:list={["pb-6", "border-b border-border"]}>
+          <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
+            Deepcity
+          </h1>
+          <a
+            target="_blank"
+            href="/rss.xml"
+            class="inline-block"
+            aria-label="rss feed"
+            title="RSS Feed"
+          >
+            <IconRss
+              width={20}
+              height={20}
+              class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
+            />
+            <span class="sr-only">RSS Feed</span>
+          </a>
 
-      <p class="mt-2 text-lg">
-        你好！我是 <strong>Deepcity</strong>，一名计算机科学学习者与开发者。
-      </p>
-      <p class="mt-2">
-        我对<strong>系统软件</strong>、<strong>分布式系统</strong>、<strong>AI 基础设施</strong>和<strong>算法</strong>有浓厚兴趣。
-        这里是我的学习笔记与论文阅读记录，涵盖 CMU 15-213 实验、OSDI/SOSP 论文解读、Ascend C 算子开发，以及 API Agent / MCP / Embedding 等内容。
-      </p>
+          <p class="mt-2 text-lg">
+            你好！我是 <strong>Deepcity</strong>，一名计算机科学学习者与开发者。
+          </p>
+          <p class="mt-2">
+            我对<strong>系统软件</strong>、<strong>分布式系统</strong>、<strong>AI 基础设施</strong>和<strong>算法</strong>有浓厚兴趣。
+            这里是我的学习笔记与论文阅读记录，涵盖 CMU 15-213 实验、OSDI/SOSP 论文解读、Ascend C 算子开发，以及 API Agent / MCP / Embedding 等内容。
+          </p>
 
-      <div class="mt-4 flex flex-wrap gap-3">
-        <LinkButton
-          class="inline-flex items-center gap-1 rounded-md border border-accent/30 bg-accent/5 px-3 py-1.5 text-sm font-medium text-accent hover:bg-accent/10"
-          href="/posts/"
-        >
-          📝 浏览博客
-        </LinkButton>
-        <LinkButton
-          class="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-sm font-medium hover:border-accent/30 hover:text-accent"
-          href="/about"
-        >
-          👤 关于我
-        </LinkButton>
-        <LinkButton
-          class="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-sm font-medium hover:border-accent/30 hover:text-accent"
-          href="https://blog.keboe.cn"
-          target="_blank"
-        >
-          🔗 旧站备份
-        </LinkButton>
-      </div>
-
-      {
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">社交链接：</div>
-            <Socials />
+          <div class="mt-4 flex flex-wrap gap-3">
+            <LinkButton
+              class="inline-flex items-center gap-1 rounded-md border border-accent/30 bg-accent/5 px-3 py-1.5 text-sm font-medium text-accent hover:bg-accent/10"
+              href="/posts/"
+            >
+              📝 浏览博客
+            </LinkButton>
+            <LinkButton
+              class="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-sm font-medium hover:border-accent/30 hover:text-accent"
+              href="/about"
+            >
+              👤 关于我
+            </LinkButton>
+            <LinkButton
+              class="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-sm font-medium hover:border-accent/30 hover:text-accent"
+              href="https://blog.keboe.cn"
+              target="_blank"
+            >
+              🔗 旧站备份
+            </LinkButton>
           </div>
-        )
-      }
-    </section>
 
-    <!-- Research Interests -->
-    <section class="pt-8 pb-6 border-b border-border">
-      <h2 class="text-2xl font-semibold tracking-wide">🔬 研究兴趣</h2>
-      <div class="mt-4 grid gap-3 sm:grid-cols-2">
-        <div class="rounded-lg border border-border p-4">
-          <h3 class="font-semibold text-accent">系统与体系结构</h3>
-          <p class="mt-1 text-sm opacity-80">操作系统、异构内存管理、分层存储优化</p>
-        </div>
-        <div class="rounded-lg border border-border p-4">
-          <h3 class="font-semibold text-accent">分布式系统</h3>
-          <p class="mt-1 text-sm opacity-80">分布式计算框架 (Ray)、Serverless 推理</p>
-        </div>
-        <div class="rounded-lg border border-border p-4">
-          <h3 class="font-semibold text-accent">AI 基础设施</h3>
-          <p class="mt-1 text-sm opacity-80">LLM 推理优化、Ascend C 算子开发、Agent 工程</p>
-        </div>
-        <div class="rounded-lg border border-border p-4">
-          <h3 class="font-semibold text-accent">算法与数学</h3>
-          <p class="mt-1 text-sm opacity-80">数论、群体智能优化算法 (PSO)</p>
+          {
+            SOCIALS.length > 0 && (
+              <div class="mt-4 flex max-sm:flex-col sm:items-center">
+                <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">社交链接：</div>
+                <Socials />
+              </div>
+            )
+          }
+        </section>
+
+        <!-- Research Interests -->
+        <section class="pt-8 pb-6 border-b border-border">
+          <h2 class="text-2xl font-semibold tracking-wide">🔬 研究兴趣</h2>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2">
+            <div class="rounded-lg border border-border p-4">
+              <h3 class="font-semibold text-accent">系统与体系结构</h3>
+              <p class="mt-1 text-sm opacity-80">操作系统、异构内存管理、分层存储优化</p>
+            </div>
+            <div class="rounded-lg border border-border p-4">
+              <h3 class="font-semibold text-accent">分布式系统</h3>
+              <p class="mt-1 text-sm opacity-80">分布式计算框架 (Ray)、Serverless 推理</p>
+            </div>
+            <div class="rounded-lg border border-border p-4">
+              <h3 class="font-semibold text-accent">AI 基础设施</h3>
+              <p class="mt-1 text-sm opacity-80">LLM 推理优化、Ascend C 算子开发、Agent 工程</p>
+            </div>
+            <div class="rounded-lg border border-border p-4">
+              <h3 class="font-semibold text-accent">算法与数学</h3>
+              <p class="mt-1 text-sm opacity-80">数论、群体智能优化算法 (PSO)</p>
+            </div>
+          </div>
+        </section>
+
+        {
+          featuredPosts.length > 0 && (
+            <section
+              id="featured"
+              class:list={[
+                "pt-12 pb-6",
+                { "border-b border-border": recentPosts.length > 0 },
+              ]}
+            >
+              <h2 class="text-2xl font-semibold tracking-wide">⭐ 精选文章</h2>
+              <ul>
+                {featuredPosts.map(data => (
+                  <Card variant="h3" {...data} />
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          recentPosts.length > 0 && (
+            <section id="recent-posts" class="pt-12 pb-6">
+              <h2 class="text-2xl font-semibold tracking-wide">📄 最近发布</h2>
+              <ul>
+                {recentPosts.map(
+                  (data, index) =>
+                    index < homeRecentPostLimit && <Card variant="h3" {...data} />
+                )}
+              </ul>
+            </section>
+          )
+        }
+
+        <div class="my-8 text-center">
+          <LinkButton href="/posts/">
+            查看全部文章
+            <IconArrowRight class="inline-block rtl:-rotate-180" />
+          </LinkButton>
         </div>
       </div>
-    </section>
 
-    {
-      featuredPosts.length > 0 && (
-        <section
-          id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-b border-border": recentPosts.length > 0 },
-          ]}
-        >
-          <h2 class="text-2xl font-semibold tracking-wide">⭐ 精选文章</h2>
-          <ul>
-            {featuredPosts.map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">📄 最近发布</h2>
-          <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
-          </ul>
-        </section>
-      )
-    }
-
-    <div class="my-8 text-center">
-      <LinkButton href="/posts/">
-        查看全部文章
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
+      <aside
+        data-pagefind-ignore
+        class="space-y-6 lg:sticky lg:top-24"
+        aria-label="首页辅助信息"
+      >
+        <HomeAgentPanel sidecar={homeAgentSidecar} />
+      </aside>
     </div>
   </main>
-  <Footer />
+  <Footer layoutWidth="wide" />
 </Layout>
 
 <script>

@@ -6,6 +6,7 @@ import {
   rebuildMemory,
   refreshMemoryEntries,
 } from "../src/agent/analyzer.js";
+import { buildHomePanel } from "../src/agent/home-panel.js";
 import { BLOG_ROOT } from "../src/agent/constants.js";
 import { listMarkdownFiles, writeJson } from "../src/agent/fs.js";
 import { getChangedPostPaths } from "../src/agent/git.js";
@@ -64,6 +65,7 @@ function printUsage() {
   writeStdout("  node scripts/blog-agent.js analyze --changed");
   writeStdout("  node scripts/blog-agent.js analyze --all");
   writeStdout("  node scripts/blog-agent.js build-panel <post|--changed|--all>");
+  writeStdout("  node scripts/blog-agent.js build-home-panel");
   writeStdout("  node scripts/blog-agent.js refresh-memory all");
   writeStdout("  node scripts/blog-agent.js refresh-memory post <post>");
   writeStdout("  node scripts/blog-agent.js refresh-memory series <series-id>");
@@ -190,12 +192,42 @@ async function main() {
     return;
   }
 
-  if (!["analyze", "build-panel", "refresh-memory"].includes(command)) {
+  if (
+    !["analyze", "build-panel", "build-home-panel", "refresh-memory"].includes(
+      command
+    )
+  ) {
     throw new Error(`Unknown command: ${command}`);
   }
 
-  const targets = await collectTargets(command, parsed);
   const reportFile = parsed.flags.get("--report-file");
+
+  if (command === "build-home-panel") {
+    const result = await buildHomePanel({
+      provider: parsed.flags.get("--provider") ?? "auto",
+      model: parsed.flags.get("--model"),
+    });
+    const report = {
+      generated_at: new Date().toISOString(),
+      summary: {
+        command,
+        processed: 1,
+        highest_severity: "info",
+        error_count: 0,
+        warn_count: 0,
+        fix_count: 0,
+      },
+      results: [result],
+    };
+
+    writeStdout(
+      `[agent] built home panel: posts=${result.content_stats.total_posts} topics=${result.focus_topics.length} sidecar=${result.sidecar_path}`
+    );
+    await maybeWriteReport(report, reportFile);
+    return;
+  }
+
+  const targets = await collectTargets(command, parsed);
 
   if (targets.length === 0) {
     writeStdout("[agent] no target posts detected.");

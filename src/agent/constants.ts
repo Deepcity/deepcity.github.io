@@ -5,11 +5,13 @@ export const REPO_ROOT = process.cwd();
 export const BLOG_ROOT = path.join(REPO_ROOT, "src", "data", "blog");
 export const AGENT_ROOT = path.join(REPO_ROOT, "src", "data", "agent");
 export const SIDECAR_ROOT = path.join(AGENT_ROOT, "posts");
+export const SITE_SIDECAR_ROOT = path.join(AGENT_ROOT, "site");
 export const MEMORY_ROOT = path.join(AGENT_ROOT, "memory");
 
 export const BLOG_PATH = "src/data/blog";
 export const AGENT_DATA_DIR = "src/data/agent";
 export const AGENT_POSTS_DIR = "src/data/agent/posts";
+export const AGENT_SITE_DIR = "src/data/agent/site";
 export const AGENT_MEMORY_DIR = "src/data/agent/memory";
 
 export const GLOBAL_RULES_PATH = path.join(MEMORY_ROOT, "global.json");

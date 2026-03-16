@@ -18,6 +18,8 @@
   说明负责文章结构点评和技术点评的 Review Agent。
 - [`workflow-and-usage.md`](./workflow-and-usage.md)
   说明 CLI、CI、构建时行为、常用命令和运维排障。
+- [`homepage-agent-panel.md`](./homepage-agent-panel.md)
+  说明首页 Agent 栏的双栏布局、独立 sidecar、CLI 命令以及宽度对齐策略。
 
 ## 系统目标
 
@@ -42,11 +44,12 @@ Agent 系统由四层组成：
 3. 数据层
    sidecar 和 memory 都存放在 [`src/data/agent`](/home/deepc/deepcity.github.io/src/data/agent)。
 4. 展示层
-   文章页通过 [`src/agent/site.ts`](/home/deepc/deepcity.github.io/src/agent/site.ts) 读取 sidecar，并在页面旁栏渲染 Agent 面板。
+   页面通过 [`src/agent/site.ts`](/home/deepc/deepcity.github.io/src/agent/site.ts) 读取 sidecar；文章页和首页分别渲染各自的 Agent 面板。
 
 ## 你应该先看哪一篇
 
 - 如果你想理解系统全貌：先看 [`architecture.md`](./architecture.md)。
 - 如果你要改 lint / fix 规则：先看 [`format-check-agent.md`](./format-check-agent.md)。
 - 如果你要改评论生成逻辑：先看 [`review-agent.md`](./review-agent.md)。
+- 如果你要改首页 Agent 栏：先看 [`homepage-agent-panel.md`](./homepage-agent-panel.md)。
 - 如果你只想知道怎么跑：直接看 [`workflow-and-usage.md`](./workflow-and-usage.md)。

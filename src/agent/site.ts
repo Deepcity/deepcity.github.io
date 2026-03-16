@@ -1,6 +1,10 @@
 // @ts-nocheck
 import { readJsonIfExists } from "./fs.js";
-import { getSidecarPathForPost, resolveRepoPath } from "./pathing.js";
+import {
+  getHomeSidecarPath,
+  getSidecarPathForPost,
+  resolveRepoPath,
+} from "./pathing.js";
 
 export async function loadPostAgentSidecar(filePath) {
   if (!filePath) {
@@ -12,3 +16,7 @@ export async function loadPostAgentSidecar(filePath) {
 }
 
 export const loadAgentSidecar = loadPostAgentSidecar;
+
+export async function loadHomeAgentSidecar() {
+  return readJsonIfExists(getHomeSidecarPath());
+}

@@ -1,0 +1,63 @@
+{
+  "page_id": "index",
+  "title": "首页 Agent 导览",
+  "route_path": "/",
+  "generated_at": "2026-03-16T07:19:31.493Z",
+  "run_mode": "build-home-panel",
+  "provider": "gemini",
+  "model": "gemini-3.1-pro-preview",
+  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦系统基础、算子开发、Agent 工程及顶级论文阅读等主题，帮助首次访问者快速理解站点内容主线，并跳转到最值得先读的入口。",
+  "agent_role": "这个首页 Agent 是构建期生成的静态导览员，并非在线客服。它负责概括博客主线主题、解释文章页 Agent Review 的作用，并把读者引导至最有代表性的内容入口。",
+  "site_overview": "站点当前收录 19 篇文章，暂无精选。内容围绕系统基础、算子开发、Agent 工程及 OSDI 论文展开，兼顾实验、阅读与 AI 基础设施实践。最近更新是《API Agent: Embedding, MCP, Skills》。",
+  "focus_topics": [
+    "CMU 15-213 实验与系统基础",
+    "Ascend C 算子开发",
+    "Agent / MCP / Embedding 工程",
+    "OSDI / SOSP 论文阅读"
+  ],
+  "highlights": [
+    "首页精选与最近发布共同构成阅读入口，当前已收录 19 篇文章。",
+    "站点主线集中在系统基础、算子开发与 AI 基础设施实践，适合按专题连续阅读。",
+    "最近更新的重点篇章是《API Agent: Embedding, MCP, Skills》。",
+    "文章页中的 Agent Review 来自预先生成的 sidecar JSON，访问时不会触发在线请求。"
+  ],
+  "recommended_paths": [
+    {
+      "label": "最近更新：API Agent: Embedding, MCP, Skills",
+      "href": "/posts/API-Agent-Embedding-MCP-Skills",
+      "description": "基于 Gemini API Cookbook 的 Agent 实操笔记，梳理 Embedding、Function Calling、MCP、Skills 与编…"
+    },
+    {
+      "label": "Ascend C 算子开发",
+      "href": "/posts/AscendC-part5-pytorch-summary",
+      "description": "最近相关更新是《Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结》。"
+    },
+    {
+      "label": "OSDI / SOSP 论文阅读",
+      "href": "/posts/OSDI18-Ray",
+      "description": "最近相关更新是《OSDI18-Ray A Distributed Framework for Emerging AI Applications》。"
+    },
+    {
+      "label": "浏览全部文章",
+      "href": "/posts/",
+      "description": "按时间线查看站内全部文章。"
+    }
+  ],
+  "content_stats": {
+    "total_posts": 19,
+    "featured_posts": 0,
+    "latest_post_title": "API Agent: Embedding, MCP, Skills",
+    "primary_topics": [
+      "CMU 15-213 实验与系统基础",
+      "Ascend C 算子开发",
+      "Agent / MCP / Embedding 工程",
+      "OSDI / SOSP 论文阅读"
+    ]
+  },
+  "confidence": 0.98,
+  "notes": [
+    "Home panel is generated from committed blog posts and frontmatter only.",
+    "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
+    "Homepage guide was refined by Gemini from committed site data."
+  ]
+}

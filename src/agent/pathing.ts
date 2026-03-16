@@ -1,6 +1,11 @@
 // @ts-nocheck
 import path from "node:path";
-import { BLOG_ROOT, REPO_ROOT, SIDECAR_ROOT } from "./constants.js";
+import {
+  BLOG_ROOT,
+  REPO_ROOT,
+  SIDECAR_ROOT,
+  SITE_SIDECAR_ROOT,
+} from "./constants.js";
 import { fileExists, listMarkdownFiles } from "./fs.js";
 import { normalizePathSlashes } from "./utils.js";
 
@@ -39,6 +44,21 @@ export function getPostIdFromFilePath(filePath) {
 export function getSidecarPathForPost(filePath) {
   const relativePath = getPostRelativePath(filePath).replace(/\.md$/u, ".json");
   return path.join(SIDECAR_ROOT, relativePath);
+}
+
+export function getSiteSidecarPath(pageId) {
+  const normalizedPageId = pageId
+    .replace(/^\/+|\/+$/gu, "")
+    .replace(/[^a-z0-9/_-]+/giu, "-");
+
+  const sidecarFile =
+    normalizedPageId === "" ? "index.json" : `${normalizedPageId}.json`;
+
+  return path.join(SITE_SIDECAR_ROOT, sidecarFile);
+}
+
+export function getHomeSidecarPath() {
+  return getSiteSidecarPath("index");
 }
 
 export function getRoutePathFromFile(filePath) {

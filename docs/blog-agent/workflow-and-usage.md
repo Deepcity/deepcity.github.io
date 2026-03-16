@@ -9,6 +9,7 @@
 - `npm run agent`
 - `npm run agent:analyze`
 - `npm run agent:build-panel`
+- `npm run agent:build-home-panel`
 - `npm run agent:refresh-memory`
 - `npm run test:agent`
 
@@ -16,7 +17,7 @@
 
 CLI 入口是 [`scripts/blog-agent.ts`](/home/deepc/deepcity.github.io/scripts/blog-agent.ts)。
 
-支持三个主命令：
+支持四个主命令：
 
 ### 2.1 analyze
 
@@ -61,7 +62,33 @@ npm run agent:build-panel -- --changed
 npm run agent:build-panel -- src/data/blog/API-Agent-Embedding-MCP-Skills.md
 ```
 
-### 2.3 refresh-memory
+### 2.3 build-home-panel
+
+为首页生成专用的静态 Agent 导览 sidecar。
+
+示例：
+
+```bash
+npm run agent:build-home-panel
+```
+
+如果要强制使用 Gemini：
+
+```bash
+npm run agent:build-home-panel -- --provider gemini
+```
+
+如果要显式回退本地启发式生成：
+
+```bash
+npm run agent:build-home-panel -- --provider heuristic
+```
+
+输出文件默认写入：
+
+- [`src/data/agent/site/index.json`](/home/deepc/deepcity.github.io/src/data/agent/site/index.json)
+
+### 2.4 refresh-memory
 
 只刷新 memory，不重新跑完整 review。
 
@@ -180,6 +207,7 @@ CI 中的行为定义在 [.github/workflows/ci.yml](/home/deepc/deepcity.github.
 1. 先由 CLI 或 CI 生成 sidecar。
 2. Astro 构建时通过 [`src/agent/site.ts`](/home/deepc/deepcity.github.io/src/agent/site.ts) 读取 JSON。
 3. 文章页在 [`src/layouts/PostDetails.astro`](/home/deepc/deepcity.github.io/src/layouts/PostDetails.astro) 中渲染 [`AgentPanel.astro`](/home/deepc/deepcity.github.io/src/components/AgentPanel.astro)。
+4. 首页在 [`src/pages/index.astro`](/home/deepc/deepcity.github.io/src/pages/index.astro) 中渲染 [`HomeAgentPanel.astro`](/home/deepc/deepcity.github.io/src/components/HomeAgentPanel.astro)。
 
 ## 7. 环境变量
 

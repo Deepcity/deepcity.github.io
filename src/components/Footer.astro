@@ -6,13 +6,20 @@ const currentYear = new Date().getFullYear();
 
 type Props = {
   noMarginTop?: boolean;
+  layoutWidth?: "default" | "wide";
 } & HTMLAttributes<"footer">;
 
-const { noMarginTop = false, class: className, ...attrs } = Astro.props;
+const {
+  noMarginTop = false,
+  layoutWidth = "default",
+  class: className,
+  ...attrs
+} = Astro.props;
+const layoutClass = layoutWidth === "wide" ? "app-layout-wide" : "app-layout";
 ---
 
 <footer
-  class:list={["app-layout", { "mt-auto": !noMarginTop }, className]}
+  class:list={[layoutClass, { "mt-auto": !noMarginTop }, className]}
   {...attrs}
 >
   <div
