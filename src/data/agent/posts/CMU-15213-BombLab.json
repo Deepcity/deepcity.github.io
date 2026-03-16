@@ -1,0 +1,111 @@
+{
+  "post_id": "CMU-15213-BombLab",
+  "title": "CMU-15213-BombLab",
+  "source_path": "src/data/blog/CMU-15213-BombLab.md",
+  "route_path": "/posts/CMU-15213-BombLab",
+  "source_hash": "7523cd6934bcdbfddc5457bbc6f88c828408ab74f3ebe0a0c285a5ced42b0540",
+  "generated_at": "2026-03-16T04:07:04.159Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "CMU 15-213 课程 Bomb Lab 实验笔记，通过反汇编与 GDB 调试破解六个关卡。",
+  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 26 个标题、65 个代码块、3 张图片。",
+  "technical_review": "这篇文章具备实验记录的骨架，适合继续补足关键实现决策、调试过程与为什么这样做。课程实验类内容如果只停留在步骤罗列，会削弱对并发、体系结构或漏洞利用细节的解释力。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [
+    "第 1 行存在正文 H1，建议从 H2 开始。",
+    "第 198 行代码块缺少语言标记。",
+    "第 412 行代码块缺少语言标记。",
+    "第 418 行代码块缺少语言标记。",
+    "第 872 行代码块缺少语言标记。",
+    "第 888 行代码块缺少语言标记。"
+  ],
+  "action_items": ["处理 missing-code-language 对应的问题。"],
+  "severity": "warn",
+  "confidence": 0.82,
+  "memory_refs": [
+    "global:tag_registry",
+    "series:cmu-15213",
+    "topic:c",
+    "topic:CMU15213",
+    "topic:反编译",
+    "topic:汇编",
+    "issue:heading-skip"
+  ],
+  "series_key": "cmu-15213",
+  "series_label": "CMU 15-213 Labs",
+  "published_at": "2025-08-13T20:29:00Z",
+  "tags_snapshot": ["CMU15213", "c", "汇编", "反编译"],
+  "hard_checks": [
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "message": "第 198 行代码块缺少语言标记。",
+      "line": 198,
+      "fixable": true,
+      "fixed": false
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "message": "第 412 行代码块缺少语言标记。",
+      "line": 412,
+      "fixable": true,
+      "fixed": false
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "message": "第 418 行代码块缺少语言标记。",
+      "line": 418,
+      "fixable": true,
+      "fixed": false
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "message": "第 872 行代码块缺少语言标记。",
+      "line": 872,
+      "fixable": true,
+      "fixed": false
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "message": "第 888 行代码块缺少语言标记。",
+      "line": 888,
+      "fixable": true,
+      "fixed": false
+    },
+    {
+      "code": "bare-url",
+      "severity": "info",
+      "message": "检测到 1 处裸 URL，建议改成 Markdown 链接。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["CMU15213", "c", "汇编", "反编译"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

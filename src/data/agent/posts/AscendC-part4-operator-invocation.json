@@ -1,0 +1,52 @@
+{
+  "post_id": "AscendC-part4-operator-invocation",
+  "title": "Ascend C 算子开发 Part4 算子调用与测试",
+  "source_path": "src/data/blog/AscendC-part4-operator-invocation.md",
+  "route_path": "/posts/AscendC-part4-operator-invocation",
+  "source_hash": "f5235174e7b7ec022327b4ba0ac500f24586c591ffa09363395ad0117ee71e15",
+  "generated_at": "2026-03-16T04:07:04.119Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "Ascend C 算子开发第四部分，讲解自定义算子的两种调用方式及对应测试方法。",
+  "structural_review": "文章分段较完整，主线已经能靠 11 个标题展开。当前还配有 3 个代码块和 8 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "info",
+  "confidence": 0.8,
+  "memory_refs": [
+    "global:tag_registry",
+    "series:ascendc",
+    "topic:Ascend",
+    "topic:c++",
+    "topic:算子开发",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "ascendc",
+  "series_label": "Ascend C 算子开发",
+  "published_at": "2025-09-05T20:00:00Z",
+  "tags_snapshot": ["Ascend", "c++", "算子开发"],
+  "hard_checks": [],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["Ascend", "c++", "算子开发"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

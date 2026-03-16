@@ -1,0 +1,51 @@
+{
+  "post_id": "onedrive-experience-and-warnings",
+  "title": "使用OneDrive的三年经验与不得不知的警告",
+  "source_path": "src/data/blog/onedrive-experience-and-warnings.md",
+  "route_path": "/posts/onedrive-experience-and-warnings",
+  "source_hash": "2777928be026c90049465e43c6f1004a9d1411d378b3df8c196245d3ebffc754",
+  "generated_at": "2026-03-16T04:07:04.191Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "三年 OneDrive 使用经验总结与重要警告，包括文件同步陷阱、数据丢失风险及最佳实践。",
+  "structural_review": "文章分段较完整，主线已经能靠 10 个标题展开。当前还配有 0 个代码块和 0 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "info",
+  "confidence": 0.74,
+  "memory_refs": [
+    "global:tag_registry",
+    "topic:365",
+    "topic:Microsoft",
+    "topic:云服务",
+    "topic:软件",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2025-04-24T15:01:39Z",
+  "tags_snapshot": ["软件", "云服务", "Microsoft", "365"],
+  "hard_checks": [],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["软件", "云服务", "Microsoft", "365"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

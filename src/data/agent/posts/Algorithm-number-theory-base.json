@@ -1,0 +1,90 @@
+{
+  "post_id": "Algorithm-number-theory-base",
+  "title": "算法数论基础",
+  "source_path": "src/data/blog/Algorithm-number-theory-base.md",
+  "route_path": "/posts/Algorithm-number-theory-base",
+  "source_hash": "18d9065b3cd54bd8c6180e4169e3d23ec40fec0ecb385b0adcaf39a93fc69d9a",
+  "generated_at": "2026-03-16T04:07:04.072Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "算法竞赛中常用的数论基础知识总结，包括快速幂、GCD、素数筛、欧拉函数等核心算法。",
+  "structural_review": "文章结构已经有基本分段，但仍存在 2 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 66 个标题、25 个代码块、2 张图片。",
+  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [
+    "第 1 行存在正文 H1，建议从 H2 开始。",
+    "第 1875 行存在正文 H1，建议从 H2 开始。",
+    "第 126 行代码块缺少语言标记。",
+    "第 380 行代码块缺少语言标记。"
+  ],
+  "action_items": ["处理 missing-code-language 对应的问题。"],
+  "severity": "warn",
+  "confidence": 0.8,
+  "memory_refs": [
+    "global:tag_registry",
+    "topic:数学",
+    "topic:数论",
+    "topic:算法",
+    "issue:heading-skip"
+  ],
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2024-08-24T16:38:26Z",
+  "tags_snapshot": ["数论", "算法", "数学"],
+  "hard_checks": [
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    },
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1875 行存在正文 H1，建议从 H2 开始。",
+      "line": 1875,
+      "fixable": false
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "message": "第 126 行代码块缺少语言标记。",
+      "line": 126,
+      "fixable": true,
+      "fixed": false
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "message": "第 380 行代码块缺少语言标记。",
+      "line": 380,
+      "fixable": true,
+      "fixed": false
+    },
+    {
+      "code": "bare-url",
+      "severity": "info",
+      "message": "检测到 1 处裸 URL，建议改成 Markdown 链接。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["数论", "算法", "数学"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

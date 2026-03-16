@@ -1,0 +1,52 @@
+{
+  "post_id": "AscendC-part2-tiling-and-debug",
+  "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
+  "source_path": "src/data/blog/AscendC-part2-tiling-and-debug.md",
+  "route_path": "/posts/AscendC-part2-tiling-and-debug",
+  "source_hash": "c669dd569b2a1218d5a7c2e6cd8c7756e1f307cf8757a1aa6e7865488558019c",
+  "generated_at": "2026-03-16T04:07:04.103Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "Ascend C 算子开发第二部分，深入讲解 Tiling 计算模式、数据切分策略与算子调试方法。",
+  "structural_review": "文章分段较完整，主线已经能靠 15 个标题展开。当前还配有 6 个代码块和 4 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "info",
+  "confidence": 0.82,
+  "memory_refs": [
+    "global:tag_registry",
+    "series:ascendc",
+    "topic:Ascend",
+    "topic:c++",
+    "topic:算子开发",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "ascendc",
+  "series_label": "Ascend C 算子开发",
+  "published_at": "2025-08-20T20:00:00Z",
+  "tags_snapshot": ["Ascend", "c++", "算子开发"],
+  "hard_checks": [],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["Ascend", "c++", "算子开发"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

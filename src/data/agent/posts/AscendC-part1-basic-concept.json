@@ -1,0 +1,59 @@
+{
+  "post_id": "AscendC-part1-basic-concept",
+  "title": "Ascend C 算子开发 Part1 基本概念",
+  "source_path": "src/data/blog/AscendC-part1-basic-concept.md",
+  "route_path": "/posts/AscendC-part1-basic-concept",
+  "source_hash": "3ebe0447ff62f2c94c2f35f3dd397972a2e6f665e01a2a18301f883ac74a4b8c",
+  "generated_at": "2026-03-16T04:07:04.094Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "华为 Ascend C 算子开发系列第一部分，介绍 CANN 架构、Ascend C 编程模型及基本概念。",
+  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 19 个标题、4 个代码块、9 张图片。",
+  "technical_review": "文章主题本身有较高的系统性，建议持续强调术语边界、模块关系与 runtime 编排的因果链。只要把概念表和实现取舍讲透，这类内容会比单纯 API 清单更有复用价值。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": ["第 1 行存在正文 H1，建议从 H2 开始。"],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "warn",
+  "confidence": 0.82,
+  "memory_refs": [
+    "global:tag_registry",
+    "topic:Ascend",
+    "topic:c++",
+    "topic:算子开发",
+    "topic:LLM",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "ascendc",
+  "series_label": "Ascend C 算子开发",
+  "published_at": "2025-08-12T17:39:00Z",
+  "tags_snapshot": ["Ascend", "LLM", "c++", "算子开发"],
+  "hard_checks": [
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["Ascend", "LLM", "c++", "算子开发"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

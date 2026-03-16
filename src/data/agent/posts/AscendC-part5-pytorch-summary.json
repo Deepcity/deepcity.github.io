@@ -1,0 +1,52 @@
+{
+  "post_id": "AscendC-part5-pytorch-summary",
+  "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+  "source_path": "src/data/blog/AscendC-part5-pytorch-summary.md",
+  "route_path": "/posts/AscendC-part5-pytorch-summary",
+  "source_hash": "113e5a4d9cb6266f22fcf8108dc82c8f68eac89201eed017f8603d5a79a14fe5",
+  "generated_at": "2026-03-16T04:07:04.127Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "Ascend C 算子开发第五部分，介绍 PTA 适配框架（torch-npu）与 PyTorch 算子集成方式，并对全系列进行阶段性总结。",
+  "structural_review": "文章分段较完整，主线已经能靠 8 个标题展开。当前还配有 0 个代码块和 4 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "文章主题本身有较高的系统性，建议持续强调术语边界、模块关系与 runtime 编排的因果链。只要把概念表和实现取舍讲透，这类内容会比单纯 API 清单更有复用价值。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "info",
+  "confidence": 0.74,
+  "memory_refs": [
+    "global:tag_registry",
+    "series:ascendc",
+    "topic:Ascend",
+    "topic:c++",
+    "topic:算子开发",
+    "topic:LLM",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "ascendc",
+  "series_label": "Ascend C 算子开发",
+  "published_at": "2025-09-12T20:00:00Z",
+  "tags_snapshot": ["Ascend", "c++", "算子开发", "LLM"],
+  "hard_checks": [],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["Ascend", "c++", "算子开发", "LLM"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

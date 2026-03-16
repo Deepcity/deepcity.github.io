@@ -1,0 +1,51 @@
+{
+  "post_id": "OSDI18-Ray",
+  "title": "OSDI18-Ray A Distributed Framework for Emerging AI Applications",
+  "source_path": "src/data/blog/OSDI18-Ray.md",
+  "route_path": "/posts/OSDI18-Ray",
+  "source_hash": "4711e1aada715f86b8033f5590e355e57fe5b8f1e4cc2d72755ac36891e9256f",
+  "generated_at": "2026-03-16T04:07:04.198Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "OSDI 2018 论文阅读笔记：Ray — 面向新兴 AI 应用的分布式计算框架。",
+  "structural_review": "文章分段较完整，主线已经能靠 11 个标题展开。当前还配有 0 个代码块和 13 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "这篇文章更像论文阅读笔记，适合进一步补强机制拆解、实验设置与作者结论的对应关系。如果只保留摘要级结论，读者会知道论文说了什么，但不一定知道它为什么成立。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "info",
+  "confidence": 0.74,
+  "memory_refs": [
+    "global:tag_registry",
+    "topic:论文阅读",
+    "topic:OSDI",
+    "topic:分布式系统",
+    "topic:大模型应用",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "paper-reading",
+  "series_label": "论文阅读",
+  "published_at": "2025-09-10T22:42:00Z",
+  "tags_snapshot": ["分布式系统", "大模型应用", "OSDI", "论文阅读"],
+  "hard_checks": [],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["分布式系统", "大模型应用", "OSDI", "论文阅读"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

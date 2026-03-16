@@ -1,0 +1,60 @@
+{
+  "post_id": "PGStudy-Swarm-intelligence",
+  "title": "PGStudy-群体人工智能Part1-PSO",
+  "source_path": "src/data/blog/PGStudy-Swarm-intelligence.md",
+  "route_path": "/posts/PGStudy-Swarm-intelligence",
+  "source_hash": "c4709a232163ea3f924ca4d5659117bccb0685db15f350b6f01ebfb62b47654e",
+  "generated_at": "2026-03-16T04:07:04.221Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "群体人工智能研究笔记第一部分：粒子群优化算法 (PSO) 的原理、数学模型与应用。",
+  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 4 个标题、3 个代码块、2 张图片。",
+  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": ["第 1 行存在正文 H1，建议从 H2 开始。"],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "warn",
+  "confidence": 0.78,
+  "memory_refs": [
+    "global:tag_registry",
+    "series:pgstudy",
+    "topic:人工智能",
+    "topic:机器学习",
+    "topic:PSO",
+    "topic:群体人工智能",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "pgstudy",
+  "series_label": "PGStudy",
+  "published_at": "2024-10-25T20:08:20Z",
+  "tags_snapshot": ["机器学习", "人工智能", "群体人工智能", "PSO"],
+  "hard_checks": [
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["机器学习", "人工智能", "群体人工智能", "PSO"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

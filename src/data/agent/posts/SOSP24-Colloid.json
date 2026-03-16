@@ -1,0 +1,59 @@
+{
+  "post_id": "SOSP24-Colloid",
+  "title": "SOSP24-Tiered Memory Management: Access Latency is the Key!",
+  "source_path": "src/data/blog/SOSP24-Colloid.md",
+  "route_path": "/posts/SOSP24-Colloid",
+  "source_hash": "265311ba3a4cef25a61b89fd460c41d60a7fc68e947914d6c7b627dbd8509dd3",
+  "generated_at": "2026-03-16T04:07:04.229Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "SOSP 2024 论文阅读笔记：Colloid — 分层内存管理中基于访问延迟的热页面负载均衡机制。",
+  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 9 个标题、0 个代码块、4 张图片。",
+  "technical_review": "这篇文章更像论文阅读笔记，适合进一步补强机制拆解、实验设置与作者结论的对应关系。如果只保留摘要级结论，读者会知道论文说了什么，但不一定知道它为什么成立。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": ["第 1 行存在正文 H1，建议从 H2 开始。"],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "warn",
+  "confidence": 0.74,
+  "memory_refs": [
+    "global:tag_registry",
+    "series:paper-reading",
+    "topic:论文阅读",
+    "topic:内存延迟",
+    "topic:异构内存",
+    "topic:SOSP",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "paper-reading",
+  "series_label": "论文阅读",
+  "published_at": "2025-08-12T02:42:00Z",
+  "tags_snapshot": ["异构内存", "内存延迟", "SOSP", "论文阅读"],
+  "hard_checks": [
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["异构内存", "内存延迟", "SOSP", "论文阅读"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

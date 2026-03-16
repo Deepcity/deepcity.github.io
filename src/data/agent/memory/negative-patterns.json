@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "updated_at": "2026-03-16T04:07:04.319Z",
+  "patterns": [
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "post_ids": [
+        "Algorithm-number-theory-base",
+        "AscendC-part1-basic-concept",
+        "CMU-15213-ArchitectureLab",
+        "CMU-15213-AttackLab",
+        "CMU-15213-BombLab",
+        "PGStudy-Swarm-intelligence",
+        "SOSP24-Colloid"
+      ],
+      "sample_message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "latest_post_id": "SOSP24-Colloid",
+      "count": 7
+    },
+    {
+      "code": "bare-url",
+      "severity": "info",
+      "post_ids": [
+        "Algorithm-number-theory-base",
+        "AscendC-part3-operator-delivery",
+        "CMU-15213-ArchitectureLab",
+        "CMU-15213-AttackLab",
+        "CMU-15213-BombLab"
+      ],
+      "sample_message": "检测到 1 处裸 URL，建议改成 Markdown 链接。",
+      "latest_post_id": "CMU-15213-BombLab",
+      "count": 5
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "post_ids": [
+        "Algorithm-number-theory-base",
+        "CMU-15213-AttackLab",
+        "CMU-15213-BombLab",
+        "CMU-15213-MallocLab",
+        "PGStudy-EAandGA"
+      ],
+      "sample_message": "第 63 行代码块缺少语言标记。",
+      "latest_post_id": "PGStudy-EAandGA",
+      "count": 5
+    },
+    {
+      "code": "heading-skip",
+      "severity": "warn",
+      "post_ids": ["CMU-15213-AttackLab", "CMU-15213-MallocLab"],
+      "sample_message": "第 1045 行标题层级从 H2 跳到了 H4。",
+      "latest_post_id": "CMU-15213-MallocLab",
+      "count": 2
+    }
+  ]
+}

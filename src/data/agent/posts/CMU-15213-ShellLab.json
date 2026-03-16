@@ -1,0 +1,51 @@
+{
+  "post_id": "CMU-15213-ShellLab",
+  "title": "CMU-15213-ShellLab",
+  "source_path": "src/data/blog/CMU-15213-ShellLab.md",
+  "route_path": "/posts/CMU-15213-ShellLab",
+  "source_hash": "a3afc444643eace1ad3b696493412e05b48350b7ae579a92cfe3e38ef9144490",
+  "generated_at": "2026-03-16T04:07:04.184Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "CMU 15-213 课程 Shell Lab 实验记录，实现带作业控制的 Unix Shell，涉及进程控制、信号处理与并发。",
+  "structural_review": "文章分段较完整，主线已经能靠 11 个标题展开。当前还配有 1 个代码块和 1 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "这篇文章具备实验记录的骨架，适合继续补足关键实现决策、调试过程与为什么这样做。课程实验类内容如果只停留在步骤罗列，会削弱对并发、体系结构或漏洞利用细节的解释力。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "info",
+  "confidence": 0.76,
+  "memory_refs": [
+    "global:tag_registry",
+    "series:cmu-15213",
+    "topic:c",
+    "topic:CMU15213",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "cmu-15213",
+  "series_label": "CMU 15-213 Labs",
+  "published_at": "2025-09-14T20:00:00Z",
+  "tags_snapshot": ["CMU15213", "c"],
+  "hard_checks": [],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["CMU15213", "c"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

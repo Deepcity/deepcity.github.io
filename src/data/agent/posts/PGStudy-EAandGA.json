@@ -1,0 +1,60 @@
+{
+  "post_id": "PGStudy-EAandGA",
+  "title": "PGStudy-EA and GA",
+  "source_path": "src/data/blog/PGStudy-EAandGA.md",
+  "route_path": "/posts/PGStudy-EAandGA",
+  "source_hash": "afddff112ff0462eda6943f5d1e4e33f2bc81029adb5b75ffa6d68049fee287a",
+  "generated_at": "2026-03-16T04:07:04.214Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "研究生课程学习笔记：进化算法（EA）与遗传算法（GA）的核心概念，覆盖表示法、亲本选择、重组变异与生存选择，并以 TSP 问题为例实践。",
+  "structural_review": "文章分段较完整，主线已经能靠 19 个标题展开。当前还配有 9 个代码块和 4 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": ["第 63 行代码块缺少语言标记。"],
+  "action_items": ["处理 missing-code-language 对应的问题。"],
+  "severity": "warn",
+  "confidence": 0.82,
+  "memory_refs": [
+    "global:tag_registry",
+    "topic:人工智能",
+    "topic:机器学习",
+    "topic:进化算法",
+    "topic:遗传算法",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:heading-skip"
+  ],
+  "series_key": "pgstudy",
+  "series_label": "PGStudy",
+  "published_at": "2024-10-29T19:17:57Z",
+  "tags_snapshot": ["机器学习", "人工智能", "进化算法", "遗传算法"],
+  "hard_checks": [
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "message": "第 63 行代码块缺少语言标记。",
+      "line": 63,
+      "fixable": true,
+      "fixed": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["机器学习", "人工智能", "进化算法", "遗传算法"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

@@ -40,6 +40,20 @@ jobs:
       - name: "📦 Install dependencies"
         run: pnpm install
 
+      - name: "🤖 Build blog agent panels"
+        continue-on-error: true
+        run: |
+          mkdir -p .tmp
+          pnpm run agent:build-panel -- --changed --mode ci --report-file .tmp/blog-agent-report.json
+
+      - name: "🧾 Upload blog agent report"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-agent-report
+          path: .tmp/blog-agent-report.json
+          if-no-files-found: ignore
+
       - name: "🔎 Lint code"
         run: pnpm run lint
 

@@ -1,0 +1,52 @@
+{
+  "post_id": "CMU-15213-CacheLab",
+  "title": "CMU-15213-CacheLab",
+  "source_path": "src/data/blog/CMU-15213-CacheLab.md",
+  "route_path": "/posts/CMU-15213-CacheLab",
+  "source_hash": "e03213a39bcd1e52bed8200b758bb4921dd1b11da2608a881ea6caca9bf85077",
+  "generated_at": "2026-03-16T04:07:04.167Z",
+  "run_mode": "build",
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "summary": "CMU 15-213 课程 Cache Lab 实验记录，实现缓存模拟器与矩阵转置优化，深入理解缓存命中率与分块策略。",
+  "structural_review": "文章分段较完整，主线已经能靠 5 个标题展开。当前还配有 9 个代码块和 0 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "这篇文章具备实验记录的骨架，适合继续补足关键实现决策、调试过程与为什么这样做。课程实验类内容如果只停留在步骤罗列，会削弱对并发、体系结构或漏洞利用细节的解释力。",
+  "strengths": [
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "文章包含代码或命令示例，技术可操作性较强。",
+    "引用链接数量足够，外部材料入口比较明确。"
+  ],
+  "concerns": [],
+  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "severity": "info",
+  "confidence": 0.82,
+  "memory_refs": [
+    "global:tag_registry",
+    "series:cmu-15213",
+    "topic:c",
+    "topic:CMU15213",
+    "topic:x86-64",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": "cmu-15213",
+  "series_label": "CMU 15-213 Labs",
+  "published_at": "2025-09-07T20:00:00Z",
+  "tags_snapshot": ["CMU15213", "c", "x86-64"],
+  "hard_checks": [],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": ["CMU15213", "c", "x86-64"],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
+}

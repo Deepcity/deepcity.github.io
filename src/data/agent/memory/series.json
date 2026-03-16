@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "updated_at": "2026-03-16T04:07:04.319Z",
+  "series": [
+    {
+      "id": "ascendc",
+      "label": "Ascend C 算子开发",
+      "expected_total": 5,
+      "open_ended": false,
+      "missing": [],
+      "posts": [
+        {
+          "post_id": "AscendC-part5-pytorch-summary",
+          "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+          "file_path": "src/data/blog/AscendC-part5-pytorch-summary.md",
+          "published_at": "2025-09-12T20:00:00Z",
+          "severity": "info",
+          "tags": ["Ascend", "c++", "算子开发", "LLM"]
+        },
+        {
+          "post_id": "AscendC-part4-operator-invocation",
+          "title": "Ascend C 算子开发 Part4 算子调用与测试",
+          "file_path": "src/data/blog/AscendC-part4-operator-invocation.md",
+          "published_at": "2025-09-05T20:00:00Z",
+          "severity": "info",
+          "tags": ["Ascend", "c++", "算子开发"]
+        },
+        {
+          "post_id": "AscendC-part3-operator-delivery",
+          "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+          "file_path": "src/data/blog/AscendC-part3-operator-delivery.md",
+          "published_at": "2025-08-28T20:00:00Z",
+          "severity": "info",
+          "tags": ["Ascend", "c++", "算子开发"]
+        },
+        {
+          "post_id": "AscendC-part2-tiling-and-debug",
+          "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
+          "file_path": "src/data/blog/AscendC-part2-tiling-and-debug.md",
+          "published_at": "2025-08-20T20:00:00Z",
+          "severity": "info",
+          "tags": ["Ascend", "c++", "算子开发"]
+        },
+        {
+          "post_id": "AscendC-part1-basic-concept",
+          "title": "Ascend C 算子开发 Part1 基本概念",
+          "file_path": "src/data/blog/AscendC-part1-basic-concept.md",
+          "published_at": "2025-08-12T17:39:00Z",
+          "severity": "warn",
+          "tags": ["Ascend", "LLM", "c++", "算子开发"]
+        }
+      ]
+    },
+    {
+      "id": "cmu-15213",
+      "label": "CMU 15-213 Labs",
+      "expected_total": 8,
+      "open_ended": false,
+      "missing": ["CMU-15213-DataLab", "CMU-15213-ProxyLab"],
+      "posts": [
+        {
+          "post_id": "CMU-15213-MallocLab",
+          "title": "CMU-15213-MallocLab",
+          "file_path": "src/data/blog/CMU-15213-MallocLab.md",
+          "published_at": "2025-09-28T20:00:00Z",
+          "severity": "warn",
+          "tags": ["CMU15213", "c"]
+        },
+        {
+          "post_id": "CMU-15213-ShellLab",
+          "title": "CMU-15213-ShellLab",
+          "file_path": "src/data/blog/CMU-15213-ShellLab.md",
+          "published_at": "2025-09-14T20:00:00Z",
+          "severity": "info",
+          "tags": ["CMU15213", "c"]
+        },
+        {
+          "post_id": "CMU-15213-CacheLab",
+          "title": "CMU-15213-CacheLab",
+          "file_path": "src/data/blog/CMU-15213-CacheLab.md",
+          "published_at": "2025-09-07T20:00:00Z",
+          "severity": "info",
+          "tags": ["CMU15213", "c", "x86-64"]
+        },
+        {
+          "post_id": "CMU-15213-ArchitectureLab",
+          "title": "CMU-15213-ArchitectureLab",
+          "file_path": "src/data/blog/CMU-15213-ArchitectureLab.md",
+          "published_at": "2025-08-24T20:29:00Z",
+          "severity": "warn",
+          "tags": ["CMU15213", "c", "x86-64", "指令集", "流水线处理器"]
+        },
+        {
+          "post_id": "CMU-15213-AttackLab",
+          "title": "CMU-15213-AttackLab",
+          "file_path": "src/data/blog/CMU-15213-AttackLab.md",
+          "published_at": "2025-08-17T20:29:00Z",
+          "severity": "warn",
+          "tags": ["CMU15213", "c", "汇编", "反编译", "Exploit String Attack"]
+        },
+        {
+          "post_id": "CMU-15213-BombLab",
+          "title": "CMU-15213-BombLab",
+          "file_path": "src/data/blog/CMU-15213-BombLab.md",
+          "published_at": "2025-08-13T20:29:00Z",
+          "severity": "warn",
+          "tags": ["CMU15213", "c", "汇编", "反编译"]
+        }
+      ]
+    },
+    {
+      "id": "pgstudy",
+      "label": "PGStudy",
+      "expected_total": null,
+      "open_ended": true,
+      "missing": [],
+      "posts": [
+        {
+          "post_id": "PGStudy-EAandGA",
+          "title": "PGStudy-EA and GA",
+          "file_path": "src/data/blog/PGStudy-EAandGA.md",
+          "published_at": "2024-10-29T19:17:57Z",
+          "severity": "warn",
+          "tags": ["机器学习", "人工智能", "进化算法", "遗传算法"]
+        },
+        {
+          "post_id": "PGStudy-Swarm-intelligence",
+          "title": "PGStudy-群体人工智能Part1-PSO",
+          "file_path": "src/data/blog/PGStudy-Swarm-intelligence.md",
+          "published_at": "2024-10-25T20:08:20Z",
+          "severity": "warn",
+          "tags": ["机器学习", "人工智能", "群体人工智能", "PSO"]
+        }
+      ]
+    },
+    {
+      "id": "paper-reading",
+      "label": "论文阅读",
+      "expected_total": null,
+      "open_ended": true,
+      "missing": [],
+      "posts": [
+        {
+          "post_id": "OSDI18-Ray",
+          "title": "OSDI18-Ray A Distributed Framework for Emerging AI Applications",
+          "file_path": "src/data/blog/OSDI18-Ray.md",
+          "published_at": "2025-09-10T22:42:00Z",
+          "severity": "info",
+          "tags": ["分布式系统", "大模型应用", "OSDI", "论文阅读"]
+        },
+        {
+          "post_id": "OSDI24-ServerlessLLM",
+          "title": "OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models",
+          "file_path": "src/data/blog/OSDI24-ServerlessLLM.md",
+          "published_at": "2025-09-08T22:42:00Z",
+          "severity": "info",
+          "tags": ["异构内存", "内存延迟", "大模型推理", "OSDI", "论文阅读"]
+        },
+        {
+          "post_id": "SOSP24-Colloid",
+          "title": "SOSP24-Tiered Memory Management: Access Latency is the Key!",
+          "file_path": "src/data/blog/SOSP24-Colloid.md",
+          "published_at": "2025-08-12T02:42:00Z",
+          "severity": "warn",
+          "tags": ["异构内存", "内存延迟", "SOSP", "论文阅读"]
+        }
+      ]
+    }
+  ]
+}

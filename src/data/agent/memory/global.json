@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "generated_at": "2026-03-16T00:00:00.000Z",
+  "provider_defaults": {
+    "preferred": "gemini",
+    "fallback": "heuristic",
+    "model": "gemini-2.5-flash"
+  },
+  "prompt_version": "v1",
+  "review_rubric": {
+    "structural": [
+      "frontmatter 完整性",
+      "标题层级与段落组织",
+      "代码块语言标记",
+      "图片与链接可读性"
+    ],
+    "technical": [
+      "概念定义是否清楚",
+      "论证与例子是否支撑主题",
+      "术语是否与既有系列保持一致"
+    ],
+    "severity_levels": {
+      "info": "可选优化，不影响构建与阅读",
+      "warn": "建议修正，可能影响一致性或阅读体验",
+      "error": "需要优先处理，可能违反 schema 或基础格式约束"
+    }
+  },
+  "tag_registry": {
+    "365": {
+      "category": "software",
+      "aliases": ["Office 365", "M365"]
+    },
+    "论文阅读": {
+      "category": "paper",
+      "aliases": ["paper reading", "论文笔记", "paper notes"]
+    },
+    "OSDI": {
+      "category": "paper",
+      "aliases": ["osdi", "USENIX OSDI"]
+    },
+    "SOSP": {
+      "category": "paper",
+      "aliases": ["sosp"]
+    },
+    "分布式系统": {
+      "category": "paper",
+      "aliases": ["distributed system", "分布式", "分布式计算"]
+    },
+    "异构内存": {
+      "category": "paper",
+      "aliases": ["heterogeneous memory", "tiered memory", "分层内存"]
+    },
+    "内存延迟": {
+      "category": "paper",
+      "aliases": ["memory latency", "访存延迟"]
+    },
+    "大模型推理": {
+      "category": "paper",
+      "aliases": ["LLM inference", "模型推理", "inference"]
+    },
+    "大模型应用": {
+      "category": "paper",
+      "aliases": ["LLM application", "大模型部署", "LLM framework"]
+    },
+    "CMU15213": {
+      "category": "course",
+      "aliases": ["CMU-lab", "15213", "cmu lab", "CSAPP", "csapp lab"]
+    },
+    "c": {
+      "category": "course",
+      "aliases": ["C语言", "C language", "clang"]
+    },
+    "c++": {
+      "category": "development",
+      "aliases": ["C++语言", "cpp", "C plus plus"]
+    },
+    "汇编": {
+      "category": "course",
+      "aliases": ["assembly", "asm", "汇编语言"]
+    },
+    "反编译": {
+      "category": "course",
+      "aliases": ["disassemble", "reverse", "逆向分析"]
+    },
+    "x86-64": {
+      "category": "course",
+      "aliases": ["x86", "x64", "amd64"]
+    },
+    "指令集": {
+      "category": "course",
+      "aliases": ["ISA", "instruction set"]
+    },
+    "流水线处理器": {
+      "category": "course",
+      "aliases": ["pipeline", "CPU pipeline"]
+    },
+    "Exploit String Attack": {
+      "category": "course",
+      "aliases": ["buffer overflow attack"]
+    },
+    "算法": {
+      "category": "algorithm",
+      "aliases": ["algorithm", "算法题"]
+    },
+    "数论": {
+      "category": "algorithm",
+      "aliases": ["number theory"]
+    },
+    "数学": {
+      "category": "algorithm",
+      "aliases": ["math", "数学基础"]
+    },
+    "机器学习": {
+      "category": "ai",
+      "aliases": ["ML", "machine learning"]
+    },
+    "人工智能": {
+      "category": "ai",
+      "aliases": ["AI", "artificial intelligence"]
+    },
+    "群体人工智能": {
+      "category": "ai",
+      "aliases": ["swarm intelligence", "群体智能", "SI"]
+    },
+    "PSO": {
+      "category": "ai",
+      "aliases": ["particle swarm optimization"]
+    },
+    "进化算法": {
+      "category": "ai",
+      "aliases": ["evolutionary algorithm", "EA", "进化计算"]
+    },
+    "遗传算法": {
+      "category": "ai",
+      "aliases": ["genetic algorithm", "GA"]
+    },
+    "Ascend": {
+      "category": "development",
+      "aliases": ["昇腾", "Ascend NPU", "华为昇腾"]
+    },
+    "LLM": {
+      "category": "development",
+      "aliases": ["大模型", "大语言模型", "large language model"]
+    },
+    "Agent": {
+      "category": "development",
+      "aliases": ["API Agent", "智能体", "agentic system", "AI agent"]
+    },
+    "MCP": {
+      "category": "development",
+      "aliases": ["Model Context Protocol", "model context protocol"]
+    },
+    "Embedding": {
+      "category": "development",
+      "aliases": ["embeddings", "向量化", "向量表示"]
+    },
+    "算子": {
+      "category": "development",
+      "aliases": ["operator", "op", "kernel"]
+    },
+    "算子开发": {
+      "category": "development",
+      "aliases": ["operator development", "kernel development"]
+    },
+    "软件": {
+      "category": "software",
+      "aliases": ["software", "tool"]
+    },
+    "云服务": {
+      "category": "software",
+      "aliases": ["cloud", "cloud service", "云存储"]
+    },
+    "Microsoft": {
+      "category": "software",
+      "aliases": ["微软", "MS"]
+    }
+  },
+  "series_rules": [
+    {
+      "id": "cmu-15213-labs",
+      "title": "CMU 15-213 Labs",
+      "file_prefix": "CMU-15213-",
+      "expected_posts": [
+        "DataLab",
+        "BombLab",
+        "AttackLab",
+        "ArchitectureLab",
+        "CacheLab",
+        "ShellLab",
+        "MallocLab",
+        "ProxyLab"
+      ],
+      "required_tags": ["CMU15213"]
+    },
+    {
+      "id": "ascendc-series",
+      "title": "Ascend C 算子开发",
+      "file_prefix": "AscendC-",
+      "required_tags": ["Ascend"]
+    },
+    {
+      "id": "pgstudy-series",
+      "title": "PGStudy",
+      "file_prefix": "PGStudy-"
+    },
+    {
+      "id": "paper-reading",
+      "title": "论文阅读",
+      "title_regex": "^(OSDI|SOSP)[0-9]{2}-"
+    }
+  ]
+}

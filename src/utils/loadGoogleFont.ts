@@ -1,3 +1,16 @@
+import { readFile } from "node:fs/promises";
+
+const LOCAL_FALLBACK_FONT =
+  "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf";
+
+function toArrayBuffer(buffer: Buffer<ArrayBufferLike>) {
+  const view = new Uint8Array(buffer);
+  return view.buffer.slice(
+    view.byteOffset,
+    view.byteOffset + view.byteLength
+  ) as ArrayBuffer;
+}
+
 async function loadGoogleFont(
   font: string,
   text: string,
@@ -49,14 +62,26 @@ async function loadGoogleFonts(
     },
   ];
 
-  const fonts = await Promise.all(
-    fontsConfig.map(async ({ name, font, weight, style }) => {
-      const data = await loadGoogleFont(font, text, weight);
-      return { name, data, weight, style };
-    })
-  );
+  try {
+    const fonts = await Promise.all(
+      fontsConfig.map(async ({ name, font, weight, style }) => {
+        const data = await loadGoogleFont(font, text, weight);
+        return { name, data, weight, style };
+      })
+    );
 
-  return fonts;
+    return fonts;
+  } catch {
+    // OG generation should still succeed in offline CI or restricted sandboxes.
+    const localFont = await readFile(LOCAL_FALLBACK_FONT);
+    const data = toArrayBuffer(localFont);
+    return fontsConfig.map(({ name, weight, style }) => ({
+      name,
+      data,
+      weight,
+      style,
+    }));
+  }
 }
 
 export default loadGoogleFonts;
