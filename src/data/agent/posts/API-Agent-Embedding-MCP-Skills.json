@@ -4,25 +4,32 @@
   "source_path": "src/data/blog/API-Agent-Embedding-MCP-Skills.md",
   "route_path": "/posts/API-Agent-Embedding-MCP-Skills",
   "source_hash": "ef994a8c6cbca3ea82aa27acc34234e20901bea36ffae86e9ad2a3178713813c",
-  "generated_at": "2026-03-16T04:07:04.085Z",
+  "generated_at": "2026-03-16T06:51:08.900Z",
   "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "基于 Gemini API Cookbook 的 Agent 实操笔记，梳理 Embedding、Function Calling、MCP、Skills 与编排层关系。",
-  "structural_review": "文章分段较完整，主线已经能靠 31 个标题展开。当前还配有 34 个代码块和 6 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "文章主题本身有较高的系统性，建议持续强调术语边界、模块关系与 runtime 编排的因果链。只要把概念表和实现取舍讲透，这类内容会比单纯 API 清单更有复用价值。",
+  "provider": "gemini",
+  "model": "gemini-3.1-pro-preview",
+  "summary": "本文是基于Gemini API Cookbook的Agent实操笔记，详细梳理了Embedding、Function Calling、MCP与Skills的关系，包含大量代码示例，为大模型应用开发提供了清晰的实践指南。",
+  "structural_review": "文章结构详实，包含31个标题、34个代码块和27个链接，支撑了高密度的技术笔记定位；但根据排版检测，可能存在正文误用H1标签、标题跳级以及裸链接等Markdown规范问题需要优化。",
+  "technical_review": "技术内容紧跟当前Agent开发的最新趋势，以Gemini的实操作为切入点，逻辑连贯地串联了从基础Embedding到高阶MCP和Skills的演进路线，对LLM应用开发者具有极高的参考价值。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "系统性梳理了从Embedding到MCP等Agent核心组件，理论与实践结合紧密。",
+    "提供了多达34段实操代码块，极大增强了文章的可复现性和指导意义。",
+    "引用了丰富的外部参考链接，便于开发者进行深入的扩展学习。"
   ],
-  "concerns": [],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
-  "severity": "info",
-  "confidence": 0.82,
+  "concerns": [
+    "正文可能直接使用了H1标签，破坏了文档结构的层级规范。",
+    "存在代码块缺少语言声明的情况，可能会影响代码高亮和阅读体验。",
+    "可能包含未修饰的裸链接以及标题层级跳级的问题，需要优化阅读排版。"
+  ],
+  "action_items": [
+    "将正文中使用的H1标签降级为H2或H3。",
+    "检查所有Markdown代码块，补充对应的语言语法高亮标识。",
+    "将正文中的裸链接替换为带描述文字的标准Markdown链接格式。",
+    "修正各级标题，确保不存在跳跃层级的情况。"
+  ],
+  "severity": "warn",
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
     "topic:LLM",
     "topic:Agent",
     "topic:Embedding",
@@ -35,18 +42,26 @@
   "series_key": null,
   "series_label": null,
   "published_at": "2026-03-07T00:00:00Z",
-  "tags_snapshot": ["LLM", "Agent", "MCP", "Embedding"],
+  "tags_snapshot": [
+    "LLM",
+    "Agent",
+    "MCP",
+    "Embedding"
+  ],
   "hard_checks": [],
   "fixes_applied": [],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["LLM", "Agent", "MCP", "Embedding"],
+    "normalized_tags": [
+      "LLM",
+      "Agent",
+      "MCP",
+      "Embedding"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": []
 }

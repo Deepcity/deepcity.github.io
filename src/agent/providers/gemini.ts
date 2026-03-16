@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { spawn } from "node:child_process";
 import { DEFAULT_MODEL } from "../constants.js";
 import { dedupeStrings, roundConfidence } from "../utils.js";
 
@@ -68,6 +69,116 @@ function buildPrompt(input, context) {
   ].join("\n");
 }
 
+function formatError(error) {
+  if (!error) {
+    return "unknown error";
+  }
+
+  if (typeof error === "string") {
+    return error;
+  }
+
+  const message = error.message ?? String(error);
+  const cause = error.cause?.message;
+
+  return cause && cause !== message ? `${message}; cause: ${cause}` : message;
+}
+
+function buildRequestPayload(input, context) {
+  return JSON.stringify({
+    generationConfig: {
+      responseMimeType: "application/json",
+    },
+    contents: [
+      {
+        role: "user",
+        parts: [{ text: buildPrompt(input, context) }],
+      },
+    ],
+  });
+}
+
+async function requestWithFetch(url, body) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  });
+
+  if (!response.ok) {
+    const detail = (await response.text().catch(() => "")).trim();
+    throw new Error(
+      `Gemini request failed: ${response.status}${detail ? ` ${detail}` : ""}`
+    );
+  }
+
+  return response.json();
+}
+
+function requestWithCurl(url, body) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      "curl",
+      [
+        "--silent",
+        "--show-error",
+        "--fail-with-body",
+        "--location",
+        "--request",
+        "POST",
+        "--header",
+        "Content-Type: application/json",
+        "--data-binary",
+        "@-",
+        url,
+      ],
+      {
+        stdio: ["pipe", "pipe", "pipe"],
+      }
+    );
+
+    let stdout = "";
+    let stderr = "";
+
+    child.stdout.on("data", chunk => {
+      stdout += chunk.toString();
+    });
+
+    child.stderr.on("data", chunk => {
+      stderr += chunk.toString();
+    });
+
+    child.on("error", error => {
+      reject(error);
+    });
+
+    child.on("close", code => {
+      if (code !== 0) {
+        reject(
+          new Error(
+            stderr.trim() || stdout.trim() || `curl exited with code ${code}`
+          )
+        );
+        return;
+      }
+
+      try {
+        resolve(JSON.parse(stdout));
+      } catch (error) {
+        reject(
+          new Error(
+            `Gemini curl response is not valid JSON: ${formatError(error)}`
+          )
+        );
+      }
+    });
+
+    child.stdin.end(body);
+  });
+}
+
 export function createGeminiProvider(options = {}) {
   const apiKey = options.apiKey ?? process.env.GEMINI_API_KEY;
   const model = options.model ?? process.env.BLOG_AGENT_MODEL ?? DEFAULT_MODEL;
@@ -82,32 +193,22 @@ export function createGeminiProvider(options = {}) {
         throw new Error("GEMINI_API_KEY is required for Gemini provider");
       }
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            generationConfig: {
-              responseMimeType: "application/json",
-            },
-            contents: [
-              {
-                role: "user",
-                parts: [{ text: buildPrompt(input, context) }],
-              },
-            ],
-          }),
-        }
-      );
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const body = buildRequestPayload(input, context);
+      let payload;
 
-      if (!response.ok) {
-        throw new Error(`Gemini request failed: ${response.status}`);
+      try {
+        payload = await requestWithFetch(url, body);
+      } catch (fetchError) {
+        try {
+          payload = await requestWithCurl(url, body);
+        } catch (curlError) {
+          throw new Error(
+            `Gemini request failed via fetch (${formatError(fetchError)}) and curl (${formatError(curlError)})`
+          );
+        }
       }
 
-      const payload = await response.json();
       const text = payload.candidates?.[0]?.content?.parts
         ?.map(part => part.text ?? "")
         .join("")

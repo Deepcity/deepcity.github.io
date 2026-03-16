@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-03-16T04:07:04.319Z",
+  "updated_at": "2026-03-16T06:51:08.908Z",
   "patterns": [
     {
       "code": "body-h1",
@@ -49,7 +49,10 @@
     {
       "code": "heading-skip",
       "severity": "warn",
-      "post_ids": ["CMU-15213-AttackLab", "CMU-15213-MallocLab"],
+      "post_ids": [
+        "CMU-15213-AttackLab",
+        "CMU-15213-MallocLab"
+      ],
       "sample_message": "第 1045 行标题层级从 H2 跳到了 H4。",
       "latest_post_id": "CMU-15213-MallocLab",
       "count": 2
