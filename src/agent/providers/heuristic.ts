@@ -4,7 +4,7 @@ import {
   maxSeverity,
   roundConfidence,
   truncateText,
-} from "../utils.js";
+} from "../shared/utils.js";
 
 function buildStructuralReview(input) {
   const headingCount = input.analysis.headings.length;

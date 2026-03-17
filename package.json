@@ -14,6 +14,7 @@
     "agent:build-panel": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js build-panel",
     "agent:build-home-panel": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js build-home-panel",
     "agent:refresh-memory": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js refresh-memory",
+    "agent:build-all": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js build-panel --all --mode ci && node .tmp/agent-build/scripts/blog-agent.js build-home-panel",
     "test:agent": "npm run agent:compile && node --test .tmp/agent-build/tests/blog-agent.test.js",
     "format:check": "prettier --check .",
     "format": "prettier --write .",

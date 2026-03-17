@@ -1,19 +1,20 @@
 // @ts-nocheck
-import { BLOG_ROOT, DEFAULT_PROVIDER, REPO_ROOT } from "./constants.js";
-import { listMarkdownFiles, writeJson } from "./fs.js";
-import { getHomeSidecarPath } from "./pathing.js";
-import { loadPostSnapshot } from "./post-snapshot.js";
+import { BLOG_ROOT, DEFAULT_PROVIDER, REPO_ROOT } from "../shared/constants.js";
+import { listMarkdownFiles, readJsonIfExists, writeJson } from "../shared/fs.js";
+import { getHomeSidecarPath } from "../shared/pathing.js";
+import { loadPostSnapshot } from "../parsers/post-snapshot.js";
 import {
   requestGeminiJson,
   resolveGeminiConfig,
-} from "./providers/gemini.js";
+} from "../providers/gemini.js";
 import {
   dedupeStrings,
+  hashContent,
   isoNow,
   repoRelative,
   roundConfidence,
   truncateText,
-} from "./utils.js";
+} from "../shared/utils.js";
 
 const TRACK_DEFINITIONS = [
   {
@@ -443,12 +444,41 @@ export function buildHomePanelData(snapshots) {
   };
 }
 
+function computePostsHash(snapshots) {
+  const sorted = [...snapshots].sort((a, b) =>
+    a.post_id.localeCompare(b.post_id)
+  );
+  const payload = sorted.map(s => `${s.post_id}:${s.source_hash}`).join("\n");
+
+  return hashContent(payload);
+}
+
 export async function buildHomePanel(options = {}) {
   const postPaths = options.postPaths ?? (await listMarkdownFiles(BLOG_ROOT));
   const snapshots = [];
 
   for (const filePath of postPaths) {
     snapshots.push(await loadPostSnapshot(filePath));
+  }
+
+  const postsHash = computePostsHash(snapshots);
+  const sidecarPath = getHomeSidecarPath();
+
+  if (options.force !== true) {
+    const existingSidecar = await readJsonIfExists(sidecarPath);
+
+    if (existingSidecar && existingSidecar.posts_hash === postsHash) {
+      return {
+        page_id: existingSidecar.page_id,
+        title: existingSidecar.title,
+        route_path: existingSidecar.route_path,
+        sidecar_path: repoRelative(sidecarPath, REPO_ROOT),
+        focus_topics: existingSidecar.focus_topics,
+        content_stats: existingSidecar.content_stats,
+        notes: ["skipped: posts_hash unchanged"],
+        skipped: true,
+      };
+    }
   }
 
   const preferredProvider = options.provider ?? DEFAULT_PROVIDER;
@@ -491,7 +521,7 @@ export async function buildHomePanel(options = {}) {
     }
   }
 
-  const sidecarPath = getHomeSidecarPath();
+  sidecar.posts_hash = postsHash;
 
   await writeJson(sidecarPath, sidecar);
 

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { spawn } from "node:child_process";
-import { DEFAULT_MODEL } from "../constants.js";
-import { dedupeStrings, roundConfidence } from "../utils.js";
+import { DEFAULT_MODEL } from "../shared/constants.js";
+import { dedupeStrings, roundConfidence } from "../shared/utils.js";
 
 function extractJsonPayload(text) {
   const normalized = text

@@ -3,20 +3,20 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { analyzePost } from "../src/agent/analyzer.js";
-import { runChecks } from "../src/agent/checks.js";
-import { generateFrontmatter } from "../src/agent/frontmatter-generator.js";
-import { parseMarkdownDocument, stringifyMarkdownDocument } from "../src/agent/frontmatter.js";
-import { analyzeMarkdownBody } from "../src/agent/markdown.js";
-import { applyHomePanelGuide, buildHomePanelData } from "../src/agent/home-panel.js";
-import { inferCodeFenceLanguage } from "../src/agent/markdown.js";
+import { analyzePost } from "../src/agent/core/analyzer.js";
+import { runChecks } from "../src/agent/core/checks.js";
+import { generateFrontmatter } from "../src/agent/core/frontmatter-generator.js";
+import { parseMarkdownDocument, stringifyMarkdownDocument } from "../src/agent/parsers/frontmatter.js";
+import { analyzeMarkdownBody } from "../src/agent/parsers/markdown.js";
+import { applyHomePanelGuide, buildHomePanelData } from "../src/agent/core/home-panel.js";
+import { inferCodeFenceLanguage } from "../src/agent/parsers/markdown.js";
 import { inferAgentModelMeta } from "../src/agent/model-meta.js";
 import {
   getHomeSidecarPath,
   getRoutePathFromFile,
   getSidecarPathForPost,
-} from "../src/agent/pathing.js";
-import { loadContentSchemaRules } from "../src/agent/schema.js";
+} from "../src/agent/shared/pathing.js";
+import { loadContentSchemaRules } from "../src/agent/parsers/schema.js";
 
 function createSnapshot(postId, source) {
   const document = parseMarkdownDocument(source);

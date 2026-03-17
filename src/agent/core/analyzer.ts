@@ -1,15 +1,15 @@
 // @ts-nocheck
 import fs from "node:fs/promises";
-import { DEFAULT_PROVIDER, DEFAULT_RUN_MODE } from "./constants.js";
-import { writeJson } from "./fs.js";
-import { MemoryStore } from "./memory-store.js";
-import { createProvider } from "./provider.js";
-import { createHeuristicProvider } from "./providers/heuristic.js";
-import { loadPostSnapshot } from "./post-snapshot.js";
+import { DEFAULT_PROVIDER, DEFAULT_RUN_MODE } from "../shared/constants.js";
+import { readJsonIfExists, writeJson } from "../shared/fs.js";
+import { MemoryStore } from "../memory/memory-store.js";
+import { createProvider } from "../providers/index.js";
+import { createHeuristicProvider } from "../providers/heuristic.js";
+import { loadPostSnapshot } from "../parsers/post-snapshot.js";
 import { runChecks } from "./checks.js";
 import { generateFrontmatter } from "./frontmatter-generator.js";
-import { loadContentSchemaRules } from "./schema.js";
-import { isoNow, maxSeverity } from "./utils.js";
+import { loadContentSchemaRules } from "../parsers/schema.js";
+import { isoNow, maxSeverity } from "../shared/utils.js";
 
 function buildReviewInput(snapshot, checkResult) {
   return {
@@ -117,6 +117,32 @@ export async function analyzePost(filePath, options = {}) {
     memoryStore.loadGlobalRules(),
   ]);
   let snapshot = await loadPostSnapshot(filePath);
+
+  if (options.force !== true) {
+    const existingSidecar = await readJsonIfExists(snapshot.sidecar_path);
+
+    if (
+      existingSidecar &&
+      existingSidecar.source_hash === snapshot.source_hash
+    ) {
+      return {
+        post_id: snapshot.post_id,
+        title: snapshot.title,
+        source_path: snapshot.file_path,
+        sidecar_path: snapshot.sidecar_path,
+        route_path: snapshot.route_path,
+        provider: existingSidecar.provider,
+        model: existingSidecar.model,
+        severity: existingSidecar.severity,
+        hard_checks: existingSidecar.hard_checks ?? [],
+        concerns: existingSidecar.concerns ?? [],
+        action_items: existingSidecar.action_items ?? [],
+        fixes_applied: [],
+        notes: ["skipped: source_hash unchanged"],
+        skipped: true,
+      };
+    }
+  }
   const frontmatterPreparationNotes = [];
   const frontmatterPreparationFixes = [];
 

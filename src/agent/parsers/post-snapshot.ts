@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { readText } from "./fs.js";
+import { readText } from "../shared/fs.js";
 import { parseMarkdownDocument } from "./frontmatter.js";
 import { analyzeMarkdownBody } from "./markdown.js";
 import {
   getPostIdFromFilePath,
   getRoutePathFromFile,
   getSidecarPathForPost,
-} from "./pathing.js";
-import { REPO_ROOT } from "./constants.js";
-import { hashContent, repoRelative, truncateText } from "./utils.js";
+} from "../shared/pathing.js";
+import { REPO_ROOT } from "../shared/constants.js";
+import { hashContent, repoRelative, truncateText } from "../shared/utils.js";
 
 export async function loadPostSnapshot(filePath) {
   const raw = await readText(filePath);

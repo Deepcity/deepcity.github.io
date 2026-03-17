@@ -6,12 +6,12 @@ import {
   SERIES_MEMORY_PATH,
   SIDECAR_ROOT,
   TOPIC_MEMORY_PATH,
-} from "./constants.js";
+} from "../shared/constants.js";
 import { DEFAULT_GLOBAL_RULES } from "./default-global-rules.js";
-import { ensureDir, readJsonIfExists, writeJson } from "./fs.js";
-import { getSidecarPathForPost } from "./pathing.js";
-import { loadPostSnapshot } from "./post-snapshot.js";
-import { dedupeStrings, isoNow, sortByPublishedAt } from "./utils.js";
+import { ensureDir, readJsonIfExists, writeJson } from "../shared/fs.js";
+import { getSidecarPathForPost } from "../shared/pathing.js";
+import { loadPostSnapshot } from "../parsers/post-snapshot.js";
+import { dedupeStrings, isoNow, sortByPublishedAt } from "../shared/utils.js";
 
 function createSeriesMemory() {
   return {

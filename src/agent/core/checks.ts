@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { SAFE_FIX_CODES } from "./constants.js";
-import { stringifyMarkdownDocument } from "./frontmatter.js";
-import { inferCodeFenceLanguage, suggestImageAlt } from "./markdown.js";
-import { getPostIdFromFilePath, slugifyStr } from "./pathing.js";
-import { dedupeStrings } from "./utils.js";
+import { SAFE_FIX_CODES } from "../shared/constants.js";
+import { stringifyMarkdownDocument } from "../parsers/frontmatter.js";
+import { inferCodeFenceLanguage, suggestImageAlt } from "../parsers/markdown.js";
+import { getPostIdFromFilePath, slugifyStr } from "../shared/pathing.js";
+import { dedupeStrings } from "../shared/utils.js";
 
 function buildTagAliasMap(tagRegistry) {
   const aliasMap = new Map();

@@ -35,6 +35,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build agent panels for all posts
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: pnpm run agent:build-panel -- --all --mode ci
+
+      - name: Rebuild home panel
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: pnpm run agent:build-home-panel
+
       - name: Build Astro site
         run: pnpm run build
 

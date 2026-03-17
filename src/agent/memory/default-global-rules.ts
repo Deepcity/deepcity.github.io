@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { DEFAULT_MODEL } from "./constants.js";
+import { DEFAULT_MODEL } from "../shared/constants.js";
 
 export const DEFAULT_GLOBAL_RULES = {
   version: 1,

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { FRONTMATTER_FIELD_ORDER } from "./constants.js";
+import { FRONTMATTER_FIELD_ORDER } from "../shared/constants.js";
 
 function parseScalar(rawValue) {
   const value = rawValue.trim();

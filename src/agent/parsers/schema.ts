@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { CONTENT_SCHEMA_PATH } from "./constants.js";
-import { readText } from "./fs.js";
+import { CONTENT_SCHEMA_PATH } from "../shared/constants.js";
+import { readText } from "../shared/fs.js";
 
 function inferFieldType(definition) {
   if (definition.includes("z.array(z.string())")) {

@@ -6,18 +6,18 @@ import {
   analyzePosts,
   rebuildMemory,
   refreshMemoryEntries,
-} from "../src/agent/analyzer.js";
-import { buildHomePanel } from "../src/agent/home-panel.js";
-import { BLOG_ROOT } from "../src/agent/constants.js";
-import { listMarkdownFiles, writeJson } from "../src/agent/fs.js";
-import { getChangedPostPaths } from "../src/agent/git.js";
+} from "../src/agent/core/analyzer.js";
+import { buildHomePanel } from "../src/agent/core/home-panel.js";
+import { BLOG_ROOT } from "../src/agent/shared/constants.js";
+import { listMarkdownFiles, writeJson } from "../src/agent/shared/fs.js";
+import { getChangedPostPaths } from "../src/agent/shared/git.js";
 import {
   getPostIdFromFilePath,
   resolvePostInput,
   resolveRepoPath,
-} from "../src/agent/pathing.js";
-import { MemoryStore } from "../src/agent/memory-store.js";
-import { maxSeverity } from "../src/agent/utils.js";
+} from "../src/agent/shared/pathing.js";
+import { MemoryStore } from "../src/agent/memory/memory-store.js";
+import { maxSeverity } from "../src/agent/shared/utils.js";
 
 function writeStdout(message = "") {
   process.stdout.write(`${message}\n`);
@@ -33,6 +33,7 @@ function parseArgs(rawArgs) {
   const booleanFlags = new Set([
     "--all",
     "--changed",
+    "--force",
     "--generate-frontmatter",
     "--no-fix",
     "--allow-unsafe-fixes",
@@ -143,9 +144,11 @@ async function collectTargets(command, parsed) {
 
 function buildReport(command, results) {
   const hardChecks = results.flatMap(result => result.hard_checks ?? []);
+  const skipped = results.filter(result => result.skipped === true).length;
   const summary = {
     command,
     processed: results.length,
+    skipped,
     highest_severity: maxSeverity(results.map(result => result.severity ?? "info")),
     error_count: hardChecks.filter(issue => issue.severity === "error").length,
     warn_count: hardChecks.filter(issue => issue.severity === "warn").length,
@@ -164,10 +167,15 @@ function buildReport(command, results) {
 
 function printAnalyzeReport(report) {
   writeStdout(
-    `[agent] processed=${report.summary.processed} severity=${report.summary.highest_severity} errors=${report.summary.error_count} warnings=${report.summary.warn_count} fixes=${report.summary.fix_count}`
+    `[agent] processed=${report.summary.processed} skipped=${report.summary.skipped} severity=${report.summary.highest_severity} errors=${report.summary.error_count} warnings=${report.summary.warn_count} fixes=${report.summary.fix_count}`
   );
 
   for (const result of report.results) {
+    if (result.skipped) {
+      writeStdout(`- ${result.post_id} [skipped]`);
+      continue;
+    }
+
     writeStdout(`- ${result.post_id} [${result.severity}]`);
 
     for (const concern of result.concerns.slice(0, 3)) {
@@ -215,6 +223,7 @@ async function main() {
     const result = await buildHomePanel({
       provider: parsed.flags.get("--provider") ?? "auto",
       model: parsed.flags.get("--model"),
+      force: parsed.flags.get("--force") === true,
     });
     const report = {
       generated_at: new Date().toISOString(),
@@ -230,7 +239,9 @@ async function main() {
     };
 
     writeStdout(
-      `[agent] built home panel: posts=${result.content_stats.total_posts} topics=${result.focus_topics.length} sidecar=${result.sidecar_path}`
+      result.skipped
+        ? `[agent] home panel skipped: posts_hash unchanged`
+        : `[agent] built home panel: posts=${result.content_stats.total_posts} topics=${result.focus_topics.length} sidecar=${result.sidecar_path}`
     );
     await maybeWriteReport(report, reportFile);
     return;
@@ -295,6 +306,7 @@ async function main() {
     frontmatterHintText: frontmatterHintParts.join("\n").trim(),
     writeMarkdown: command !== "build-panel",
     model: parsed.flags.get("--model"),
+    force: parsed.flags.get("--force") === true,
   });
   const report = buildReport(command, results);
   printAnalyzeReport(report);

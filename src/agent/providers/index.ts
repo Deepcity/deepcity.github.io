@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { createGeminiProvider } from "./providers/gemini.js";
-import { createHeuristicProvider } from "./providers/heuristic.js";
+import { createGeminiProvider } from "./gemini.js";
+import { createHeuristicProvider } from "./heuristic.js";
 
 export function createProvider(options = {}) {
   const preferred = options.provider ?? "auto";

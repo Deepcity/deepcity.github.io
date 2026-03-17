@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { readJsonIfExists } from "./fs.js";
+import { readJsonIfExists } from "./shared/fs.js";
 import {
   getHomeSidecarPath,
   getSidecarPathForPost,
   resolveRepoPath,
   slugifyStr,
-} from "./pathing.js";
+} from "./shared/pathing.js";
 
 function canonicalizePostHref(value) {
   if (typeof value !== "string" || !value.startsWith("/posts")) {

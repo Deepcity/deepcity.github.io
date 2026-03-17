@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { SITE } from "../config.js";
-import { stringifyMarkdownDocument } from "./frontmatter.js";
+import { SITE } from "../../config.js";
+import { stringifyMarkdownDocument } from "../parsers/frontmatter.js";
 import {
   buildDescriptionSuggestion,
   inferTagsFromContent,
   normalizeTags,
 } from "./checks.js";
-import { slugifyStr } from "./pathing.js";
-import { dedupeStrings, truncateText } from "./utils.js";
+import { slugifyStr } from "../shared/pathing.js";
+import { dedupeStrings, truncateText } from "../shared/utils.js";
 
 const HINT_FIELD_ALIASES = {
   author: "author",
