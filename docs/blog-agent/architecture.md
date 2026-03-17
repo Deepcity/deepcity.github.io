@@ -24,11 +24,12 @@
 1. 读取 Markdown 文件并解析 frontmatter。
 2. 读取真实内容 schema。
 3. 读取 global rules、series/topic/negative memory。
-4. 执行硬校验和安全自动修复。
-5. 组装 review 输入。
-6. 调用 provider 生成结构化点评。
-7. 写入 sidecar JSON。
-8. 更新 series/topic/negative memory。
+4. 如果显式启用了 `--generate-frontmatter`，先基于正文和 hint 生成或补全 frontmatter。
+5. 执行硬校验和安全自动修复。
+6. 组装 review 输入。
+7. 调用 provider 生成结构化点评。
+8. 写入 sidecar JSON。
+9. 更新 series/topic/negative memory。
 
 对应代码主要在 [`src/agent/analyzer.ts`](/home/deepc/deepcity.github.io/src/agent/analyzer.ts)。
 
@@ -50,6 +51,8 @@
   把单篇 Markdown 组装成 analyzer 可消费的 snapshot。
 - [`checks.ts`](/home/deepc/deepcity.github.io/src/agent/checks.ts)
   负责格式检查、标签归一化、description/slug 建议、安全自动修复。
+- [`frontmatter-generator.ts`](/home/deepc/deepcity.github.io/src/agent/frontmatter-generator.ts)
+  负责在显式开关下，基于正文与 hint 生成或补全 frontmatter。
 - [`provider.ts`](/home/deepc/deepcity.github.io/src/agent/provider.ts)
   负责 provider 选择和 fallback。
 - [`providers/heuristic.ts`](/home/deepc/deepcity.github.io/src/agent/providers/heuristic.ts)

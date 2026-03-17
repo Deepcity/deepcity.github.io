@@ -19,7 +19,7 @@ function buildTagAliasMap(tagRegistry) {
   return aliasMap;
 }
 
-function normalizeTags(tags, tagRegistry) {
+export function normalizeTags(tags, tagRegistry) {
   const aliasMap = buildTagAliasMap(tagRegistry);
 
   return dedupeStrings(
@@ -30,7 +30,7 @@ function normalizeTags(tags, tagRegistry) {
   );
 }
 
-function inferTagsFromContent(snapshot, globalRules) {
+export function inferTagsFromContent(snapshot, globalRules) {
   const text = [
     snapshot.title,
     snapshot.description,
@@ -61,7 +61,7 @@ function inferTagsFromContent(snapshot, globalRules) {
     .map(item => item.canonical);
 }
 
-function buildDescriptionSuggestion(snapshot) {
+export function buildDescriptionSuggestion(snapshot) {
   const source = snapshot.analysis.firstParagraphs.join(" ");
 
   if (!source) {

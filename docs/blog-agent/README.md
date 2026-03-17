@@ -31,7 +31,12 @@
 这套系统刻意不做两件事：
 
 - 不在访客侧在线调用模型。
-- 不把 Agent 输出直接塞回 frontmatter。
+- 不把 review sidecar 直接塞回 frontmatter。
+
+补充：
+
+- 文章元信息支持通过显式 CLI 开关触发 frontmatter 生成或补全。
+- 也就是说，默认流程仍以 sidecar 为主；只有你主动要求时，Agent 才会回写 frontmatter。
 
 ## 当前运行形态
 

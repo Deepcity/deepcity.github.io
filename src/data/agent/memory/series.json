@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-03-16T06:51:08.908Z",
+  "updated_at": "2026-03-17T05:48:22.867Z",
   "series": [
     {
       "id": "ascendc",
@@ -202,6 +202,20 @@
       "open_ended": true,
       "missing": [],
       "posts": [
+        {
+          "post_id": "SOSP25-ByteRobust",
+          "title": "SOSP25-Robust LLM Training Infrastracture at ByteDance",
+          "file_path": "src/data/blog/SOSP25-ByteRobust.md",
+          "published_at": "2026-03-17T05:47:44Z",
+          "severity": "warn",
+          "tags": [
+            "论文阅读",
+            "SOSP",
+            "机器学习",
+            "人工智能",
+            "进化算法"
+          ]
+        },
         {
           "post_id": "OSDI18-Ray",
           "title": "OSDI18-Ray A Distributed Framework for Emerging AI Applications",

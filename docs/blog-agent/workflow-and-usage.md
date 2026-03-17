@@ -148,6 +148,24 @@ npm run agent:refresh-memory -- series cmu-15213
 
 把本次执行结果输出为 JSON 报告，适合 CI artifact。
 
+### `--generate-frontmatter`
+
+显式启用 frontmatter 生成预处理。适合文章完全没有 frontmatter，或只有零散字段时使用。
+
+### `--hint`
+
+给 frontmatter 生成器一段简短提示，可写自然语言，也可写成键值行，例如：
+
+```text
+title: Agent Runtime Notes
+tags: Agent, MCP
+偏向系统工程视角
+```
+
+### `--hint-file`
+
+从文件读取较长 hint，适合维护固定模板或系列文章规则。
+
 ## 4. 推荐工作流
 
 ### 4.1 写完一篇文章后
@@ -162,6 +180,12 @@ npm run agent:analyze -- src/data/blog/你的文章.md
 
 ```bash
 npm run agent:analyze -- src/data/blog/你的文章.md --allow-unsafe-fixes
+```
+
+如果文章没有 frontmatter，或者你想让 Agent 按正文和 hint 先生成一版完整元信息：
+
+```bash
+npm run agent:analyze -- src/data/blog/你的文章.md --generate-frontmatter --hint "偏向系统工程视角，标签包含 Agent 和 MCP"
 ```
 
 ### 4.2 提交前只检查改动文章

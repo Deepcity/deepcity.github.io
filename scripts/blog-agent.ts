@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // @ts-nocheck
 
+import fs from "node:fs/promises";
 import {
   analyzePosts,
   rebuildMemory,
@@ -10,7 +11,11 @@ import { buildHomePanel } from "../src/agent/home-panel.js";
 import { BLOG_ROOT } from "../src/agent/constants.js";
 import { listMarkdownFiles, writeJson } from "../src/agent/fs.js";
 import { getChangedPostPaths } from "../src/agent/git.js";
-import { getPostIdFromFilePath, resolvePostInput } from "../src/agent/pathing.js";
+import {
+  getPostIdFromFilePath,
+  resolvePostInput,
+  resolveRepoPath,
+} from "../src/agent/pathing.js";
 import { MemoryStore } from "../src/agent/memory-store.js";
 import { maxSeverity } from "../src/agent/utils.js";
 
@@ -28,6 +33,7 @@ function parseArgs(rawArgs) {
   const booleanFlags = new Set([
     "--all",
     "--changed",
+    "--generate-frontmatter",
     "--no-fix",
     "--allow-unsafe-fixes",
   ]);
@@ -64,6 +70,9 @@ function printUsage() {
   writeStdout("  node scripts/blog-agent.js analyze <post>");
   writeStdout("  node scripts/blog-agent.js analyze --changed");
   writeStdout("  node scripts/blog-agent.js analyze --all");
+  writeStdout(
+    "  node scripts/blog-agent.js analyze <post> --generate-frontmatter [--hint \"...\"] [--hint-file ./docs/frontmatter-hint.txt]"
+  );
   writeStdout("  node scripts/blog-agent.js build-panel <post|--changed|--all>");
   writeStdout("  node scripts/blog-agent.js build-home-panel");
   writeStdout("  node scripts/blog-agent.js refresh-memory all");
@@ -265,12 +274,25 @@ async function main() {
     return;
   }
 
+  const frontmatterHintParts = [];
+
+  if (parsed.flags.get("--hint")) {
+    frontmatterHintParts.push(String(parsed.flags.get("--hint")));
+  }
+
+  if (parsed.flags.get("--hint-file")) {
+    const hintFilePath = resolveRepoPath(String(parsed.flags.get("--hint-file")));
+    frontmatterHintParts.push(await fs.readFile(hintFilePath, "utf8"));
+  }
+
   const results = await analyzePosts(targets, {
     runMode: parsed.flags.get("--mode") ?? (command === "build-panel" ? "build" : "cli"),
     provider: parsed.flags.get("--provider") ?? "auto",
     applyFixes:
       command === "build-panel" ? false : !parsed.flags.get("--no-fix"),
     allowUnsafeFixes: parsed.flags.get("--allow-unsafe-fixes") === true,
+    generateFrontmatter: parsed.flags.get("--generate-frontmatter") === true,
+    frontmatterHintText: frontmatterHintParts.join("\n").trim(),
     writeMarkdown: command !== "build-panel",
     model: parsed.flags.get("--model"),
   });

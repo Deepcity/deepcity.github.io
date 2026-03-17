@@ -7,6 +7,7 @@ import { createProvider } from "./provider.js";
 import { createHeuristicProvider } from "./providers/heuristic.js";
 import { loadPostSnapshot } from "./post-snapshot.js";
 import { runChecks } from "./checks.js";
+import { generateFrontmatter } from "./frontmatter-generator.js";
 import { loadContentSchemaRules } from "./schema.js";
 import { isoNow, maxSeverity } from "./utils.js";
 
@@ -116,6 +117,39 @@ export async function analyzePost(filePath, options = {}) {
     memoryStore.loadGlobalRules(),
   ]);
   let snapshot = await loadPostSnapshot(filePath);
+  const frontmatterPreparationNotes = [];
+  const frontmatterPreparationFixes = [];
+
+  if (options.generateFrontmatter === true && options.writeMarkdown !== false) {
+    const generationResult = generateFrontmatter(
+      snapshot,
+      schemaRules,
+      globalRules,
+      {
+        hintText: options.frontmatterHintText,
+      }
+    );
+
+    if (generationResult.changed) {
+      await fs.writeFile(filePath, generationResult.source, "utf8");
+      snapshot = await loadPostSnapshot(filePath);
+
+      if (generationResult.appliedFields.length > 0) {
+        frontmatterPreparationFixes.push(
+          generationResult.createdFrontmatter
+            ? `生成完整 frontmatter：${generationResult.appliedFields.join("、")}。`
+            : `补全 frontmatter 字段：${generationResult.appliedFields.join("、")}。`
+        );
+      }
+
+      if (generationResult.hints.freeform.length > 0) {
+        frontmatterPreparationNotes.push(
+          "Frontmatter generation used user-provided hints."
+        );
+      }
+    }
+  }
+
   const checkResult = runChecks(snapshot, schemaRules, globalRules, {
     filePath,
     applyFixes: options.applyFixes !== false,
@@ -143,8 +177,15 @@ export async function analyzePost(filePath, options = {}) {
   });
   const reviewInput = buildReviewInput(snapshot, checkResult);
   let activeProvider = provider;
-  const providerNotes = [...notes];
+  const providerNotes = [...frontmatterPreparationNotes, ...notes];
   let review;
+
+  if (frontmatterPreparationFixes.length > 0) {
+    checkResult.fixesApplied = [
+      ...frontmatterPreparationFixes,
+      ...checkResult.fixesApplied,
+    ];
+  }
 
   try {
     review = await activeProvider.generateReview(reviewInput, memoryContext);

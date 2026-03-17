@@ -16,6 +16,12 @@
 - 重写技术观点。
 - 在默认模式下自动修改 description、slug、tags 这类带语义判断的内容。
 
+补充说明：
+
+- 现在支持通过显式 CLI 开关触发“frontmatter 生成”预处理。
+- 该能力会基于正文和用户 hint 补全完整 frontmatter，然后再进入常规检查阶段。
+- 它不是默认行为，不会在普通 `analyze` / `build-panel` 流程里静默改写文章元信息。
+
 主实现位于 [`src/agent/checks.ts`](/home/deepc/deepcity.github.io/src/agent/checks.ts)。
 
 ## 2. 真实约束来源
@@ -79,6 +85,20 @@ Markdown 结构分析在 [`src/agent/markdown.ts`](/home/deepc/deepcity.github.i
 - 自动补 `slug`
 - 自动推断 `tags`
 - 把 `tags` 归一化到标准标签库
+
+### 4.3 显式 frontmatter 生成
+
+如果文章完全没有 frontmatter，或者只有部分字段，但你希望 Agent 结合正文和 hint 直接补成一版可用元信息，可以显式执行：
+
+```bash
+npm run agent:analyze -- src/data/blog/你的文章.md --generate-frontmatter --hint "偏向系统工程视角，标签包含 Agent 和 MCP"
+```
+
+能力边界：
+
+- 会生成或补全 `title`、`pubDatetime`、`description`、`draft`、`tags`、`author`、`slug`、`timezone`
+- 如果 hint 里使用 `title:`、`description:`、`tags:`、`draft:` 这类键值行，会优先用作生成提示
+- 已显式存在且质量足够的字段默认不会被覆盖；更像“补齐”而不是“强制重写”
 
 ## 5. 标签系统
 
