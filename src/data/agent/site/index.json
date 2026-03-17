@@ -2,30 +2,29 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-03-16T07:32:43.911Z",
+  "generated_at": "2026-03-17T13:30:50.595Z",
   "run_mode": "build-home-panel",
   "provider": "gemini",
   "model": "gemini-3.1-pro-preview",
-  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 CMU 15-213、Ascend C 算子开发、Agent 工程及系统论文等主题，帮助首次访问者快速理解内容主线，跳转至核心阅读入口。",
-  "agent_role": "这个首页 Agent 是构建期生成的静态导览员，非在线客服。它负责概括博客主题、解释文章页 Agent Review 的作用，并将读者引导至站内最有代表性的内容入口。",
-  "site_overview": "站点当前收录 19 篇文章，围绕 CMU 15-213 实验、Ascend C 算子、Agent 工程与 OSDI 论文展开，涵盖 AI 基建与工程实践。最近更新为《API Agent》。",
+  "summary": "这是Deepcity博客首页静态Agent导览，聚焦CMU 15-213实验、Ascend C算子、系统论文及Agent工程等主题，帮助访问者快速理解内容主线。",
+  "agent_role": "本首页Agent并非在线客服，而是构建期生成的静态导览员：负责概括核心主题、解释页面Agent Review的作用，并将读者引导至优质内容入口。",
+  "site_overview": "站点收录20篇文章，内容围绕CMU 15-213实验、Ascend C算子开发、OSDI/SOSP论文及Agent工程展开。最新文章探讨大模型训练的系统可靠性。",
   "focus_topics": [
     "CMU 15-213 实验与系统基础",
     "Ascend C 算子开发",
-    "Agent / MCP / Embedding 工程",
-    "OSDI / SOSP 论文阅读"
+    "OSDI / SOSP 论文阅读",
+    "Agent / MCP / Embedding 工程"
   ],
   "highlights": [
-    "当前已收录 19 篇文章，共同构成技术阅读体系入口。",
-    "站点主线集中在系统实验、算子开发、Agent 工程与顶会论文，适合按专题连续阅读。",
-    "最近文章为《API Agent: Embedding, MCP, Skills》，深入探索 Agent 与 MCP 编排。",
-    "文章页面的 Agent Review 均由静态生成，阅读时不会触发在线请求。"
+    "站点共收录 20 篇文章，主线内容明确，适合按专题进行系统性阅读。",
+    "Agent相关主题已有 4 篇，最近更新了字节大模型训练集群的系统研究。",
+    "文章页中的 Agent Review 来自预先生成的静态数据，访问时不触发在线请求。"
   ],
   "recommended_paths": [
     {
-      "label": "最近更新：API Agent: Embedding, MCP, Skills",
-      "href": "/posts/api-agent-embedding-mcp-skills",
-      "description": "基于 Gemini API Cookbook 的 Agent 实操笔记，梳理 Embedding、Function Calling、MCP、Skills 与编排层关系。"
+      "label": "最近更新：SOSP25-Robust LLM Training Infrastracture at ByteDance",
+      "href": "/posts/sosp25-byterobust",
+      "description": "由香港大学和字节seed联合发布的LLM Traing的可靠性研究,详细介绍了用于支持**大规模 GPU 集群**稳定运行的管理系统 **ByteRobust…"
     },
     {
       "label": "CMU 15-213 实验与系统基础",
@@ -40,18 +39,18 @@
     {
       "label": "浏览全部文章",
       "href": "/posts/",
-      "description": "按时间线查看站内全部文章。"
+      "description": "按时间线查看站内全部 20 篇文章。"
     }
   ],
   "content_stats": {
-    "total_posts": 19,
+    "total_posts": 20,
     "featured_posts": 0,
-    "latest_post_title": "API Agent: Embedding, MCP, Skills",
+    "latest_post_title": "SOSP25-Robust LLM Training Infrastracture at ByteDance",
     "primary_topics": [
       "CMU 15-213 实验与系统基础",
       "Ascend C 算子开发",
-      "Agent / MCP / Embedding 工程",
-      "OSDI / SOSP 论文阅读"
+      "OSDI / SOSP 论文阅读",
+      "Agent / MCP / Embedding 工程"
     ]
   },
   "confidence": 0.98,
@@ -59,5 +58,6 @@
     "Home panel is generated from committed blog posts and frontmatter only.",
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
     "Homepage guide was refined by Gemini from committed site data."
-  ]
+  ],
+  "posts_hash": "14f94ee97e57f4f196c1d24d516ece25ef37e5eb9c22efb3931fd2ef1a148e4e"
 }
