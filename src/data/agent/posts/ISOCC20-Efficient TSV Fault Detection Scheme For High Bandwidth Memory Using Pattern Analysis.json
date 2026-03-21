@@ -1,0 +1,65 @@
+{
+  "post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+  "title": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis#",
+  "source_path": "src/data/blog/ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis.md",
+  "route_path": "/posts/isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis",
+  "source_hash": "d75a35aa673477573c9a8aa05676b27350d017ec64ff1d053c030196dc544797",
+  "generated_at": "2026-03-21T09:52:54.523Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.1-pro-preview",
+  "summary": "本文介绍了针对高带宽内存（HBM）中硅通孔（TSV）故障的高效检测方案。通过模式分析方法，该方案旨在提高拥有128个数据TSV架构的HBM的故障检测效率与可靠性。",
+  "structural_review": "文章包含4个主要标题、3张图片和3个链接。需要注意的是，文件名未采用规范的小写 kebab-case 格式，标题末尾有多余的“#”符号。同时历史记录提示存在正文H1、裸链接、标题跳跃等排版问题。",
+  "technical_review": "文章针对HBM的TSV故障检测提出了基于模式分析的方案，选题具有很高的硬件工程价值。技术论述有相应的图片辅助，能够较好地展示检测原理，但由于缺乏代码示例，具体的算法实现细节可能略显单薄。",
+  "strengths": [
+    "针对HBM的TSV故障检测问题提供了专业的解决方案。",
+    "引入模式分析技术，具有较高的工程应用和学术参考价值。",
+    "配备了相关的结构图片，有助于读者直观理解复杂的内存硬件架构。"
+  ],
+  "concerns": [
+    "文件名命名不规范，未采用站点统一的小写 kebab-case 格式。",
+    "文章标题末尾带有无意义的特殊字符“#”。",
+    "历史校验提示正文可能存在多余的H1标题、裸链接及标题层级跳跃等排版问题。"
+  ],
+  "action_items": [
+    "统一文章文件名与站内文章链接为小写 kebab-case。",
+    "删除文章标题末尾多余的“#”字符。",
+    "排查并修复正文中的多余H1标题、裸链接以及标题层级跳跃问题。"
+  ],
+  "severity": "warn",
+  "confidence": null,
+  "memory_refs": [
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language",
+    "issue:heading-skip"
+  ],
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2026-03-21T09:52:22Z",
+  "tags_snapshot": [
+    "others"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis.md` 不符合站点路径规范，建议改为 `isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [
+    "生成完整 frontmatter：pubDatetime、title、description、draft、tags、author、slug、timezone。"
+  ],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "others"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": []
+}

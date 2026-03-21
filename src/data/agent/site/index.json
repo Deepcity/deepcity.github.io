@@ -2,13 +2,13 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-03-17T13:30:50.595Z",
+  "generated_at": "2026-03-21T09:52:54.568Z",
   "run_mode": "build-home-panel",
   "provider": "gemini",
   "model": "gemini-3.1-pro-preview",
-  "summary": "这是Deepcity博客首页静态Agent导览，聚焦CMU 15-213实验、Ascend C算子、系统论文及Agent工程等主题，帮助访问者快速理解内容主线。",
-  "agent_role": "本首页Agent并非在线客服，而是构建期生成的静态导览员：负责概括核心主题、解释页面Agent Review的作用，并将读者引导至优质内容入口。",
-  "site_overview": "站点收录20篇文章，内容围绕CMU 15-213实验、Ascend C算子开发、OSDI/SOSP论文及Agent工程展开。最新文章探讨大模型训练的系统可靠性。",
+  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 CMU 15-213 实验与系统基础、Ascend C 算子开发、OSDI 与 SOSP 论文阅读及 Agent 等主题，帮助首次访问者快速理解主线并跳转最值得读的入口。",
+  "agent_role": "这个首页 Agent 并非在线客服，而是构建期生成的静态导览员：它负责概括博客主题、解释文章页导读的作用，并把读者引到站内最有代表性的内容入口。",
+  "site_overview": "站点当前收录 21 篇文章，无精选。内容主要围绕底层系统、算子开发、顶会论文阅读与大模型工程实践展开。最近更新是关于 HBM 通道 TSV 故障检测的高效方案分析。",
   "focus_topics": [
     "CMU 15-213 实验与系统基础",
     "Ascend C 算子开发",
@@ -16,15 +16,21 @@
     "Agent / MCP / Embedding 工程"
   ],
   "highlights": [
-    "站点共收录 20 篇文章，主线内容明确，适合按专题进行系统性阅读。",
-    "Agent相关主题已有 4 篇，最近更新了字节大模型训练集群的系统研究。",
-    "文章页中的 Agent Review 来自预先生成的静态数据，访问时不触发在线请求。"
+    "站点已收录 21 篇文章，覆盖系统底层到上层 AI 基础设施的多个维度。",
+    "主线集中在系统与算子层面的深入探索，适合按专题进行系统性阅读。",
+    "最近对大语言模型训练的可靠性与 Agent 编排进行了探讨更新。",
+    "文章页面的 Agent Review 来自静态预生成的摘要，访问不触发在线请求。"
   ],
   "recommended_paths": [
     {
-      "label": "最近更新：SOSP25-Robust LLM Training Infrastracture at ByteDance",
+      "label": "最近更新：ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis#",
+      "href": "/posts/isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis",
+      "description": "高带宽内存（High Bandwidth Memory，HBM）的通道可以通过 128 个数据硅通孔（Through-Silicon Via，TSV）和 16…"
+    },
+    {
+      "label": "Agent / MCP / Embedding 工程",
       "href": "/posts/sosp25-byterobust",
-      "description": "由香港大学和字节seed联合发布的LLM Traing的可靠性研究,详细介绍了用于支持**大规模 GPU 集群**稳定运行的管理系统 **ByteRobust…"
+      "description": "最近相关更新是《SOSP25-Robust LLM Training Infrastracture at ByteDance》。"
     },
     {
       "label": "CMU 15-213 实验与系统基础",
@@ -32,20 +38,15 @@
       "description": "最近相关更新是《CMU-15213-MallocLab》。"
     },
     {
-      "label": "Ascend C 算子开发",
-      "href": "/posts/ascendc-part5-pytorch-summary",
-      "description": "最近相关更新是《Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结》。"
-    },
-    {
       "label": "浏览全部文章",
       "href": "/posts/",
-      "description": "按时间线查看站内全部 20 篇文章。"
+      "description": "按时间线查看站内全部文章。"
     }
   ],
   "content_stats": {
-    "total_posts": 20,
+    "total_posts": 21,
     "featured_posts": 0,
-    "latest_post_title": "SOSP25-Robust LLM Training Infrastracture at ByteDance",
+    "latest_post_title": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis#",
     "primary_topics": [
       "CMU 15-213 实验与系统基础",
       "Ascend C 算子开发",
@@ -59,5 +60,5 @@
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
     "Homepage guide was refined by Gemini from committed site data."
   ],
-  "posts_hash": "14f94ee97e57f4f196c1d24d516ece25ef37e5eb9c22efb3931fd2ef1a148e4e"
+  "posts_hash": "65872759d57af278d9b2de2a6f53eecacbadc40113a6999aef4b5cd367cbd39e"
 }

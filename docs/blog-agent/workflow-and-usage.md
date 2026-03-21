@@ -7,6 +7,7 @@
 当前 `package.json` 提供了以下脚本：
 
 - `npm run agent`
+- `npm run agent:sync`
 - `npm run agent:analyze`
 - `npm run agent:build-panel`
 - `npm run agent:build-home-panel`
@@ -17,9 +18,51 @@
 
 CLI 入口是 [`scripts/blog-agent.ts`](/home/deepc/deepcity.github.io/scripts/blog-agent.ts)。
 
-支持四个主命令：
+支持一个推荐入口和四个底层主命令。
 
-### 2.1 analyze
+### 2.0 默认智能入口
+
+`npm run agent` 现在默认对应一个统一工作流，面向“我刚写了一篇文章，帮我处理好它”这个任务，而不是要求手动拆成多个内部阶段。
+
+默认会做：
+
+- 自动识别目标文章（单篇 / `--changed` / `--all`）
+- 尝试补全或完善 frontmatter
+- 执行格式检查与安全修复
+- 生成文章 sidecar / Agent panel
+- 更新 memory
+- 刷新首页 Agent 导览 sidecar
+
+最常用示例：
+
+```bash
+npm run agent -- src/data/blog/你的文章.md
+```
+
+```bash
+npm run agent -- --changed
+```
+
+```bash
+npm run agent -- --all
+```
+
+如果你已经写好了路径，还想顺手给 frontmatter 生成一点自然语言提示，也可以直接把提示跟在路径后面：
+
+```bash
+npm run agent -- src/data/blog/你的文章.md "偏向系统工程视角，标签包含 Agent 和 MCP"
+```
+
+也支持显式子命令形式：
+
+```bash
+npm run agent:sync -- src/data/blog/你的文章.md
+```
+
+### 2.1 底层子命令
+支持四个底层主命令：
+
+### 2.2 analyze
 
 对目标文章执行完整分析：
 
@@ -43,7 +86,7 @@ npm run agent:analyze -- --changed
 npm run agent:analyze -- --all
 ```
 
-### 2.2 build-panel
+### 2.3 build-panel
 
 只生成 sidecar 面板数据，不写回 Markdown，不做前端在线请求。
 
@@ -62,7 +105,7 @@ npm run agent:build-panel -- --changed
 npm run agent:build-panel -- src/data/blog/API-Agent-Embedding-MCP-Skills.md
 ```
 
-### 2.3 build-home-panel
+### 2.4 build-home-panel
 
 为首页生成专用的静态 Agent 导览 sidecar。
 
@@ -88,7 +131,7 @@ npm run agent:build-home-panel -- --provider heuristic
 
 - [`src/data/agent/site/index.json`](/home/deepc/deepcity.github.io/src/data/agent/site/index.json)
 
-### 2.4 refresh-memory
+### 2.5 refresh-memory
 
 只刷新 memory，不重新跑完整 review。
 
@@ -152,6 +195,8 @@ npm run agent:refresh-memory -- series cmu-15213
 
 显式启用 frontmatter 生成预处理。适合文章完全没有 frontmatter，或只有零散字段时使用。
 
+注意：在默认智能入口 `npm run agent` / `npm run agent:sync` 中，这个能力默认就是开启的；只有在你改用底层 `analyze` 时才需要显式加上这个参数。
+
 ### `--hint`
 
 给 frontmatter 生成器一段简短提示，可写自然语言，也可写成键值行，例如：
@@ -170,35 +215,34 @@ tags: Agent, MCP
 
 ### 4.1 写完一篇文章后
 
-推荐执行：
+推荐直接执行：
 
 ```bash
-npm run agent:analyze -- src/data/blog/你的文章.md
+npm run agent -- src/data/blog/你的文章.md
 ```
 
-如果你希望 Agent 顺手补摘要、slug、tags：
+如果你当前在连续改几篇文章，直接让 Agent 自动发现变更集：
 
 ```bash
-npm run agent:analyze -- src/data/blog/你的文章.md --allow-unsafe-fixes
+npm run agent -- --changed
 ```
 
-如果文章没有 frontmatter，或者你想让 Agent 按正文和 hint 先生成一版完整元信息：
+如果你希望明确给它一段自然语言 hint：
 
 ```bash
-npm run agent:analyze -- src/data/blog/你的文章.md --generate-frontmatter --hint "偏向系统工程视角，标签包含 Agent 和 MCP"
+npm run agent -- src/data/blog/你的文章.md "偏向系统工程视角，标签包含 Agent 和 MCP"
 ```
 
 ### 4.2 提交前只检查改动文章
 
 ```bash
-npm run agent:analyze -- --changed
+npm run agent -- --changed
 ```
 
 ### 4.3 重新生成全站 Agent 栏
 
 ```bash
-npm run agent:build-panel -- --all
-npm run agent:refresh-memory -- all
+npm run agent -- --all
 ```
 
 ### 4.4 验证系统本身
@@ -212,7 +256,7 @@ npm run test:agent
 CI 中的行为定义在 [.github/workflows/ci.yml](/home/deepc/deepcity.github.io/.github/workflows/ci.yml)：
 
 1. 安装依赖
-2. 执行 `agent:build-panel -- --changed --mode ci --report-file .tmp/blog-agent-report.json`
+2. 执行 `agent -- --changed --mode ci --report-file .tmp/blog-agent-report.json`
 3. 上传 JSON 报告 artifact
 4. 继续执行 lint / format / build
 
@@ -228,7 +272,7 @@ CI 中的行为定义在 [.github/workflows/ci.yml](/home/deepc/deepcity.github.
 
 真实行为是：
 
-1. 先由 CLI 或 CI 生成 sidecar。
+1. 先由 CLI 或 CI 运行统一 Agent 工作流，生成 sidecar 与必要的 Markdown 修复。
 2. Astro 构建时通过 [`src/agent/site.ts`](/home/deepc/deepcity.github.io/src/agent/site.ts) 读取 JSON。
 3. 文章页在 [`src/layouts/PostDetails.astro`](/home/deepc/deepcity.github.io/src/layouts/PostDetails.astro) 中渲染 [`AgentPanel.astro`](/home/deepc/deepcity.github.io/src/components/AgentPanel.astro)。
 4. 首页在 [`src/pages/index.astro`](/home/deepc/deepcity.github.io/src/pages/index.astro) 中渲染 [`HomeAgentPanel.astro`](/home/deepc/deepcity.github.io/src/components/HomeAgentPanel.astro)。
@@ -256,7 +300,7 @@ export BLOG_AGENT_MODEL=gemini-2.5-flash
 通常是因为对应 sidecar 不存在。先执行：
 
 ```bash
-npm run agent:build-panel -- src/data/blog/目标文章.md
+npm run agent -- src/data/blog/目标文章.md
 ```
 
 ### 8.2 为什么 build 时没有调模型

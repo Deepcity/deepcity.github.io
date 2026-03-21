@@ -17,6 +17,7 @@ Astro 5-based personal blog (AstroPaper theme) focused on systems, algorithms, a
 | Format fix | `npm run format` |
 | Type check | `astro check` (also runs as part of build) |
 | Agent tests | `npm run test:agent` |
+| Agent smart workflow | `npm run agent -- <post\|--changed\|--all>` |
 | Analyze posts | `npm run agent:analyze -- <post\|--changed\|--all>` |
 | Build review panels | `npm run agent:build-panel -- <post\|--changed\|--all>` |
 | Build home panel | `npm run agent:build-home-panel` |
@@ -83,8 +84,8 @@ Sidecar JSON output goes to `src/data/agent/posts/` and `src/data/agent/site/`. 
 
 ## CI/CD
 
-- **ci.yml** (PRs): lint, format check, astro check, full build, agent panel generation for changed posts
-- **deploy.yml** (main push): agent panel build (all posts + home panel) → Astro build → deploy to GitHub Pages
+- **ci.yml** (PRs): lint, format check, astro check, full build, unified agent workflow for changed posts
+- **deploy.yml** (main push): unified agent workflow for all posts → Astro build → deploy to GitHub Pages
 - Node 20, pnpm
 
 ## Environment Variables

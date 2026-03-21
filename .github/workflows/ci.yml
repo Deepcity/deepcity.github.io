@@ -40,11 +40,11 @@ jobs:
       - name: "📦 Install dependencies"
         run: pnpm install
 
-      - name: "🤖 Build blog agent panels"
+      - name: "🤖 Run unified blog agent workflow"
         continue-on-error: true
         run: |
           mkdir -p .tmp
-          pnpm run agent:build-panel -- --changed --mode ci --report-file .tmp/blog-agent-report.json
+          pnpm run agent -- --changed --mode ci --report-file .tmp/blog-agent-report.json
 
       - name: "🧾 Upload blog agent report"
         if: always()

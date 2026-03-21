@@ -6,6 +6,7 @@ import path from "node:path";
 import { analyzePost } from "../src/agent/core/analyzer.js";
 import { runChecks } from "../src/agent/core/checks.js";
 import { generateFrontmatter } from "../src/agent/core/frontmatter-generator.js";
+import { runSyncWorkflow } from "../src/agent/core/sync.js";
 import { parseMarkdownDocument, stringifyMarkdownDocument } from "../src/agent/parsers/frontmatter.js";
 import { analyzeMarkdownBody } from "../src/agent/parsers/markdown.js";
 import { applyHomePanelGuide, buildHomePanelData } from "../src/agent/core/home-panel.js";
@@ -288,6 +289,52 @@ This post explains how an Agent coordinates MCP tools and embeddings in a single
         message.includes("生成完整 frontmatter")
       )
     );
+  } finally {
+    await fs.rm(filePath, { force: true });
+    await fs.rm(sidecarPath, { force: true });
+  }
+});
+
+test("sync workflow auto-generates frontmatter and sidecar for a new post", async () => {
+  const timestamp = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const filePath = path.join(
+    process.cwd(),
+    "src",
+    "data",
+    "blog",
+    `agent-sync-${timestamp}.md`
+  );
+  const sidecarPath = getSidecarPathForPost(filePath);
+
+  await fs.writeFile(
+    filePath,
+    `# Unified Agent Workflow
+
+This draft explains how a blog agent can prepare frontmatter, review output and sidecar data in one pass.
+`,
+    "utf8"
+  );
+
+  try {
+    const result = await runSyncWorkflow([filePath], {
+      provider: "heuristic",
+      frontmatterHintText: "偏向系统工程视角\ntags: Agent, MCP",
+      buildHomePanel: false,
+      updateMemory: false,
+    });
+    const nextSource = await fs.readFile(filePath, "utf8");
+    const document = parseMarkdownDocument(nextSource);
+    const sidecar = JSON.parse(await fs.readFile(sidecarPath, "utf8"));
+
+    assert.equal(result.postResults.length, 1);
+    assert.equal(result.homePanelResult, null);
+    assert.equal(document.hasFrontmatter, true);
+    assert.equal(document.data.title, "Unified Agent Workflow");
+    assert.ok(Array.isArray(document.data.tags));
+    assert.ok(document.data.tags.includes("Agent"));
+    assert.ok(document.data.tags.includes("MCP"));
+    assert.equal(sidecar.post_id, `agent-sync-${timestamp}`);
+    assert.match(sidecar.summary, /blog agent/u);
   } finally {
     await fs.rm(filePath, { force: true });
     await fs.rm(sidecarPath, { force: true });

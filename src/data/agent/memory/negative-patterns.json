@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-03-17T05:48:22.867Z",
+  "updated_at": "2026-03-21T09:52:54.536Z",
   "patterns": [
     {
       "code": "body-h1",
@@ -63,11 +63,12 @@
       "code": "non-canonical-post-id",
       "severity": "warn",
       "post_ids": [
-        "SOSP25-ByteRobust"
+        "SOSP25-ByteRobust",
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
       ],
-      "sample_message": "文件名 `SOSP25-ByteRobust.md` 不符合站点路径规范，建议改为 `sosp25-byterobust.md`，站内文章链接统一使用小写 kebab-case。",
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 1
+      "sample_message": "文件名 `ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis.md` 不符合站点路径规范，建议改为 `isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis.md`，站内文章链接统一使用小写 kebab-case。",
+      "latest_post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+      "count": 2
     }
   ]
 }
