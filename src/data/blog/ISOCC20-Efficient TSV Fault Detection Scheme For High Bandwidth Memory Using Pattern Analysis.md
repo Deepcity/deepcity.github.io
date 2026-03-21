@@ -44,6 +44,6 @@ timezone: "Asia/Shanghai"
 
 ### The Summary
 
-![result](C:/Users/deepc/AppData/Roaming/Typora/typora-user-images/image-20260319142409079.png)
+![result](https://files.seeusercontent.com/2026/03/19/C1qj/20260319142409.png)
 
 完全仿真的结果，方法也很简单。这篇论文最主要的作用是了解HBM、DRAM的部分特征
