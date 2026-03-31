@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-03-31T12:42:08.527Z",
+  "updated_at": "2026-03-31T12:48:48.687Z",
   "topics": [
     {
       "tag": "c",
@@ -31,6 +31,34 @@
       "count": 6
     },
     {
+      "tag": "人工智能",
+      "category": "ai",
+      "post_ids": [
+        "PGStudy-EAandGA",
+        "PGStudy-Swarm-intelligence",
+        "SOSP25-ByteRobust",
+        "2026-03-28 AAAI25-MoLe-VLA",
+        "2026-03-28 ICCV25-AdaLLaVA",
+        "ICCV25-AdaLLaVA"
+      ],
+      "latest_post_id": "ICCV25-AdaLLaVA",
+      "count": 6
+    },
+    {
+      "tag": "论文阅读",
+      "category": "paper",
+      "post_ids": [
+        "OSDI18-Ray",
+        "OSDI24-ServerlessLLM",
+        "SOSP24-Colloid",
+        "SOSP25-ByteRobust",
+        "2026-03-28 ICCV25-AdaLLaVA",
+        "ICCV25-AdaLLaVA"
+      ],
+      "latest_post_id": "ICCV25-AdaLLaVA",
+      "count": 6
+    },
+    {
       "tag": "Ascend",
       "category": "development",
       "post_ids": [
@@ -57,16 +85,29 @@
       "count": 5
     },
     {
-      "tag": "人工智能",
+      "tag": "LLM",
+      "category": "development",
+      "post_ids": [
+        "AscendC-part1-basic-concept",
+        "AscendC-part5-pytorch-summary",
+        "API-Agent-Embedding-MCP-Skills",
+        "2026-03-28 ICCV25-AdaLLaVA",
+        "ICCV25-AdaLLaVA"
+      ],
+      "latest_post_id": "ICCV25-AdaLLaVA",
+      "count": 5
+    },
+    {
+      "tag": "机器学习",
       "category": "ai",
       "post_ids": [
         "PGStudy-EAandGA",
         "PGStudy-Swarm-intelligence",
         "SOSP25-ByteRobust",
-        "2026-03-28 AAAI25-MoLe-VLA",
-        "2026-03-28 ICCV25-AdaLLaVA"
+        "2026-03-28 ICCV25-AdaLLaVA",
+        "ICCV25-AdaLLaVA"
       ],
-      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
+      "latest_post_id": "ICCV25-AdaLLaVA",
       "count": 5
     },
     {
@@ -83,41 +124,15 @@
       "count": 5
     },
     {
-      "tag": "论文阅读",
+      "tag": "大模型推理",
       "category": "paper",
       "post_ids": [
-        "OSDI18-Ray",
         "OSDI24-ServerlessLLM",
-        "SOSP24-Colloid",
-        "SOSP25-ByteRobust",
-        "2026-03-28 ICCV25-AdaLLaVA"
+        "2026-03-28 ICCV25-AdaLLaVA",
+        "ICCV25-AdaLLaVA"
       ],
-      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
-      "count": 5
-    },
-    {
-      "tag": "LLM",
-      "category": "development",
-      "post_ids": [
-        "AscendC-part1-basic-concept",
-        "AscendC-part5-pytorch-summary",
-        "API-Agent-Embedding-MCP-Skills",
-        "2026-03-28 ICCV25-AdaLLaVA"
-      ],
-      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
-      "count": 4
-    },
-    {
-      "tag": "机器学习",
-      "category": "ai",
-      "post_ids": [
-        "PGStudy-EAandGA",
-        "PGStudy-Swarm-intelligence",
-        "SOSP25-ByteRobust",
-        "2026-03-28 ICCV25-AdaLLaVA"
-      ],
-      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
-      "count": 4
+      "latest_post_id": "ICCV25-AdaLLaVA",
+      "count": 3
     },
     {
       "tag": "OSDI",
@@ -167,16 +182,6 @@
         "CMU-15213-BombLab"
       ],
       "latest_post_id": "CMU-15213-BombLab",
-      "count": 2
-    },
-    {
-      "tag": "大模型推理",
-      "category": "paper",
-      "post_ids": [
-        "OSDI24-ServerlessLLM",
-        "2026-03-28 ICCV25-AdaLLaVA"
-      ],
-      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
       "count": 2
     },
     {

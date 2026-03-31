@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-03-31T12:42:08.527Z",
+  "updated_at": "2026-03-31T12:48:48.687Z",
   "patterns": [
     {
       "code": "body-h1",
@@ -14,11 +14,12 @@
         "PGStudy-Swarm-intelligence",
         "SOSP24-Colloid",
         "SOSP25-ByteRobust",
-        "2026-03-28 ICCV25-AdaLLaVA"
+        "2026-03-28 ICCV25-AdaLLaVA",
+        "ICCV25-AdaLLaVA"
       ],
       "sample_message": "第 1 行存在正文 H1，建议从 H2 开始。",
-      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
-      "count": 9
+      "latest_post_id": "ICCV25-AdaLLaVA",
+      "count": 10
     },
     {
       "code": "bare-url",
@@ -56,11 +57,12 @@
         "SOSP25-ByteRobust",
         "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
         "2026-03-28 AAAI25-MoLe-VLA",
-        "2026-03-28 ICCV25-AdaLLaVA"
+        "2026-03-28 ICCV25-AdaLLaVA",
+        "ICCV25-AdaLLaVA"
       ],
-      "sample_message": "文件名 `2026-03-28 ICCV25-AdaLLaVA.md` 不符合站点路径规范，建议改为 `2026-03-28-iccv25-adallava.md`，站内文章链接统一使用小写 kebab-case。",
-      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
-      "count": 4
+      "sample_message": "文件名 `ICCV25-AdaLLaVA.md` 不符合站点路径规范，建议改为 `iccv25-adallava.md`，站内文章链接统一使用小写 kebab-case。",
+      "latest_post_id": "ICCV25-AdaLLaVA",
+      "count": 5
     },
     {
       "code": "heading-skip",

@@ -2,13 +2,13 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-03-31T12:42:40.745Z",
+  "generated_at": "2026-03-31T12:48:48.755Z",
   "run_mode": "build-home-panel",
   "provider": "gemini",
   "model": "gemini-3.1-pro-preview",
-  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 CMU 15-213 实验与系统基础、OSDI / SOSP 论文阅读、Agent 工程等主题，帮助首次访问者快速理解站点内容主线并跳转核心入口。",
-  "agent_role": "本首页 Agent 是构建期生成的静态导览员：负责概括博客主题、解释文章页 Agent Review 的作用，并把读者引到站内最有代表性的内容入口，而非实时在线客服。",
-  "site_overview": "站点收录 22 篇文章，内容围绕 CMU 15-213 实验、OSDI / SOSP 论文、Agent 与 Ascend C 算子开发展开，涵盖 AI 基建与工程实践。最近更新是多模态大模型推理相关内容。",
+  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 CMU 15-213 实验、论文阅读与 AI 工程等主题，帮助访客快速理解内容主线并找到最佳阅读入口。",
+  "agent_role": "此首页 Agent 是构建期生成的静态导览员，负责概括博客主题、解释文章页 Agent Review 离线机制，并将读者引导至站内核心内容入口。",
+  "site_overview": "站点当前收录 22 篇文章，内容围绕 CMU 15-213 实验、OSDI/SOSP 论文、Agent 工程与 Ascend C 展开。最近更新是一篇 ICCV 2025 的论文阅读笔记。",
   "focus_topics": [
     "CMU 15-213 实验与系统基础",
     "OSDI / SOSP 论文阅读",
@@ -16,16 +16,16 @@
     "Ascend C 算子开发"
   ],
   "highlights": [
-    "首页精选与最近发布共同构成阅读入口，当前已收录 22 篇文章。",
-    "站点主线集中在系统底层实验、论文阅读、AI工程及算子开发，适合按专题连续阅读。",
-    "Agent 相关主题当前已有 5 篇，最近更新涉及多模态大模型的自适应推理研究。",
-    "文章页中的 Agent Review 来自预先生成的静态 JSON，浏览页面不会触发在线请求。"
+    "当前已收录 22 篇文章，涵盖底层系统实验、顶会论文阅读与 AI 基础设施开发。",
+    "站点主线集中在系统基础、论文阅读与算子开发，适合按专题连续阅读。",
+    "最新发布的文章是《ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models》。",
+    "文章页的 Agent Review 来自预生成的 sidecar JSON 数据，访问时不触发任何在线请求。"
   ],
   "recommended_paths": [
     {
-      "label": "最新文章：Learning to Inference Adaptively...",
-      "href": "/posts/2026-03-28-iccv25-adallava",
-      "description": "由威斯康星大学麦迪逊分校等机构提出的多模态大语言模型自适应推理研究。"
+      "label": "最近更新：ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models",
+      "href": "/posts/iccv25-adallava",
+      "description": "由威斯康星大学麦迪逊分校（University of Wisconsin-Madison）、普渡大学（Purdue University）、香港大学（The …"
     },
     {
       "label": "CMU 15-213 实验与系统基础",
@@ -33,20 +33,20 @@
       "description": "最近相关更新是《CMU-15213-MallocLab》。"
     },
     {
+      "label": "Ascend C 算子开发",
+      "href": "/posts/ascendc-part5-pytorch-summary",
+      "description": "最近相关更新是《Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结》。"
+    },
+    {
       "label": "浏览全部文章",
       "href": "/posts/",
       "description": "按时间线查看站内全部 22 篇文章。"
-    },
-    {
-      "label": "关于作者",
-      "href": "/about",
-      "description": "查看研究兴趣、背景与站点定位。"
     }
   ],
   "content_stats": {
     "total_posts": 22,
     "featured_posts": 0,
-    "latest_post_title": "Learning to Inference Adaptively for Multimodal Large Language Models",
+    "latest_post_title": "ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models",
     "primary_topics": [
       "CMU 15-213 实验与系统基础",
       "OSDI / SOSP 论文阅读",
@@ -54,11 +54,11 @@
       "Ascend C 算子开发"
     ]
   },
-  "confidence": 0.95,
+  "confidence": 0.98,
   "notes": [
     "Home panel is generated from committed blog posts and frontmatter only.",
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
     "Homepage guide was refined by Gemini from committed site data."
   ],
-  "posts_hash": "f27bd42dba5e9c01bdf18bab721a65ef41c22880516878f5e15487eac2963f09"
+  "posts_hash": "c8af8efd9257fb699d8475a6213a650218d19167b8d10d791dfadcf5945470bf"
 }

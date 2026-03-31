@@ -1,5 +1,5 @@
 ---
-title: "Learning to Inference Adaptively for Multimodal Large Language Models"
+title: "ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models"
 pubDatetime: 2026-03-31T12:41:37Z
 description: "由威斯康星大学麦迪逊分校（University of Wisconsin-Madison）、普渡大学（Purdue University）、香港大学（The …"
 slug: "2026-03-28-iccv25-adallava"

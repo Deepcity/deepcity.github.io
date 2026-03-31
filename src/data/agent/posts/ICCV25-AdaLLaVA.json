@@ -1,0 +1,82 @@
+{
+  "post_id": "ICCV25-AdaLLaVA",
+  "title": "Learning to Inference Adaptively for Multimodal Large Language Models",
+  "source_path": "src/data/blog/ICCV25-AdaLLaVA.md",
+  "route_path": "/posts/iccv25-adallava",
+  "source_hash": "a1a639067fd2b8f67e7eb6df6b9a20baba07008e0b645e1087fb39d4863b531a",
+  "generated_at": "2026-03-31T12:48:48.662Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.1-pro-preview",
+  "summary": "本文解读了《AdaLLaVA》这篇关于多模态大语言模型自适应推理的论文，详细探讨了如何通过自适应机制优化推理过程，兼具理论深度与实践价值。",
+  "structural_review": "文章结构丰富，包含14个标题、19张图片和大量链接，图文并茂。但存在文件名不符合kebab-case规范、正文误用H1标签以及可能存在裸链接和代码块缺失语言标识等排版细节问题。",
+  "technical_review": "文章在多模态大语言模型（MLLMs）和推理优化领域的探讨具有较高的技术价值。结合代码块和丰富的引用，内容详实。技术分析准确，能有效帮助读者理解论文的核心创新点。",
+  "strengths": [
+    "文章技术深度良好，详细解析了多模态大语言模型的自适应推理机制。",
+    "图文并茂，使用了多达19张图片辅助解释复杂的算法概念。",
+    "主题高度契合博客的AI前沿与大模型论文阅读方向。"
+  ],
+  "concerns": [
+    "文件名大小写不符合站点的kebab-case路径规范。",
+    "正文第一行使用了H1标签，违反了应从H2开始的层级结构规范。",
+    "文章中存在代码块缺失语言标识以及裸链接等格式隐患。"
+  ],
+  "action_items": [
+    "将文件名由 ICCV25-AdaLLaVA.md 修改为 iccv25-adallava.md。",
+    "将正文首行的H1标签修改为H2标签，确保文章层级正确。",
+    "为缺失语言标识的代码块补充语言声明，并将裸链接转换为标准Markdown链接格式。"
+  ],
+  "severity": "warn",
+  "confidence": 0.95,
+  "memory_refs": [
+    "topic:人工智能",
+    "topic:论文阅读",
+    "topic:LLM",
+    "topic:机器学习",
+    "topic:大模型推理",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language"
+  ],
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2026-03-31T12:41:37Z",
+  "tags_snapshot": [
+    "论文阅读",
+    "大模型推理",
+    "LLM",
+    "机器学习",
+    "人工智能"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `ICCV25-AdaLLaVA.md` 不符合站点路径规范，建议改为 `iccv25-adallava.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "论文阅读",
+      "大模型推理",
+      "LLM",
+      "机器学习",
+      "人工智能"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": []
+}
