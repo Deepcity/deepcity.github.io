@@ -1,30 +1,31 @@
 {
   "post_id": "ICCV25-AdaLLaVA",
-  "title": "Learning to Inference Adaptively for Multimodal Large Language Models",
+  "title": "ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models",
   "source_path": "src/data/blog/ICCV25-AdaLLaVA.md",
   "route_path": "/posts/iccv25-adallava",
-  "source_hash": "a1a639067fd2b8f67e7eb6df6b9a20baba07008e0b645e1087fb39d4863b531a",
-  "generated_at": "2026-03-31T12:48:48.662Z",
-  "run_mode": "cli",
+  "source_hash": "9eaa873854e4d062d17edec80043437990079aa0b0a14bec4f9eec5557b957b1",
+  "generated_at": "2026-03-31T12:54:26.132Z",
+  "run_mode": "build",
   "provider": "gemini",
   "model": "gemini-3.1-pro-preview",
-  "summary": "本文解读了《AdaLLaVA》这篇关于多模态大语言模型自适应推理的论文，详细探讨了如何通过自适应机制优化推理过程，兼具理论深度与实践价值。",
-  "structural_review": "文章结构丰富，包含14个标题、19张图片和大量链接，图文并茂。但存在文件名不符合kebab-case规范、正文误用H1标签以及可能存在裸链接和代码块缺失语言标识等排版细节问题。",
-  "technical_review": "文章在多模态大语言模型（MLLMs）和推理优化领域的探讨具有较高的技术价值。结合代码块和丰富的引用，内容详实。技术分析准确，能有效帮助读者理解论文的核心创新点。",
+  "summary": "本文介绍了ICCV2025关于多模态大语言模型自适应推理的研究，由威斯康星大学等多所高校提出，探讨了如何优化大模型推理效率与性能。",
+  "structural_review": "文章结构内容丰富，包含大量图片和链接，但存在多项排版规范问题，如文件名不符合小写kebab-case规范、正文误用H1标签、可能存在裸链接与未声明语言的代码块等。",
+  "technical_review": "文章探讨多模态大模型的自适应推理技术，紧扣AI领域前沿。包含大量图表与丰富引文，具备较高的技术深度与学术参考价值。",
   "strengths": [
-    "文章技术深度良好，详细解析了多模态大语言模型的自适应推理机制。",
-    "图文并茂，使用了多达19张图片辅助解释复杂的算法概念。",
-    "主题高度契合博客的AI前沿与大模型论文阅读方向。"
+    "紧跟学术前沿，解读了ICCV2025关于多模态大模型推理的最新研究成果。",
+    "图文并茂，包含大量图片和丰富的参考链接，有助于读者深入理解复杂架构。",
+    "技术分类与标签精准，涵盖了LLM和机器学习等关键热门领域。"
   ],
   "concerns": [
-    "文件名大小写不符合站点的kebab-case路径规范。",
-    "正文第一行使用了H1标签，违反了应从H2开始的层级结构规范。",
-    "文章中存在代码块缺失语言标识以及裸链接等格式隐患。"
+    "文件名大小写混合不符合网站的小写kebab-case标准规范。",
+    "正文首行使用了H1标题，破坏了整体博客的标题层级结构。",
+    "历史记录提示正文可能存在裸链接、未指定语言的代码块以及标题跳跃问题。"
   ],
   "action_items": [
-    "将文件名由 ICCV25-AdaLLaVA.md 修改为 iccv25-adallava.md。",
-    "将正文首行的H1标签修改为H2标签，确保文章层级正确。",
-    "为缺失语言标识的代码块补充语言声明，并将裸链接转换为标准Markdown链接格式。"
+    "将文件名由 ICCV25-AdaLLaVA.md 统一修改为小写的 iccv25-adallava.md。",
+    "将正文第一行的H1标题降级修改为H2标题以维持语义和样式层级的正确。",
+    "检查并为所有代码块补充正确的Markdown编程语言标识。",
+    "排查并修复文中的裸链接以及标题层级跳跃的问题。"
   ],
   "severity": "warn",
   "confidence": 0.95,
@@ -34,9 +35,9 @@
     "topic:LLM",
     "topic:机器学习",
     "topic:大模型推理",
-    "issue:body-h1",
     "issue:bare-url",
-    "issue:missing-code-language"
+    "issue:missing-code-language",
+    "issue:heading-skip"
   ],
   "series_key": null,
   "series_label": null,
