@@ -1,0 +1,84 @@
+{
+  "post_id": "2026-03-28 ICCV25-AdaLLaVA",
+  "title": "Learning to Inference Adaptively for Multimodal Large Language Models",
+  "source_path": "src/data/blog/2026-03-28 ICCV25-AdaLLaVA.md",
+  "route_path": "/posts/2026-03-28-iccv25-adallava",
+  "source_hash": "a1a639067fd2b8f67e7eb6df6b9a20baba07008e0b645e1087fb39d4863b531a",
+  "generated_at": "2026-03-31T12:42:08.516Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.1-pro-preview",
+  "summary": "本文介绍了一篇关于多模态大语言模型（MLLMs）自适应推理机制的论文。文章由威斯康星大学等多所高校联合发表，探讨了如何通过自适应推理提升多模态模型的效率和性能，内容翔实。",
+  "structural_review": "文章结构丰富，包含14个标题、4个代码块以及大量图表和链接，整体内容详实。但在结构规范上存在硬性问题，如文件名未采用小写 kebab-case，且正文第一行使用了 H1 标题。",
+  "technical_review": "文章聚焦于多模态大语言模型的前沿研究，深入探讨了自适应推理这一关键技术，与本博客关注的人工智能、机器学习及大模型推理主题高度契合，具备较高的技术价值和阅读意义。",
+  "strengths": [
+    "文章包含19张图片和丰富的链接，图文并茂，有助于读者理解复杂的模型架构与实验结果。",
+    "技术内容前沿，针对多模态大语言模型的自适应推理进行了深入分析，专业性强。",
+    "主题切合站内读者画像，填补了博客在多模态模型自适应推理领域的论文阅读积累。"
+  ],
+  "concerns": [
+    "文件名包含了大写字母和空格，不符合站内要求的全小写 kebab-case 路径规范。",
+    "正文第一行直接使用了 H1 标题，违背了正文标题应从 H2 开始的结构规范。",
+    "历史检测记录提示文章可能存在裸链接、缺失代码块语言声明以及标题跳级等排版隐患。"
+  ],
+  "action_items": [
+    "统一文章文件名与站内文章链接为小写 kebab-case，建议改为 `2026-03-28-iccv25-adallava.md`。",
+    "将正文开头的 H1 标题降级为 H2 标题。",
+    "检查代码块是否缺少语言标识，修复潜在的裸链接和跳跃的标题层级。"
+  ],
+  "severity": "warn",
+  "confidence": null,
+  "memory_refs": [
+    "topic:人工智能",
+    "topic:论文阅读",
+    "topic:LLM",
+    "topic:机器学习",
+    "topic:大模型推理",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:missing-code-language"
+  ],
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2026-03-31T12:41:37Z",
+  "tags_snapshot": [
+    "论文阅读",
+    "大模型推理",
+    "LLM",
+    "机器学习",
+    "人工智能"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `2026-03-28 ICCV25-AdaLLaVA.md` 不符合站点路径规范，建议改为 `2026-03-28-iccv25-adallava.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [
+    "生成完整 frontmatter：pubDatetime、title、description、draft、tags、author、slug、timezone。"
+  ],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "论文阅读",
+      "大模型推理",
+      "LLM",
+      "机器学习",
+      "人工智能"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": []
+}

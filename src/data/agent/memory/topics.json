@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-03-21T09:52:54.536Z",
+  "updated_at": "2026-03-31T12:42:08.527Z",
   "topics": [
     {
       "tag": "c",
@@ -57,6 +57,19 @@
       "count": 5
     },
     {
+      "tag": "人工智能",
+      "category": "ai",
+      "post_ids": [
+        "PGStudy-EAandGA",
+        "PGStudy-Swarm-intelligence",
+        "SOSP25-ByteRobust",
+        "2026-03-28 AAAI25-MoLe-VLA",
+        "2026-03-28 ICCV25-AdaLLaVA"
+      ],
+      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
+      "count": 5
+    },
+    {
       "tag": "算子开发",
       "category": "development",
       "post_ids": [
@@ -76,10 +89,11 @@
         "OSDI18-Ray",
         "OSDI24-ServerlessLLM",
         "SOSP24-Colloid",
-        "SOSP25-ByteRobust"
+        "SOSP25-ByteRobust",
+        "2026-03-28 ICCV25-AdaLLaVA"
       ],
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 4
+      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
+      "count": 5
     },
     {
       "tag": "LLM",
@@ -87,21 +101,11 @@
       "post_ids": [
         "AscendC-part1-basic-concept",
         "AscendC-part5-pytorch-summary",
-        "API-Agent-Embedding-MCP-Skills"
+        "API-Agent-Embedding-MCP-Skills",
+        "2026-03-28 ICCV25-AdaLLaVA"
       ],
-      "latest_post_id": "API-Agent-Embedding-MCP-Skills",
-      "count": 3
-    },
-    {
-      "tag": "人工智能",
-      "category": "ai",
-      "post_ids": [
-        "PGStudy-EAandGA",
-        "PGStudy-Swarm-intelligence",
-        "SOSP25-ByteRobust"
-      ],
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 3
+      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
+      "count": 4
     },
     {
       "tag": "机器学习",
@@ -109,10 +113,11 @@
       "post_ids": [
         "PGStudy-EAandGA",
         "PGStudy-Swarm-intelligence",
-        "SOSP25-ByteRobust"
+        "SOSP25-ByteRobust",
+        "2026-03-28 ICCV25-AdaLLaVA"
       ],
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 3
+      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
+      "count": 4
     },
     {
       "tag": "OSDI",
@@ -162,6 +167,16 @@
         "CMU-15213-BombLab"
       ],
       "latest_post_id": "CMU-15213-BombLab",
+      "count": 2
+    },
+    {
+      "tag": "大模型推理",
+      "category": "paper",
+      "post_ids": [
+        "OSDI24-ServerlessLLM",
+        "2026-03-28 ICCV25-AdaLLaVA"
+      ],
+      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
       "count": 2
     },
     {
@@ -291,15 +306,6 @@
         "OSDI18-Ray"
       ],
       "latest_post_id": "OSDI18-Ray",
-      "count": 1
-    },
-    {
-      "tag": "大模型推理",
-      "category": "paper",
-      "post_ids": [
-        "OSDI24-ServerlessLLM"
-      ],
-      "latest_post_id": "OSDI24-ServerlessLLM",
       "count": 1
     },
     {

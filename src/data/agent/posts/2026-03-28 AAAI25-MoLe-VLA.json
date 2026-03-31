@@ -1,0 +1,62 @@
+{
+  "post_id": "2026-03-28 AAAI25-MoLe-VLA",
+  "title": "2026 03 28 AAAI25 Mo Le VLA",
+  "source_path": "src/data/blog/2026-03-28 AAAI25-MoLe-VLA.md",
+  "route_path": "/posts/2026-03-28-aaai25-mole-vla",
+  "source_hash": "a95e66dd02406f501db488d4f67d5734811a53b602fdfc359aff1226db42accc",
+  "generated_at": "2026-03-31T12:40:01.723Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.1-pro-preview",
+  "summary": "本文是关于 AAAI25 Mo Le VLA 的技术记录占位符，目前缺乏实质性正文，仅有单句摘要。文章无标题与图表等结构元素，且文件名格式不规范，需全面补充核心技术内容。",
+  "structural_review": "文章当前缺乏基础的结构化元素，headings、code_fences、images 和 links 的数量均为 0，处于草稿或占位状态。同时硬校验提示文件名命名存在规范问题，需调整以符合博客的统一标准。",
+  "technical_review": "由于正文实质性内容缺失，未包含 Mo Le VLA 的具体技术架构、训练方法、实验数据或论文解读细节，当前阶段无法对其所涉及的 AI 技术进行深入的审阅和评估，需等待作者补全内容。",
+  "strengths": [
+    "预先设定了明确的技术主题，聚焦于前沿的 AAAI25 Mo Le VLA 研究。",
+    "标签分类准确，成功关联至现有的‘人工智能’知识体系中。"
+  ],
+  "concerns": [
+    "文章目前严重缺乏实质性的正文内容，无法向读者传递有效信息。",
+    "文件名包含大写字母及空格，违反了站内统一的小写 kebab-case 规范。",
+    "完全没有任何 Markdown 结构元素（如各级标题、列表、图表），阅读层级为零。"
+  ],
+  "action_items": [
+    "将文章文件名及站内链接统一修改为小写的 kebab-case 格式，即 `2026-03-28-aaai25-mole-vla.md`。",
+    "撰写并补充文章目标、核心技术细节与结论摘要等实质性段落。",
+    "利用标准的 Markdown 标题（H2, H3）来切分和组织补充后的正文结构。"
+  ],
+  "severity": "warn",
+  "confidence": null,
+  "memory_refs": [
+    "topic:人工智能",
+    "issue:non-canonical-post-id"
+  ],
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2026-03-31T12:39:10Z",
+  "tags_snapshot": [
+    "人工智能"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `2026-03-28 AAAI25-MoLe-VLA.md` 不符合站点路径规范，建议改为 `2026-03-28-aaai25-mole-vla.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [
+    "生成完整 frontmatter：pubDatetime、title、description、draft、tags、author、slug、timezone。"
+  ],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "人工智能"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": []
+}

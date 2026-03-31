@@ -2,35 +2,30 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-03-21T09:52:54.568Z",
+  "generated_at": "2026-03-31T12:42:40.745Z",
   "run_mode": "build-home-panel",
   "provider": "gemini",
   "model": "gemini-3.1-pro-preview",
-  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 CMU 15-213 实验与系统基础、Ascend C 算子开发、OSDI 与 SOSP 论文阅读及 Agent 等主题，帮助首次访问者快速理解主线并跳转最值得读的入口。",
-  "agent_role": "这个首页 Agent 并非在线客服，而是构建期生成的静态导览员：它负责概括博客主题、解释文章页导读的作用，并把读者引到站内最有代表性的内容入口。",
-  "site_overview": "站点当前收录 21 篇文章，无精选。内容主要围绕底层系统、算子开发、顶会论文阅读与大模型工程实践展开。最近更新是关于 HBM 通道 TSV 故障检测的高效方案分析。",
+  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 CMU 15-213 实验与系统基础、OSDI / SOSP 论文阅读、Agent 工程等主题，帮助首次访问者快速理解站点内容主线并跳转核心入口。",
+  "agent_role": "本首页 Agent 是构建期生成的静态导览员：负责概括博客主题、解释文章页 Agent Review 的作用，并把读者引到站内最有代表性的内容入口，而非实时在线客服。",
+  "site_overview": "站点收录 22 篇文章，内容围绕 CMU 15-213 实验、OSDI / SOSP 论文、Agent 与 Ascend C 算子开发展开，涵盖 AI 基建与工程实践。最近更新是多模态大模型推理相关内容。",
   "focus_topics": [
     "CMU 15-213 实验与系统基础",
-    "Ascend C 算子开发",
     "OSDI / SOSP 论文阅读",
-    "Agent / MCP / Embedding 工程"
+    "Agent / MCP / Embedding 工程",
+    "Ascend C 算子开发"
   ],
   "highlights": [
-    "站点已收录 21 篇文章，覆盖系统底层到上层 AI 基础设施的多个维度。",
-    "主线集中在系统与算子层面的深入探索，适合按专题进行系统性阅读。",
-    "最近对大语言模型训练的可靠性与 Agent 编排进行了探讨更新。",
-    "文章页面的 Agent Review 来自静态预生成的摘要，访问不触发在线请求。"
+    "首页精选与最近发布共同构成阅读入口，当前已收录 22 篇文章。",
+    "站点主线集中在系统底层实验、论文阅读、AI工程及算子开发，适合按专题连续阅读。",
+    "Agent 相关主题当前已有 5 篇，最近更新涉及多模态大模型的自适应推理研究。",
+    "文章页中的 Agent Review 来自预先生成的静态 JSON，浏览页面不会触发在线请求。"
   ],
   "recommended_paths": [
     {
-      "label": "最近更新：ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis#",
-      "href": "/posts/isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis",
-      "description": "高带宽内存（High Bandwidth Memory，HBM）的通道可以通过 128 个数据硅通孔（Through-Silicon Via，TSV）和 16…"
-    },
-    {
-      "label": "Agent / MCP / Embedding 工程",
-      "href": "/posts/sosp25-byterobust",
-      "description": "最近相关更新是《SOSP25-Robust LLM Training Infrastracture at ByteDance》。"
+      "label": "最新文章：Learning to Inference Adaptively...",
+      "href": "/posts/2026-03-28-iccv25-adallava",
+      "description": "由威斯康星大学麦迪逊分校等机构提出的多模态大语言模型自适应推理研究。"
     },
     {
       "label": "CMU 15-213 实验与系统基础",
@@ -40,25 +35,30 @@
     {
       "label": "浏览全部文章",
       "href": "/posts/",
-      "description": "按时间线查看站内全部文章。"
+      "description": "按时间线查看站内全部 22 篇文章。"
+    },
+    {
+      "label": "关于作者",
+      "href": "/about",
+      "description": "查看研究兴趣、背景与站点定位。"
     }
   ],
   "content_stats": {
-    "total_posts": 21,
+    "total_posts": 22,
     "featured_posts": 0,
-    "latest_post_title": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis#",
+    "latest_post_title": "Learning to Inference Adaptively for Multimodal Large Language Models",
     "primary_topics": [
       "CMU 15-213 实验与系统基础",
-      "Ascend C 算子开发",
       "OSDI / SOSP 论文阅读",
-      "Agent / MCP / Embedding 工程"
+      "Agent / MCP / Embedding 工程",
+      "Ascend C 算子开发"
     ]
   },
-  "confidence": 0.98,
+  "confidence": 0.95,
   "notes": [
     "Home panel is generated from committed blog posts and frontmatter only.",
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
     "Homepage guide was refined by Gemini from committed site data."
   ],
-  "posts_hash": "65872759d57af278d9b2de2a6f53eecacbadc40113a6999aef4b5cd367cbd39e"
+  "posts_hash": "f27bd42dba5e9c01bdf18bab721a65ef41c22880516878f5e15487eac2963f09"
 }

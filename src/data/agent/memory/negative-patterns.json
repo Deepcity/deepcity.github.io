@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-03-21T09:52:54.536Z",
+  "updated_at": "2026-03-31T12:42:08.527Z",
   "patterns": [
     {
       "code": "body-h1",
@@ -13,11 +13,12 @@
         "CMU-15213-BombLab",
         "PGStudy-Swarm-intelligence",
         "SOSP24-Colloid",
-        "SOSP25-ByteRobust"
+        "SOSP25-ByteRobust",
+        "2026-03-28 ICCV25-AdaLLaVA"
       ],
       "sample_message": "第 1 行存在正文 H1，建议从 H2 开始。",
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 8
+      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
+      "count": 9
     },
     {
       "code": "bare-url",
@@ -49,6 +50,19 @@
       "count": 5
     },
     {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "post_ids": [
+        "SOSP25-ByteRobust",
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+        "2026-03-28 AAAI25-MoLe-VLA",
+        "2026-03-28 ICCV25-AdaLLaVA"
+      ],
+      "sample_message": "文件名 `2026-03-28 ICCV25-AdaLLaVA.md` 不符合站点路径规范，建议改为 `2026-03-28-iccv25-adallava.md`，站内文章链接统一使用小写 kebab-case。",
+      "latest_post_id": "2026-03-28 ICCV25-AdaLLaVA",
+      "count": 4
+    },
+    {
       "code": "heading-skip",
       "severity": "warn",
       "post_ids": [
@@ -57,17 +71,6 @@
       ],
       "sample_message": "第 1045 行标题层级从 H2 跳到了 H4。",
       "latest_post_id": "CMU-15213-MallocLab",
-      "count": 2
-    },
-    {
-      "code": "non-canonical-post-id",
-      "severity": "warn",
-      "post_ids": [
-        "SOSP25-ByteRobust",
-        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
-      ],
-      "sample_message": "文件名 `ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis.md` 不符合站点路径规范，建议改为 `isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis.md`，站内文章链接统一使用小写 kebab-case。",
-      "latest_post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
       "count": 2
     }
   ]
