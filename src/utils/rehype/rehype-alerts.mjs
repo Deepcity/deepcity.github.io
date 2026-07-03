@@ -25,6 +25,49 @@ function isBreak(node) {
   return node?.type === "element" && node.tagName === "br";
 }
 
+function getPlainText(node) {
+  if (node?.type === "text") return node.value;
+  if (isBreak(node)) return "\n";
+  if (!node?.children) return "";
+
+  return node.children.map(getPlainText).join("");
+}
+
+function isBoxDrawingTable(text) {
+  const lines = text.split(/\r?\n/u).filter(line => line.trim());
+  if (lines.length < 3) return false;
+
+  const tableLineCount = lines.filter(line => /[┌┬┐├┼┤└┴┘│─]/u.test(line))
+    .length;
+
+  return tableLineCount >= 3;
+}
+
+function preserveBoxDrawingTables(node) {
+  if (!node.children) return;
+
+  node.children = node.children.map(child => {
+    if (child.type !== "element" || child.tagName !== "p") return child;
+
+    const text = getPlainText(child).trimEnd();
+    if (!isBoxDrawingTable(text)) return child;
+
+    return {
+      type: "element",
+      tagName: "pre",
+      properties: { className: ["markdown-alert-ascii-table"] },
+      children: [
+        {
+          type: "element",
+          tagName: "code",
+          properties: {},
+          children: [{ type: "text", value: text }],
+        },
+      ],
+    };
+  });
+}
+
 function removeLeadingAlertMarker(paragraph) {
   const firstChild = paragraph.children?.[0];
   if (firstChild?.type !== "text") return null;
@@ -96,6 +139,9 @@ export default function rehypeAlerts() {
         children.splice(firstParagraphIndex, 1);
       }
 
+      node.children = children;
+      preserveBoxDrawingTables(node);
+
       node.children = [
         {
           type: "element",
@@ -103,7 +149,7 @@ export default function rehypeAlerts() {
           properties: { className: ["markdown-alert-title"] },
           children: [{ type: "text", value: title }],
         },
-        ...children,
+        ...node.children,
       ];
     });
   };

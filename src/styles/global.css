@@ -10,14 +10,16 @@ html[data-theme="light"] {
   --accent: #006cac;
   --muted: #e6e6e6;
   --border: #ece9e9;
+  --math-foreground: #171717;
 }
 
 html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --muted: #343f60;
-  --border: #ab4b08;
+  --background: #18181b;
+  --foreground: #f4f4f5;
+  --accent: #67e8f9;
+  --muted: #27272a;
+  --border: #3f3f46;
+  --math-foreground: #ffffff;
 }
 
 @theme inline {

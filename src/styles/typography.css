@@ -140,11 +140,67 @@
       margin-bottom: 0;
     }
 
+    .markdown-alert-ascii-table {
+      margin-block: 1rem;
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid color-mix(in srgb, var(--alert-color) 24%, transparent);
+      border-radius: 0.375rem;
+      padding: 0.75rem 0.875rem;
+      background: color-mix(in srgb, var(--alert-color) 6%, transparent);
+      color: var(--foreground);
+      font-size: 0.9em;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .markdown-alert-ascii-table code {
+      display: block;
+      border-radius: 0;
+      background: transparent;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+      white-space: inherit;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
     .katex-display {
       max-width: 100%;
       overflow-x: auto;
       overflow-y: hidden;
       padding-block: 0.2rem;
+    }
+
+    .katex-display > .katex {
+      display: inline-block;
+      min-width: max-content;
+      white-space: nowrap;
+    }
+
+    .katex {
+      color: var(--math-foreground);
+      font-family: KaTeX_SansSerif, var(--font-app), sans-serif;
+      opacity: 1;
+    }
+
+    .katex .mathnormal,
+    .katex .mathit,
+    .katex .mathrm,
+    .katex .mathbf,
+    .katex .text,
+    .katex .textrm {
+      font-family: KaTeX_SansSerif, var(--font-app), sans-serif;
+    }
+
+    .katex .mathnormal,
+    .katex .mathit {
+      font-style: italic;
+    }
+
+    .katex svg path {
+      fill: currentColor;
     }
 
     details {

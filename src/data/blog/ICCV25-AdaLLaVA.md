@@ -13,7 +13,6 @@ tags:
 author: "Deepcity"
 timezone: "Asia/Shanghai"
 ---
-
 # Learning to Inference Adaptively for Multimodal Large Language Models
 
 由威斯康星大学麦迪逊分校（University of Wisconsin-Madison）、普渡大学（Purdue University）、香港大学（The University of Hong Kong）发表于ICCV2025的一篇文章，解决多模态大模型推理时计算量固定，无法响应运行时资源约束的变化的核心问题。
@@ -21,7 +20,6 @@ timezone: "Asia/Shanghai"
 给定输入图像、文本查询和时延预算，AdaLLaVA 学习在推理时动态重新配置 MLLM 内部的操作，使模型能够在单一权重下适应不同的精度-延迟权衡。
 
 > [!note]
->
 > 这篇论文的阅读范式与之前的论文阅读发生了结构性的改变，重点参照了Claude提出的建议。
 >
 > 包括但不限于
@@ -36,7 +34,6 @@ timezone: "Asia/Shanghai"
 >    4. Figures & Tables：论文的视觉中心，通过不看文字理解的方式找到自己的不足
 >
 >    在这个stage的目标中，应该需要搞清楚，论文解决了什么问题，创新点是什么，结果如何
->
 > 2. 理解方法
 >
 >    这是比较重要的一部分，花30-60mins目标是搞清楚「它是怎么做到的」。
@@ -54,7 +51,6 @@ timezone: "Asia/Shanghai"
 >       3. 哪些指标被刻意选择/回避？
 >
 >    这里的核心是要求能够一句话概括该方法的核心insight，它在哪些环节与前人不同
->
 > 3. 批判性审视
 >
 >    15-30mins 去做自己的判断
@@ -63,17 +59,16 @@ timezone: "Asia/Shanghai"
 >    2. 实验有没有刻意回避某些对比？
 >    3. 这个 insight 能否迁移到其他领域？
 >    4. 作者的思考范式（paradigm）是什么——是 reformulation、借鉴跨领域、数据驱动还是理论推导？
->
 > 4. blog架构，参照这篇论文blog
 
 ## Infomation Card
 
-| 项目       | 内容                                                         |
-| ---------- | ------------------------------------------------------------ |
-| 论文标题   | Learning to Inference Adaptively for Multimodal Large Language Models |
-| 发表于     | ICCV2025                                                     |
-| 核心一句话 | 通过一个概率分布采样的调度器在端到端联合训练中解决了“给定时间内的最好回答问题” |
-| 适用场景   | 边缘计算推理，世界AI，具身智能                               |
+| 项目       | 内容                                                                                                                                                                                                                                     |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 论文标题   | Learning to Inference Adaptively for Multimodal Large Language Models                                                                                                                                                                    |
+| 发表于     | ICCV2025                                                                                                                                                                                                                                 |
+| 核心一句话 | 通过一个概率分布采样的调度器在端到端联合训练中解决了“给定时间内的最好回答问题”                                                                                                                                                         |
+| 适用场景   | 边缘计算推理，世界AI，具身智能                                                                                                                                                                                                           |
 | 代码/项目  | [ICCV 2025 Open Access Repository](https://openaccess.thecvf.com/content/ICCV2025/html/Xu_Learning_to_Inference_Adaptively_for_Multimodal_Large_Language_Models_ICCV_2025_paper.html)  [AdaLLaVA](https://zhuoyan-xu.github.io/ada-llava/) |
 
 ## Background & Motivation
@@ -132,15 +127,19 @@ timezone: "Asia/Shanghai"
 只有一个 loss——next-token prediction loss，施加在后半段 LLM 的输出上。但反传时梯度通过两条独立的路径向前传播：
 
 **路径 A：标准的序列路径**
+
 $$
 \text{Loss} \xrightarrow{\partial} \theta_2\text{（后半段）} \xrightarrow{\partial} \theta_1\text{（前半段）} \xrightarrow{\partial} \phi_\text{encoder}
 $$
+
 这条路径和普通 LLM 微调完全一样。前半段的 visual/text token 表示会被更新，使得整体的语言建模更好。
 
 **路径 B：经过调度器的路径**
+
 $$
 \text{Loss} \xrightarrow{\partial} \theta_2\text{（被 s 选择性执行）} \xrightarrow{\text{Gumbel-Softmax}} \phi\text{（调度器）} \xrightarrow{\partial} z^s\text{（latency token）} \xrightarrow{\partial} \theta_1\text{（前半段）}
 $$
+
 这条路径的信号含义是："前半段处理完 latency token 之后送入调度器的那个向量，应该朝着能产生更好执行计划的方向变化。"
 
 这里的问题是两条路径都在更新 $\theta_1 $（前半段参数），但它们对前半段的要求是不同的：
@@ -150,13 +149,14 @@ $$
 实际上我认为这是整篇论文最为割裂的地方，**调度器因为种种原因居然只能作用于一半的transformer**。
 
 > [!note]
->
 > **最核心的原因：因果依赖**
 >
 > 调度器的工作流程是：
+>
 > $$
 > \underbrace{\text{前半段 LLM 处理}}_{\text{输入}} \rightarrow \underbrace{\text{调度器}}_{\text{决策}} \rightarrow \underbrace{\text{后半段执行计划}}_{\text{输出}}
 > $$
+>
 > 调度器要产生执行计划，它的输入必须是一个已经充分处理过视觉语言信息的 latency token 表示。这个表示只有经过若干 Transformer blocks 的注意力计算之后才存在。
 >
 > 如果试图把开关也加到前半段，就会出现一个严格的循环依赖：
@@ -166,7 +166,7 @@ $$
 >
 > 这不是一个可以被 Gumbel-Softmax 或任何训练技巧解决的问题——它是一个**时序上的先有鸡还是先有蛋的矛盾**，在单次前向传播中无法解开。
 >
-> ------
+> ---
 >
 > **第二个原因：特征质量的保证**
 >
@@ -176,7 +176,7 @@ $$
 >
 > 前半段完整执行，恰好给调度器提供了一个质量有保证的、充分融合了视觉和语言信息的条件向量。
 >
-> ------
+> ---
 >
 > **第三个原因：预算下界与训练设计的自洽**
 >
@@ -250,13 +250,10 @@ eval_model(args)
 "
 ```
 
-
-
 这里的QuickStart在单卡A100上进行单次推理
 
 - prompt: What are the things I should be cautious about when I visit here?
-
-- Image: 
+- Image:
 
   ![view.jpg (1000×667)](https://llava-vl.github.io/static/images/view.jpg)
 
@@ -405,43 +402,37 @@ for r in results:
 ![latency_output](https://files.seeusercontent.com/2026/03/31/B9oh/20260331161521.png)
 
 > [!note]
->
 > 关键发现
 >
->   1. 存在计算量下限（Floor），≤0.5 完全饱和
+> 1. 存在计算量下限（Floor），≤0.5 完全饱和
 >
->   从 latency=0.5 开始，所有指标（FLOPs、显存、输出文本）完全相同，继续降低 latency 不再有任何效果。这说明模型在每层至少会保留一定数量的注意力头，存在硬性下限，当 latency 低于某阈值后约束不再起作用。
+> 从 latency=0.5 开始，所有指标（FLOPs、显存、输出文本）完全相同，继续降低 latency 不再有任何效果。这说明模型在每层至少会保留一定数量的注意力头，存在硬性下限，当 latency 低于某阈值后约束不再起作用。
 >
->   2. 有效计算节省范围：latency 0.6~1.0
+> 2. 有效计算节省范围：latency 0.6~1.0
 >
->   ┌───────────┬──────────────┬──────────┐
->   │   区间    │  FLOPs节省   │   质量   │
->   ├───────────┼──────────────┼──────────┤
->   │ 1.0 → 0.8 │ -22%         │ 无损     │
->   ├───────────┼──────────────┼──────────┤
->   │ 1.0 → 0.6 │ -43%         │ 基本无损 │
->   ├───────────┼──────────────┼──────────┤
->   │ 1.0 → 0.5 │ -49%（上限） │ 开始退化 │
->   └───────────┴──────────────┴──────────┘
+> | 区间 | FLOPs 节省 | 质量 |
+> | --- | --- | --- |
+> | 1.0 → 0.8 | -22% | 无损 |
+> | 1.0 → 0.6 | -43% | 基本无损 |
+> | 1.0 → 0.5 | -49%（上限） | 开始退化 |
 >
->   3. 质量拐点在 latency=0.5
+> 3. 质量拐点在 latency=0.5
 >
->   0.6 的回答仍然连贯；0.5 出现 "swimming swimming swimming" 这类重复退化，是典型的注意力机制不足导致的 decoding collapse。
+> 0.6 的回答仍然连贯；0.5 出现 "swimming swimming swimming" 这类重复退化，是典型的注意力机制不足导致的 decoding collapse。
 >
->   4. prefill显存与FLOPs线性相关
+> 4. prefill显存与FLOPs线性相关
 >
->   prefill 显存从 13.4G（lat=1.0）降至 6.8G（lat=0.5），降幅约 49%，与 FLOPs 降幅一致，说明计算量主导显存占用。
+> prefill 显存从 13.4G（lat=1.0）降至 6.8G（lat=0.5），降幅约 49%，与 FLOPs 降幅一致，说明计算量主导显存占用。
 >
->   5. avg_flops/token 非单调
+> 5. avg_flops/token 非单调
 >
->   avg_flops 在 0.9（61G）时略高于 1.0（60.9G），在 0.7/0.6 稳定在 40G 附近。这是因为 avg_flops 由 total_flops / gen_len 决定，不同 latency 下生成长度略有差异，会产生波动。
+> avg_flops 在 0.9（61G）时略高于 1.0（60.9G），在 0.7/0.6 稳定在 40G 附近。这是因为 avg_flops 由 total_flops / gen_len 决定，不同 latency 下生成长度略有差异，会产生波动。
 >
 > ---
->   实用结论：该模型的"甜点区"是 latency=0.7~0.8——FLOPs节省20%~30%，回答质量与全量推理无明显差别。latency < 0.5 无意义（饱和），latency=0.5 是质量劣化的临界点。
+>
+> 实用结论：该模型的"甜点区"是 latency=0.7~0.8——FLOPs节省20%~30%，回答质量与全量推理无明显差别。latency < 0.5 无意义（饱和），latency=0.5 是质量劣化的临界点。
 
 ![latency_sweep](https://files.seeusercontent.com/2026/03/31/1pnS/20260331162236.png)
-
-
 
 这篇论文和我们前面分析的一样，latency存在0.5的下限，这意味着对一个模型而言，其有一个“最快反应时间”。
 
@@ -749,39 +740,39 @@ print(f"""
   - max_new_tokens capped at {MAX_NEW_TOK} for reproducibility
   - latency=0.5 (AdaLLaVA floor: ~49% FLOPs vs full inference)
 """)
-
 ```
 
 ![latency benchmark](https://files.seeusercontent.com/2026/03/31/Wx7s/20260331164005.png)
 
 > [!note]
->
 > 数据拿到了。来分析这些结果：
 >
 > ---
->   测量结果分析（latency=0.5, A100 80G, max_new_tokens=128）
 >
->   关键数字
+> 测量结果分析（latency=0.5, A100 80G, max_new_tokens=128）
 >
->   ![table](https://files.seeusercontent.com/2026/03/31/D7wy/20260331164107.png)
+> 关键数字
+>
+> ![table](https://files.seeusercontent.com/2026/03/31/D7wy/20260331164107.png)
 >
 > ---
->   结构分析
 >
->     1. TTFT 极稳定（63ms, std=0.6ms）
->        视觉编码 35ms + Prefill 28ms，这部分完全由输入长度决定，无随机性。TTFT 是用户感知延迟的关键指标，63ms 对于 7B 多模态模型非常优秀。
+> 结构分析
 >
->     2. Decode 时间是主要开销（占总延迟 95%）
->        ~1357ms 生成约 128 tokens → 每 token 约 10.6ms（约 94 tokens/s）。这完全符合 A100 上 7B FP16 模型的预期吞吐。
+> 1. TTFT 极稳定（63ms, std=0.6ms）
+> 视觉编码 35ms + Prefill 28ms，这部分完全由输入长度决定，无随机性。TTFT 是用户感知延迟的关键指标，63ms 对于 7B 多模态模型非常优秀。
 >
->     3. inter-request 方差大（std ≈ 430~486ms）
->        方差来源不是图片切换（只有 35ms），而是不同 prompt 导致生成长度差异巨大（最短回答 ~25 tokens，最长 ~128 tokens）。decode 按 token 计费，输出越长越慢。
+> 2. Decode 时间是主要开销（占总延迟 95%）
+> ~1357ms 生成约 128 tokens → 每 token 约 10.6ms（约 94 tokens/s）。这完全符合 A100 上 7B FP16 模型的预期吞吐。
 >
->     4. 同图 vs 不同图差异不显著（716ms vs 843ms）
->        这两类的主要差距来自 prompt 内容（即生成长度），而非视觉编码（35ms，占比 < 3%）。这说明：若要优化 inter-request 延迟，缓存视觉编码结果（image features）价值有限，减少生成 token 数（early stopping / beam
->          search）才是主要手段。
+> 3. inter-request 方差大（std ≈ 430~486ms）
+> 方差来源不是图片切换（只有 35ms），而是不同 prompt 导致生成长度差异巨大（最短回答 ~25 tokens，最长 ~128 tokens）。decode 按 token 计费，输出越长越慢。
 >
->     5. 一个异常点：Part 2 的 req1（1394ms）和 Part 3 的 req1（1297ms）偏高——这是因为 warmup 刚结束，PyTorch 的 CUDA 内存分配器还在调整，与后续请求相比属于正常的首次惩罚。
+> 4. 同图 vs 不同图差异不显著（716ms vs 843ms）
+> 这两类的主要差距来自 prompt 内容（即生成长度），而非视觉编码（35ms，占比 < 3%）。这说明：若要优化 inter-request 延迟，缓存视觉编码结果（image features）价值有限，减少生成 token 数（early stopping / beam
+> search）才是主要手段。
+>
+> 5. 一个异常点：Part 2 的 req1（1394ms）和 Part 3 的 req1（1297ms）偏高——这是因为 warmup 刚结束，PyTorch 的 CUDA 内存分配器还在调整，与后续请求相比属于正常的首次惩罚。
 
 这里我认为有个非常值得注意的数据，在单图、不同文本下，**7B模型在单卡A100上实际inter-request最小达到了252ms**。而中位数则是508ms。
 
@@ -962,7 +953,6 @@ print("\nData saved to docs/linearity_data.json")
 ![latency linearity](https://files.seeusercontent.com/2026/03/31/i0fB/20260331165858.png)
 
 > [!note]
->
 > 要分两种情况看：
 >
 > - E2E 和 Per-token Decode：近似线性 ✅
@@ -977,9 +967,9 @@ print("\nData saved to docs/linearity_data.json")
 >
 > 图④揭示了原因：TTFT = 固定视觉编码（~35ms，不随 latency 变化） + 可变 LLM prefill。在 lat=0.5 时视觉编码占 TTFT 的 55%，成为节能无法突破的固定下限。LLM prefill 部分本身也是近线性的——瓶颈在视觉编码，而不是 LLM 部分。
 >
->   核心结论
+> 核心结论
 >
->   ▎ FLOPs 减少确实近乎线性地转化为 decode 和 E2E 时延降低（R²≈0.994）；但 TTFT 因视觉编码的固定开销（~35ms）而加速效果仅为理论值的 74%。若要进一步压缩 TTFT，需要对视觉编码阶段也做自适应裁剪。
+> ▎ FLOPs 减少确实近乎线性地转化为 decode 和 E2E 时延降低（R²≈0.994）；但 TTFT 因视觉编码的固定开销（~35ms）而加速效果仅为理论值的 74%。若要进一步压缩 TTFT，需要对视觉编码阶段也做自适应裁剪。
 
 > 这里我有一个问题，这个问题可能对于长期接触大模型推理的人来说比较愚蠢：为什么TTFT降低不足70%，但是E2E的时延却能降低到原来的一半？
 >
@@ -997,8 +987,8 @@ print("\nData saved to docs/linearity_data.json")
 > 而 E2E 的组成是：
 >
 > E2E = TTFT + decode(49个token)
->     ≈ 63ms  + 510ms   (lat=0.5时)
->     ≈ 92ms  + 1098ms   (lat=1.0时)
+> ≈ 63ms  + 510ms   (lat=0.5时)
+> ≈ 92ms  + 1098ms   (lat=1.0时)
 >
 > decode 阶段占 E2E 的 95%，而 decode 每个 token 的加速比是 2.09×（与 FLOPs 几乎完全线性），所以 E2E 的整体加速被 decode 主导，最终达到 2.02×，接近理论预期。
 >
@@ -1024,6 +1014,7 @@ print("\nData saved to docs/linearity_data.json")
 > - 每 token 约 10.7ms，生成越长越慢
 >
 > 这就是为什么工业界把推理指标拆分为两个维度：
+>
 > - TTFT（Time To First Token）—— 衡量 prefill 速度，影响响应延迟感知
 > - TPS / throughput（Tokens Per Second）—— 衡量 decode 速度，影响总完成时间
 >
@@ -1033,43 +1024,45 @@ print("\nData saved to docs/linearity_data.json")
 基本上，是的，该篇论文对大模型的加速就是线性的，在这篇论文中，无法加速TTFT中的vision encode部分。但这部分在大模型中的占比极少。
 
 > [!note]
->
->  Vision Encoding 是什么阶段
+> Vision Encoding 是什么阶段
 >
 > 就是用 CLIP 视觉编码器（ViT）把输入图片转成 image token embeddings 的过程。在 ada_llava_llama.py 的 generate() 里对应这一调用：
 >
 > self.prepare_inputs_labels_for_multimodal(
->     inputs, ..., images, image_sizes=image_sizes
+> inputs, ..., images, image_sizes=image_sizes
 > )
 >
 > 内部流程：图片像素 → CLIP ViT 提取特征 → PruMerge 压缩 image tokens → 与文本 embeddings 拼接。
 >
 > ---
+>
 > 为什么 AdaLLaVA 无法加速这部分
 >
 > AdaLLaVA 的自适应机制作用于 LLM 的注意力头（每层选择性跳过部分 attention heads），而 Vision Encoding 是在 LLM 之前、完全独立运行的 CLIP 模型，二者是串行的两个模块：
 >
 > 图片 → [CLIP ViT] → image tokens → [AdaLLaVA LLM（注意力头自适应）] → 输出
->          ↑ 不受 latency 参数影响        ↑ latency 参数控制的范围
+> ↑ 不受 latency 参数影响        ↑ latency 参数控制的范围
 >
 > latency 参数只编码为一个特殊 token 插入 LLM 的输入序列，用于控制 LLM 各层的 scheduler 决策，完全不触及 CLIP。所以无论 latency 设为 1.0 还是 0.5，CLIP ViT 都完整跑一遍，耗时固定在 ~35ms。
 
 > [!note]
->
->    Prefill 阶段是 LLM 推理的第一步：将所有输入 token（图片 token + 文本 token）一次性并行处理，建立 KV Cache，输出第一个生成 token。它是计算密集型（compute-bound）的，因为可以对所有 token 做并行矩阵运算。
+> Prefill 阶段是 LLM 推理的第一步：将所有输入 token（图片 token + 文本 token）一次性并行处理，建立 KV Cache，输出第一个生成 token。它是计算密集型（compute-bound）的，因为可以对所有 token 做并行矩阵运算。
 >
 > ---
+>
 > 为什么 prefill 会随 latency 参数变化？
 >
 > AdaLLaVA 在 prefill 阶段就已经执行了注意力头的选择逻辑。每个 Transformer 层需要决定哪些注意力头参与计算，这个决策本身就发生在 prefill 中。
 >
 > 具体来说：
+>
 > - latency=1.0：每层所有 32 个注意力头都参与 prefill 的 self-attention 计算
 > - latency=0.5：每层约一半的注意力头参与计算，Q/K/V 矩阵乘法的规模减小
 >
 > 所以 prefill 的计算量随 latency 降低而减少，时延也随之下降（92ms → 63ms）。
 >
 > ---
+>
 > 但为什么加速比不如 decode 明显？
 >
 > 就是图④所揭示的：TTFT = 视觉编码（35ms，固定） + LLM prefill（变化部分）。
