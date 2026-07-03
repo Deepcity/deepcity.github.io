@@ -1,5 +1,5 @@
 ---
-title: "OSDI24-ServerlessLLM: Low-Latency Serverless Inference for Large Language Models"
+title: "OSDI 2024 - ServerlessLLM: Low-Latency Serverless Inference for Large Language Models"
 pubDatetime: 2025-09-08T22:42:00Z
 description: "OSDI 2024 论文阅读笔记：ServerlessLLM — 面向大语言模型的低延迟 Serverless 推理系统。"
 slug: "osdi24-serverlessllm"

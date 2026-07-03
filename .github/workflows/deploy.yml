@@ -42,7 +42,7 @@ jobs:
         continue-on-error: true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: pnpm run agent -- --all --mode ci
+        run: ./agent --all --mode ci
 
       - name: Build Astro site
         run: pnpm run build

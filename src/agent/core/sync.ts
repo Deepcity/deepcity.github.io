@@ -2,8 +2,15 @@
 import { DEFAULT_PROVIDER, DEFAULT_RUN_MODE } from "../shared/constants.js";
 import { analyzePosts } from "./analyzer.js";
 import { buildHomePanel } from "./home-panel.js";
+import { refreshKnowledgeMap } from "./knowledge.js";
 
 export async function runSyncWorkflow(filePaths, options = {}) {
+  const knowledgeResult =
+    options.refreshKnowledge === false
+      ? null
+      : await refreshKnowledgeMap({
+          postPaths: options.knowledgePostPaths,
+        });
   const postResults = await analyzePosts(filePaths, {
     runMode: options.runMode ?? DEFAULT_RUN_MODE,
     provider: options.provider ?? DEFAULT_PROVIDER,
@@ -15,6 +22,7 @@ export async function runSyncWorkflow(filePaths, options = {}) {
     model: options.model,
     force: options.force === true,
     updateMemory: options.updateMemory !== false,
+    knowledgeMap: knowledgeResult?.map ?? options.knowledgeMap,
   });
 
   const homePanelResult =
@@ -29,5 +37,6 @@ export async function runSyncWorkflow(filePaths, options = {}) {
   return {
     postResults,
     homePanelResult,
+    knowledgeResult,
   };
 }

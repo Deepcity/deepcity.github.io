@@ -1,0 +1,110 @@
+{
+  "post_id": "mindspore-extra-transformer-structure",
+  "title": "MindSpore 专题：番外、Transformer 模型",
+  "source_path": "src/data/blog/mindspore-extra-transformer-structure.md",
+  "route_path": "/posts/mindspore-extra-transformer-structure",
+  "source_hash": "ed7fe5a824c24df4f69c702cae8257a08044c4472194c640497207849c33e922",
+  "generated_at": "2026-07-07T07:47:45.410Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为 MindSpore 专题的“番外篇”，本文在完成了第七章模型训练的主线任务后，适时地为读者补上了 Transformer 这座现代 LLM 大厦的理论基石。文章精炼地梳理了自注意力机制、多头注意力以及位置编码的核心逻辑，让整个系列的知识网络更加立体。\n\n然而，作为一篇挂着 `MindSpore` 前缀的专题文章，通篇竟然**没有一行** MindSpore 代码实现。这难免让人觉得像是在高档餐厅里只读了精美的菜单，却没能吃上一口热菜。理论推导固然优雅，但缺少了诸如张量乘法或算子拼接的实操，读者的双手恐怕早已“手痒难耐”。\n\n*建议读者在阅读时，不妨尝试脑补如何用上一章学到的 MindSpore 算子去组装这些矩阵乘法，或者结合后续的多模态大模型实践来缓解这种“理论饱腹、实操饥饿”的状态。*",
+  "related_posts": [
+    {
+      "post_id": "mindspore-07-model-train",
+      "title": "MindSpore 专题：第七章、模型训练",
+      "route_path": "/posts/mindspore-07-model-train",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "ICCV25-AdaLLaVA",
+      "title": "ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models",
+      "route_path": "/posts/iccv25-adallava",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "本篇为 MindSpore 系列番外篇，系统梳理了 Transformer、自注意力机制、多头注意力及位置编码的数学与结构基础，旨在为主线模型训练后的大模型架构学习提供理论过渡。",
+  "structural_review": "文档整体逻辑清晰，但在 Markdown 结构上存在不规范问题，第 1 行直接使用了正文 H1 标题。此外，由于完全没有代码块，文档排版显得有些单一，缺乏技术博客应有的视觉节奏感。",
+  "technical_review": "文章对 Transformer 核心数学机制的梳理准确无误。然而，作为 MindSpore 专题文章，未能结合 MindSpore 的张量操作（如 `ops.BatchMatMul`）或 API 进行具象化呈现，使得技术论证停留在纯理论层面，未能与前序章节的框架 API 形成闭环。",
+  "strengths": [
+    "成功填补了主线模型训练与现代大模型架构之间的理论断层，承上启下作用明显。",
+    "对自注意力机制和位置编码的条理梳理清晰，降低了读者的理解门槛。"
+  ],
+  "concerns": [
+    "首行存在 H1 标题，违反了全局标题层级规范，影响文档渲染结构。",
+    "作为框架专题文章却完全没有 MindSpore 的代码实现，技术论证存在明显缺口。"
+  ],
+  "action_items": [
+    "将第 1 行的正文 H1 标题降级为 H2，以修正文档大纲结构。",
+    "建议在多头注意力章节补充使用 MindSpore 算子实现矩阵乘法与 Softmax 的简易代码片段。"
+  ],
+  "severity": "warn",
+  "confidence": 0.99,
+  "memory_refs": [
+    "series:mindspore",
+    "topic:机器学习",
+    "topic:人工智能",
+    "topic:MindSpore",
+    "topic:LLM"
+  ],
+  "knowledge_hash": "3142482fc9190bc7f636c201dddb8eb665d5488ba8ed842191fd6e990e4c492e",
+  "knowledge_refs": [
+    "series:mindspore",
+    "topic:机器学习",
+    "topic:人工智能",
+    "topic:MindSpore",
+    "topic:LLM"
+  ],
+  "knowledge_position": {
+    "series_id": "mindspore",
+    "series_label": "MindSpore 入门专题",
+    "role": "番外补充",
+    "previous_posts": [
+      "mindspore-07-model-train"
+    ],
+    "next_posts": [],
+    "topic_neighbors": [
+      "ICCV25-AdaLLaVA",
+      "mindspore-01-install",
+      "mindspore-02-try-mindspore"
+    ],
+    "position_summary": "这篇更像 MindSpore 学习路径旁边的模型结构补课，不应被当作主线第八章。"
+  },
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2024-08-14T19:47:58+08:00",
+  "tags_snapshot": [
+    "机器学习",
+    "人工智能",
+    "MindSpore",
+    "LLM"
+  ],
+  "hard_checks": [
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "机器学习",
+      "人工智能",
+      "MindSpore",
+      "LLM"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": []
+}

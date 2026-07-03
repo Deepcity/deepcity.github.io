@@ -8,10 +8,11 @@ import { createHeuristicProvider } from "../providers/heuristic.js";
 import { loadPostSnapshot } from "../parsers/post-snapshot.js";
 import { runChecks } from "./checks.js";
 import { generateFrontmatter } from "./frontmatter-generator.js";
+import { getKnowledgeForPost, loadKnowledgeMap } from "./knowledge.js";
 import { loadContentSchemaRules } from "../parsers/schema.js";
 import { isoNow, maxSeverity } from "../shared/utils.js";
 
-function buildReviewInput(snapshot, checkResult) {
+function buildReviewInput(snapshot, checkResult, knowledgeContext) {
   return {
     post: {
       id: snapshot.post_id,
@@ -22,12 +23,47 @@ function buildReviewInput(snapshot, checkResult) {
           : snapshot.description,
       tags: checkResult.currentTags,
       excerpt: snapshot.excerpt,
+      agentExperiment: snapshot.document.data.agentExperiment === true,
+      agentExperimentNote:
+        typeof snapshot.document.data.agentExperimentNote === "string"
+          ? snapshot.document.data.agentExperimentNote
+          : "",
     },
     analysis: snapshot.analysis,
     issues: checkResult.issues,
     actionItems: checkResult.actionItems,
     suggestions: checkResult.suggestions,
+    knowledge: knowledgeContext,
   };
+}
+
+function buildKnowledgePosition(knowledgeContext) {
+  if (!knowledgeContext) {
+    return null;
+  }
+
+  return {
+    series_id: knowledgeContext.series_id,
+    series_label: knowledgeContext.series_label,
+    role: knowledgeContext.role,
+    previous_posts: knowledgeContext.previous_posts ?? [],
+    next_posts: knowledgeContext.next_posts ?? [],
+    topic_neighbors: knowledgeContext.topic_neighbors ?? [],
+    position_summary: knowledgeContext.position_summary,
+  };
+}
+
+function resolveRelatedPosts(review, knowledgeContext) {
+  const allowedPosts = knowledgeContext?.related_posts ?? [];
+  const requestedIds = new Set(review.related_post_ids ?? []);
+
+  if (requestedIds.size === 0) {
+    return allowedPosts.slice(0, 3);
+  }
+
+  return allowedPosts
+    .filter(post => requestedIds.has(post.post_id))
+    .slice(0, 3);
 }
 
 function buildSidecar(
@@ -36,7 +72,11 @@ function buildSidecar(
   checkResult,
   provider,
   providerNotes,
-  runMode
+  runMode,
+  knowledgeMap,
+  knowledgeContext,
+  degraded,
+  degradedReason
 ) {
   return {
     post_id: snapshot.post_id,
@@ -48,6 +88,15 @@ function buildSidecar(
     run_mode: runMode,
     provider: provider.name,
     model: provider.model,
+    degraded,
+    degraded_reason: degradedReason,
+    agent_experiment: snapshot.document.data.agentExperiment === true,
+    agent_experiment_note:
+      typeof snapshot.document.data.agentExperimentNote === "string"
+        ? snapshot.document.data.agentExperimentNote
+        : "",
+    public_commentary: review.public_commentary ?? "",
+    related_posts: resolveRelatedPosts(review, knowledgeContext),
     summary: review.summary || snapshot.excerpt,
     structural_review: review.structural_review,
     technical_review: review.technical_review,
@@ -60,6 +109,9 @@ function buildSidecar(
     ]),
     confidence: review.confidence,
     memory_refs: review.memory_refs,
+    knowledge_hash: knowledgeMap?.knowledge_hash ?? null,
+    knowledge_refs: knowledgeContext?.memory_refs ?? [],
+    knowledge_position: buildKnowledgePosition(knowledgeContext),
     series_key: checkResult.series?.id ?? null,
     series_label: checkResult.series?.label ?? null,
     published_at: snapshot.pubDatetime,
@@ -117,6 +169,8 @@ export async function analyzePost(filePath, options = {}) {
     memoryStore.loadGlobalRules(),
   ]);
   let snapshot = await loadPostSnapshot(filePath);
+  const knowledgeMap = options.knowledgeMap ?? (await loadKnowledgeMap());
+  const knowledgeContext = getKnowledgeForPost(knowledgeMap, snapshot.post_id);
 
   if (options.force !== true) {
     const existingSidecar = await readJsonIfExists(snapshot.sidecar_path);
@@ -125,6 +179,15 @@ export async function analyzePost(filePath, options = {}) {
       existingSidecar &&
       existingSidecar.source_hash === snapshot.source_hash
     ) {
+      const knowledgeStale =
+        Boolean(knowledgeMap?.knowledge_hash) &&
+        existingSidecar.knowledge_hash !== knowledgeMap.knowledge_hash;
+      const notes = knowledgeStale
+        ? [
+            `stale: knowledge_hash changed from ${existingSidecar.knowledge_hash ?? "(none)"} to ${knowledgeMap.knowledge_hash}`,
+          ]
+        : ["skipped: source_hash unchanged"];
+
       return {
         post_id: snapshot.post_id,
         title: snapshot.title,
@@ -138,7 +201,10 @@ export async function analyzePost(filePath, options = {}) {
         concerns: existingSidecar.concerns ?? [],
         action_items: existingSidecar.action_items ?? [],
         fixes_applied: [],
-        notes: ["skipped: source_hash unchanged"],
+        notes,
+        degraded: existingSidecar.degraded === true,
+        degraded_reason: existingSidecar.degraded_reason ?? null,
+        knowledge_stale: knowledgeStale,
         skipped: true,
       };
     }
@@ -201,9 +267,14 @@ export async function analyzePost(filePath, options = {}) {
     model: options.model,
     apiKey: options.apiKey,
   });
-  const reviewInput = buildReviewInput(snapshot, checkResult);
+  const reviewInput = buildReviewInput(snapshot, checkResult, knowledgeContext);
   let activeProvider = provider;
   const providerNotes = [...frontmatterPreparationNotes, ...notes];
+  let degraded = activeProvider.name === "heuristic";
+  let degradedReason = degraded
+    ? (notes[0] ??
+      "Heuristic provider selected; Gemini public commentary was not generated.")
+    : null;
   let review;
 
   if (frontmatterPreparationFixes.length > 0) {
@@ -219,6 +290,8 @@ export async function analyzePost(filePath, options = {}) {
     providerNotes.push(
       `Provider ${activeProvider.name} failed: ${error.message}; using heuristic review.`
     );
+    degraded = true;
+    degradedReason = `Provider ${activeProvider.name} failed: ${error.message}`;
     activeProvider = createHeuristicProvider();
     review = await activeProvider.generateReview(reviewInput, memoryContext);
   }
@@ -235,7 +308,11 @@ export async function analyzePost(filePath, options = {}) {
     checkResult,
     activeProvider,
     providerNotes,
-    runMode
+    runMode,
+    knowledgeMap,
+    knowledgeContext,
+    degraded,
+    degradedReason
   );
 
   await writeJson(snapshot.sidecar_path, sidecar);
@@ -258,6 +335,9 @@ export async function analyzePost(filePath, options = {}) {
     action_items: sidecar.action_items,
     fixes_applied: sidecar.fixes_applied,
     notes: sidecar.notes,
+    degraded: sidecar.degraded,
+    degraded_reason: sidecar.degraded_reason,
+    knowledge_stale: false,
   };
 }
 

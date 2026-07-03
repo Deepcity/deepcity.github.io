@@ -1,42 +1,87 @@
 {
   "post_id": "PGStudy-Swarm-intelligence",
-  "title": "PGStudy-群体人工智能Part1-PSO",
+  "title": "群体智能 Part 1 - PSO",
   "source_path": "src/data/blog/PGStudy-Swarm-intelligence.md",
-  "route_path": "/posts/PGStudy-Swarm-intelligence",
-  "source_hash": "c4709a232163ea3f924ca4d5659117bccb0685db15f350b6f01ebfb62b47654e",
-  "generated_at": "2026-03-16T04:07:04.221Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "群体人工智能研究笔记第一部分：粒子群优化算法 (PSO) 的原理、数学模型与应用。",
-  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 4 个标题、3 个代码块、2 张图片。",
-  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "route_path": "/posts/pgstudy-swarm-intelligence",
+  "source_hash": "25c57ddb1589e8da78d1863de2458f01aa7fbd74a2f4e1fb952ee77d8782c5b1",
+  "generated_at": "2026-07-07T07:56:23.284Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为“群体智能”系列的开篇之作，本文对**粒子群优化算法 (PSO)** 的数学机理进行了清晰的梳理。在计算智能的版图中，PSO 与邻近的进化算法（如我们在 *进化算法 - EA 与 GA* 中讨论的）共享着相似的“涌现”哲学。对于习惯了梯度下降等传统机器学习优化器的读者来说，PSO 提供了一种无需梯度信息即可在复杂、非凸空间中进行全局寻优的“鸟群”视角。\n\n不过，文章在展示公式的优美之余，略微忽略了 PSO 在高维复杂空间中**易陷入局部最优**（早熟收敛）的经典痛点，以及惯性权重和学习因子的调优艺术。如果能补充一些动态调整权重（例如线性递减策略）的讨论，会给后续的实践篇章带来更明确的指导作用。\n\n读完此文，或许你会发现，算法里的粒子通过个体极值和全局极值不断修正轨迹，像极了在科研和工作路上既要坚持自我、又不得不时刻盯着同行最新进展的我们——只不过粒子撞墙了还能无痛重来，而我们的发际线可不行。",
+  "related_posts": [
+    {
+      "post_id": "PGStudy-EAandGA",
+      "title": "进化算法 - EA 与 GA",
+      "route_path": "/posts/pgstudy-eaandga",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "本文是群体人工智能系列的第一篇，系统介绍了粒子群优化算法 (PSO) 的基本原理、数学模型、标准公式及其具体应用场景，为理解启发式优化算法奠定了基础。",
+  "structural_review": "文章整体结构逻辑清晰，分段合理。但在排版规范上存在两处硬性问题：首先，文件名包含大写字母，不符合站点规范；其次，正文第一行直接使用了 H1 标题，应当降级为 H2 开始，以便更好地契合前端渲染引擎的大纲生成规则。",
+  "technical_review": "技术公式推导准确，速度与位置更新方程书写规范。然而，文章在论证的深度上存在轻微缺口。PSO 算法核心在于“探索”与“开发”的平衡，未对惯性权重 $w$、加速度常数 $c_1, c_2$ 的物理意义和调节方法进行展开，也缺乏对高维空间中“早熟收敛”现象的应对策略分析。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "核心数学模型与公式推导清晰直观，降低了读者的理解门槛。",
+    "成功将自然界中的鸟群捕食行为与粒子状态更新公式进行了恰当的映射对应。"
   ],
-  "concerns": ["第 1 行存在正文 H1，建议从 H2 开始。"],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "concerns": [
+    "文章文件名 `PGStudy-Swarm-intelligence.md` 包含大写字母，与站点推行的 kebab-case 规范冲突。",
+    "第 1 行使用了正文 H1 标题，破坏了文档的大纲层级结构。",
+    "缺乏对 PSO 容易陷入局部最优等局限性以及超参数敏感度的讨论。"
+  ],
+  "action_items": [
+    "将文章文件名重命名为小写格式 `pgstudy-swarm-intelligence.md` 并更新站内引用链接。",
+    "将第 1 行的 H1 标题降级为 H2，确保正文标题层级从 H2 开始。",
+    "在算法讨论部分，补充一小段关于如何防止 PSO 早熟收敛以及超参数（如惯性权重）动态调整的经典策略。"
+  ],
   "severity": "warn",
-  "confidence": 0.78,
+  "confidence": null,
   "memory_refs": [
-    "global:tag_registry",
-    "series:pgstudy",
-    "topic:人工智能",
     "topic:机器学习",
-    "topic:PSO",
+    "topic:人工智能",
     "topic:群体人工智能",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "topic:PSO"
   ],
-  "series_key": "pgstudy",
-  "series_label": "PGStudy",
+  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_refs": [
+    "topic:机器学习",
+    "topic:人工智能",
+    "topic:群体人工智能",
+    "topic:PSO"
+  ],
+  "knowledge_position": {
+    "series_id": null,
+    "series_label": null,
+    "role": "独立文章",
+    "previous_posts": [],
+    "next_posts": [],
+    "topic_neighbors": [
+      "ICCV25-AdaLLaVA",
+      "SOSP25-ByteRobust",
+      "PGStudy-EAandGA"
+    ],
+    "position_summary": "群体智能 Part 1 - PSO 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
+  },
+  "series_key": null,
+  "series_label": null,
   "published_at": "2024-10-25T20:08:20Z",
-  "tags_snapshot": ["机器学习", "人工智能", "群体人工智能", "PSO"],
+  "tags_snapshot": [
+    "机器学习",
+    "人工智能",
+    "群体人工智能",
+    "PSO"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `PGStudy-Swarm-intelligence.md` 不符合站点路径规范，建议改为 `pgstudy-swarm-intelligence.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "body-h1",
       "severity": "warn",
@@ -48,13 +93,16 @@
   "fixes_applied": [],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["机器学习", "人工智能", "群体人工智能", "PSO"],
+    "normalized_tags": [
+      "机器学习",
+      "人工智能",
+      "群体人工智能",
+      "PSO"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": []
 }

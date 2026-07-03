@@ -9,7 +9,8 @@ type Props = {
 };
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const allPosts = await getCollection("blog");
+  const posts = import.meta.env.DEV ? allPosts : getSortedPosts(allPosts);
   const postResult = posts.map(post => ({
     params: { slug: getPath(post.id, post.filePath, false) },
     props: { post },

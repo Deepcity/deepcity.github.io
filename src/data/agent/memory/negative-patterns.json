@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-03-31T12:54:26.145Z",
+  "updated_at": "2026-07-07T08:00:00.033Z",
   "patterns": [
     {
       "code": "body-h1",
@@ -11,15 +11,17 @@
         "CMU-15213-ArchitectureLab",
         "CMU-15213-AttackLab",
         "CMU-15213-BombLab",
+        "ICCV25-AdaLLaVA",
+        "mindspore-extra-transformer-structure",
+        "osdi22-orca",
+        "pgstudy-characterization-llm-development-datacenter",
         "PGStudy-Swarm-intelligence",
         "SOSP24-Colloid",
-        "SOSP25-ByteRobust",
-        "2026-03-28 ICCV25-AdaLLaVA",
-        "ICCV25-AdaLLaVA"
+        "SOSP25-ByteRobust"
       ],
       "sample_message": "第 1 行存在正文 H1，建议从 H2 开始。",
-      "latest_post_id": "ICCV25-AdaLLaVA",
-      "count": 10
+      "latest_post_id": "SOSP25-ByteRobust",
+      "count": 12
     },
     {
       "code": "bare-url",
@@ -30,11 +32,31 @@
         "CMU-15213-ArchitectureLab",
         "CMU-15213-AttackLab",
         "CMU-15213-BombLab",
+        "mindspore-01-install",
+        "mindspore-04-dataset",
+        "pgstudy-characterization-llm-development-datacenter",
         "SOSP25-ByteRobust"
       ],
       "sample_message": "检测到 3 处裸 URL，建议改成 Markdown 链接。",
       "latest_post_id": "SOSP25-ByteRobust",
-      "count": 6
+      "count": 9
+    },
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "post_ids": [
+        "ICCV25-AdaLLaVA",
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+        "OSDI18-Ray",
+        "OSDI24-ServerlessLLM",
+        "PGStudy-EAandGA",
+        "PGStudy-Swarm-intelligence",
+        "SOSP24-Colloid",
+        "SOSP25-ByteRobust"
+      ],
+      "sample_message": "文件名 `SOSP25-ByteRobust.md` 不符合站点路径规范，建议改为 `sosp25-byterobust.md`，站内文章链接统一使用小写 kebab-case。",
+      "latest_post_id": "SOSP25-ByteRobust",
+      "count": 8
     },
     {
       "code": "missing-code-language",
@@ -51,29 +73,16 @@
       "count": 5
     },
     {
-      "code": "non-canonical-post-id",
-      "severity": "warn",
-      "post_ids": [
-        "SOSP25-ByteRobust",
-        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
-        "2026-03-28 AAAI25-MoLe-VLA",
-        "2026-03-28 ICCV25-AdaLLaVA",
-        "ICCV25-AdaLLaVA"
-      ],
-      "sample_message": "文件名 `ICCV25-AdaLLaVA.md` 不符合站点路径规范，建议改为 `iccv25-adallava.md`，站内文章链接统一使用小写 kebab-case。",
-      "latest_post_id": "ICCV25-AdaLLaVA",
-      "count": 5
-    },
-    {
       "code": "heading-skip",
       "severity": "warn",
       "post_ids": [
         "CMU-15213-AttackLab",
-        "CMU-15213-MallocLab"
+        "CMU-15213-MallocLab",
+        "pgstudy-characterization-llm-development-datacenter"
       ],
-      "sample_message": "第 1045 行标题层级从 H2 跳到了 H4。",
-      "latest_post_id": "CMU-15213-MallocLab",
-      "count": 2
+      "sample_message": "第 11 行标题层级从 H1 跳到了 H3。",
+      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
+      "count": 3
     }
   ]
 }

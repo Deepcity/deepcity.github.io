@@ -1,5 +1,5 @@
 ---
-title: "SOSP25-Robust LLM Training Infrastracture at ByteDance"
+title: "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance"
 pubDatetime: 2026-03-17T05:47:44Z
 description: "由香港大学和字节seed联合发布的LLM Traing的可靠性研究,详细介绍了用于支持**大规模 GPU 集群**稳定运行的管理系统 **ByteRobust…"
 slug: "sosp25-byterobust"

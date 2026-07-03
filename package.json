@@ -15,6 +15,8 @@
     "agent:build-panel": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js build-panel",
     "agent:build-home-panel": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js build-home-panel",
     "agent:refresh-memory": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js refresh-memory",
+    "agent:refresh-knowledge": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js refresh-knowledge",
+    "agent:check-knowledge": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js check-knowledge",
     "agent:build-all": "npm run agent:compile && node .tmp/agent-build/scripts/blog-agent.js sync --all --mode ci",
     "test:agent": "npm run agent:compile && node --test .tmp/agent-build/tests/blog-agent.test.js",
     "format:check": "prettier --check .",
@@ -42,7 +44,8 @@
     "sharp": "^0.34.5",
     "slugify": "^1.6.6",
     "tailwindcss": "^4.1.18",
-    "unist-util-visit": "^5.1.0"
+    "unist-util-visit": "^5.1.0",
+    "yaml": "^2.7.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
@@ -50,6 +53,7 @@
     "@shikijs/transformers": "^3.20.0",
     "@tailwindcss/typography": "^0.5.19",
     "@types/lodash.kebabcase": "^4.1.9",
+    "@types/node": "^26.1.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/parser": "^8.51.0",

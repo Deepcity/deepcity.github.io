@@ -1,41 +1,100 @@
 {
   "post_id": "SOSP24-Colloid",
-  "title": "SOSP24-Tiered Memory Management: Access Latency is the Key!",
+  "title": "SOSP 2024 - Colloid: Tiered Memory Management: Access Latency is the Key!",
   "source_path": "src/data/blog/SOSP24-Colloid.md",
-  "route_path": "/posts/SOSP24-Colloid",
-  "source_hash": "265311ba3a4cef25a61b89fd460c41d60a7fc68e947914d6c7b627dbd8509dd3",
-  "generated_at": "2026-03-16T04:07:04.229Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "SOSP 2024 论文阅读笔记：Colloid — 分层内存管理中基于访问延迟的热页面负载均衡机制。",
-  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 9 个标题、0 个代码块、4 张图片。",
-  "technical_review": "这篇文章更像论文阅读笔记，适合进一步补强机制拆解、实验设置与作者结论的对应关系。如果只保留摘要级结论，读者会知道论文说了什么，但不一定知道它为什么成立。",
+  "route_path": "/posts/sosp24-colloid",
+  "source_hash": "b16473cb4b50c0a0cbdfc0b3c61ead2d2784837af5caecf7187953e16c7d3e49",
+  "generated_at": "2026-07-07T07:54:28.139Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "在「论文阅读」系列中，本文承接了数据中心负载特征分析，并为后续诸如 *ServerlessLLM* 等超低延迟大模型推理系统奠定了坚实的底层内存管理理论。过去我们直觉地认为，分层内存管理只要把“访问最频繁”的页面一股脑塞进快内存（如 HBM）就万事大吉了。然而 Colloid 泼了一盆冷水：频繁访问不等于高延迟，如果不考虑通道排队和总线争抢，盲目热点迁移只会让快内存的控制器“挤成早高峰的地铁”。\n\nColloid 的核心贡献在于将目光投向了**访问延迟**这一核心指标。它通过精确刻画页面访问带来的实际延迟，实现了更具全局观的负载均衡。这对于想要深入理解新型异构内存架构（CXL/HBM）的读者来说是一篇极佳的破局之作。不过，论文在软件模拟器上的评测数据虽然亮眼，但在真实高并发物理 CXL 设备上的协议开销与硬件采样精度，仍有待更严苛的工业界检验。\n\n简单来说，这就像是内存版的“限流与分流”方案。别再抱怨你的程序跑得慢了，也许它只是在 HBM 的大门口排队排得太久，而 Colloid 正是那个试图给内存流量发“错峰出行指南”的交警。",
+  "related_posts": [
+    {
+      "post_id": "pgstudy-characterization-llm-development-datacenter",
+      "title": "arXiv 2024 - Characterization of Large Language Model Development in the Datacenter",
+      "route_path": "/posts/pgstudy-characterization-llm-development-datacenter",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "OSDI24-ServerlessLLM",
+      "title": "OSDI 2024 - ServerlessLLM: Low-Latency Serverless Inference for Large Language Models",
+      "route_path": "/posts/osdi24-serverlessllm",
+      "relation": "后续阅读"
+    }
+  ],
+  "summary": "本文解析了 SOSP 2024 论文 Colloid，该研究提出基于“访问延迟”而非传统“访问频率”的内存页面负载均衡机制，有效解决了异构分层内存中的排队瓶颈。",
+  "structural_review": "文章整体框架完整，图文结合较好，逻辑层级清晰。然而，文件名 `SOSP24-Colloid.md` 未采用站点规范的小写 kebab-case 格式，这不利于站内自动化链接。同时，正文第 1 行使用了 H1 标题，应当降级为 H2 以保持全站排版规范的一致性。",
+  "technical_review": "作者对 Colloid 的核心创新点——从“访问频率（Frequency）”到“访问延迟（Latency）”的升维思考——进行了准确的阐述。Colloid 解决 HBM 队列阻塞的反馈环路设计是其最大亮点。美中不足的是，文章对该方案在真实 CXL/HBM 硬件环境下的采样开销（如 PEBS 采样的 CPU 消耗）和技术限制缺乏批判性探讨，略显重理论而轻落地。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "准确抓住了 SOSP 2024 论文中从‘访问频率’转向‘访问延迟’的核心立意。",
+    "架构剖析清晰，将 Colloid 的反馈控制环路和热点迁移机制进行了通俗易懂的模块化拆解。",
+    "完美地将文章融入了「论文阅读」的知识图谱中，承前启后脉络清晰。"
   ],
-  "concerns": ["第 1 行存在正文 H1，建议从 H2 开始。"],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "concerns": [
+    "文件名 `SOSP24-Colloid.md` 违背了站点要求的小写 kebab-case 命名规范。",
+    "正文首行使用 H1 标题，破坏了 Markdown 的标准标题层级结构。",
+    "缺乏对 Colloid 在真实 CXL 硬件上部署开销与采样精度的批判性分析。"
+  ],
+  "action_items": [
+    "将文章文件名重命名为 `sosp24-colloid.md` 并同步更新站内链接引用。",
+    "将正文第 1 行的 H1 标题调整为 H2 标题。",
+    "在系统评估部分补充一小段关于该方案在真实硬件落地时潜在的 PEBS 采样开销讨论。"
+  ],
   "severity": "warn",
-  "confidence": 0.74,
+  "confidence": 0.99,
   "memory_refs": [
-    "global:tag_registry",
     "series:paper-reading",
-    "topic:论文阅读",
-    "topic:内存延迟",
     "topic:异构内存",
+    "topic:内存延迟",
     "topic:SOSP",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "topic:论文阅读"
   ],
+  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_refs": [
+    "series:paper-reading",
+    "topic:异构内存",
+    "topic:内存延迟",
+    "topic:SOSP",
+    "topic:论文阅读"
+  ],
+  "knowledge_position": {
+    "series_id": "paper-reading",
+    "series_label": "论文阅读",
+    "role": "论文阅读",
+    "previous_posts": [
+      "pgstudy-characterization-llm-development-datacenter"
+    ],
+    "next_posts": [
+      "OSDI24-ServerlessLLM"
+    ],
+    "topic_neighbors": [
+      "SOSP25-ByteRobust",
+      "osdi22-orca",
+      "ICCV25-AdaLLaVA"
+    ],
+    "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 pgstudy-characterization-llm-development-datacenter，后续文章 OSDI24-ServerlessLLM。"
+  },
   "series_key": "paper-reading",
   "series_label": "论文阅读",
   "published_at": "2025-08-12T02:42:00Z",
-  "tags_snapshot": ["异构内存", "内存延迟", "SOSP", "论文阅读"],
+  "tags_snapshot": [
+    "异构内存",
+    "内存延迟",
+    "SOSP",
+    "论文阅读"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `SOSP24-Colloid.md` 不符合站点路径规范，建议改为 `sosp24-colloid.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "body-h1",
       "severity": "warn",
@@ -47,13 +106,16 @@
   "fixes_applied": [],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["异构内存", "内存延迟", "SOSP", "论文阅读"],
+    "normalized_tags": [
+      "异构内存",
+      "内存延迟",
+      "SOSP",
+      "论文阅读"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": []
 }

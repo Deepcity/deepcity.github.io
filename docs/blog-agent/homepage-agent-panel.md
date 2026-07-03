@@ -53,7 +53,7 @@ sidecar 内容关注的是“站点导览”，而不是“文章审稿”，因
 首页 Agent 面板对应独立命令：
 
 ```bash
-npm run agent:build-home-panel
+./agent build-home-panel
 ```
 
 对应脚本入口：
@@ -90,7 +90,7 @@ npm run agent:build-home-panel
 如果首页主题文案明显过时，优先执行：
 
 ```bash
-npm run agent:build-home-panel
+./agent build-home-panel
 ```
 
 如果你改的是首页栏位结构或字段展示，通常需要同时检查：

@@ -1,5 +1,5 @@
 ---
-title: "SOSP24-Tiered Memory Management: Access Latency is the Key!"
+title: "SOSP 2024 - Colloid: Tiered Memory Management: Access Latency is the Key!"
 pubDatetime: 2025-08-12T02:42:00Z
 description: "SOSP 2024 论文阅读笔记：Colloid — 分层内存管理中基于访问延迟的热页面负载均衡机制。"
 slug: "sosp24-colloid"

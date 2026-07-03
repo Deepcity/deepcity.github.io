@@ -8,6 +8,10 @@ import {
   refreshMemoryEntries,
 } from "../src/agent/core/analyzer.js";
 import { buildHomePanel } from "../src/agent/core/home-panel.js";
+import {
+  checkKnowledgeMap,
+  refreshKnowledgeMap,
+} from "../src/agent/core/knowledge.js";
 import { runSyncWorkflow } from "../src/agent/core/sync.js";
 import { BLOG_ROOT } from "../src/agent/shared/constants.js";
 import { listMarkdownFiles, writeJson } from "../src/agent/shared/fs.js";
@@ -34,11 +38,13 @@ function parseArgs(rawArgs) {
   const booleanFlags = new Set([
     "--all",
     "--changed",
+    "--check",
     "--force",
     "--generate-frontmatter",
     "--help",
     "--no-fix",
     "--no-generate-frontmatter",
+    "--refresh-knowledge",
     "--allow-unsafe-fixes",
   ]);
 
@@ -75,6 +81,8 @@ function printUsage() {
   writeStdout("  node scripts/blog-agent.js <post>");
   writeStdout("  node scripts/blog-agent.js --changed");
   writeStdout("  node scripts/blog-agent.js --all");
+  writeStdout("  node scripts/blog-agent.js --check");
+  writeStdout("  node scripts/blog-agent.js --refresh-knowledge");
   writeStdout("  node scripts/blog-agent.js sync <post|--changed|--all>");
   writeStdout("  node scripts/blog-agent.js analyze <post>");
   writeStdout("  node scripts/blog-agent.js analyze --changed");
@@ -84,6 +92,8 @@ function printUsage() {
   );
   writeStdout("  node scripts/blog-agent.js build-panel <post|--changed|--all>");
   writeStdout("  node scripts/blog-agent.js build-home-panel");
+  writeStdout("  node scripts/blog-agent.js refresh-knowledge");
+  writeStdout("  node scripts/blog-agent.js check-knowledge");
   writeStdout("  node scripts/blog-agent.js refresh-memory all");
   writeStdout("  node scripts/blog-agent.js refresh-memory post <post>");
   writeStdout("  node scripts/blog-agent.js refresh-memory series <series-id>");
@@ -96,8 +106,24 @@ function resolveCommand(parsed) {
     "analyze",
     "build-panel",
     "build-home-panel",
+    "check-knowledge",
     "refresh-memory",
+    "refresh-knowledge",
   ]);
+
+  if (parsed.flags.get("--check")) {
+    return {
+      command: "check-knowledge",
+      implicit: false,
+    };
+  }
+
+  if (parsed.flags.get("--refresh-knowledge")) {
+    return {
+      command: "refresh-knowledge",
+      implicit: false,
+    };
+  }
 
   if (!command) {
     return {
@@ -219,21 +245,34 @@ function printAnalyzeReport(report) {
 
   for (const result of report.results) {
     if (result.skipped) {
-      writeStdout(`- ${result.post_id} [skipped]`);
+      writeStdout(
+        `- ${result.post_id} [skipped${result.knowledge_stale ? ", stale-knowledge" : ""}]`
+      );
+
+      if (result.notes?.length > 0) {
+        writeStdout(`  note: ${result.notes[0]}`);
+      }
+
       continue;
     }
 
     writeStdout(`- ${result.post_id} [${result.severity}]`);
 
-    for (const concern of result.concerns.slice(0, 3)) {
+    if (result.degraded) {
+      writeStdout(
+        `  degraded: ${result.degraded_reason ?? "heuristic fallback"}`
+      );
+    }
+
+    for (const concern of (result.concerns ?? []).slice(0, 3)) {
       writeStdout(`  concern: ${concern}`);
     }
 
-    for (const fix of result.fixes_applied.slice(0, 3)) {
+    for (const fix of (result.fixes_applied ?? []).slice(0, 3)) {
       writeStdout(`  fix: ${fix}`);
     }
 
-    if (result.notes.length > 0) {
+    if (result.notes?.length > 0) {
       writeStdout(`  note: ${result.notes[0]}`);
     }
   }
@@ -282,7 +321,9 @@ async function main() {
       "analyze",
       "build-panel",
       "build-home-panel",
+      "check-knowledge",
       "refresh-memory",
+      "refresh-knowledge",
     ].includes(
       command
     )
@@ -291,6 +332,49 @@ async function main() {
   }
 
   const reportFile = parsed.flags.get("--report-file");
+
+  if (command === "refresh-knowledge") {
+    const result = await refreshKnowledgeMap();
+    const report = {
+      generated_at: new Date().toISOString(),
+      summary: {
+        command,
+        processed: result.post_count,
+        series_count: result.series_count,
+        issue_count: result.issue_count,
+        knowledge_hash: result.knowledge_hash,
+        sidecar_path: result.sidecar_path,
+      },
+      results: result.map.issues,
+    };
+
+    writeStdout(
+      `[agent] refreshed knowledge map: posts=${result.post_count} series=${result.series_count} issues=${result.issue_count} sidecar=${result.sidecar_path}`
+    );
+    await maybeWriteReport(report, reportFile);
+    return;
+  }
+
+  if (command === "check-knowledge") {
+    const report = await checkKnowledgeMap();
+
+    if (report.summary.issue_count === 0) {
+      writeStdout(
+        `[agent] knowledge map ok: posts=${report.summary.post_count} series=${report.summary.series_count} hash=${report.summary.knowledge_hash}`
+      );
+    } else {
+      writeStdout(
+        `[agent] knowledge map has ${report.summary.issue_count} issue(s):`
+      );
+
+      for (const issue of report.issues) {
+        writeStdout(`- [${issue.severity}] ${issue.code}: ${issue.message}`);
+      }
+    }
+
+    await maybeWriteReport(report, reportFile);
+    return;
+  }
 
   if (command === "build-home-panel") {
     const result = await buildHomePanel({
@@ -400,15 +484,27 @@ async function main() {
         workflowResult.homePanelResult &&
           workflowResult.homePanelResult.skipped !== true
       ),
+      knowledge_hash: workflowResult.knowledgeResult?.knowledge_hash ?? null,
+      knowledge_issue_count: workflowResult.knowledgeResult?.issue_count ?? 0,
     });
 
     report.home_panel = workflowResult.homePanelResult;
+    report.knowledge = workflowResult.knowledgeResult
+      ? {
+          knowledge_hash: workflowResult.knowledgeResult.knowledge_hash,
+          post_count: workflowResult.knowledgeResult.post_count,
+          series_count: workflowResult.knowledgeResult.series_count,
+          issue_count: workflowResult.knowledgeResult.issue_count,
+          sidecar_path: workflowResult.knowledgeResult.sidecar_path,
+        }
+      : null;
     printAnalyzeReport(report);
     printHomePanelResult(workflowResult.homePanelResult);
     await maybeWriteReport(report, reportFile);
     return;
   }
 
+  const knowledgeResult = await refreshKnowledgeMap();
   const results = await analyzePosts(targets, {
     runMode:
       parsed.flags.get("--mode") ?? (command === "build-panel" ? "build" : "cli"),
@@ -421,8 +517,19 @@ async function main() {
     writeMarkdown: command !== "build-panel",
     model: parsed.flags.get("--model"),
     force: parsed.flags.get("--force") === true,
+    knowledgeMap: knowledgeResult.map,
   });
-  const report = buildReport(command, results);
+  const report = buildReport(command, results, {
+    knowledge_hash: knowledgeResult.knowledge_hash,
+    knowledge_issue_count: knowledgeResult.issue_count,
+  });
+  report.knowledge = {
+    knowledge_hash: knowledgeResult.knowledge_hash,
+    post_count: knowledgeResult.post_count,
+    series_count: knowledgeResult.series_count,
+    issue_count: knowledgeResult.issue_count,
+    sidecar_path: knowledgeResult.sidecar_path,
+  };
   printAnalyzeReport(report);
   await maybeWriteReport(report, reportFile);
 }

@@ -3,6 +3,7 @@
 这组文档描述当前仓库已经落地的博客 Agent 系统实现，而不是历史方案草稿。
 
 - 历史规划稿：[`docs/agent_feat_plan.md`](../agent_feat_plan.md)
+- 博客整体调试：[`docs/blog-debugging-workflow.md`](../blog-debugging-workflow.md)
 - 当前实现代码入口：[`scripts/blog-agent.ts`](/home/deepc/deepcity.github.io/scripts/blog-agent.ts)
 - Agent 核心目录：[`src/agent`](/home/deepc/deepcity.github.io/src/agent)
 - 页面接入点：[`src/layouts/PostDetails.astro`](/home/deepc/deepcity.github.io/src/layouts/PostDetails.astro)
@@ -18,6 +19,10 @@
   说明负责文章结构点评和技术点评的 Review Agent。
 - [`workflow-and-usage.md`](./workflow-and-usage.md)
   说明 CLI、CI、构建时行为、常用命令和运维排障。
+- [`knowledge-map.md`](./knowledge-map.md)
+  说明自动知识网络、YAML override 纠错入口、stale 评论标记和相关文章白名单。
+- [`experiment-set.md`](./experiment-set.md)
+  记录 `_agent-experiment` 试验文章集的日期、草稿状态和迁移约定。
 - [`homepage-agent-panel.md`](./homepage-agent-panel.md)
   说明首页 Agent 栏的双栏布局、独立 sidecar、CLI 命令以及宽度对齐策略。
 
@@ -27,6 +32,7 @@
 
 1. 对 `src/data/blog/**/*.md` 做基于真实仓库约束的格式检查，并自动修复安全的机械性问题。
 2. 为每篇文章生成静态审稿 sidecar，供文章页展示 Agent 栏，也供 CLI / CI 输出集中报告。
+3. 自动维护一份轻量知识网络，让文章点评能理解系列位置、前后篇关系和站内相邻主题。
 
 这套系统刻意不做两件事：
 
@@ -47,7 +53,7 @@ Agent 系统由四层组成：
 2. 核心编排层
    入口是 [`src/agent/analyzer.ts`](/home/deepc/deepcity.github.io/src/agent/analyzer.ts)。
 3. 数据层
-   sidecar 和 memory 都存放在 [`src/data/agent`](/home/deepc/deepcity.github.io/src/data/agent)。
+   sidecar、memory 和 knowledge-map 都存放在 [`src/data/agent`](/home/deepc/deepcity.github.io/src/data/agent)。
 4. 展示层
    页面通过 [`src/agent/site.ts`](/home/deepc/deepcity.github.io/src/agent/site.ts) 读取 sidecar；文章页和首页分别渲染各自的 Agent 面板。
 
@@ -56,5 +62,7 @@ Agent 系统由四层组成：
 - 如果你想理解系统全貌：先看 [`architecture.md`](./architecture.md)。
 - 如果你要改 lint / fix 规则：先看 [`format-check-agent.md`](./format-check-agent.md)。
 - 如果你要改评论生成逻辑：先看 [`review-agent.md`](./review-agent.md)。
+- 如果你要改文章知识位置或系列纠错：先看 [`knowledge-map.md`](./knowledge-map.md)。
+- 如果你要整理迁移前的 Agent 试验样本：先看 [`experiment-set.md`](./experiment-set.md)。
 - 如果你要改首页 Agent 栏：先看 [`homepage-agent-panel.md`](./homepage-agent-panel.md)。
 - 如果你只想知道怎么跑：直接看 [`workflow-and-usage.md`](./workflow-and-usage.md)。

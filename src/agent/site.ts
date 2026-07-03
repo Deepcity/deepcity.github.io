@@ -44,6 +44,19 @@ function normalizeSiteSidecar(sidecar) {
     });
   }
 
+  if (Array.isArray(normalized.related_posts)) {
+    normalized.related_posts = normalized.related_posts.map(item => {
+      if (!item || typeof item !== "object") {
+        return item;
+      }
+
+      return {
+        ...item,
+        route_path: canonicalizePostHref(item.route_path),
+      };
+    });
+  }
+
   return normalized;
 }
 

@@ -1,37 +1,77 @@
 {
   "post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
-  "title": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+  "title": "ISOCC 2020 - Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
   "source_path": "src/data/blog/ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis.md",
   "route_path": "/posts/isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis",
-  "source_hash": "279494129ba9262ea639466fd3bd47cdf3a07d8789468d4311023baf99345907",
-  "generated_at": "2026-03-21T09:52:54.523Z",
+  "source_hash": "3bd2398050f21c582657e89a2326de03ea77e3ea65d28151dce2fb5027b449ce",
+  "generated_at": "2026-07-07T07:59:50.836Z",
   "run_mode": "cli",
   "provider": "gemini",
-  "model": "gemini-3.1-pro-preview",
-  "summary": "本文介绍了针对高带宽内存（HBM）中硅通孔（TSV）故障的高效检测方案。通过模式分析方法，该方案旨在提高拥有128个数据TSV架构的HBM的故障检测效率与可靠性。",
-  "structural_review": "文章包含3个主要标题、3张图片和3个链接。当前正文标题层级已经整理，主要仍需注意的是文件名未采用规范的小写 kebab-case 格式。",
-  "technical_review": "文章针对HBM的TSV故障检测提出了基于模式分析的方案，选题具有很高的硬件工程价值。技术论述有相应的图片辅助，能够较好地展示检测原理，但由于缺乏代码示例，具体的算法实现细节可能略显单薄。",
+  "model": "gemini-3.5-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "在「论文阅读」系列中，我们见惯了分布式系统或大模型推理在软件与架构层面的宏大叙事（如 `SOSP25-ByteRobust` 对分布式容错的探讨）。然而，正如万丈高楼起于平地，软件层面的高可用性最终依然要依赖底层硬件物理介质的稳固。本文带我们回到了半导体物理和三维封装的最前线——高带宽内存（HBM）中的硅通孔（TSV）故障检测。TSV 作为 HBM 垂直堆叠的生命线，一旦因工艺瑕疵产生断路或短路，将直接导致整颗芯片报废。\n\n传统的 TSV 测试方法往往需要庞大的硬件开销（如 BIST 电路）或冗长的数据扫描。本文提出基于模式分析（Pattern Analysis）的检测方案，其精妙之处在于利用测试向量的关联性，减少了测试所需的冗余周期。不过，**本方案在面对极端高频信号下的串扰（Crosstalk）和动态阻抗变化时，其检测灵敏度与硬件开销的折中关系仍有待商榷**，且在面对老化导致的渐进式失效（Soft Faults）时，可能缺乏足够的鲁棒性。\n\n如果你正被大规模集群的内存错误折磨，不妨读读这篇硬件底座的排雷指南：原来在最微观的物理世界里，硬件工程师们也同样在用类似“哈希校验”和“模式匹配”的思维来抓虫。这就好比你在给高速公路上飞驰的每一辆车做微秒级的超速快照，而你手里只有一架十几年前像素的旧相机——如何在极低的快门成本下不漏掉任何一辆违章车辆，正是这篇论文想要解答的艺术。",
+  "related_posts": [
+    {
+      "post_id": "SOSP25-ByteRobust",
+      "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+      "route_path": "/posts/sosp25-byterobust",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "ICCV25-AdaLLaVA",
+      "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+      "route_path": "/posts/iccv25-adallava",
+      "relation": "后续阅读"
+    }
+  ],
+  "summary": "本文介绍了针对高带宽内存（HBM）硅通孔（TSV）的高效故障检测方案，该方案利用模式分析技术减少测试所需的冗余周期，在降低测试硬件开销的同时确保了故障覆盖率与测试效率。",
+  "structural_review": "文章结构完整，包含了背景、方法设计和实验结论，但缺少算法流程的伪代码描述。此外，文件名的大小写不符合小写 kebab-case 的规范，需要修正。",
+  "technical_review": "论文针对128位数据通道的HBM提出了轻量化的测试模式分析。思路在降低测试时间上非常新颖，但针对物理层高频噪声、寄生电容以及老化引发的亚稳态故障（Soft Faults）讨论尚浅，在先进封装的演进中实用性需要进一步评估。",
   "strengths": [
-    "针对HBM的TSV故障检测问题提供了专业的解决方案。",
-    "引入模式分析技术，具有较高的工程应用和学术参考价值。",
-    "配备了相关的结构图片，有助于读者直观理解复杂的内存硬件架构。"
+    "利用模式分析机制显著降低了传统TSV冗余测试的硬件开销。",
+    "设计了适配HBM 128位宽并行特征的测试机制，缩短了测试周期。"
   ],
   "concerns": [
-    "文件名命名不规范，未采用站点统一的小写 kebab-case 格式。",
-    "历史校验曾提示裸链接等排版问题，后续可在内容更新时继续复查。"
+    "在超高频和热应力环境下，由于硅片变形或阻抗漂移引起的偶发性动态故障，该方案的检测率存疑。",
+    "缺乏与当前主流商用 HBM 测试标准（如 IEEE 1500）的兼容性深入讨论。"
   ],
   "action_items": [
-    "统一文章文件名与站内文章链接为小写 kebab-case。",
-    "后续内容更新时继续复查裸链接与图片说明等细节。"
+    "统一文章文件名与站内文章链接为小写 kebab-case 格式。",
+    "在文中补充对于高频串扰和动态老化失效（Soft Faults）检测局限性的技术讨论说明。"
   ],
   "severity": "warn",
-  "confidence": null,
+  "confidence": 0.99,
   "memory_refs": [
+    "series:paper-reading",
+    "topic:others",
+    "issue:body-h1",
     "issue:bare-url",
-    "issue:missing-code-language"
+    "issue:missing-code-language",
+    "issue:heading-skip"
   ],
-  "series_key": null,
-  "series_label": null,
+  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_refs": [
+    "series:paper-reading",
+    "topic:others"
+  ],
+  "knowledge_position": {
+    "series_id": "paper-reading",
+    "series_label": "论文阅读",
+    "role": "论文阅读",
+    "previous_posts": [
+      "SOSP25-ByteRobust"
+    ],
+    "next_posts": [
+      "ICCV25-AdaLLaVA"
+    ],
+    "topic_neighbors": [],
+    "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 SOSP25-ByteRobust，后续文章 ICCV25-AdaLLaVA。"
+  },
+  "series_key": "paper-reading",
+  "series_label": "论文阅读",
   "published_at": "2026-03-21T09:52:22Z",
   "tags_snapshot": [
     "others"
@@ -44,9 +84,7 @@
       "fixable": false
     }
   ],
-  "fixes_applied": [
-    "生成完整 frontmatter：pubDatetime、title、description、draft、tags、author、slug、timezone。"
-  ],
+  "fixes_applied": [],
   "safe_fix_codes": [],
   "suggestions": {
     "normalized_tags": [

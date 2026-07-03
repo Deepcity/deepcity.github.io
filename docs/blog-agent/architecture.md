@@ -7,7 +7,7 @@
 系统分成 5 个层次：
 
 1. 命令入口层
-   由 [`scripts/blog-agent.ts`](/home/deepc/deepcity.github.io/scripts/blog-agent.ts) 负责解析命令、收集目标文章、输出 CLI 报告。
+   由根目录 [`agent`](/home/deepc/deepcity.github.io/agent) 和 [`scripts/blog-agent.ts`](/home/deepc/deepcity.github.io/scripts/blog-agent.ts) 负责解析命令、收集目标文章、输出 CLI 报告。
 2. 编排层
    由 [`src/agent/analyzer.ts`](/home/deepc/deepcity.github.io/src/agent/analyzer.ts) 负责串联检查、修复、审稿、sidecar 写入和 memory 更新。
 3. 规则与分析层
@@ -15,7 +15,7 @@
 4. Provider 层
    负责根据配置选择 Gemini 或 heuristic provider 生成 ReviewResult。
 5. 数据与展示层
-   负责存取 `src/data/agent` 下的 sidecar/memory，并在文章页静态渲染 Agent 栏。
+   负责存取 `src/data/agent` 下的 sidecar/memory/knowledge-map，并在文章页静态渲染 Agent 栏。
 
 ## 2. 核心执行链
 
@@ -23,13 +23,14 @@
 
 1. 读取 Markdown 文件并解析 frontmatter。
 2. 读取真实内容 schema。
-3. 读取 global rules、series/topic/negative memory。
-4. 如果显式启用了 `--generate-frontmatter`，先基于正文和 hint 生成或补全 frontmatter。
-5. 执行硬校验和安全自动修复。
-6. 组装 review 输入。
-7. 调用 provider 生成结构化点评。
-8. 写入 sidecar JSON。
-9. 更新 series/topic/negative memory。
+3. 刷新轻量 knowledge-map，合并自动推断和 `overrides.yml`。
+4. 读取 global rules、series/topic/negative memory。
+5. 如果显式启用了 `--generate-frontmatter`，先基于正文和 hint 生成或补全 frontmatter。
+6. 执行硬校验和安全自动修复。
+7. 组装 review 输入，包括文章 snapshot、hard checks、memory context 和 knowledge position。
+8. 调用 provider 生成公开旁批和兼容 review 字段。
+9. 写入 sidecar JSON。
+10. 更新 series/topic/negative memory。
 
 对应代码主要在 [`src/agent/analyzer.ts`](/home/deepc/deepcity.github.io/src/agent/analyzer.ts)。
 
@@ -53,6 +54,8 @@
   负责格式检查、标签归一化、description/slug 建议、安全自动修复。
 - [`frontmatter-generator.ts`](/home/deepc/deepcity.github.io/src/agent/frontmatter-generator.ts)
   负责在显式开关下，基于正文与 hint 生成或补全 frontmatter。
+- [`knowledge.ts`](/home/deepc/deepcity.github.io/src/agent/core/knowledge.ts)
+  负责生成 knowledge-map、读取 YAML override、校验人工纠错引用，并为单篇文章提供知识位置上下文。
 - [`provider.ts`](/home/deepc/deepcity.github.io/src/agent/provider.ts)
   负责 provider 选择和 fallback。
 - [`providers/heuristic.ts`](/home/deepc/deepcity.github.io/src/agent/providers/heuristic.ts)
@@ -80,6 +83,10 @@
   L2 主题标签级记忆。
 - [`src/data/agent/memory/negative-patterns.json`](/home/deepc/deepcity.github.io/src/data/agent/memory/negative-patterns.json)
   复发问题模式记忆。
+- [`src/data/agent/knowledge/map.json`](/home/deepc/deepcity.github.io/src/data/agent/knowledge/map.json)
+  自动生成的轻量知识网络，包含系列位置、前后篇、相邻主题和相关文章白名单。
+- [`src/data/agent/knowledge/overrides.yml`](/home/deepc/deepcity.github.io/src/data/agent/knowledge/overrides.yml)
+  作者可见的少量人工纠错入口，只用于修正明显错误。
 
 ## 4. sidecar 设计
 
@@ -95,6 +102,10 @@
 - `run_mode`
 - `provider`
 - `model`
+- `degraded`
+- `degraded_reason`
+- `public_commentary`
+- `related_posts`
 - `summary`
 - `structural_review`
 - `technical_review`
@@ -104,6 +115,9 @@
 - `severity`
 - `confidence`
 - `memory_refs`
+- `knowledge_hash`
+- `knowledge_refs`
+- `knowledge_position`
 - `series_key`
 - `tags_snapshot`
 - `hard_checks`
@@ -116,6 +130,8 @@
 - 页面渲染只读 sidecar，不触发运行时推理。
 - sidecar 使用“旁路 JSON”，不污染 frontmatter。
 - `source_hash` 用来标记 sidecar 是否对应当前文章内容。
+- `knowledge_hash` 用来标记评论是否基于当前 knowledge-map；hash 变化不会默认重写旧评论，只在 CLI/CI 中提示 stale。
+- `public_commentary` 是文章页 sidebar 的主展示内容；旧结构化字段继续保留用于兼容和 CLI/调试。
 
 ## 5. memory 设计
 
@@ -145,6 +161,17 @@ L2 是增量更新的聚合记忆：
 
 L3 直接就是每篇 sidecar，本质上是“单篇文章记忆 + 页面展示数据”的统一载体。
 
+### 5.4 Knowledge Map: 上层知识位置
+
+knowledge-map 存在于 [`src/data/agent/knowledge/map.json`](/home/deepc/deepcity.github.io/src/data/agent/knowledge/map.json)，由本地规则自动生成。它不调用 Gemini，主要回答：
+
+- 这篇文章属于哪个系列。
+- 它在系列中是开篇、实验记录、论文阅读还是阶段总结。
+- 它的前置文章、后续文章和相邻主题文章是什么。
+- 文章页 sidebar 可以安全渲染哪些 related reading 链接。
+
+人工纠错只写入 [`src/data/agent/knowledge/overrides.yml`](/home/deepc/deepcity.github.io/src/data/agent/knowledge/overrides.yml)，不直接编辑 `map.json`。
+
 ## 6. 兼容策略
 
 旧的 `.github/agents` 文档和 memory 不是运行时真相，但仍被当作初始 seed 参考。
@@ -161,13 +188,15 @@ L3 直接就是每篇 sidecar，本质上是“单篇文章记忆 + 页面展示
 
 1. 文章页在 [`src/layouts/PostDetails.astro`](/home/deepc/deepcity.github.io/src/layouts/PostDetails.astro) 调用 [`loadAgentSidecar`](/home/deepc/deepcity.github.io/src/agent/site.ts)。
 2. sidecar 被传给 [`src/components/AgentPanel.astro`](/home/deepc/deepcity.github.io/src/components/AgentPanel.astro)。
-3. 若 sidecar 不存在，显示空态，不触发任何在线请求。
+3. 若 sidecar 存在 `public_commentary`，页面优先展示公开旁批和 related reading。
+4. 若 sidecar 是旧版本，页面 fallback 到 `summary`、`structural_review`、`technical_review`、`strengths`、`concerns`。
+5. 若 sidecar 不存在，显示空态，不触发任何在线请求。
 
 ## 8. CI 接入
 
 CI 在 [.github/workflows/ci.yml](/home/deepc/deepcity.github.io/.github/workflows/ci.yml) 中做两件事：
 
-1. 对变更文章执行 `agent:build-panel -- --changed --mode ci`。
+1. 对变更文章执行 `./agent --changed --mode ci`。
 2. 把报告写入 `.tmp/blog-agent-report.json` 并作为 artifact 上传。
 
 这里使用 `continue-on-error: true`，因此 Agent 只提示，不阻断合并。

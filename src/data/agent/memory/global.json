@@ -209,14 +209,9 @@
       "required_tags": ["Ascend"]
     },
     {
-      "id": "pgstudy-series",
-      "title": "PGStudy",
-      "file_prefix": "PGStudy-"
-    },
-    {
       "id": "paper-reading",
       "title": "论文阅读",
-      "title_regex": "^(OSDI|SOSP)[0-9]{2}-"
+      "title_regex": "^(AAAI|ICCV|ISOCC|NSDI|OSDI|SOSP|USENIX)[0-9]{2}-"
     }
   ]
 }

@@ -44,7 +44,7 @@ jobs:
         continue-on-error: true
         run: |
           mkdir -p .tmp
-          pnpm run agent -- --changed --mode ci --report-file .tmp/blog-agent-report.json
+          ./agent --changed --mode ci --report-file .tmp/blog-agent-report.json
 
       - name: "🧾 Upload blog agent report"
         if: always()

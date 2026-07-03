@@ -1,5 +1,5 @@
 ---
-title: "ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models"
+title: "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models"
 pubDatetime: 2026-03-31T12:41:37Z
 description: "由威斯康星大学麦迪逊分校（University of Wisconsin-Madison）、普渡大学（Purdue University）、香港大学（The …"
 slug: "2026-03-28-iccv25-adallava"
@@ -13,6 +13,7 @@ tags:
 author: "Deepcity"
 timezone: "Asia/Shanghai"
 ---
+
 # Learning to Inference Adaptively for Multimodal Large Language Models
 
 由威斯康星大学麦迪逊分校（University of Wisconsin-Madison）、普渡大学（Purdue University）、香港大学（The University of Hong Kong）发表于ICCV2025的一篇文章，解决多模态大模型推理时计算量固定，无法响应运行时资源约束的变化的核心问题。
@@ -223,7 +224,7 @@ $$
 ![QuickStart](https://files.seeusercontent.com/2026/03/31/pT5s/20260331155814.png)
 
 ```py
-# QuickStart 
+# QuickStart
 CUDA_VISIBLE_DEVICES=0 .venv/bin/python -c "
 from src.adallava.eval.run_ada_llava import eval_model
 

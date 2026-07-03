@@ -1,12 +1,13 @@
 // @ts-nocheck
 import { BLOG_ROOT, DEFAULT_PROVIDER, REPO_ROOT } from "../shared/constants.js";
-import { listMarkdownFiles, readJsonIfExists, writeJson } from "../shared/fs.js";
+import {
+  listMarkdownFiles,
+  readJsonIfExists,
+  writeJson,
+} from "../shared/fs.js";
 import { getHomeSidecarPath } from "../shared/pathing.js";
 import { loadPostSnapshot } from "../parsers/post-snapshot.js";
-import {
-  requestGeminiJson,
-  resolveGeminiConfig,
-} from "../providers/gemini.js";
+import { requestGeminiJson, resolveGeminiConfig } from "../providers/gemini.js";
 import {
   dedupeStrings,
   hashContent,
@@ -55,7 +56,9 @@ const TRACK_DEFINITIONS = [
 
 function sortSnapshotsByPublishedAt(snapshots) {
   return [...snapshots].sort((left, right) =>
-    String(right.pubDatetime ?? "").localeCompare(String(left.pubDatetime ?? ""))
+    String(right.pubDatetime ?? "").localeCompare(
+      String(left.pubDatetime ?? "")
+    )
   );
 }
 
@@ -206,7 +209,12 @@ function buildRecommendedPaths(stats, tracks) {
     });
   }
 
-  for (const trackId of ["agent-engineering", "ascend-c", "papers", "cmu-15213"]) {
+  for (const trackId of [
+    "agent-engineering",
+    "ascend-c",
+    "papers",
+    "cmu-15213",
+  ]) {
     const track = tracks.find(item => item.id === trackId);
 
     if (!track) {
@@ -285,6 +293,10 @@ function buildAllowedRecommendedPaths(baseSidecar) {
     .slice(0, 6);
 }
 
+function isPublicSnapshot(snapshot) {
+  return snapshot.document?.data?.draft !== true;
+}
+
 function buildGeminiHomePanelPrompt(baseSidecar, snapshots) {
   const allowedPaths = buildAllowedRecommendedPaths(baseSidecar);
   const latestPosts = buildLatestPostContext(snapshots);
@@ -353,7 +365,9 @@ export function applyHomePanelGuide(baseSidecar, rawGuide, options = {}) {
     ...baseSidecar,
     provider: options.provider ?? baseSidecar.provider,
     model: options.model ?? baseSidecar.model,
-    summary: String(rawGuide?.summary ?? baseSidecar.summary).trim() || baseSidecar.summary,
+    summary:
+      String(rawGuide?.summary ?? baseSidecar.summary).trim() ||
+      baseSidecar.summary,
     agent_role:
       String(rawGuide?.agent_role ?? baseSidecar.agent_role).trim() ||
       baseSidecar.agent_role,
@@ -378,12 +392,17 @@ export function applyHomePanelGuide(baseSidecar, rawGuide, options = {}) {
     confidence: roundConfidence(
       Number(rawGuide?.confidence ?? baseSidecar.confidence ?? 0.82)
     ),
-    notes: dedupeStrings([...(baseSidecar.notes ?? []), ...(options.notes ?? [])]),
+    notes: dedupeStrings([
+      ...(baseSidecar.notes ?? []),
+      ...(options.notes ?? []),
+    ]),
   };
 }
 
 export function buildHomePanelData(snapshots) {
-  const publishedSnapshots = sortSnapshotsByPublishedAt(snapshots);
+  const publishedSnapshots = sortSnapshotsByPublishedAt(
+    snapshots.filter(isPublicSnapshot)
+  );
   const featuredSnapshots = publishedSnapshots.filter(
     snapshot => snapshot.document?.data?.featured === true
   );
@@ -461,7 +480,8 @@ export async function buildHomePanel(options = {}) {
     snapshots.push(await loadPostSnapshot(filePath));
   }
 
-  const postsHash = computePostsHash(snapshots);
+  const publicSnapshots = snapshots.filter(isPublicSnapshot);
+  const postsHash = computePostsHash(publicSnapshots);
   const sidecarPath = getHomeSidecarPath();
 
   if (options.force !== true) {
@@ -482,7 +502,7 @@ export async function buildHomePanel(options = {}) {
   }
 
   const preferredProvider = options.provider ?? DEFAULT_PROVIDER;
-  const baseSidecar = buildHomePanelData(snapshots);
+  const baseSidecar = buildHomePanelData(publicSnapshots);
   let sidecar = baseSidecar;
 
   if (!["auto", "gemini", "heuristic"].includes(preferredProvider)) {
@@ -497,13 +517,15 @@ export async function buildHomePanel(options = {}) {
         const guide = await requestGeminiJson({
           apiKey: gemini.apiKey,
           model: gemini.model,
-          prompt: buildGeminiHomePanelPrompt(baseSidecar, snapshots),
+          prompt: buildGeminiHomePanelPrompt(baseSidecar, publicSnapshots),
         });
 
         sidecar = applyHomePanelGuide(baseSidecar, guide, {
           provider: "gemini",
           model: gemini.model,
-          notes: ["Homepage guide was refined by Gemini from committed site data."],
+          notes: [
+            "Homepage guide was refined by Gemini from committed site data.",
+          ],
         });
       } catch (error) {
         sidecar = applyHomePanelGuide(baseSidecar, null, {

@@ -5,6 +5,15 @@ import { inferAgentModelMeta } from "@/agent/model-meta";
 type AgentSidecar = {
   provider?: string;
   model?: string;
+  degraded?: boolean;
+  degraded_reason?: string | null;
+  public_commentary?: string;
+  related_posts?: {
+    post_id: string;
+    title: string;
+    route_path: string;
+    relation?: string;
+  }[];
   summary?: string;
   structural_review?: string;
   technical_review?: string;
@@ -14,6 +23,7 @@ type AgentSidecar = {
   confidence?: number;
   generated_at?: string;
   memory_refs?: string[];
+  knowledge_refs?: string[];
   notes?: string[];
 };
 
@@ -43,11 +53,77 @@ const generatedAt = sidecar?.generated_at
   : null;
 const strengths = Array.isArray(sidecar?.strengths) ? sidecar.strengths : [];
 const concerns = Array.isArray(sidecar?.concerns) ? sidecar.concerns : [];
-const memoryRefs = Array.isArray(sidecar?.memory_refs)
-  ? sidecar.memory_refs
-  : [];
+const memoryRefs = [
+  ...new Set([
+    ...(Array.isArray(sidecar?.memory_refs) ? sidecar.memory_refs : []),
+    ...(Array.isArray(sidecar?.knowledge_refs) ? sidecar.knowledge_refs : []),
+  ]),
+];
 const notes = Array.isArray(sidecar?.notes) ? sidecar.notes : [];
+const relatedPosts = Array.isArray(sidecar?.related_posts)
+  ? sidecar.related_posts
+  : [];
+const publicCommentary =
+  typeof sidecar?.public_commentary === "string" &&
+  sidecar.public_commentary.trim()
+    ? sidecar.public_commentary.trim()
+    : "";
 const modelMeta = inferAgentModelMeta(sidecar?.provider, sidecar?.model);
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function normalizeLimitedMarkdown(value: string) {
+  return value
+    .replace(/```[\s\S]*?```/gu, "")
+    .replace(/^#{1,6}\s+/gmu, "")
+    .replace(/!\[[^\]]*\]\([^)]*\)/gu, "")
+    .replace(/\[([^\]]+)\]\([^)]*\)/gu, "$1")
+    .replace(/<[^>]*>/gu, "")
+    .trim();
+}
+
+function renderInlineMarkdown(value: string) {
+  return escapeHtml(value)
+    .replace(
+      /`([^`]+)`/gu,
+      '<code class="rounded bg-muted px-1 py-0.5">$1</code>'
+    )
+    .replace(/\*\*([^*]+)\*\*/gu, "<strong>$1</strong>")
+    .replace(/\*([^*]+)\*/gu, "<em>$1</em>");
+}
+
+function renderLimitedMarkdown(value: string) {
+  const blocks = normalizeLimitedMarkdown(value)
+    .split(/\n{2,}/u)
+    .map(block => block.trim())
+    .filter(Boolean);
+
+  return blocks
+    .map(block => {
+      const lines = block
+        .split(/\n/u)
+        .map(line => line.trim())
+        .filter(Boolean);
+
+      if (lines.length > 0 && lines.every(line => /^[-*]\s+/u.test(line))) {
+        const items = lines
+          .map(line => line.replace(/^[-*]\s+/u, ""))
+          .map(line => `<li>${renderInlineMarkdown(line)}</li>`)
+          .join("");
+
+        return `<ul>${items}</ul>`;
+      }
+
+      return `<p>${renderInlineMarkdown(lines.join(" "))}</p>`;
+    })
+    .join("");
+}
 ---
 
 <section
@@ -118,63 +194,104 @@ const modelMeta = inferAgentModelMeta(sidecar?.provider, sidecar?.model);
           </div>
         </div>
 
-        {sidecar?.summary && (
-          <div class="space-y-1.5">
-            <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
-              Summary
-            </p>
-            <p>{sidecar.summary}</p>
+        {sidecar?.degraded && (
+          <div class="rounded-lg border border-amber-500/35 bg-amber-500/10 px-3 py-2 text-xs leading-5 text-amber-700 dark:text-amber-200">
+            本条为本地规则保底生成，Gemini Agent Review 未完成。
+            {sidecar.degraded_reason}
           </div>
         )}
 
-        {sidecar?.structural_review && (
-          <div class="space-y-1.5">
-            <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
-              Structural
-            </p>
-            <p>{sidecar.structural_review}</p>
-          </div>
-        )}
+        {publicCommentary ? (
+          <>
+            <div
+              class="space-y-3 text-[0.92rem] leading-7 text-foreground/84 [&_code]:text-[0.85em] [&_li]:border-s-2 [&_li]:border-border [&_li]:ps-3 [&_p]:m-0 [&_strong]:text-foreground [&_ul]:space-y-2"
+              set:html={renderLimitedMarkdown(publicCommentary)}
+            />
 
-        {sidecar?.technical_review && (
-          <div class="space-y-1.5">
-            <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
-              Technical
-            </p>
-            <p>{sidecar.technical_review}</p>
-          </div>
-        )}
+            {relatedPosts.length > 0 && (
+              <div class="space-y-2 border-t border-border pt-4">
+                <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
+                  Related Reading
+                </p>
+                <div class="space-y-2">
+                  {relatedPosts.map(item => (
+                    <a
+                      href={item.route_path}
+                      class="block rounded-lg border border-border bg-background/65 px-3 py-2 transition hover:border-accent/35 hover:bg-background"
+                    >
+                      <span class="text-[0.68rem] font-semibold tracking-[0.14em] text-foreground/42 uppercase">
+                        {item.relation ?? "Related"}
+                      </span>
+                      <p class="mt-1 text-sm leading-5 font-medium text-foreground">
+                        {item.title}
+                      </p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {sidecar?.summary && (
+              <div class="space-y-1.5">
+                <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
+                  Summary
+                </p>
+                <p>{sidecar.summary}</p>
+              </div>
+            )}
 
-        {strengths.length > 0 && (
-          <div class="space-y-2">
-            <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
-              Strengths
-            </p>
-            <ul class="space-y-2">
-              {strengths.map(item => (
-                <li class="border-s-2 border-accent/45 ps-3">{item}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+            {sidecar?.structural_review && (
+              <div class="space-y-1.5">
+                <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
+                  Structural
+                </p>
+                <p>{sidecar.structural_review}</p>
+              </div>
+            )}
 
-        <div class="space-y-2">
-          <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
-            Concerns
-          </p>
-          {concerns.length > 0 ? (
-            <ul class="space-y-2">
-              {concerns.map(item => (
-                <li class="border-s-2 border-border ps-3">{item}</li>
-              ))}
-            </ul>
-          ) : (
-            <p class="text-foreground/65">当前没有高优先级负面点评。</p>
-          )}
-        </div>
+            {sidecar?.technical_review && (
+              <div class="space-y-1.5">
+                <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
+                  Technical
+                </p>
+                <p>{sidecar.technical_review}</p>
+              </div>
+            )}
+
+            {strengths.length > 0 && (
+              <div class="space-y-2">
+                <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
+                  Strengths
+                </p>
+                <ul class="space-y-2">
+                  {strengths.map(item => (
+                    <li class="border-s-2 border-accent/45 ps-3">{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div class="space-y-2">
+              <p class="text-[0.68rem] font-semibold tracking-[0.18em] text-foreground/45 uppercase">
+                Concerns
+              </p>
+              {concerns.length > 0 ? (
+                <ul class="space-y-2">
+                  {concerns.map(item => (
+                    <li class="border-s-2 border-border ps-3">{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="text-foreground/65">当前没有高优先级负面点评。</p>
+              )}
+            </div>
+          </>
+        )}
 
         <div class="flex flex-wrap gap-x-4 gap-y-2 border-t border-border pt-4 text-[0.72rem] text-foreground/58">
-          {confidence && <span>置信度 {confidence}</span>}
+          {!publicCommentary && confidence && <span>置信度 {confidence}</span>}
           {generatedAt && <span>生成于 {generatedAt}</span>}
           {memoryRefs.length > 0 && (
             <span>引用记忆 {memoryRefs.length} 项</span>
@@ -192,7 +309,7 @@ const modelMeta = inferAgentModelMeta(sidecar?.provider, sidecar?.model);
           JSON，因此旁栏暂时只展示空态，不会触发任何在线请求。
         </p>
         <p class="text-foreground/55">
-          可运行 <code>npm run agent -- &lt;post&gt;</code> 生成静态点评。
+          可运行 <code>./agent &lt;post&gt;</code> 生成静态点评。
         </p>
       </div>
     )

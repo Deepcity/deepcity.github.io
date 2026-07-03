@@ -1,0 +1,120 @@
+{
+  "post_id": "osdi22-orca",
+  "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+  "source_path": "src/data/blog/osdi22-orca.md",
+  "route_path": "/posts/osdi22-orca",
+  "source_hash": "f58a09606628828c4e29882244749cf51af090d213044dd1ec16659441e8943f",
+  "generated_at": "2026-07-07T07:55:33.769Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为「论文阅读」系列中探讨大模型系统优化的基石，本文带我们回到了 2022 年大模型爆发的前夜。**Orca** 提出的“迭代级调度”（Iteration-level Scheduling）和“选择性批处理”（Selective Batching）不仅精准击中了自回归生成（Autoregressive Generation）中 Prefill 与 Decode 两个阶段的调度痛点，也直接启发了后来的 vLLM、TensorRT-LLM 等一众现代推理引擎。如果你正在跟进 *OSDI 24* 的 `ServerlessLLM`，那么理解 Orca 的设计原理是你不可逾越的基本功。\n\n不过，阅读时我们也建议读者注意一个技术论证上的时代局限：Orca 撰写于稠密模型（Dense Models）和早期张量并行（Tensor Parallelism）时代。在如今混合专家模型（MoE）、长文本（Long Context）以及多模态模型（如 `AdaLLaVA`）大行其道的背景下，仅靠粗粒度的迭代级调度已无法完全解决由于专家激活不均导致的计算负载倾斜（Skew）和 KV Cache 极速膨胀的问题。\n\n换句话说，现在的 LLM 已经不是当年那个只需要塞进单张 GPU 就能“优雅吞吐”的温顺虎鲸（Orca）了，它更像是个吞噬算力和显存的巨型海怪。理解它如何从 Orca 的开创性思路演进到如今复杂的异构调度，能让你在设计实际的系统架构时少走许多弯路。",
+  "related_posts": [
+    {
+      "post_id": "ICCV25-AdaLLaVA",
+      "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+      "route_path": "/posts/iccv25-adallava",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "OSDI18-Ray",
+      "title": "OSDI 2018 - Ray: A Distributed Framework for Emerging AI Applications",
+      "route_path": "/posts/osdi18-ray",
+      "relation": "相邻主题"
+    },
+    {
+      "post_id": "OSDI24-ServerlessLLM",
+      "title": "OSDI 2024 - ServerlessLLM: Low-Latency Serverless Inference for Large Language Models",
+      "route_path": "/posts/osdi24-serverlessllm",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "OSDI 2022 经典论文 Orca 阅记，系统梳理了针对 Transformer 生成式大模型的多维度优化设计，包括首创的迭代级调度与选择性批处理，是现代 LLM 推理引擎的奠基之作。",
+  "structural_review": "文章结构完整，对迭代级调度和选择性批处理等核心机制进行了详细的图文分析。然而，文章在第 1 行使用了正文 H1 标题，违背了从 H2 开始的排版建议，需要降级以确保整站目录导航的统一性。",
+  "technical_review": "对论文的核心技术贡献（Iteration-level Scheduling 与 Selective Batching）阐述准确，清晰对比了传统批处理的低效问题。若能在分布式 Serving 章节中更深入地展开对张量并行（TP）与流水线并行（PP）在迭代级调度下的通信同步开销，将使技术深度更上一个台阶。",
+  "strengths": [
+    "深入剖析了 Orca 的两大核心调度机制，图文并茂，逻辑非常清晰。",
+    "成功将 Orca 的设计与后来的现代 LLM 推理引擎进行了极佳的技术演进关联。"
+  ],
+  "concerns": [
+    "第 1 行使用了正文 H1 标题，违反了标准的排版风格规范。",
+    "对于分布式环境下（尤其是多 GPU 间）的迭代对齐与通信开销分析略显单薄。"
+  ],
+  "action_items": [
+    "将文章首行的 H1 标题降级为 H2 标题，保持结构合规。",
+    "在分布式 serving 章节，适当补充一到两句关于张量并行（TP）在迭代级调度时引入的 All-Reduce 通信开销讨论。"
+  ],
+  "severity": "warn",
+  "confidence": 0.99,
+  "memory_refs": [
+    "series:paper-reading",
+    "topic:论文阅读",
+    "topic:OSDI",
+    "topic:分布式系统",
+    "topic:大模型推理",
+    "topic:LLM"
+  ],
+  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_refs": [
+    "series:paper-reading",
+    "topic:论文阅读",
+    "topic:OSDI",
+    "topic:分布式系统",
+    "topic:大模型推理",
+    "topic:LLM"
+  ],
+  "knowledge_position": {
+    "series_id": "paper-reading",
+    "series_label": "论文阅读",
+    "role": "论文阅读",
+    "previous_posts": [
+      "ICCV25-AdaLLaVA"
+    ],
+    "next_posts": [],
+    "topic_neighbors": [
+      "OSDI18-Ray",
+      "OSDI24-ServerlessLLM",
+      "pgstudy-characterization-llm-development-datacenter"
+    ],
+    "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ICCV25-AdaLLaVA。"
+  },
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2026-04-12T00:00:00+08:00",
+  "tags_snapshot": [
+    "论文阅读",
+    "OSDI",
+    "分布式系统",
+    "大模型推理",
+    "LLM"
+  ],
+  "hard_checks": [
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "论文阅读",
+      "OSDI",
+      "分布式系统",
+      "大模型推理",
+      "LLM"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": []
+}

@@ -1,5 +1,5 @@
 ---
-title: "PGStudy-群体人工智能Part1-PSO"
+title: "群体智能 Part 1 - PSO"
 pubDatetime: 2024-10-25T20:08:20Z
 description: "群体人工智能研究笔记第一部分：粒子群优化算法 (PSO) 的原理、数学模型与应用。"
 slug: "pgstudy-swarm-intelligence"

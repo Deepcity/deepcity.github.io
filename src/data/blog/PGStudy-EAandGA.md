@@ -1,5 +1,5 @@
 ---
-title: "PGStudy-EA and GA"
+title: "进化算法 - EA 与 GA"
 pubDatetime: 2024-10-29T19:17:57Z
 description: "研究生课程学习笔记：进化算法（EA）与遗传算法（GA）的核心概念，覆盖表示法、亲本选择、重组变异与生存选择，并以 TSP 问题为例实践。"
 slug: "pgstudy-eaandga"
@@ -73,7 +73,7 @@ For example, if there are 12 cities to choose from, the genotype can be `[9,2,6,
 
 - `[9,2,6,1,7,8,11,0,4,3,10,5]`就是一种排列的基因表示
 
-```
+```py
 class Evolutionary:
     def __init__(self, task):
         self.task = task

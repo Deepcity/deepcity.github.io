@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT_DIR"
+
+if [ -f "$ROOT_DIR/.venv" ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . "$ROOT_DIR/.venv"
+  set +a
+fi
+
+NODE_MAJOR="$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/' || true)"
+if [ -z "${NODE_MAJOR}" ] || [ "${NODE_MAJOR}" -lt 20 ]; then
+  FNM_NODE20="$(ls -d "$HOME"/.local/share/fnm/node-versions/v20.*/installation/bin 2>/dev/null | sort -V | tail -1 || true)"
+  if [ -n "$FNM_NODE20" ]; then
+    export PATH="$FNM_NODE20:$PATH"
+  fi
+fi
+
+if [ "$#" -eq 0 ]; then
+  set -- --changed
+fi
+
+if command -v pnpm >/dev/null 2>&1; then
+  pnpm run agent:compile
+else
+  npm run agent:compile
+fi
+
+node .tmp/agent-build/scripts/blog-agent.js "$@"

@@ -17,12 +17,14 @@ Astro 5-based personal blog (AstroPaper theme) focused on systems, algorithms, a
 | Format fix | `npm run format` |
 | Type check | `astro check` (also runs as part of build) |
 | Agent tests | `npm run test:agent` |
-| Agent smart workflow | `npm run agent -- <post\|--changed\|--all>` |
-| Analyze posts | `npm run agent:analyze -- <post\|--changed\|--all>` |
-| Build review panels | `npm run agent:build-panel -- <post\|--changed\|--all>` |
-| Build home panel | `npm run agent:build-home-panel` |
-| Build all panels | `npm run agent:build-all` |
-| Refresh agent memory | `npm run agent:refresh-memory` |
+| Agent smart workflow | `./agent <post\|--changed\|--all>` |
+| Analyze posts | `./agent analyze <post\|--changed\|--all>` |
+| Build review panels | `./agent build-panel <post\|--changed\|--all>` |
+| Build home panel | `./agent build-home-panel` |
+| Refresh knowledge map | `./agent refresh-knowledge` |
+| Check knowledge overrides | `./agent check-knowledge` |
+| Build all panels | `./agent --all --mode ci` |
+| Refresh agent memory | `./agent refresh-memory` |
 
 Build does: `astro check` → `astro build` → `pagefind --site dist` → copy pagefind to public/. Agent code compiles separately via `tsconfig.agent.json` into `.tmp/agent-build/`.
 
@@ -58,7 +60,7 @@ A standalone TypeScript system that analyzes blog posts and generates JSON sidec
   - `constants.ts`, `pathing.ts`, `fs.ts`, `git.ts`, `utils.ts`, `model-meta.ts`
 - CLI entry: `scripts/blog-agent.ts`, compiled via `tsconfig.agent.json`
 
-Sidecar JSON output goes to `src/data/agent/posts/` and `src/data/agent/site/`. Hash-based skip logic (`source_hash` / `posts_hash`) ensures unchanged posts are not re-analyzed during CI builds. Use `--force` to bypass.
+Sidecar JSON output goes to `src/data/agent/posts/` and `src/data/agent/site/`. The lightweight knowledge map lives in `src/data/agent/knowledge/map.json`, with author-visible corrections in `src/data/agent/knowledge/overrides.yml`. Hash-based skip logic (`source_hash` / `posts_hash` / `knowledge_hash`) ensures unchanged posts are not re-analyzed during CI builds. Use `--force` to bypass.
 
 ### Key Directories
 - `src/pages/` — Astro routes (index, posts/[...slug], tags/[tag], archives, search, rss)

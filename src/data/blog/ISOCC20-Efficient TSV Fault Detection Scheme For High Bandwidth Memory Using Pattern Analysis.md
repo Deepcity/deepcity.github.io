@@ -1,5 +1,5 @@
 ---
-title: "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+title: "ISOCC 2020 - Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
 pubDatetime: 2026-03-21T09:52:22Z
 description: "高带宽内存（High Bandwidth Memory，HBM）的通道可以通过 128 个数据硅通孔（Through-Silicon Via，TSV）和 16…"
 slug: "isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis"

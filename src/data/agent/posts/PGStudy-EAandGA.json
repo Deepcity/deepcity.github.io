@@ -1,60 +1,115 @@
 {
   "post_id": "PGStudy-EAandGA",
-  "title": "PGStudy-EA and GA",
+  "title": "进化算法 - EA 与 GA",
   "source_path": "src/data/blog/PGStudy-EAandGA.md",
-  "route_path": "/posts/PGStudy-EAandGA",
-  "source_hash": "afddff112ff0462eda6943f5d1e4e33f2bc81029adb5b75ffa6d68049fee287a",
-  "generated_at": "2026-03-16T04:07:04.214Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "研究生课程学习笔记：进化算法（EA）与遗传算法（GA）的核心概念，覆盖表示法、亲本选择、重组变异与生存选择，并以 TSP 问题为例实践。",
-  "structural_review": "文章分段较完整，主线已经能靠 19 个标题展开。当前还配有 9 个代码块和 4 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
-  "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+  "route_path": "/posts/pgstudy-eaandga",
+  "source_hash": "6f56b05df8e5ade8dc3ed790ccf16cb8b6c40baa37b764743b3ca3f42f99eaa0",
+  "generated_at": "2026-07-07T07:52:37.263Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "本文作为自然启发式算法的奠基篇章，在智能计算知识网络中占据了关键的生态位。它与后续的群智能算法共同构成了无梯度优化（Gradient-free Optimization）的基石。对于习惯了现代深度学习“万物皆可梯度反传”的读者来说，重温这种模拟自然选择、在非连续空间中进行全局搜索的经典范式，能提供极佳的解题新视角。\n\n在技术论证上，笔记详尽地梳理了表示法、选择机制和重组变异。但值得补充的是，在实际应用（如 TSP 问题）中，遗传算法常常面临**早熟收敛**和**维度灾难**的挑战。读者在阅读 TSP 实践时，可以重点思考算子设计是如何在“探索”与“开发”之间进行权衡的。此外，现代工业界常将 GA 与局部搜索（如 2-opt）结合形成混合进化算法，这也是提升求解质量的核心 Trick。\n\n顺便调侃一句，看着算法在生存选择里无情地淘汰低适应度个体，这集权式的“优胜劣汰”简直比残酷的 KPI 考核还要冰冷。不过别担心，只要你的代码没有陷入局部最优，在这个由位串和实数构成的数字世界里，每一次变异都孕育着打破现状的无限可能——前提是，你没有在第 63 行因为忘记写代码块语言标记而让编译器抓狂。",
+  "related_posts": [
+    {
+      "post_id": "PGStudy-Swarm-intelligence",
+      "title": "群体智能 Part 1 - PSO",
+      "route_path": "/posts/pgstudy-swarm-intelligence",
+      "relation": "相邻主题"
+    }
   ],
-  "concerns": ["第 63 行代码块缺少语言标记。"],
-  "action_items": ["处理 missing-code-language 对应的问题。"],
+  "summary": "本书评针对《进化算法 - EA 与 GA》一文进行审校。该文作为研究生学习笔记，系统地梳理了进化算法与遗传算法的核心机制（表示、选择、交叉、变异、生存），并结合 TSP 问题给出了具体实践，结构清晰，是优秀的无梯度优化入门参考。",
+  "structural_review": "文章大纲结构清晰，层级分明，从基础定义、通用流程、关键算子到具体案例层层递进。硬伤在于文件名及部分代码块格式不规范，需按照站点统一标准进行微调以确保路径和渲染正常。",
+  "technical_review": "技术内容准确度高。对选择算子（轮盘赌、锦标赛）、交叉算子及变异算子的归纳符合标准定义。TSP 实践部分是极好的加分项，若能进一步补充适应度函数尺度变换（Fitness Scaling）或混合算法的概念，其技术深度将更加完备。",
+  "strengths": [
+    "系统地覆盖了进化算法的核心框架与遗传算法的关键组件，结构完整、条理清晰。",
+    "提供了具体的 TSP 案例作为实践，使抽象的遗传算子理论推导具有了落地的具象化参考。",
+    "图文结合且公式表达准确，能帮助读者快速建立无梯度优化算法的宏观认知。"
+  ],
+  "concerns": [
+    "文件命名不符合站点路径规范，会影响站内链接的一致性与 SEO 表现。",
+    "部分代码块缺少语言标记，可能导致线上页面语法高亮失效。",
+    "在讨论算法收敛性与参数敏感性上，论证深度略显不足。"
+  ],
+  "action_items": [
+    "将文件名 `PGStudy-EAandGA.md` 修改为 `pgstudy-eaandga.md`，并同步更新站内所有指向该路径的链接。",
+    "为第 63 行及其他可能遗漏的代码块补充明确的语言标记（如 python）。",
+    "在总结部分简要增加关于遗传算法如何克服早熟收敛（如引入多样性维护机制）的补充说明。"
+  ],
   "severity": "warn",
-  "confidence": 0.82,
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
     "topic:人工智能",
     "topic:机器学习",
     "topic:进化算法",
     "topic:遗传算法",
-    "issue:body-h1",
-    "issue:bare-url",
-    "issue:heading-skip"
+    "issue:non-canonical-post-id"
   ],
-  "series_key": "pgstudy",
-  "series_label": "PGStudy",
+  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_refs": [
+    "topic:机器学习",
+    "topic:人工智能",
+    "topic:进化算法",
+    "topic:遗传算法"
+  ],
+  "knowledge_position": {
+    "series_id": null,
+    "series_label": null,
+    "role": "独立文章",
+    "previous_posts": [],
+    "next_posts": [],
+    "topic_neighbors": [
+      "ICCV25-AdaLLaVA",
+      "SOSP25-ByteRobust",
+      "PGStudy-Swarm-intelligence"
+    ],
+    "position_summary": "进化算法 - EA 与 GA 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
+  },
+  "series_key": null,
+  "series_label": null,
   "published_at": "2024-10-29T19:17:57Z",
-  "tags_snapshot": ["机器学习", "人工智能", "进化算法", "遗传算法"],
+  "tags_snapshot": [
+    "机器学习",
+    "人工智能",
+    "进化算法",
+    "遗传算法"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `PGStudy-EAandGA.md` 不符合站点路径规范，建议改为 `pgstudy-eaandga.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "missing-code-language",
       "severity": "warn",
       "message": "第 63 行代码块缺少语言标记。",
       "line": 63,
       "fixable": true,
-      "fixed": false
+      "fixed": true
     }
   ],
-  "fixes_applied": [],
-  "safe_fix_codes": [],
+  "fixes_applied": [
+    "为第 63 行代码块补全语言标记 `py`。"
+  ],
+  "safe_fix_codes": [
+    "missing-code-language"
+  ],
   "suggestions": {
-    "normalized_tags": ["机器学习", "人工智能", "进化算法", "遗传算法"],
+    "normalized_tags": [
+      "机器学习",
+      "人工智能",
+      "进化算法",
+      "遗传算法"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": []
 }

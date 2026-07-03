@@ -4,29 +4,45 @@
 
 ## 1. 常用命令
 
-当前 `package.json` 提供了以下脚本：
+日常推荐使用仓库根目录的可执行入口：
 
-- `npm run agent`
-- `npm run agent:sync`
-- `npm run agent:analyze`
-- `npm run agent:build-panel`
-- `npm run agent:build-home-panel`
-- `npm run agent:refresh-memory`
+```bash
+./agent
+```
+
+无参时默认处理 git 变更集中的文章，等价于：
+
+```bash
+./agent --changed
+```
+
+常用命令：
+
+- `./agent`
+- `./agent src/data/blog/你的文章.md`
+- `./agent --changed`
+- `./agent --all`
+- `./agent refresh-knowledge`
+- `./agent check-knowledge`
+- `./agent --check`
 - `npm run test:agent`
+
+`package.json` 中的 `npm run agent:*` 脚本仍保留，主要用于兼容和排障。
 
 ## 2. CLI 子命令
 
-CLI 入口是 [`scripts/blog-agent.ts`](/home/deepc/deepcity.github.io/scripts/blog-agent.ts)。
+CLI 入口是根目录 [`agent`](/home/deepc/deepcity.github.io/agent)，内部会编译并调用 [`scripts/blog-agent.ts`](/home/deepc/deepcity.github.io/scripts/blog-agent.ts)。
 
-支持一个推荐入口和四个底层主命令。
+支持一个推荐入口和若干底层主命令。
 
 ### 2.0 默认智能入口
 
-`npm run agent` 现在默认对应一个统一工作流，面向“我刚写了一篇文章，帮我处理好它”这个任务，而不是要求手动拆成多个内部阶段。
+`./agent` 默认对应一个统一工作流，面向“我刚写了一篇文章，帮我处理好它”这个任务，而不是要求手动拆成多个内部阶段。
 
 默认会做：
 
 - 自动识别目标文章（单篇 / `--changed` / `--all`）
+- 刷新轻量 knowledge-map
 - 尝试补全或完善 frontmatter
 - 执行格式检查与安全修复
 - 生成文章 sidecar / Agent panel
@@ -36,31 +52,31 @@ CLI 入口是 [`scripts/blog-agent.ts`](/home/deepc/deepcity.github.io/scripts/b
 最常用示例：
 
 ```bash
-npm run agent -- src/data/blog/你的文章.md
+./agent src/data/blog/你的文章.md
 ```
 
 ```bash
-npm run agent -- --changed
+./agent --changed
 ```
 
 ```bash
-npm run agent -- --all
+./agent --all
 ```
 
 如果你已经写好了路径，还想顺手给 frontmatter 生成一点自然语言提示，也可以直接把提示跟在路径后面：
 
 ```bash
-npm run agent -- src/data/blog/你的文章.md "偏向系统工程视角，标签包含 Agent 和 MCP"
+./agent src/data/blog/你的文章.md "偏向系统工程视角，标签包含 Agent 和 MCP"
 ```
 
 也支持显式子命令形式：
 
 ```bash
-npm run agent:sync -- src/data/blog/你的文章.md
+./agent sync src/data/blog/你的文章.md
 ```
 
 ### 2.1 底层子命令
-支持四个底层主命令：
+支持以下底层主命令：
 
 ### 2.2 analyze
 
@@ -75,15 +91,15 @@ npm run agent:sync -- src/data/blog/你的文章.md
 示例：
 
 ```bash
-npm run agent:analyze -- src/data/blog/CMU-15213-ShellLab.md
+./agent analyze src/data/blog/CMU-15213-ShellLab.md
 ```
 
 ```bash
-npm run agent:analyze -- --changed
+./agent analyze --changed
 ```
 
 ```bash
-npm run agent:analyze -- --all
+./agent analyze --all
 ```
 
 ### 2.3 build-panel
@@ -98,11 +114,11 @@ npm run agent:analyze -- --all
 示例：
 
 ```bash
-npm run agent:build-panel -- --changed
+./agent build-panel --changed
 ```
 
 ```bash
-npm run agent:build-panel -- src/data/blog/API-Agent-Embedding-MCP-Skills.md
+./agent build-panel src/data/blog/API-Agent-Embedding-MCP-Skills.md
 ```
 
 ### 2.4 build-home-panel
@@ -112,19 +128,19 @@ npm run agent:build-panel -- src/data/blog/API-Agent-Embedding-MCP-Skills.md
 示例：
 
 ```bash
-npm run agent:build-home-panel
+./agent build-home-panel
 ```
 
 如果要强制使用 Gemini：
 
 ```bash
-npm run agent:build-home-panel -- --provider gemini
+./agent build-home-panel --provider gemini
 ```
 
 如果要显式回退本地启发式生成：
 
 ```bash
-npm run agent:build-home-panel -- --provider heuristic
+./agent build-home-panel --provider heuristic
 ```
 
 输出文件默认写入：
@@ -138,15 +154,41 @@ npm run agent:build-home-panel -- --provider heuristic
 示例：
 
 ```bash
-npm run agent:refresh-memory -- all
+./agent refresh-memory all
 ```
 
 ```bash
-npm run agent:refresh-memory -- post src/data/blog/CMU-15213-ShellLab.md
+./agent refresh-memory post src/data/blog/CMU-15213-ShellLab.md
 ```
 
 ```bash
-npm run agent:refresh-memory -- series cmu-15213
+./agent refresh-memory series cmu-15213
+```
+
+### 2.6 refresh-knowledge / check-knowledge
+
+只刷新 knowledge-map，不重新调用 Gemini：
+
+```bash
+./agent refresh-knowledge
+```
+
+也可以写成：
+
+```bash
+./agent --refresh-knowledge
+```
+
+检查 `src/data/agent/knowledge/overrides.yml` 是否引用了不存在的文章、重复排序或未知系列：
+
+```bash
+./agent check-knowledge
+```
+
+也可以写成：
+
+```bash
+./agent --check
 ```
 
 ## 3. 常用 flags
@@ -195,7 +237,7 @@ npm run agent:refresh-memory -- series cmu-15213
 
 显式启用 frontmatter 生成预处理。适合文章完全没有 frontmatter，或只有零散字段时使用。
 
-注意：在默认智能入口 `npm run agent` / `npm run agent:sync` 中，这个能力默认就是开启的；只有在你改用底层 `analyze` 时才需要显式加上这个参数。
+注意：在默认智能入口 `./agent` / `./agent sync` 中，这个能力默认就是开启的；只有在你改用底层 `analyze` 时才需要显式加上这个参数。
 
 ### `--hint`
 
@@ -218,31 +260,31 @@ tags: Agent, MCP
 推荐直接执行：
 
 ```bash
-npm run agent -- src/data/blog/你的文章.md
+./agent src/data/blog/你的文章.md
 ```
 
 如果你当前在连续改几篇文章，直接让 Agent 自动发现变更集：
 
 ```bash
-npm run agent -- --changed
+./agent --changed
 ```
 
 如果你希望明确给它一段自然语言 hint：
 
 ```bash
-npm run agent -- src/data/blog/你的文章.md "偏向系统工程视角，标签包含 Agent 和 MCP"
+./agent src/data/blog/你的文章.md "偏向系统工程视角，标签包含 Agent 和 MCP"
 ```
 
 ### 4.2 提交前只检查改动文章
 
 ```bash
-npm run agent -- --changed
+./agent
 ```
 
 ### 4.3 重新生成全站 Agent 栏
 
 ```bash
-npm run agent -- --all
+./agent --all
 ```
 
 ### 4.4 验证系统本身
@@ -256,7 +298,7 @@ npm run test:agent
 CI 中的行为定义在 [.github/workflows/ci.yml](/home/deepc/deepcity.github.io/.github/workflows/ci.yml)：
 
 1. 安装依赖
-2. 执行 `agent -- --changed --mode ci --report-file .tmp/blog-agent-report.json`
+2. 执行 `./agent --changed --mode ci --report-file .tmp/blog-agent-report.json`
 3. 上传 JSON 报告 artifact
 4. 继续执行 lint / format / build
 
@@ -288,10 +330,10 @@ export GEMINI_API_KEY=your_api_key
 可选地覆盖模型：
 
 ```bash
-export BLOG_AGENT_MODEL=gemini-2.5-flash
+export BLOG_AGENT_MODEL=gemini-3.5-flash
 ```
 
-如果不设置 `GEMINI_API_KEY`，系统会自动回退到 heuristic provider。
+如果不设置 `GEMINI_API_KEY`，系统会回退到 heuristic provider，但 sidecar 和页面都会标记 `degraded`，避免把保底结果当作完整 Agent Review。
 
 ## 8. 常见问题
 
@@ -300,7 +342,7 @@ export BLOG_AGENT_MODEL=gemini-2.5-flash
 通常是因为对应 sidecar 不存在。先执行：
 
 ```bash
-npm run agent -- src/data/blog/目标文章.md
+./agent src/data/blog/目标文章.md
 ```
 
 ### 8.2 为什么 build 时没有调模型

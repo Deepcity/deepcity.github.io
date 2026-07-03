@@ -91,7 +91,7 @@ Markdown 结构分析在 [`src/agent/markdown.ts`](/home/deepc/deepcity.github.i
 如果文章完全没有 frontmatter，或者只有部分字段，但你希望 Agent 结合正文和 hint 直接补成一版可用元信息，可以显式执行：
 
 ```bash
-npm run agent:analyze -- src/data/blog/你的文章.md --generate-frontmatter --hint "偏向系统工程视角，标签包含 Agent 和 MCP"
+./agent analyze src/data/blog/你的文章.md --generate-frontmatter --hint "偏向系统工程视角，标签包含 Agent 和 MCP"
 ```
 
 能力边界：
@@ -134,7 +134,7 @@ npm run agent:analyze -- src/data/blog/你的文章.md --generate-frontmatter --
 当运行：
 
 ```bash
-npm run agent:analyze -- src/data/blog/CMU-15213-BombLab.md
+./agent analyze src/data/blog/CMU-15213-BombLab.md
 ```
 
 格式检查 Agent 可能产生如下结果：

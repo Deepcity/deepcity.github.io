@@ -1,0 +1,1554 @@
+{
+  "version": 1,
+  "series": [
+    {
+      "id": "ascendc",
+      "label": "Ascend C 算子开发",
+      "post_ids": [
+        "AscendC-part1-basic-concept",
+        "AscendC-part2-tiling-and-debug",
+        "AscendC-part3-operator-delivery",
+        "AscendC-part4-operator-invocation",
+        "AscendC-part5-pytorch-summary"
+      ],
+      "expected_total": 5,
+      "open_ended": false,
+      "source": "global-rules"
+    },
+    {
+      "id": "cmu-15213",
+      "label": "CMU 15-213 Labs",
+      "post_ids": [
+        "CMU-15213-BombLab",
+        "CMU-15213-AttackLab",
+        "CMU-15213-ArchitectureLab",
+        "CMU-15213-CacheLab",
+        "CMU-15213-ShellLab",
+        "CMU-15213-MallocLab"
+      ],
+      "expected_total": 8,
+      "open_ended": false,
+      "source": "global-rules"
+    },
+    {
+      "id": "mindspore",
+      "label": "MindSpore 入门专题",
+      "post_ids": [
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore",
+        "mindspore-03-tensor",
+        "mindspore-04-dataset",
+        "mindspore-05-construct-network",
+        "mindspore-06-functional-autodiff",
+        "mindspore-07-model-train",
+        "mindspore-extra-transformer-structure"
+      ],
+      "expected_total": null,
+      "open_ended": true,
+      "source": "override"
+    },
+    {
+      "id": "paper-reading",
+      "label": "论文阅读",
+      "post_ids": [
+        "pgstudy-characterization-llm-development-datacenter",
+        "SOSP24-Colloid",
+        "OSDI24-ServerlessLLM",
+        "OSDI18-Ray",
+        "SOSP25-ByteRobust",
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+        "ICCV25-AdaLLaVA",
+        "osdi22-orca"
+      ],
+      "expected_total": null,
+      "open_ended": true,
+      "source": "global-rules"
+    }
+  ],
+  "posts": [
+    {
+      "post_id": "Algorithm-number-theory-base",
+      "title": "算法数论基础",
+      "source_path": "src/data/blog/Algorithm-number-theory-base.md",
+      "route_path": "/posts/algorithm-number-theory-base",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [
+        "algorithm-tree-palindrome-path-query"
+      ],
+      "related_posts": [
+        {
+          "post_id": "algorithm-tree-palindrome-path-query",
+          "title": "树上最短回文问题",
+          "route_path": "/posts/algorithm-tree-palindrome-path-query",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "算法数论基础 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:数论",
+        "topic:算法",
+        "topic:数学"
+      ]
+    },
+    {
+      "post_id": "algorithm-tree-palindrome-path-query",
+      "title": "树上最短回文问题",
+      "source_path": "src/data/blog/algorithm-tree-palindrome-path-query.md",
+      "route_path": "/posts/algorithm-tree-palindrome-path-query",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [
+        "AscendC-part5-pytorch-summary",
+        "AscendC-part4-operator-invocation",
+        "AscendC-part3-operator-delivery"
+      ],
+      "related_posts": [
+        {
+          "post_id": "AscendC-part5-pytorch-summary",
+          "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+          "route_path": "/posts/ascendc-part5-pytorch-summary",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "AscendC-part4-operator-invocation",
+          "title": "Ascend C 算子开发 Part4 算子调用与测试",
+          "route_path": "/posts/ascendc-part4-operator-invocation",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "AscendC-part3-operator-delivery",
+          "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+          "route_path": "/posts/ascendc-part3-operator-delivery",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "树上最短回文问题 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:算法",
+        "topic:图论",
+        "topic:哈希算法",
+        "topic:c++"
+      ]
+    },
+    {
+      "post_id": "API-Agent-Embedding-MCP-Skills",
+      "title": "API Agent: Embedding, MCP, Skills",
+      "source_path": "src/data/blog/API-Agent-Embedding-MCP-Skills.md",
+      "route_path": "/posts/api-agent-embedding-mcp-skills",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [
+        "osdi22-orca",
+        "ICCV25-AdaLLaVA",
+        "AscendC-part5-pytorch-summary"
+      ],
+      "related_posts": [
+        {
+          "post_id": "osdi22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "AscendC-part5-pytorch-summary",
+          "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+          "route_path": "/posts/ascendc-part5-pytorch-summary",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "API Agent: Embedding, MCP, Skills 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:LLM",
+        "topic:Agent",
+        "topic:MCP",
+        "topic:Embedding"
+      ]
+    },
+    {
+      "post_id": "AscendC-part1-basic-concept",
+      "title": "Ascend C 算子开发 Part1 基本概念",
+      "source_path": "src/data/blog/AscendC-part1-basic-concept.md",
+      "route_path": "/posts/ascendc-part1-basic-concept",
+      "series_id": "ascendc",
+      "series_label": "Ascend C 算子开发",
+      "role": "系列开篇",
+      "previous_posts": [],
+      "next_posts": [
+        "AscendC-part2-tiling-and-debug"
+      ],
+      "topic_neighbors": [
+        "AscendC-part5-pytorch-summary",
+        "AscendC-part4-operator-invocation",
+        "AscendC-part3-operator-delivery"
+      ],
+      "related_posts": [
+        {
+          "post_id": "AscendC-part2-tiling-and-debug",
+          "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
+          "route_path": "/posts/ascendc-part2-tiling-and-debug",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "AscendC-part5-pytorch-summary",
+          "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+          "route_path": "/posts/ascendc-part5-pytorch-summary",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "AscendC-part4-operator-invocation",
+          "title": "Ascend C 算子开发 Part4 算子调用与测试",
+          "route_path": "/posts/ascendc-part4-operator-invocation",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「系列开篇」，后续文章 AscendC-part2-tiling-and-debug。",
+      "memory_refs": [
+        "series:ascendc",
+        "topic:Ascend",
+        "topic:LLM",
+        "topic:c++",
+        "topic:算子开发"
+      ]
+    },
+    {
+      "post_id": "AscendC-part2-tiling-and-debug",
+      "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
+      "source_path": "src/data/blog/AscendC-part2-tiling-and-debug.md",
+      "route_path": "/posts/ascendc-part2-tiling-and-debug",
+      "series_id": "ascendc",
+      "series_label": "Ascend C 算子开发",
+      "role": "系列第 2 篇",
+      "previous_posts": [
+        "AscendC-part1-basic-concept"
+      ],
+      "next_posts": [
+        "AscendC-part3-operator-delivery"
+      ],
+      "topic_neighbors": [
+        "AscendC-part5-pytorch-summary",
+        "AscendC-part4-operator-invocation",
+        "algorithm-tree-palindrome-path-query"
+      ],
+      "related_posts": [
+        {
+          "post_id": "AscendC-part1-basic-concept",
+          "title": "Ascend C 算子开发 Part1 基本概念",
+          "route_path": "/posts/ascendc-part1-basic-concept",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "AscendC-part3-operator-delivery",
+          "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+          "route_path": "/posts/ascendc-part3-operator-delivery",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "AscendC-part5-pytorch-summary",
+          "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+          "route_path": "/posts/ascendc-part5-pytorch-summary",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「系列第 2 篇」，前置文章 AscendC-part1-basic-concept，后续文章 AscendC-part3-operator-delivery。",
+      "memory_refs": [
+        "series:ascendc",
+        "topic:Ascend",
+        "topic:c++",
+        "topic:算子开发"
+      ]
+    },
+    {
+      "post_id": "AscendC-part3-operator-delivery",
+      "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+      "source_path": "src/data/blog/AscendC-part3-operator-delivery.md",
+      "route_path": "/posts/ascendc-part3-operator-delivery",
+      "series_id": "ascendc",
+      "series_label": "Ascend C 算子开发",
+      "role": "系列第 3 篇",
+      "previous_posts": [
+        "AscendC-part2-tiling-and-debug"
+      ],
+      "next_posts": [
+        "AscendC-part4-operator-invocation"
+      ],
+      "topic_neighbors": [
+        "AscendC-part5-pytorch-summary",
+        "AscendC-part1-basic-concept",
+        "algorithm-tree-palindrome-path-query"
+      ],
+      "related_posts": [
+        {
+          "post_id": "AscendC-part2-tiling-and-debug",
+          "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
+          "route_path": "/posts/ascendc-part2-tiling-and-debug",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "AscendC-part4-operator-invocation",
+          "title": "Ascend C 算子开发 Part4 算子调用与测试",
+          "route_path": "/posts/ascendc-part4-operator-invocation",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "AscendC-part5-pytorch-summary",
+          "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+          "route_path": "/posts/ascendc-part5-pytorch-summary",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「系列第 3 篇」，前置文章 AscendC-part2-tiling-and-debug，后续文章 AscendC-part4-operator-invocation。",
+      "memory_refs": [
+        "series:ascendc",
+        "topic:Ascend",
+        "topic:c++",
+        "topic:算子开发"
+      ]
+    },
+    {
+      "post_id": "AscendC-part4-operator-invocation",
+      "title": "Ascend C 算子开发 Part4 算子调用与测试",
+      "source_path": "src/data/blog/AscendC-part4-operator-invocation.md",
+      "route_path": "/posts/ascendc-part4-operator-invocation",
+      "series_id": "ascendc",
+      "series_label": "Ascend C 算子开发",
+      "role": "系列第 4 篇",
+      "previous_posts": [
+        "AscendC-part3-operator-delivery"
+      ],
+      "next_posts": [
+        "AscendC-part5-pytorch-summary"
+      ],
+      "topic_neighbors": [
+        "AscendC-part2-tiling-and-debug",
+        "AscendC-part1-basic-concept",
+        "algorithm-tree-palindrome-path-query"
+      ],
+      "related_posts": [
+        {
+          "post_id": "AscendC-part3-operator-delivery",
+          "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+          "route_path": "/posts/ascendc-part3-operator-delivery",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "AscendC-part5-pytorch-summary",
+          "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+          "route_path": "/posts/ascendc-part5-pytorch-summary",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "AscendC-part2-tiling-and-debug",
+          "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
+          "route_path": "/posts/ascendc-part2-tiling-and-debug",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「系列第 4 篇」，前置文章 AscendC-part3-operator-delivery，后续文章 AscendC-part5-pytorch-summary。",
+      "memory_refs": [
+        "series:ascendc",
+        "topic:Ascend",
+        "topic:c++",
+        "topic:算子开发"
+      ]
+    },
+    {
+      "post_id": "AscendC-part5-pytorch-summary",
+      "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+      "source_path": "src/data/blog/AscendC-part5-pytorch-summary.md",
+      "route_path": "/posts/ascendc-part5-pytorch-summary",
+      "series_id": "ascendc",
+      "series_label": "Ascend C 算子开发",
+      "role": "阶段总结",
+      "previous_posts": [
+        "AscendC-part4-operator-invocation"
+      ],
+      "next_posts": [],
+      "topic_neighbors": [
+        "AscendC-part1-basic-concept",
+        "AscendC-part3-operator-delivery",
+        "AscendC-part2-tiling-and-debug"
+      ],
+      "related_posts": [
+        {
+          "post_id": "AscendC-part4-operator-invocation",
+          "title": "Ascend C 算子开发 Part4 算子调用与测试",
+          "route_path": "/posts/ascendc-part4-operator-invocation",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "AscendC-part1-basic-concept",
+          "title": "Ascend C 算子开发 Part1 基本概念",
+          "route_path": "/posts/ascendc-part1-basic-concept",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "AscendC-part3-operator-delivery",
+          "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+          "route_path": "/posts/ascendc-part3-operator-delivery",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「阶段总结」，前置文章 AscendC-part4-operator-invocation。",
+      "memory_refs": [
+        "series:ascendc",
+        "topic:Ascend",
+        "topic:c++",
+        "topic:算子开发",
+        "topic:LLM"
+      ]
+    },
+    {
+      "post_id": "CMU-15213-ArchitectureLab",
+      "title": "CMU-15213-ArchitectureLab",
+      "source_path": "src/data/blog/CMU-15213-ArchitectureLab.md",
+      "route_path": "/posts/cmu-15213-architecturelab",
+      "series_id": "cmu-15213",
+      "series_label": "CMU 15-213 Labs",
+      "role": "实验记录",
+      "previous_posts": [
+        "CMU-15213-AttackLab"
+      ],
+      "next_posts": [
+        "CMU-15213-CacheLab"
+      ],
+      "topic_neighbors": [
+        "CMU-15213-MallocLab",
+        "CMU-15213-ShellLab",
+        "CMU-15213-BombLab"
+      ],
+      "related_posts": [
+        {
+          "post_id": "CMU-15213-AttackLab",
+          "title": "CMU-15213-AttackLab",
+          "route_path": "/posts/cmu-15213-attacklab",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "CMU-15213-CacheLab",
+          "title": "CMU-15213-CacheLab",
+          "route_path": "/posts/cmu-15213-cachelab",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "CMU-15213-MallocLab",
+          "title": "CMU-15213-MallocLab",
+          "route_path": "/posts/cmu-15213-malloclab",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「实验记录」，前置文章 CMU-15213-AttackLab，后续文章 CMU-15213-CacheLab。",
+      "memory_refs": [
+        "series:cmu-15213",
+        "topic:CMU15213",
+        "topic:c",
+        "topic:x86-64",
+        "topic:指令集",
+        "topic:流水线处理器"
+      ]
+    },
+    {
+      "post_id": "CMU-15213-AttackLab",
+      "title": "CMU-15213-AttackLab",
+      "source_path": "src/data/blog/CMU-15213-AttackLab.md",
+      "route_path": "/posts/cmu-15213-attacklab",
+      "series_id": "cmu-15213",
+      "series_label": "CMU 15-213 Labs",
+      "role": "实验记录",
+      "previous_posts": [
+        "CMU-15213-BombLab"
+      ],
+      "next_posts": [
+        "CMU-15213-ArchitectureLab"
+      ],
+      "topic_neighbors": [
+        "CMU-15213-MallocLab",
+        "CMU-15213-ShellLab",
+        "CMU-15213-CacheLab"
+      ],
+      "related_posts": [
+        {
+          "post_id": "CMU-15213-BombLab",
+          "title": "CMU-15213-BombLab",
+          "route_path": "/posts/cmu-15213-bomblab",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "CMU-15213-ArchitectureLab",
+          "title": "CMU-15213-ArchitectureLab",
+          "route_path": "/posts/cmu-15213-architecturelab",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "CMU-15213-MallocLab",
+          "title": "CMU-15213-MallocLab",
+          "route_path": "/posts/cmu-15213-malloclab",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「实验记录」，前置文章 CMU-15213-BombLab，后续文章 CMU-15213-ArchitectureLab。",
+      "memory_refs": [
+        "series:cmu-15213",
+        "topic:CMU15213",
+        "topic:c",
+        "topic:汇编",
+        "topic:反编译",
+        "topic:Exploit String Attack"
+      ]
+    },
+    {
+      "post_id": "CMU-15213-BombLab",
+      "title": "CMU-15213-BombLab",
+      "source_path": "src/data/blog/CMU-15213-BombLab.md",
+      "route_path": "/posts/cmu-15213-bomblab",
+      "series_id": "cmu-15213",
+      "series_label": "CMU 15-213 Labs",
+      "role": "系列开篇",
+      "previous_posts": [],
+      "next_posts": [
+        "CMU-15213-AttackLab"
+      ],
+      "topic_neighbors": [
+        "CMU-15213-MallocLab",
+        "CMU-15213-ShellLab",
+        "CMU-15213-CacheLab"
+      ],
+      "related_posts": [
+        {
+          "post_id": "CMU-15213-AttackLab",
+          "title": "CMU-15213-AttackLab",
+          "route_path": "/posts/cmu-15213-attacklab",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "CMU-15213-MallocLab",
+          "title": "CMU-15213-MallocLab",
+          "route_path": "/posts/cmu-15213-malloclab",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "CMU-15213-ShellLab",
+          "title": "CMU-15213-ShellLab",
+          "route_path": "/posts/cmu-15213-shelllab",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「系列开篇」，后续文章 CMU-15213-AttackLab。",
+      "memory_refs": [
+        "series:cmu-15213",
+        "topic:CMU15213",
+        "topic:c",
+        "topic:汇编",
+        "topic:反编译"
+      ]
+    },
+    {
+      "post_id": "CMU-15213-CacheLab",
+      "title": "CMU-15213-CacheLab",
+      "source_path": "src/data/blog/CMU-15213-CacheLab.md",
+      "route_path": "/posts/cmu-15213-cachelab",
+      "series_id": "cmu-15213",
+      "series_label": "CMU 15-213 Labs",
+      "role": "实验记录",
+      "previous_posts": [
+        "CMU-15213-ArchitectureLab"
+      ],
+      "next_posts": [
+        "CMU-15213-ShellLab"
+      ],
+      "topic_neighbors": [
+        "CMU-15213-MallocLab",
+        "CMU-15213-AttackLab",
+        "CMU-15213-BombLab"
+      ],
+      "related_posts": [
+        {
+          "post_id": "CMU-15213-ArchitectureLab",
+          "title": "CMU-15213-ArchitectureLab",
+          "route_path": "/posts/cmu-15213-architecturelab",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "CMU-15213-ShellLab",
+          "title": "CMU-15213-ShellLab",
+          "route_path": "/posts/cmu-15213-shelllab",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "CMU-15213-MallocLab",
+          "title": "CMU-15213-MallocLab",
+          "route_path": "/posts/cmu-15213-malloclab",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「实验记录」，前置文章 CMU-15213-ArchitectureLab，后续文章 CMU-15213-ShellLab。",
+      "memory_refs": [
+        "series:cmu-15213",
+        "topic:CMU15213",
+        "topic:c",
+        "topic:x86-64"
+      ]
+    },
+    {
+      "post_id": "CMU-15213-MallocLab",
+      "title": "CMU-15213-MallocLab",
+      "source_path": "src/data/blog/CMU-15213-MallocLab.md",
+      "route_path": "/posts/cmu-15213-malloclab",
+      "series_id": "cmu-15213",
+      "series_label": "CMU 15-213 Labs",
+      "role": "阶段总结",
+      "previous_posts": [
+        "CMU-15213-ShellLab"
+      ],
+      "next_posts": [],
+      "topic_neighbors": [
+        "CMU-15213-CacheLab",
+        "CMU-15213-ArchitectureLab",
+        "CMU-15213-AttackLab"
+      ],
+      "related_posts": [
+        {
+          "post_id": "CMU-15213-ShellLab",
+          "title": "CMU-15213-ShellLab",
+          "route_path": "/posts/cmu-15213-shelllab",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "CMU-15213-CacheLab",
+          "title": "CMU-15213-CacheLab",
+          "route_path": "/posts/cmu-15213-cachelab",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "CMU-15213-ArchitectureLab",
+          "title": "CMU-15213-ArchitectureLab",
+          "route_path": "/posts/cmu-15213-architecturelab",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「阶段总结」，前置文章 CMU-15213-ShellLab。",
+      "memory_refs": [
+        "series:cmu-15213",
+        "topic:CMU15213",
+        "topic:c"
+      ]
+    },
+    {
+      "post_id": "CMU-15213-ShellLab",
+      "title": "CMU-15213-ShellLab",
+      "source_path": "src/data/blog/CMU-15213-ShellLab.md",
+      "route_path": "/posts/cmu-15213-shelllab",
+      "series_id": "cmu-15213",
+      "series_label": "CMU 15-213 Labs",
+      "role": "实验记录",
+      "previous_posts": [
+        "CMU-15213-CacheLab"
+      ],
+      "next_posts": [
+        "CMU-15213-MallocLab"
+      ],
+      "topic_neighbors": [
+        "CMU-15213-ArchitectureLab",
+        "CMU-15213-AttackLab",
+        "CMU-15213-BombLab"
+      ],
+      "related_posts": [
+        {
+          "post_id": "CMU-15213-CacheLab",
+          "title": "CMU-15213-CacheLab",
+          "route_path": "/posts/cmu-15213-cachelab",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "CMU-15213-MallocLab",
+          "title": "CMU-15213-MallocLab",
+          "route_path": "/posts/cmu-15213-malloclab",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "CMU-15213-ArchitectureLab",
+          "title": "CMU-15213-ArchitectureLab",
+          "route_path": "/posts/cmu-15213-architecturelab",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「实验记录」，前置文章 CMU-15213-CacheLab，后续文章 CMU-15213-MallocLab。",
+      "memory_refs": [
+        "series:cmu-15213",
+        "topic:CMU15213",
+        "topic:c"
+      ]
+    },
+    {
+      "post_id": "ICCV25-AdaLLaVA",
+      "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+      "source_path": "src/data/blog/ICCV25-AdaLLaVA.md",
+      "route_path": "/posts/iccv25-adallava",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+      ],
+      "next_posts": [
+        "osdi22-orca"
+      ],
+      "topic_neighbors": [
+        "SOSP25-ByteRobust",
+        "mindspore-extra-transformer-structure",
+        "OSDI24-ServerlessLLM"
+      ],
+      "related_posts": [
+        {
+          "post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+          "title": "ISOCC 2020 - Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+          "route_path": "/posts/isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "osdi22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "SOSP25-ByteRobust",
+          "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+          "route_path": "/posts/sosp25-byterobust",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis，后续文章 osdi22-orca。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:论文阅读",
+        "topic:大模型推理",
+        "topic:LLM",
+        "topic:机器学习",
+        "topic:人工智能"
+      ]
+    },
+    {
+      "post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+      "title": "ISOCC 2020 - Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+      "source_path": "src/data/blog/ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis.md",
+      "route_path": "/posts/isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "SOSP25-ByteRobust"
+      ],
+      "next_posts": [
+        "ICCV25-AdaLLaVA"
+      ],
+      "topic_neighbors": [],
+      "related_posts": [
+        {
+          "post_id": "SOSP25-ByteRobust",
+          "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+          "route_path": "/posts/sosp25-byterobust",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "后续阅读"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 SOSP25-ByteRobust，后续文章 ICCV25-AdaLLaVA。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:others"
+      ]
+    },
+    {
+      "post_id": "mindspore-01-install",
+      "title": "MindSpore 专题：第一章、安装",
+      "source_path": "src/data/blog/mindspore-01-install.md",
+      "route_path": "/posts/mindspore-01-install",
+      "series_id": "mindspore",
+      "series_label": "MindSpore 入门专题",
+      "role": "系列开篇",
+      "previous_posts": [],
+      "next_posts": [
+        "mindspore-02-try-mindspore"
+      ],
+      "topic_neighbors": [
+        "mindspore-03-tensor",
+        "mindspore-04-dataset",
+        "mindspore-05-construct-network"
+      ],
+      "related_posts": [
+        {
+          "post_id": "mindspore-02-try-mindspore",
+          "title": "MindSpore 专题：第二章、快速尝试",
+          "route_path": "/posts/mindspore-02-try-mindspore",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "mindspore-03-tensor",
+          "title": "MindSpore 专题：第三章、张量",
+          "route_path": "/posts/mindspore-03-tensor",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "mindspore-04-dataset",
+          "title": "MindSpore 专题：第四章、数据集",
+          "route_path": "/posts/mindspore-04-dataset",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「MindSpore 入门专题」系列中，当前角色是「系列开篇」，后续文章 mindspore-02-try-mindspore。",
+      "memory_refs": [
+        "series:mindspore",
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:MindSpore"
+      ]
+    },
+    {
+      "post_id": "mindspore-02-try-mindspore",
+      "title": "MindSpore 专题：第二章、快速尝试",
+      "source_path": "src/data/blog/mindspore-02-try-mindspore.md",
+      "route_path": "/posts/mindspore-02-try-mindspore",
+      "series_id": "mindspore",
+      "series_label": "MindSpore 入门专题",
+      "role": "系列第 2 篇",
+      "previous_posts": [
+        "mindspore-01-install"
+      ],
+      "next_posts": [
+        "mindspore-03-tensor"
+      ],
+      "topic_neighbors": [
+        "mindspore-04-dataset",
+        "mindspore-05-construct-network",
+        "mindspore-06-functional-autodiff"
+      ],
+      "related_posts": [
+        {
+          "post_id": "mindspore-01-install",
+          "title": "MindSpore 专题：第一章、安装",
+          "route_path": "/posts/mindspore-01-install",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "mindspore-03-tensor",
+          "title": "MindSpore 专题：第三章、张量",
+          "route_path": "/posts/mindspore-03-tensor",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "mindspore-04-dataset",
+          "title": "MindSpore 专题：第四章、数据集",
+          "route_path": "/posts/mindspore-04-dataset",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「MindSpore 入门专题」系列中，当前角色是「系列第 2 篇」，前置文章 mindspore-01-install，后续文章 mindspore-03-tensor。",
+      "memory_refs": [
+        "series:mindspore",
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:MindSpore"
+      ]
+    },
+    {
+      "post_id": "mindspore-03-tensor",
+      "title": "MindSpore 专题：第三章、张量",
+      "source_path": "src/data/blog/mindspore-03-tensor.md",
+      "route_path": "/posts/mindspore-03-tensor",
+      "series_id": "mindspore",
+      "series_label": "MindSpore 入门专题",
+      "role": "系列第 3 篇",
+      "previous_posts": [
+        "mindspore-02-try-mindspore"
+      ],
+      "next_posts": [
+        "mindspore-04-dataset"
+      ],
+      "topic_neighbors": [
+        "mindspore-01-install",
+        "mindspore-05-construct-network",
+        "mindspore-06-functional-autodiff"
+      ],
+      "related_posts": [
+        {
+          "post_id": "mindspore-02-try-mindspore",
+          "title": "MindSpore 专题：第二章、快速尝试",
+          "route_path": "/posts/mindspore-02-try-mindspore",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "mindspore-04-dataset",
+          "title": "MindSpore 专题：第四章、数据集",
+          "route_path": "/posts/mindspore-04-dataset",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "mindspore-01-install",
+          "title": "MindSpore 专题：第一章、安装",
+          "route_path": "/posts/mindspore-01-install",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「MindSpore 入门专题」系列中，当前角色是「系列第 3 篇」，前置文章 mindspore-02-try-mindspore，后续文章 mindspore-04-dataset。",
+      "memory_refs": [
+        "series:mindspore",
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:MindSpore"
+      ]
+    },
+    {
+      "post_id": "mindspore-04-dataset",
+      "title": "MindSpore 专题：第四章、数据集",
+      "source_path": "src/data/blog/mindspore-04-dataset.md",
+      "route_path": "/posts/mindspore-04-dataset",
+      "series_id": "mindspore",
+      "series_label": "MindSpore 入门专题",
+      "role": "系列第 4 篇",
+      "previous_posts": [
+        "mindspore-03-tensor"
+      ],
+      "next_posts": [
+        "mindspore-05-construct-network"
+      ],
+      "topic_neighbors": [
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore",
+        "mindspore-06-functional-autodiff"
+      ],
+      "related_posts": [
+        {
+          "post_id": "mindspore-03-tensor",
+          "title": "MindSpore 专题：第三章、张量",
+          "route_path": "/posts/mindspore-03-tensor",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "mindspore-05-construct-network",
+          "title": "MindSpore 专题：第五章、网络构建",
+          "route_path": "/posts/mindspore-05-construct-network",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "mindspore-01-install",
+          "title": "MindSpore 专题：第一章、安装",
+          "route_path": "/posts/mindspore-01-install",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「MindSpore 入门专题」系列中，当前角色是「系列第 4 篇」，前置文章 mindspore-03-tensor，后续文章 mindspore-05-construct-network。",
+      "memory_refs": [
+        "series:mindspore",
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:MindSpore"
+      ]
+    },
+    {
+      "post_id": "mindspore-05-construct-network",
+      "title": "MindSpore 专题：第五章、网络构建",
+      "source_path": "src/data/blog/mindspore-05-construct-network.md",
+      "route_path": "/posts/mindspore-05-construct-network",
+      "series_id": "mindspore",
+      "series_label": "MindSpore 入门专题",
+      "role": "系列第 5 篇",
+      "previous_posts": [
+        "mindspore-04-dataset"
+      ],
+      "next_posts": [
+        "mindspore-06-functional-autodiff"
+      ],
+      "topic_neighbors": [
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore",
+        "mindspore-03-tensor"
+      ],
+      "related_posts": [
+        {
+          "post_id": "mindspore-04-dataset",
+          "title": "MindSpore 专题：第四章、数据集",
+          "route_path": "/posts/mindspore-04-dataset",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "mindspore-06-functional-autodiff",
+          "title": "MindSpore 专题：第六章、函数式自动微分",
+          "route_path": "/posts/mindspore-06-functional-autodiff",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "mindspore-01-install",
+          "title": "MindSpore 专题：第一章、安装",
+          "route_path": "/posts/mindspore-01-install",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「MindSpore 入门专题」系列中，当前角色是「系列第 5 篇」，前置文章 mindspore-04-dataset，后续文章 mindspore-06-functional-autodiff。",
+      "memory_refs": [
+        "series:mindspore",
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:MindSpore"
+      ]
+    },
+    {
+      "post_id": "mindspore-06-functional-autodiff",
+      "title": "MindSpore 专题：第六章、函数式自动微分",
+      "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+      "route_path": "/posts/mindspore-06-functional-autodiff",
+      "series_id": "mindspore",
+      "series_label": "MindSpore 入门专题",
+      "role": "系列第 6 篇",
+      "previous_posts": [
+        "mindspore-05-construct-network"
+      ],
+      "next_posts": [
+        "mindspore-07-model-train"
+      ],
+      "topic_neighbors": [
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore",
+        "mindspore-03-tensor"
+      ],
+      "related_posts": [
+        {
+          "post_id": "mindspore-05-construct-network",
+          "title": "MindSpore 专题：第五章、网络构建",
+          "route_path": "/posts/mindspore-05-construct-network",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "mindspore-07-model-train",
+          "title": "MindSpore 专题：第七章、模型训练",
+          "route_path": "/posts/mindspore-07-model-train",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "mindspore-01-install",
+          "title": "MindSpore 专题：第一章、安装",
+          "route_path": "/posts/mindspore-01-install",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「MindSpore 入门专题」系列中，当前角色是「系列第 6 篇」，前置文章 mindspore-05-construct-network，后续文章 mindspore-07-model-train。",
+      "memory_refs": [
+        "series:mindspore",
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:MindSpore"
+      ]
+    },
+    {
+      "post_id": "mindspore-07-model-train",
+      "title": "MindSpore 专题：第七章、模型训练",
+      "source_path": "src/data/blog/mindspore-07-model-train.md",
+      "route_path": "/posts/mindspore-07-model-train",
+      "series_id": "mindspore",
+      "series_label": "MindSpore 入门专题",
+      "role": "阶段总结",
+      "previous_posts": [
+        "mindspore-06-functional-autodiff"
+      ],
+      "next_posts": [
+        "mindspore-extra-transformer-structure"
+      ],
+      "topic_neighbors": [
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore",
+        "mindspore-03-tensor"
+      ],
+      "related_posts": [
+        {
+          "post_id": "mindspore-06-functional-autodiff",
+          "title": "MindSpore 专题：第六章、函数式自动微分",
+          "route_path": "/posts/mindspore-06-functional-autodiff",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "mindspore-extra-transformer-structure",
+          "title": "MindSpore 专题：番外、Transformer 模型",
+          "route_path": "/posts/mindspore-extra-transformer-structure",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "mindspore-01-install",
+          "title": "MindSpore 专题：第一章、安装",
+          "route_path": "/posts/mindspore-01-install",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「MindSpore 入门专题」系列中，当前角色是「阶段总结」，前置文章 mindspore-06-functional-autodiff，后续文章 mindspore-extra-transformer-structure。",
+      "memory_refs": [
+        "series:mindspore",
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:MindSpore"
+      ]
+    },
+    {
+      "post_id": "mindspore-extra-transformer-structure",
+      "title": "MindSpore 专题：番外、Transformer 模型",
+      "source_path": "src/data/blog/mindspore-extra-transformer-structure.md",
+      "route_path": "/posts/mindspore-extra-transformer-structure",
+      "series_id": "mindspore",
+      "series_label": "MindSpore 入门专题",
+      "role": "番外补充",
+      "previous_posts": [
+        "mindspore-07-model-train"
+      ],
+      "next_posts": [],
+      "topic_neighbors": [
+        "ICCV25-AdaLLaVA",
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore"
+      ],
+      "related_posts": [
+        {
+          "post_id": "mindspore-07-model-train",
+          "title": "MindSpore 专题：第七章、模型训练",
+          "route_path": "/posts/mindspore-07-model-train",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "mindspore-01-install",
+          "title": "MindSpore 专题：第一章、安装",
+          "route_path": "/posts/mindspore-01-install",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇更像 MindSpore 学习路径旁边的模型结构补课，不应被当作主线第八章。",
+      "memory_refs": [
+        "series:mindspore",
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:MindSpore",
+        "topic:LLM"
+      ]
+    },
+    {
+      "post_id": "onedrive-experience-and-warnings",
+      "title": "使用OneDrive的三年经验与不得不知的警告",
+      "source_path": "src/data/blog/onedrive-experience-and-warnings.md",
+      "route_path": "/posts/onedrive-experience-and-warnings",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [],
+      "related_posts": [],
+      "position_summary": "使用OneDrive的三年经验与不得不知的警告 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:软件",
+        "topic:云服务",
+        "topic:Microsoft",
+        "topic:365"
+      ]
+    },
+    {
+      "post_id": "OSDI18-Ray",
+      "title": "OSDI 2018 - Ray: A Distributed Framework for Emerging AI Applications",
+      "source_path": "src/data/blog/OSDI18-Ray.md",
+      "route_path": "/posts/osdi18-ray",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "OSDI24-ServerlessLLM"
+      ],
+      "next_posts": [
+        "SOSP25-ByteRobust"
+      ],
+      "topic_neighbors": [
+        "osdi22-orca",
+        "pgstudy-characterization-llm-development-datacenter",
+        "ICCV25-AdaLLaVA"
+      ],
+      "related_posts": [
+        {
+          "post_id": "OSDI24-ServerlessLLM",
+          "title": "OSDI 2024 - ServerlessLLM: Low-Latency Serverless Inference for Large Language Models",
+          "route_path": "/posts/osdi24-serverlessllm",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "SOSP25-ByteRobust",
+          "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+          "route_path": "/posts/sosp25-byterobust",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "osdi22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 OSDI24-ServerlessLLM，后续文章 SOSP25-ByteRobust。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:分布式系统",
+        "topic:大模型应用",
+        "topic:OSDI",
+        "topic:论文阅读"
+      ]
+    },
+    {
+      "post_id": "osdi22-orca",
+      "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+      "source_path": "src/data/blog/osdi22-orca.md",
+      "route_path": "/posts/osdi22-orca",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "ICCV25-AdaLLaVA"
+      ],
+      "next_posts": [],
+      "topic_neighbors": [
+        "OSDI18-Ray",
+        "OSDI24-ServerlessLLM",
+        "pgstudy-characterization-llm-development-datacenter"
+      ],
+      "related_posts": [
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "OSDI18-Ray",
+          "title": "OSDI 2018 - Ray: A Distributed Framework for Emerging AI Applications",
+          "route_path": "/posts/osdi18-ray",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "OSDI24-ServerlessLLM",
+          "title": "OSDI 2024 - ServerlessLLM: Low-Latency Serverless Inference for Large Language Models",
+          "route_path": "/posts/osdi24-serverlessllm",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ICCV25-AdaLLaVA。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:论文阅读",
+        "topic:OSDI",
+        "topic:分布式系统",
+        "topic:大模型推理",
+        "topic:LLM"
+      ]
+    },
+    {
+      "post_id": "OSDI24-ServerlessLLM",
+      "title": "OSDI 2024 - ServerlessLLM: Low-Latency Serverless Inference for Large Language Models",
+      "source_path": "src/data/blog/OSDI24-ServerlessLLM.md",
+      "route_path": "/posts/osdi24-serverlessllm",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "SOSP24-Colloid"
+      ],
+      "next_posts": [
+        "OSDI18-Ray"
+      ],
+      "topic_neighbors": [
+        "osdi22-orca",
+        "ICCV25-AdaLLaVA",
+        "SOSP25-ByteRobust"
+      ],
+      "related_posts": [
+        {
+          "post_id": "SOSP24-Colloid",
+          "title": "SOSP 2024 - Colloid: Tiered Memory Management: Access Latency is the Key!",
+          "route_path": "/posts/sosp24-colloid",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "OSDI18-Ray",
+          "title": "OSDI 2018 - Ray: A Distributed Framework for Emerging AI Applications",
+          "route_path": "/posts/osdi18-ray",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "osdi22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 SOSP24-Colloid，后续文章 OSDI18-Ray。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:异构内存",
+        "topic:内存延迟",
+        "topic:大模型推理",
+        "topic:OSDI",
+        "topic:论文阅读"
+      ]
+    },
+    {
+      "post_id": "pgstudy-characterization-llm-development-datacenter",
+      "title": "arXiv 2024 - Characterization of Large Language Model Development in the Datacenter",
+      "source_path": "src/data/blog/pgstudy-characterization-llm-development-datacenter.md",
+      "route_path": "/posts/pgstudy-characterization-llm-development-datacenter",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "系列开篇",
+      "previous_posts": [],
+      "next_posts": [
+        "SOSP24-Colloid"
+      ],
+      "topic_neighbors": [
+        "osdi22-orca",
+        "ICCV25-AdaLLaVA",
+        "OSDI18-Ray"
+      ],
+      "related_posts": [
+        {
+          "post_id": "SOSP24-Colloid",
+          "title": "SOSP 2024 - Colloid: Tiered Memory Management: Access Latency is the Key!",
+          "route_path": "/posts/sosp24-colloid",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "osdi22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「系列开篇」，后续文章 SOSP24-Colloid。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:论文阅读",
+        "topic:LLM",
+        "topic:分布式系统",
+        "topic:数据中心"
+      ]
+    },
+    {
+      "post_id": "PGStudy-EAandGA",
+      "title": "进化算法 - EA 与 GA",
+      "source_path": "src/data/blog/PGStudy-EAandGA.md",
+      "route_path": "/posts/pgstudy-eaandga",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [
+        "ICCV25-AdaLLaVA",
+        "SOSP25-ByteRobust",
+        "PGStudy-Swarm-intelligence"
+      ],
+      "related_posts": [
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "SOSP25-ByteRobust",
+          "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+          "route_path": "/posts/sosp25-byterobust",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "PGStudy-Swarm-intelligence",
+          "title": "群体智能 Part 1 - PSO",
+          "route_path": "/posts/pgstudy-swarm-intelligence",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "进化算法 - EA 与 GA 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:进化算法",
+        "topic:遗传算法"
+      ]
+    },
+    {
+      "post_id": "PGStudy-Swarm-intelligence",
+      "title": "群体智能 Part 1 - PSO",
+      "source_path": "src/data/blog/PGStudy-Swarm-intelligence.md",
+      "route_path": "/posts/pgstudy-swarm-intelligence",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [
+        "ICCV25-AdaLLaVA",
+        "SOSP25-ByteRobust",
+        "PGStudy-EAandGA"
+      ],
+      "related_posts": [
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "SOSP25-ByteRobust",
+          "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+          "route_path": "/posts/sosp25-byterobust",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "PGStudy-EAandGA",
+          "title": "进化算法 - EA 与 GA",
+          "route_path": "/posts/pgstudy-eaandga",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "群体智能 Part 1 - PSO 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:机器学习",
+        "topic:人工智能",
+        "topic:群体人工智能",
+        "topic:PSO"
+      ]
+    },
+    {
+      "post_id": "SOSP24-Colloid",
+      "title": "SOSP 2024 - Colloid: Tiered Memory Management: Access Latency is the Key!",
+      "source_path": "src/data/blog/SOSP24-Colloid.md",
+      "route_path": "/posts/sosp24-colloid",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "pgstudy-characterization-llm-development-datacenter"
+      ],
+      "next_posts": [
+        "OSDI24-ServerlessLLM"
+      ],
+      "topic_neighbors": [
+        "SOSP25-ByteRobust",
+        "osdi22-orca",
+        "ICCV25-AdaLLaVA"
+      ],
+      "related_posts": [
+        {
+          "post_id": "pgstudy-characterization-llm-development-datacenter",
+          "title": "arXiv 2024 - Characterization of Large Language Model Development in the Datacenter",
+          "route_path": "/posts/pgstudy-characterization-llm-development-datacenter",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "OSDI24-ServerlessLLM",
+          "title": "OSDI 2024 - ServerlessLLM: Low-Latency Serverless Inference for Large Language Models",
+          "route_path": "/posts/osdi24-serverlessllm",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "SOSP25-ByteRobust",
+          "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+          "route_path": "/posts/sosp25-byterobust",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 pgstudy-characterization-llm-development-datacenter，后续文章 OSDI24-ServerlessLLM。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:异构内存",
+        "topic:内存延迟",
+        "topic:SOSP",
+        "topic:论文阅读"
+      ]
+    },
+    {
+      "post_id": "SOSP25-ByteRobust",
+      "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+      "source_path": "src/data/blog/SOSP25-ByteRobust.md",
+      "route_path": "/posts/sosp25-byterobust",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "OSDI18-Ray"
+      ],
+      "next_posts": [
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+      ],
+      "topic_neighbors": [
+        "ICCV25-AdaLLaVA",
+        "SOSP24-Colloid",
+        "PGStudy-EAandGA"
+      ],
+      "related_posts": [
+        {
+          "post_id": "OSDI18-Ray",
+          "title": "OSDI 2018 - Ray: A Distributed Framework for Emerging AI Applications",
+          "route_path": "/posts/osdi18-ray",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+          "title": "ISOCC 2020 - Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+          "route_path": "/posts/isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 OSDI18-Ray，后续文章 ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:论文阅读",
+        "topic:SOSP",
+        "topic:机器学习",
+        "topic:人工智能"
+      ]
+    }
+  ],
+  "issues": [],
+  "generated_at": "2026-07-07T08:00:56.107Z",
+  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "source": {
+    "post_count": 33,
+    "overrides_path": "src/data/agent/knowledge/overrides.yml"
+  }
+}

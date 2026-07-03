@@ -1,46 +1,86 @@
 {
   "post_id": "ICCV25-AdaLLaVA",
-  "title": "ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models",
+  "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
   "source_path": "src/data/blog/ICCV25-AdaLLaVA.md",
   "route_path": "/posts/iccv25-adallava",
-  "source_hash": "9eaa873854e4d062d17edec80043437990079aa0b0a14bec4f9eec5557b957b1",
-  "generated_at": "2026-03-31T12:54:26.132Z",
-  "run_mode": "build",
+  "source_hash": "e081805049b2589e34648d120b288109b7a9e1b19c905643d648daec3e8e22bc",
+  "generated_at": "2026-07-07T07:59:29.969Z",
+  "run_mode": "cli",
   "provider": "gemini",
-  "model": "gemini-3.1-pro-preview",
-  "summary": "本文介绍了ICCV2025关于多模态大语言模型自适应推理的研究，由威斯康星大学等多所高校提出，探讨了如何优化大模型推理效率与性能。",
-  "structural_review": "文章结构内容丰富，包含大量图片和链接，但存在多项排版规范问题，如文件名不符合小写kebab-case规范、正文误用H1标签、可能存在裸链接与未声明语言的代码块等。",
-  "technical_review": "文章探讨多模态大模型的自适应推理技术，紧扣AI领域前沿。包含大量图表与丰富引文，具备较高的技术深度与学术参考价值。",
+  "model": "gemini-3.5-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "本文深入介绍了 ICCV 2025 的创新工作 **AdaLLaVA**，探讨了多模态大模型（MLLM）在推理阶段的自适应计算优化。在大模型服务领域，我们此前多聚焦于如 `Orca` 等系统层面的调度创新，而 AdaLLaVA 则另辟蹊径，从算法层面试图打破多模态任务中“一刀切”的计算开销。这使得它在我们的知识网络中，成为了连接“多模态算法表征”与“大模型高效推理”的重要桥梁。\n\n论文的核心痛点在于：不同复杂度的图像与文本查询，其所需的推理深度本不相同。用相同的计算资源去应付“猫狗分类”与“复杂图表推导”显然存在极大的算力浪费。然而，如何在极低决策开销下，让模型“自主”决定何时启用快速通道（如浅层推理或缩减视觉 Token）、何时动用深度计算，是目前的硬伤所在。文章详细拆解了门控机制与动态路由，但对高并发场景下动态 Batching 的兼容性略显语焉不详，这是读者在将其落地到生产环境时需要额外补充的知识缺口。\n\n通俗来说，这套机制就像是给大模型装了个“摸鱼检测器”——遇到简单任务能省则省，碰到硬骨头才动用真格。虽然这确实让算力账单好看不少，但也不免让人担心：大模型会不会因为过于“自适应”，在某些看似简单实则暗藏玄机的边缘任务上，因为“能躺平绝不内卷”而聪明反被聪明误呢？",
+  "related_posts": [
+    {
+      "post_id": "osdi22-orca",
+      "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+      "route_path": "/posts/osdi22-orca",
+      "relation": "后续阅读"
+    },
+    {
+      "post_id": "SOSP25-ByteRobust",
+      "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
+      "route_path": "/posts/sosp25-byterobust",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "本文对 ICCV 2025 多模态自适应推理方案 AdaLLaVA 展开了深度解读，阐述了其如何根据输入复杂度动态调节计算资源的原理，并探讨了该算法在平衡多模态推理精度与算力成本上的表现。",
+  "structural_review": "文章大纲结构清晰，层级分明（包含14个标题），且配图极其丰富（19张图），极大地辅助了读者对自适应路由流程的理解。然而，文章在排版细节上存在两处硬伤：一是文件名未采用规范的小写 kebab-case；二是首行直接使用了正文 H1 标题，破坏了页面的标准大纲树结构，建议进行规范化重构。",
+  "technical_review": "文章对 AdaLLaVA 的自适应门控机制和多阶段推理路径进行了较好的算法还原。然而，作为一篇关注推理效率的论文解读，文章缺乏对系统开销（Overhead）的批判性思考——例如，门控决策器本身的计算开销、动态形状对 GPU 算子对齐的影响、以及其在多并发吞吐场景下与连续批处理（Continuous Batching）的冲突。建议补充这部分系统层面的评估背景。",
   "strengths": [
-    "紧跟学术前沿，解读了ICCV2025关于多模态大模型推理的最新研究成果。",
-    "图文并茂，包含大量图片和丰富的参考链接，有助于读者深入理解复杂架构。",
-    "技术分类与标签精准，涵盖了LLM和机器学习等关键热门领域。"
+    "文章对多模态自适应推理的前沿背景和 AdaLLaVA 的核心技术链路进行了条理清晰的剖析。",
+    "图文搭配极其详实，通过大量的可视化对比生动地展示了算法在不同任务下的路由选择。"
   ],
   "concerns": [
-    "文件名大小写混合不符合网站的小写kebab-case标准规范。",
-    "正文首行使用了H1标题，破坏了整体博客的标题层级结构。",
-    "历史记录提示正文可能存在裸链接、未指定语言的代码块以及标题跳跃问题。"
+    "未深入探讨自适应 token 缩减对多模态 KV Cache 碎片化及动态内存管理的潜在负面影响。",
+    "缺乏对门控决策网络（Gating Network）自身计算开销占比的量化说明。"
   ],
   "action_items": [
-    "将文件名由 ICCV25-AdaLLaVA.md 统一修改为小写的 iccv25-adallava.md。",
-    "将正文第一行的H1标题降级修改为H2标题以维持语义和样式层级的正确。",
-    "检查并为所有代码块补充正确的Markdown编程语言标识。",
-    "排查并修复文中的裸链接以及标题层级跳跃的问题。"
+    "统一文章文件名与站内文章链接，将 `ICCV25-AdaLLaVA.md` 修改为符合规范的小写 kebab-case 格式 `iccv25-adallava.md`。",
+    "修正第 1 行存在的正文 H1 标题，将其降级为 H2，确保页面大纲层级自 H2 开始递增。",
+    "对文章中存在的 bare URL 进行 Markdown 格式化，并确保所有代码块（code fences）都明确指定了语言高亮标识。"
   ],
   "severity": "warn",
-  "confidence": 0.95,
+  "confidence": 0.99,
   "memory_refs": [
-    "topic:人工智能",
+    "series:paper-reading",
     "topic:论文阅读",
+    "topic:大模型推理",
     "topic:LLM",
     "topic:机器学习",
-    "topic:大模型推理",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "topic:人��智能"
   ],
-  "series_key": null,
-  "series_label": null,
+  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_refs": [
+    "series:paper-reading",
+    "topic:论文阅读",
+    "topic:大模型推理",
+    "topic:LLM",
+    "topic:机器学习",
+    "topic:人工智能"
+  ],
+  "knowledge_position": {
+    "series_id": "paper-reading",
+    "series_label": "论文阅读",
+    "role": "论文阅读",
+    "previous_posts": [
+      "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+    ],
+    "next_posts": [
+      "osdi22-orca"
+    ],
+    "topic_neighbors": [
+      "SOSP25-ByteRobust",
+      "mindspore-extra-transformer-structure",
+      "OSDI24-ServerlessLLM"
+    ],
+    "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis，后续文章 osdi22-orca。"
+  },
+  "series_key": "paper-reading",
+  "series_label": "论文阅读",
   "published_at": "2026-03-31T12:41:37Z",
   "tags_snapshot": [
     "论文阅读",

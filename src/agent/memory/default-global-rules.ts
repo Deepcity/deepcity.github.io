@@ -258,17 +258,9 @@ export const DEFAULT_GLOBAL_RULES = {
       ],
     },
     {
-      id: "pgstudy",
-      label: "PGStudy",
-      id_pattern: "^PGStudy-",
-      expected_total: null,
-      open_ended: true,
-      known_post_ids: [],
-    },
-    {
       id: "paper-reading",
       label: "论文阅读",
-      id_pattern: "^(OSDI|SOSP)\\d+-",
+      id_pattern: "^(AAAI|ICCV|ISOCC|NSDI|OSDI|SOSP|USENIX)\\d+-",
       expected_total: null,
       open_ended: true,
       known_post_ids: [],

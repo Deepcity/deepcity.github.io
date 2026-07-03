@@ -10,8 +10,10 @@ import { runSyncWorkflow } from "../src/agent/core/sync.js";
 import { parseMarkdownDocument, stringifyMarkdownDocument } from "../src/agent/parsers/frontmatter.js";
 import { analyzeMarkdownBody } from "../src/agent/parsers/markdown.js";
 import { applyHomePanelGuide, buildHomePanelData } from "../src/agent/core/home-panel.js";
+import { buildKnowledgeMap } from "../src/agent/core/knowledge.js";
 import { inferCodeFenceLanguage } from "../src/agent/parsers/markdown.js";
 import { inferAgentModelMeta } from "../src/agent/model-meta.js";
+import { extractJsonPayload } from "../src/agent/providers/gemini.js";
 import {
   getHomeSidecarPath,
   getRoutePathFromFile,
@@ -320,6 +322,7 @@ This draft explains how a blog agent can prepare frontmatter, review output and 
       provider: "heuristic",
       frontmatterHintText: "偏向系统工程视角\ntags: Agent, MCP",
       buildHomePanel: false,
+      refreshKnowledge: false,
       updateMemory: false,
     });
     const nextSource = await fs.readFile(filePath, "utf8");
@@ -339,6 +342,46 @@ This draft explains how a blog agent can prepare frontmatter, review output and 
     await fs.rm(filePath, { force: true });
     await fs.rm(sidecarPath, { force: true });
   }
+});
+
+test("knowledge map applies series and post overrides", async () => {
+  const map = await buildKnowledgeMap({
+    postPaths: [
+      path.join(process.cwd(), "src", "data", "blog", "AscendC-part4-operator-invocation.md"),
+      path.join(process.cwd(), "src", "data", "blog", "AscendC-part5-pytorch-summary.md"),
+    ],
+    overrides: {
+      version: 1,
+      series: {
+        ascendc: {
+          id: "ascendc",
+          label: "Ascend C 算子开发",
+          order: [
+            "AscendC-part4-operator-invocation",
+            "AscendC-part5-pytorch-summary",
+          ],
+        },
+      },
+      posts: {
+        "AscendC-part5-pytorch-summary": {
+          role: "阶段总结",
+          previous: ["AscendC-part4-operator-invocation"],
+          next: [],
+          topic_neighbors: [],
+          reader_context: "这篇更适合作为系列收束篇。",
+          position_summary: "这篇更适合作为系列收束篇。",
+        },
+      },
+    },
+  });
+  const post = map.posts.find(
+    item => item.post_id === "AscendC-part5-pytorch-summary"
+  );
+
+  assert.equal(map.issues.length, 0);
+  assert.equal(post.role, "阶段总结");
+  assert.deepEqual(post.previous_posts, ["AscendC-part4-operator-invocation"]);
+  assert.equal(post.position_summary, "这篇更适合作为系列收束篇。");
 });
 
 test("code fence language inference catches common shell blocks", () => {
@@ -377,6 +420,15 @@ test("agent model meta marks heuristic reviews as non-llm", () => {
   assert.equal(meta.isLlm, false);
 });
 
+test("gemini json extraction ignores trailing commentary", () => {
+  const payload = extractJsonPayload(
+    '```json\n{"summary":"ok","public_commentary":"brace { inside string }"}\n```\n额外说明：{not json}'
+  );
+
+  assert.equal(payload.summary, "ok");
+  assert.equal(payload.public_commentary, "brace { inside string }");
+});
+
 test("home panel builder summarizes site themes and entry points", () => {
   const sidecar = buildHomePanelData([
     {
@@ -411,6 +463,17 @@ test("home panel builder summarizes site themes and entry points", () => {
       pubDatetime: "2026-03-08T00:00:00Z",
       tags: ["AscendC"],
       document: { data: { featured: false } },
+    },
+    {
+      post_id: "Draft-Agent-Experiment",
+      title: "Draft Agent Experiment",
+      description: "不应进入首页 Agent 导览。",
+      excerpt: "草稿试验文章。",
+      file_path: "src/data/blog/_agent-experiment/draft-agent-experiment.md",
+      route_path: "/posts/draft-agent-experiment",
+      pubDatetime: "2026-07-03T00:00:00Z",
+      tags: ["Agent"],
+      document: { data: { draft: true } },
     },
   ]);
 

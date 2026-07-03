@@ -1,7 +1,93 @@
 {
   "version": 1,
-  "updated_at": "2026-03-31T12:54:26.145Z",
+  "updated_at": "2026-07-07T08:00:00.033Z",
   "topics": [
+    {
+      "tag": "人工智能",
+      "category": "ai",
+      "post_ids": [
+        "ICCV25-AdaLLaVA",
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore",
+        "mindspore-03-tensor",
+        "mindspore-04-dataset",
+        "mindspore-05-construct-network",
+        "mindspore-06-functional-autodiff",
+        "mindspore-07-model-train",
+        "mindspore-extra-transformer-structure",
+        "PGStudy-EAandGA",
+        "PGStudy-Swarm-intelligence",
+        "SOSP25-ByteRobust"
+      ],
+      "latest_post_id": "SOSP25-ByteRobust",
+      "count": 12
+    },
+    {
+      "tag": "机器学习",
+      "category": "ai",
+      "post_ids": [
+        "ICCV25-AdaLLaVA",
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore",
+        "mindspore-03-tensor",
+        "mindspore-04-dataset",
+        "mindspore-05-construct-network",
+        "mindspore-06-functional-autodiff",
+        "mindspore-07-model-train",
+        "mindspore-extra-transformer-structure",
+        "PGStudy-EAandGA",
+        "PGStudy-Swarm-intelligence",
+        "SOSP25-ByteRobust"
+      ],
+      "latest_post_id": "SOSP25-ByteRobust",
+      "count": 12
+    },
+    {
+      "tag": "MindSpore",
+      "category": "custom",
+      "post_ids": [
+        "mindspore-01-install",
+        "mindspore-02-try-mindspore",
+        "mindspore-03-tensor",
+        "mindspore-04-dataset",
+        "mindspore-05-construct-network",
+        "mindspore-06-functional-autodiff",
+        "mindspore-07-model-train",
+        "mindspore-extra-transformer-structure"
+      ],
+      "latest_post_id": "mindspore-extra-transformer-structure",
+      "count": 8
+    },
+    {
+      "tag": "LLM",
+      "category": "development",
+      "post_ids": [
+        "API-Agent-Embedding-MCP-Skills",
+        "AscendC-part1-basic-concept",
+        "AscendC-part5-pytorch-summary",
+        "ICCV25-AdaLLaVA",
+        "mindspore-extra-transformer-structure",
+        "osdi22-orca",
+        "pgstudy-characterization-llm-development-datacenter"
+      ],
+      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
+      "count": 7
+    },
+    {
+      "tag": "论文阅读",
+      "category": "paper",
+      "post_ids": [
+        "ICCV25-AdaLLaVA",
+        "OSDI18-Ray",
+        "osdi22-orca",
+        "OSDI24-ServerlessLLM",
+        "pgstudy-characterization-llm-development-datacenter",
+        "SOSP24-Colloid",
+        "SOSP25-ByteRobust"
+      ],
+      "latest_post_id": "SOSP25-ByteRobust",
+      "count": 7
+    },
     {
       "tag": "c",
       "category": "course",
@@ -14,6 +100,20 @@
         "CMU-15213-ShellLab"
       ],
       "latest_post_id": "CMU-15213-ShellLab",
+      "count": 6
+    },
+    {
+      "tag": "c++",
+      "category": "development",
+      "post_ids": [
+        "algorithm-tree-palindrome-path-query",
+        "AscendC-part1-basic-concept",
+        "AscendC-part2-tiling-and-debug",
+        "AscendC-part3-operator-delivery",
+        "AscendC-part4-operator-invocation",
+        "AscendC-part5-pytorch-summary"
+      ],
+      "latest_post_id": "AscendC-part5-pytorch-summary",
       "count": 6
     },
     {
@@ -31,34 +131,6 @@
       "count": 6
     },
     {
-      "tag": "人工智能",
-      "category": "ai",
-      "post_ids": [
-        "PGStudy-EAandGA",
-        "PGStudy-Swarm-intelligence",
-        "SOSP25-ByteRobust",
-        "2026-03-28 AAAI25-MoLe-VLA",
-        "2026-03-28 ICCV25-AdaLLaVA",
-        "ICCV25-AdaLLaVA"
-      ],
-      "latest_post_id": "ICCV25-AdaLLaVA",
-      "count": 6
-    },
-    {
-      "tag": "论文阅读",
-      "category": "paper",
-      "post_ids": [
-        "OSDI18-Ray",
-        "OSDI24-ServerlessLLM",
-        "SOSP24-Colloid",
-        "SOSP25-ByteRobust",
-        "2026-03-28 ICCV25-AdaLLaVA",
-        "ICCV25-AdaLLaVA"
-      ],
-      "latest_post_id": "ICCV25-AdaLLaVA",
-      "count": 6
-    },
-    {
       "tag": "Ascend",
       "category": "development",
       "post_ids": [
@@ -69,45 +141,6 @@
         "AscendC-part5-pytorch-summary"
       ],
       "latest_post_id": "AscendC-part5-pytorch-summary",
-      "count": 5
-    },
-    {
-      "tag": "c++",
-      "category": "development",
-      "post_ids": [
-        "AscendC-part1-basic-concept",
-        "AscendC-part2-tiling-and-debug",
-        "AscendC-part3-operator-delivery",
-        "AscendC-part4-operator-invocation",
-        "AscendC-part5-pytorch-summary"
-      ],
-      "latest_post_id": "AscendC-part5-pytorch-summary",
-      "count": 5
-    },
-    {
-      "tag": "LLM",
-      "category": "development",
-      "post_ids": [
-        "AscendC-part1-basic-concept",
-        "AscendC-part5-pytorch-summary",
-        "API-Agent-Embedding-MCP-Skills",
-        "2026-03-28 ICCV25-AdaLLaVA",
-        "ICCV25-AdaLLaVA"
-      ],
-      "latest_post_id": "ICCV25-AdaLLaVA",
-      "count": 5
-    },
-    {
-      "tag": "机器学习",
-      "category": "ai",
-      "post_ids": [
-        "PGStudy-EAandGA",
-        "PGStudy-Swarm-intelligence",
-        "SOSP25-ByteRobust",
-        "2026-03-28 ICCV25-AdaLLaVA",
-        "ICCV25-AdaLLaVA"
-      ],
-      "latest_post_id": "ICCV25-AdaLLaVA",
       "count": 5
     },
     {
@@ -124,25 +157,37 @@
       "count": 5
     },
     {
-      "tag": "大模型推理",
-      "category": "paper",
-      "post_ids": [
-        "OSDI24-ServerlessLLM",
-        "2026-03-28 ICCV25-AdaLLaVA",
-        "ICCV25-AdaLLaVA"
-      ],
-      "latest_post_id": "ICCV25-AdaLLaVA",
-      "count": 3
-    },
-    {
       "tag": "OSDI",
       "category": "paper",
       "post_ids": [
         "OSDI18-Ray",
+        "osdi22-orca",
         "OSDI24-ServerlessLLM"
       ],
       "latest_post_id": "OSDI24-ServerlessLLM",
-      "count": 2
+      "count": 3
+    },
+    {
+      "tag": "分布式系统",
+      "category": "paper",
+      "post_ids": [
+        "OSDI18-Ray",
+        "osdi22-orca",
+        "pgstudy-characterization-llm-development-datacenter"
+      ],
+      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
+      "count": 3
+    },
+    {
+      "tag": "大模型推理",
+      "category": "paper",
+      "post_ids": [
+        "ICCV25-AdaLLaVA",
+        "osdi22-orca",
+        "OSDI24-ServerlessLLM"
+      ],
+      "latest_post_id": "OSDI24-ServerlessLLM",
+      "count": 3
     },
     {
       "tag": "SOSP",
@@ -205,13 +250,13 @@
       "count": 2
     },
     {
-      "tag": "进化算法",
-      "category": "ai",
+      "tag": "算法",
+      "category": "algorithm",
       "post_ids": [
-        "PGStudy-EAandGA",
-        "SOSP25-ByteRobust"
+        "Algorithm-number-theory-base",
+        "algorithm-tree-palindrome-path-query"
       ],
-      "latest_post_id": "SOSP25-ByteRobust",
+      "latest_post_id": "algorithm-tree-palindrome-path-query",
       "count": 2
     },
     {
@@ -296,12 +341,21 @@
       "count": 1
     },
     {
-      "tag": "分布式系统",
-      "category": "paper",
+      "tag": "哈希算法",
+      "category": "custom",
       "post_ids": [
-        "OSDI18-Ray"
+        "algorithm-tree-palindrome-path-query"
       ],
-      "latest_post_id": "OSDI18-Ray",
+      "latest_post_id": "algorithm-tree-palindrome-path-query",
+      "count": 1
+    },
+    {
+      "tag": "图论",
+      "category": "custom",
+      "post_ids": [
+        "algorithm-tree-palindrome-path-query"
+      ],
+      "latest_post_id": "algorithm-tree-palindrome-path-query",
       "count": 1
     },
     {
@@ -332,6 +386,15 @@
       "count": 1
     },
     {
+      "tag": "数据中心",
+      "category": "custom",
+      "post_ids": [
+        "pgstudy-characterization-llm-development-datacenter"
+      ],
+      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
+      "count": 1
+    },
+    {
       "tag": "数论",
       "category": "algorithm",
       "post_ids": [
@@ -350,15 +413,6 @@
       "count": 1
     },
     {
-      "tag": "算法",
-      "category": "algorithm",
-      "post_ids": [
-        "Algorithm-number-theory-base"
-      ],
-      "latest_post_id": "Algorithm-number-theory-base",
-      "count": 1
-    },
-    {
       "tag": "群体人工智能",
       "category": "ai",
       "post_ids": [
@@ -374,6 +428,15 @@
         "onedrive-experience-and-warnings"
       ],
       "latest_post_id": "onedrive-experience-and-warnings",
+      "count": 1
+    },
+    {
+      "tag": "进化算法",
+      "category": "ai",
+      "post_ids": [
+        "PGStudy-EAandGA"
+      ],
+      "latest_post_id": "PGStudy-EAandGA",
       "count": 1
     },
     {

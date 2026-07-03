@@ -1,0 +1,100 @@
+{
+  "post_id": "mindspore-05-construct-network",
+  "title": "MindSpore 专题：第五章、网络构建",
+  "source_path": "src/data/blog/mindspore-05-construct-network.md",
+  "route_path": "/posts/mindspore-05-construct-network",
+  "source_hash": "0cb00f4e2d96b9d2926a8164e0ac52f9cdb70511da38e4ad9b0dd2d0c19ed3f4",
+  "generated_at": "2026-07-07T07:46:18.597Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "本文作为 MindSpore 专题的核心章节，承接了前文的数据准备工作，并为后续的自动微分奠定了基石。在神经网络构建中，**nn.Cell** 是绝对的主角，类似于 PyTorch 中的 `nn.Module`，但在 MindSpore 的静态图与动态图双模运行机制下，它承载了更复杂的底层编译逻辑。\n\n尽管文章清晰地梳理了网络层和 Tensor 的基本操作，但在跨框架迁移（如从 PyTorch 转向 MindSpore）时，一些细微的 API 行为差异仍需额外留意。读者在实践时，不妨对照后续的第六章函数式自动微分，理解为什么 `nn.Cell` 在定义时要保持纯函数的行为习惯。\n\n顺便提一句，看到这里的朋友们可能已经发现，MindSpore 极力想让大家觉得它写起来像 PyTorch，但每次当你习惯性地想用某些 Python 原生魔法时，底层的静态图编译器就会默默地对你发出深情的“警告”。所以，老老实实用官方推荐的 `nn.Cell` 构建法，才是避免深夜 debug 的护身符。",
+  "related_posts": [
+    {
+      "post_id": "mindspore-04-dataset",
+      "title": "MindSpore 专题：第四章、数据集",
+      "route_path": "/posts/mindspore-04-dataset",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "mindspore-06-functional-autodiff",
+      "title": "MindSpore 专题：第六章、函数式自动微分",
+      "route_path": "/posts/mindspore-06-functional-autodiff",
+      "relation": "后续阅读"
+    }
+  ],
+  "summary": "本章深入介绍了如何利用 nn.Cell 构建神经网络。通过解析网络层和 Tensor 基础操作，引导读者掌握模型定义的核心流派，为后续的自动微分与模型训练奠定坚实基础。",
+  "structural_review": "文章结构清晰，九个标题层级分明，代码与图示搭配得当，符合循序渐进的教学逻辑。",
+  "technical_review": "技术细节准确，对 nn.Cell 和常见网络算子进行了规范的介绍。若能补充静态图模式下的语法限制说明，技术完整度会更高。",
+  "strengths": [
+    "结构清晰，循序渐进地讲解了 nn.Cell 的核心作用与基本网络层的搭建。",
+    "结合了实际的 Tensor 操作，为读者提供了开箱即用的代码示例。"
+  ],
+  "concerns": [
+    "缺少对 PyTorch 用户迁移时的常见踩坑点（如参数初始化差异）的对比提示。",
+    "对于动态图与静态图模式下 nn.Cell 运行差异的解释较为薄弱。"
+  ],
+  "action_items": [
+    "在 nn.Cell 介绍部分，建议补充一段与 PyTorch nn.Module 核心差异的对比说明。",
+    "增加一个小贴士，提醒读者在构建网络时注意静态图编译模式下的 Python 语法限制。"
+  ],
+  "severity": "warn",
+  "confidence": null,
+  "memory_refs": [
+    "series:mindspore",
+    "topic:机器学习",
+    "topic:人工智能",
+    "topic:MindSpore"
+  ],
+  "knowledge_hash": "3142482fc9190bc7f636c201dddb8eb665d5488ba8ed842191fd6e990e4c492e",
+  "knowledge_refs": [
+    "series:mindspore",
+    "topic:机器学习",
+    "topic:人工智能",
+    "topic:MindSpore"
+  ],
+  "knowledge_position": {
+    "series_id": "mindspore",
+    "series_label": "MindSpore 入门专题",
+    "role": "系列第 5 篇",
+    "previous_posts": [
+      "mindspore-04-dataset"
+    ],
+    "next_posts": [
+      "mindspore-06-functional-autodiff"
+    ],
+    "topic_neighbors": [
+      "mindspore-01-install",
+      "mindspore-02-try-mindspore",
+      "mindspore-03-tensor"
+    ],
+    "position_summary": "这篇文章位于「MindSpore 入门专题」系列中，当前角色是「系列第 5 篇」，前置文章 mindspore-04-dataset，后续文章 mindspore-06-functional-autodiff。"
+  },
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2024-08-14T19:47:58+08:00",
+  "tags_snapshot": [
+    "机器学习",
+    "人工智能",
+    "MindSpore"
+  ],
+  "hard_checks": [],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "机器学习",
+      "人工智能",
+      "MindSpore"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": []
+}

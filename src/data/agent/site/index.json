@@ -2,30 +2,30 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-03-31T12:48:48.755Z",
+  "generated_at": "2026-07-07T08:00:07.677Z",
   "run_mode": "build-home-panel",
   "provider": "gemini",
-  "model": "gemini-3.1-pro-preview",
-  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 CMU 15-213 实验、论文阅读与 AI 工程等主题，帮助访客快速理解内容主线并找到最佳阅读入口。",
-  "agent_role": "此首页 Agent 是构建期生成的静态导览员，负责概括博客主题、解释文章页 Agent Review 离线机制，并将读者引导至站内核心内容入口。",
-  "site_overview": "站点当前收录 22 篇文章，内容围绕 CMU 15-213 实验、OSDI/SOSP 论文、Agent 工程与 Ascend C 展开。最近更新是一篇 ICCV 2025 的论文阅读笔记。",
+  "model": "gemini-3.5-flash",
+  "summary": "欢迎来到 Deepcity 博客。本站聚焦 Agent/MCP/Embedding 工程、OSDI/SOSP 论文阅读、CMU 15-213 实验与系统基础及 Ascend C 算子开发等领域，旨在通过深度导览，帮助你快速获取硬核系统级与人工智能工程实践的优质内容。",
+  "agent_role": "我是本站构建时生成的静态导览员。我的主要职责是概括博客的核心技术主题、解释文章页 Agent Review 的作用机制，并引导初次到访的读者高效地探索站内最具代表性的深度内容与经典入口。",
+  "site_overview": "站点当前收录 33 篇文章，主要围绕 Agent 工程、系统论文阅读、CMU 15-213 实验和 Ascend C 展开。最新更新是《OSDI 2022 - Orca》，内容涵盖从基础课程、学术前沿到工业界 AI 基础设施的多维实践。",
   "focus_topics": [
-    "CMU 15-213 实验与系统基础",
-    "OSDI / SOSP 论文阅读",
     "Agent / MCP / Embedding 工程",
+    "OSDI / SOSP 论文阅读",
+    "CMU 15-213 实验与系统基础",
     "Ascend C 算子开发"
   ],
   "highlights": [
-    "当前已收录 22 篇文章，涵盖底层系统实验、顶会论文阅读与 AI 基础设施开发。",
-    "站点主线集中在系统基础、论文阅读与算子开发，适合按专题连续阅读。",
-    "最新发布的文章是《ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models》。",
-    "文章页的 Agent Review 来自预生成的 sidecar JSON 数据，访问时不触发任何在线请求。"
+    "站点目前已收录 33 篇硬核文章，涵盖底层系统基础到前沿大模型推理系统。",
+    "主线聚焦于 Agent 工程、OSDI/SOSP 论文阅读、CMU 经典实验及国产算子开发等多维视角。",
+    "文章页内置的 Agent Review 基于预先生成的静态数据，无需额外等待在线大模型请求。",
+    "最近更新的 Orca 论文笔记深入解析了迭代级调度与选择性批处理等大模型推理核心技术。"
   ],
   "recommended_paths": [
     {
-      "label": "最近更新：ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models",
-      "href": "/posts/iccv25-adallava",
-      "description": "由威斯康星大学麦迪逊分校（University of Wisconsin-Madison）、普渡大学（Purdue University）、香港大学（The …"
+      "label": "最近更新：OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+      "href": "/posts/osdi22-orca",
+      "description": "OSDI 2022 Orca 论文阅读笔记，梳理迭代级调度、选择性批处理与生成式模型分布式推理服务的系统设计。"
     },
     {
       "label": "CMU 15-213 实验与系统基础",
@@ -33,32 +33,32 @@
       "description": "最近相关更新是《CMU-15213-MallocLab》。"
     },
     {
-      "label": "Ascend C 算子开发",
-      "href": "/posts/ascendc-part5-pytorch-summary",
-      "description": "最近相关更新是《Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结》。"
-    },
-    {
       "label": "浏览全部文章",
       "href": "/posts/",
-      "description": "按时间线查看站内全部 22 篇文章。"
+      "description": "按时间线查看站内全部 33 篇文章。"
+    },
+    {
+      "label": "关于作者",
+      "href": "/about",
+      "description": "查看研究兴趣、背景与站点定位。"
     }
   ],
   "content_stats": {
-    "total_posts": 22,
+    "total_posts": 33,
     "featured_posts": 0,
-    "latest_post_title": "ICCV2025-Learning to Inference Adaptively for Multimodal Large Language Models",
+    "latest_post_title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
     "primary_topics": [
-      "CMU 15-213 实验与系统基础",
-      "OSDI / SOSP 论文阅读",
       "Agent / MCP / Embedding 工程",
+      "OSDI / SOSP 论文阅读",
+      "CMU 15-213 实验与系统基础",
       "Ascend C 算子开发"
     ]
   },
-  "confidence": 0.98,
+  "confidence": 0.99,
   "notes": [
     "Home panel is generated from committed blog posts and frontmatter only.",
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
     "Homepage guide was refined by Gemini from committed site data."
   ],
-  "posts_hash": "c8af8efd9257fb699d8475a6213a650218d19167b8d10d791dfadcf5945470bf"
+  "posts_hash": "537d03966e61208110b793f8af5e264c6599c996e7f3219285b97eaa2335cdaa"
 }

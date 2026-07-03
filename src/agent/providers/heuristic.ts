@@ -118,6 +118,29 @@ function buildActionItems(input, concerns) {
   return dedupeStrings(actions);
 }
 
+function buildPublicCommentary(input, concerns) {
+  const knowledge = input.knowledge;
+  const trimTerminalPunctuation = value =>
+    String(value)
+      .trim()
+      .replace(/[。.!！]+$/u, "");
+  const experimentPrefix = input.post.agentExperiment
+    ? `这篇文章被标记为 Agent 架构试验样本：${trimTerminalPunctuation(input.post.agentExperimentNote || "用于调试构建期审稿与 sidebar 旁批链路")}。\n\n`
+    : "";
+  const position = knowledge?.position_summary
+    ? `${knowledge.position_summary}`
+    : "当前没有可用的上层知识网络定位。";
+  const criticalNote =
+    concerns.length > 0
+      ? `本地规则能看到的主要问题是：${trimTerminalPunctuation(concerns.slice(0, 2).join("；"))}。`
+      : "本地规则没有发现高优先级结构问题，但它也不会替代真正的模型审稿。";
+
+  return [
+    `${experimentPrefix}本条评论由本地规则保底生成，主要用于提示 Gemini 审稿没有完成。${position}`,
+    `${criticalNote}建议之后重新运行 Gemini 版本，让 sidebar 获得更自然的公开旁批。`,
+  ].join("\n\n");
+}
+
 export function createHeuristicProvider() {
   return {
     name: "heuristic",
@@ -131,6 +154,10 @@ export function createHeuristicProvider() {
       ]);
 
       return {
+        public_commentary: buildPublicCommentary(input, concerns),
+        related_post_ids: (input.knowledge?.related_posts ?? [])
+          .slice(0, 3)
+          .map(post => post.post_id),
         summary: truncateText(
           input.post.description || input.post.excerpt || input.post.title,
           160

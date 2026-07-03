@@ -13,6 +13,7 @@ export const AGENT_DATA_DIR = "src/data/agent";
 export const AGENT_POSTS_DIR = "src/data/agent/posts";
 export const AGENT_SITE_DIR = "src/data/agent/site";
 export const AGENT_MEMORY_DIR = "src/data/agent/memory";
+export const AGENT_KNOWLEDGE_DIR = "src/data/agent/knowledge";
 
 export const GLOBAL_RULES_PATH = path.join(MEMORY_ROOT, "global.json");
 export const SERIES_MEMORY_PATH = path.join(MEMORY_ROOT, "series.json");
@@ -20,6 +21,12 @@ export const TOPIC_MEMORY_PATH = path.join(MEMORY_ROOT, "topics.json");
 export const NEGATIVE_MEMORY_PATH = path.join(
   MEMORY_ROOT,
   "negative-patterns.json"
+);
+export const KNOWLEDGE_ROOT = path.join(AGENT_ROOT, "knowledge");
+export const KNOWLEDGE_MAP_PATH = path.join(KNOWLEDGE_ROOT, "map.json");
+export const KNOWLEDGE_OVERRIDES_PATH = path.join(
+  KNOWLEDGE_ROOT,
+  "overrides.yml"
 );
 export const CONTENT_SCHEMA_PATH = path.join(
   REPO_ROOT,
@@ -46,6 +53,8 @@ export const FRONTMATTER_FIELD_ORDER = [
   "description",
   "slug",
   "draft",
+  "agentExperiment",
+  "agentExperimentNote",
   "featured",
   "tags",
   "author",
@@ -63,6 +72,6 @@ export const SAFE_FIX_CODES = new Set([
   "missing-code-language",
 ]);
 
-export const DEFAULT_MODEL = "gemini-3.1-pro-preview";
+export const DEFAULT_MODEL = "gemini-3.5-flash";
 export const DEFAULT_PROVIDER = "auto";
 export const DEFAULT_RUN_MODE = "cli";

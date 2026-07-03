@@ -1,0 +1,53 @@
+# Blog Agent knowledge overrides
+# 这里只写明显需要人工纠错的例外；没写的部分全部由 Agent 自动推断。
+#
+# 示例：
+#
+# series:
+#   ascendc:
+#     label: "Ascend C 算子开发"
+#     order:
+#       - "AscendC-part1-basic-concept"
+#       - "AscendC-part2-tiling-and-debug"
+#
+# posts:
+#   AscendC-part5-pytorch-summary:
+#     role: "阶段总结"
+#     previous:
+#       - "AscendC-part4-operator-invocation"
+#     reader_context: "这篇更适合作为系列收束篇，而不是入门篇。"
+
+version: 1
+series:
+  mindspore:
+    label: "MindSpore 入门专题"
+    order:
+      - "mindspore-01-install"
+      - "mindspore-02-try-mindspore"
+      - "mindspore-03-tensor"
+      - "mindspore-04-dataset"
+      - "mindspore-05-construct-network"
+      - "mindspore-06-functional-autodiff"
+      - "mindspore-07-model-train"
+      - "mindspore-extra-transformer-structure"
+posts:
+  mindspore-01-install:
+    series_id: "mindspore"
+    role: "系列开篇"
+  mindspore-02-try-mindspore:
+    series_id: "mindspore"
+  mindspore-03-tensor:
+    series_id: "mindspore"
+  mindspore-04-dataset:
+    series_id: "mindspore"
+  mindspore-05-construct-network:
+    series_id: "mindspore"
+  mindspore-06-functional-autodiff:
+    series_id: "mindspore"
+  mindspore-07-model-train:
+    series_id: "mindspore"
+    role: "阶段总结"
+  mindspore-extra-transformer-structure:
+    series_id: "mindspore"
+    role: "番外补充"
+    reader_context: "这篇更像 MindSpore 学习路径旁边的模型结构补课，不应被当作主线第八章。"
