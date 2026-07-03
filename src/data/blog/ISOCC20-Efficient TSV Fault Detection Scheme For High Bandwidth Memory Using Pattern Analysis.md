@@ -1,5 +1,5 @@
 ---
-title: "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis#"
+title: "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
 pubDatetime: 2026-03-21T09:52:22Z
 description: "高带宽内存（High Bandwidth Memory，HBM）的通道可以通过 128 个数据硅通孔（Through-Silicon Via，TSV）和 16…"
 slug: "isocc20-efficient-tsv-fault-detection-scheme-for-high-bandwidth-memory-using-pattern-analysis"
@@ -10,9 +10,7 @@ author: "Deepcity"
 timezone: "Asia/Shanghai"
 ---
 
-## ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis#
-
-### Backgroud
+## Background
 
 ![TSV-ECC](https://files.seeusercontent.com/2026/03/19/d8oC/20260319135651.png)
 
@@ -34,7 +32,7 @@ timezone: "Asia/Shanghai"
 
 常规 ECC 将无法纠正从第三个符号错误（符号 4）开始的错误。然而，基于擦除的纠错码（erasure based ECC）可以纠正此问题 [5]。如图 1 (b) 所示，即使符号 4 存在额外的软错误（soft error），由于能够使用擦除纠正模式（erasure correction mode），错误纠正依然可行。为了使用擦除技术，必须预先获知故障 TSV（TSV 34 和 36）的位置。
 
-### implement
+## Implementation
 
 ![Flow chart](https://files.seeusercontent.com/2026/03/19/Ffi0/20260319141849.png)
 
@@ -42,7 +40,7 @@ timezone: "Asia/Shanghai"
 
 通过该方案，在极端情况下，**最多可纠正 6 个硬故障或 3 个符号错误。在软错误情况下，纠正方法与普通 ECC 相同。**
 
-### The Summary
+## Summary
 
 ![result](https://files.seeusercontent.com/2026/03/19/C1qj/20260319142409.png)
 

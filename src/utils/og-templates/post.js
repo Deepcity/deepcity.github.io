@@ -94,6 +94,10 @@ import loadGoogleFonts from "../loadGoogleFont";
 //     </div>`;
 
 export default async post => {
+  const title = post.data.title.replace(/\s*#+\s*$/, "").trim();
+  const titleLength = Array.from(title).length;
+  const titleFontSize = titleLength > 86 ? 52 : titleLength > 68 ? 58 : 72;
+
   return satori(
     {
       type: "div",
@@ -155,12 +159,14 @@ export default async post => {
                       type: "p",
                       props: {
                         style: {
-                          fontSize: 72,
+                          fontSize: titleFontSize,
                           fontWeight: "bold",
+                          lineHeight: 1.05,
                           maxHeight: "84%",
                           overflow: "hidden",
+                          overflowWrap: "break-word",
                         },
-                        children: post.data.title,
+                        children: title,
                       },
                     },
                     {
@@ -221,9 +227,7 @@ export default async post => {
       width: 1200,
       height: 630,
       embedFont: true,
-      fonts: await loadGoogleFonts(
-        post.data.title + post.data.author + SITE.title + "by"
-      ),
+      fonts: await loadGoogleFonts(title + post.data.author + SITE.title + "by"),
     }
   );
 };
