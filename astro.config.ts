@@ -7,6 +7,7 @@ import remarkCollapse from "remark-collapse";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
+import rehypeAlerts from "./src/utils/rehype/rehype-alerts.mjs";
 import rehypeImageAttributes from "./src/utils/rehype/rehype-image-attributes.mjs";
 import {
   transformerNotationDiff,
@@ -32,7 +33,7 @@ export default defineConfig({
       remarkToc,
       [remarkCollapse, { test: "Table of contents" }],
     ],
-    rehypePlugins: [rehypeKatex, rehypeImageAttributes],
+    rehypePlugins: [rehypeKatex, rehypeAlerts, rehypeImageAttributes],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "min-light", dark: "night-owl" },
