@@ -26,7 +26,6 @@ title: "关于我"
 ## 🔗 链接
 
 - GitHub: [github.com/Deepcity](https://github.com/Deepcity)
-- 旧博客备份: [blog.keboe.cn](https://blog.keboe.cn)
 - Email: [f1159472899@163.com](mailto:f1159472899@163.com)
 
 ## 🛠️ 技术栈
