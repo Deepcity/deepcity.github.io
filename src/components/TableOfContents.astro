@@ -7,18 +7,21 @@ interface Heading {
 
 interface Props {
   headings: Heading[];
+  class?: string;
 }
 
-const { headings } = Astro.props;
+const { headings, class: className = "" } = Astro.props;
 
 const toc = headings.filter(({ depth }) => depth >= 2 && depth <= 4);
 ---
 
 {
   toc.length > 0 && (
-    <nav id="toc" aria-label="目录">
-      <p class="mb-3 text-sm font-semibold text-foreground">目录</p>
-      <ul class="space-y-1 text-sm">
+    <nav id="toc" aria-label="目录" class:list={["min-h-0", className]}>
+      <p class="mb-3 text-sm font-semibold text-foreground lg:flex-none">
+        目录
+      </p>
+      <ul class="space-y-1 text-sm lg:min-h-0 lg:overflow-y-auto lg:overscroll-contain lg:pr-1">
         {toc.map(({ depth, slug, text }) => (
           <li>
             <a
@@ -55,6 +58,9 @@ const toc = headings.filter(({ depth }) => depth >= 2 && depth <= 4);
         l.classList.toggle("text-accent", isActive);
         l.classList.toggle("font-medium", isActive);
         l.classList.toggle("text-foreground/50", !isActive);
+        if (isActive) {
+          l.scrollIntoView({ block: "nearest", inline: "nearest" });
+        }
       });
     };
 

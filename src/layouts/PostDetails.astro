@@ -39,6 +39,7 @@ const {
 } = post.data;
 
 const { Content, headings } = await render(post);
+const hasToc = headings.some(({ depth }) => depth >= 2 && depth <= 4);
 const agentSidecar = post.filePath
   ? await loadAgentSidecar(post.filePath)
   : null;
@@ -98,7 +99,7 @@ const nextPost =
   >
     <h1
       transition:name={slugifyStr(title.replaceAll(".", "-"))}
-      class="block max-w-full text-2xl font-bold text-accent break-words sm:text-3xl"
+      class="block max-w-full text-2xl font-bold break-words text-accent sm:text-3xl"
     >
       {title}
     </h1>
@@ -125,15 +126,20 @@ const nextPost =
 
       <aside
         data-pagefind-ignore
-        class="space-y-6 lg:sticky lg:top-24"
+        class="space-y-6 lg:sticky lg:top-24 lg:flex lg:h-[calc(100svh-7rem)] lg:flex-col lg:gap-4 lg:space-y-0 lg:overflow-hidden"
         aria-label="文章辅助信息"
       >
-        <div
-          class="rounded-2xl border border-border bg-background/65 p-5 backdrop-blur-sm"
-        >
-          <TableOfContents headings={headings} />
-        </div>
-        <AgentPanel sidecar={agentSidecar} />
+        {
+          hasToc && (
+            <div class="rounded-2xl border border-border bg-background/65 p-5 backdrop-blur-sm lg:flex-none">
+              <TableOfContents
+                headings={headings}
+                class="lg:flex lg:max-h-[min(18rem,32svh)] lg:flex-col lg:overflow-hidden"
+              />
+            </div>
+          )
+        }
+        <AgentPanel sidecar={agentSidecar} class="lg:min-h-0 lg:flex-1" />
       </aside>
     </div>
 
