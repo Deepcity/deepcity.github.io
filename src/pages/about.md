@@ -2,7 +2,6 @@
 layout: ../layouts/AboutLayout.astro
 title: "关于我"
 ---
-
 ## 👋 嗨，我是 Deepcity
 
 一名计算机科学学习者与开发者，热衷于探索系统软件与 AI 基础设施的交叉领域。
@@ -26,10 +25,10 @@ title: "关于我"
 ## 🔗 链接
 
 - GitHub: [github.com/Deepcity](https://github.com/Deepcity)
-- Email: [f1159472899@163.com](mailto:f1159472899@163.com)
+- Email: [s](mailto:f1159472899@163.com)unga456@126.com
 
 ## 🛠️ 技术栈
 
-本站使用 [Astro](https://astro.build/) + [AstroPaper](https://github.com/satnaing/astro-paper) 主题搭建，部署于 GitHub Pages。
+本站使用 [Astro](https://astro.build/) + [AstroPaper](https://github.com/satnaing/astro-paper) 主题搭建，Github Action部署于 GitHub Pages。
 
 支持的功能：暗色/亮色模式、标签分类、全文搜索、RSS 订阅、KaTeX 数学公式、Giscus 评论。
