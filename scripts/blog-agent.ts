@@ -13,6 +13,7 @@ import {
   refreshKnowledgeMap,
 } from "../src/agent/core/knowledge.js";
 import { runSyncWorkflow } from "../src/agent/core/sync.js";
+import { runVisualCheck } from "../src/agent/core/visual-check.js";
 import { BLOG_ROOT } from "../src/agent/shared/constants.js";
 import { listMarkdownFiles, writeJson } from "../src/agent/shared/fs.js";
 import { getChangedPostPaths } from "../src/agent/shared/git.js";
@@ -43,8 +44,10 @@ function parseArgs(rawArgs) {
     "--generate-frontmatter",
     "--help",
     "--no-fix",
+    "--no-build",
     "--no-generate-frontmatter",
     "--refresh-knowledge",
+    "--skip-gemini",
     "--allow-unsafe-fixes",
   ]);
 
@@ -92,6 +95,9 @@ function printUsage() {
   );
   writeStdout("  node scripts/blog-agent.js build-panel <post|--changed|--all>");
   writeStdout("  node scripts/blog-agent.js build-home-panel");
+  writeStdout(
+    "  node scripts/blog-agent.js visual-check [--no-build] [--skip-gemini] [--route /posts/example]"
+  );
   writeStdout("  node scripts/blog-agent.js refresh-knowledge");
   writeStdout("  node scripts/blog-agent.js check-knowledge");
   writeStdout("  node scripts/blog-agent.js refresh-memory all");
@@ -109,6 +115,7 @@ function resolveCommand(parsed) {
     "check-knowledge",
     "refresh-memory",
     "refresh-knowledge",
+    "visual-check",
   ]);
 
   if (parsed.flags.get("--check")) {
@@ -293,6 +300,49 @@ function printHomePanelResult(result) {
   );
 }
 
+function parseViewport(value) {
+  if (!value) {
+    return undefined;
+  }
+
+  const match = String(value).match(/^(\d+)x(\d+)$/u);
+
+  if (!match) {
+    throw new Error("--viewport must use WIDTHxHEIGHT, for example 1440x1200");
+  }
+
+  return {
+    width: Number(match[1]),
+    height: Number(match[2]),
+  };
+}
+
+function printVisualCheckReport(result) {
+  writeStdout(
+    `[agent] visual check: pages=${result.summary.page_count} screenshots=${result.summary.screenshot_count} reviewed=${result.summary.reviewed_count} severity=${result.summary.highest_severity} issues=${result.summary.issue_count}`
+  );
+  writeStdout(`[agent] visual manifest: ${result.manifest_path}`);
+
+  if (result.notes?.length > 0) {
+    writeStdout(`  note: ${result.notes[0]}`);
+  }
+
+  const pagesWithIssues = result.pages
+    .map(page => ({
+      page,
+      issues: [...(page.hard_checks ?? []), ...(page.review?.issues ?? [])],
+    }))
+    .filter(item => item.issues.length > 0)
+    .slice(0, 8);
+
+  for (const item of pagesWithIssues) {
+    const firstIssue = item.issues[0];
+    writeStdout(
+      `- ${item.page.route_path} [${firstIssue.severity}] ${firstIssue.code}: ${firstIssue.message}`
+    );
+  }
+}
+
 async function maybeWriteReport(report, reportFile) {
   if (!reportFile) {
     return;
@@ -324,6 +374,7 @@ async function main() {
       "check-knowledge",
       "refresh-memory",
       "refresh-knowledge",
+      "visual-check",
     ].includes(
       command
     )
@@ -351,6 +402,46 @@ async function main() {
     writeStdout(
       `[agent] refreshed knowledge map: posts=${result.post_count} series=${result.series_count} issues=${result.issue_count} sidecar=${result.sidecar_path}`
     );
+    await maybeWriteReport(report, reportFile);
+    return;
+  }
+
+  if (command === "visual-check") {
+    const result = await runVisualCheck({
+      build: parsed.flags.get("--no-build") !== true,
+      provider: parsed.flags.get("--provider") ?? "auto",
+      model: parsed.flags.get("--model"),
+      skipGemini: parsed.flags.get("--skip-gemini") === true,
+      maxPages: parsed.flags.get("--max-pages"),
+      route: parsed.flags.get("--route"),
+      runId: parsed.flags.get("--run-id"),
+      timeoutMs: parsed.flags.get("--timeout-ms"),
+      geminiTimeoutMs: parsed.flags.get("--gemini-timeout-ms"),
+      viewport: parseViewport(parsed.flags.get("--viewport")),
+    });
+    const report = {
+      generated_at: new Date().toISOString(),
+      summary: {
+        command,
+        ...result.summary,
+        manifest_path: result.manifest_path,
+        latest_path: result.latest_path,
+      },
+      results: result.pages,
+      visual: {
+        run_id: result.run_id,
+        provider: result.provider,
+        model: result.model,
+        degraded: result.degraded,
+        degraded_reason: result.degraded_reason,
+        manifest_path: result.manifest_path,
+        latest_path: result.latest_path,
+        screenshot_root: result.screenshot_root,
+        notes: result.notes,
+      },
+    };
+
+    printVisualCheckReport(result);
     await maybeWriteReport(report, reportFile);
     return;
   }

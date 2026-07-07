@@ -1,0 +1,90 @@
+{
+  "generated_at": "2026-07-07T16:15:25.436Z",
+  "run_id": "gemini-timeout-smoke",
+  "run_mode": "visual-check",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "degraded": true,
+  "degraded_reason": null,
+  "build": {
+    "ran": false,
+    "command": null
+  },
+  "dist_root": "dist",
+  "route_filter": "/about",
+  "visual_font": {
+    "cjk": {
+      "available": true,
+      "source": "cache",
+      "path": "/tmp/astro-agent-visual-fonts/NotoSansCJKsc-Regular.otf",
+      "error": null
+    },
+    "cjk_bold": {
+      "available": true,
+      "source": "cache",
+      "path": "/tmp/astro-agent-visual-fonts/NotoSansCJKsc-Bold.otf",
+      "error": null
+    },
+    "emoji": {
+      "available": true,
+      "source": "cache",
+      "path": "/tmp/astro-agent-visual-fonts/NotoColorEmoji.ttf",
+      "error": null
+    }
+  },
+  "screenshot_root": "src/data/agent/visual/runs/gemini-timeout-smoke/screenshots",
+  "viewport": {
+    "width": 1440,
+    "height": 1200
+  },
+  "gemini_timeout_ms": 12000,
+  "summary": {
+    "page_count": 1,
+    "screenshot_count": 1,
+    "reviewed_count": 0,
+    "issue_count": 1,
+    "error_count": 0,
+    "warn_count": 1,
+    "highest_severity": "warn"
+  },
+  "notes": [
+    "Gemini visual review failed for /about: Gemini request failed via fetch (fetch failed) and curl (curl: (28) Operation timed out after 12000 milliseconds with 0 bytes received)"
+  ],
+  "pages": [
+    {
+      "page_id": "about",
+      "route_path": "/about",
+      "html_path": "dist/about/index.html",
+      "url": "http://127.0.0.1:41265/about",
+      "title": "关于我 | Deepcity's Blog",
+      "capture_ok": true,
+      "screenshot_path": "src/data/agent/visual/runs/gemini-timeout-smoke/screenshots/about.png",
+      "screenshot_bytes": 151900,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "page_metrics": {
+        "title": "关于我 | Deepcity's Blog",
+        "scroll_width": 1440,
+        "scroll_height": 1313,
+        "viewport_width": 1440,
+        "viewport_height": 1200,
+        "broken_images": []
+      },
+      "browser_errors": {
+        "console": [],
+        "page": []
+      },
+      "hard_checks": [
+        {
+          "code": "gemini-visual-review-failed",
+          "severity": "warn",
+          "message": "Gemini 视觉审查失败：Gemini request failed via fetch (fetch failed) and curl (curl: (28) Operation timed out after 12000 milliseconds with 0 bytes received)",
+          "fixable": false
+        }
+      ],
+      "review": null
+    }
+  ]
+}

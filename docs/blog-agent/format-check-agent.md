@@ -9,6 +9,7 @@
 1. 基于真实 schema 检查 frontmatter 必填项。
 2. 检查 Markdown 基础结构问题。
 3. 自动修复安全且机械的问题。
+4. 在显式 visual lint 中归档页面截图，并用 Gemini 多模态做基础显示纠错。
 
 它不负责：
 
@@ -153,3 +154,35 @@ Markdown 结构分析在 [`src/agent/markdown.ts`](/home/deepc/deepcity.github.i
 - 代码块语言推断是启发式规则，不保证 100% 正确。
 - 裸 URL 只报建议，不自动替换成 Markdown 链接。
 - 不会检查外链是否可达。
+
+## 9. Visual lint
+
+`visual-check` 会先构建站点，再从 `dist/**/*.html` 枚举所有静态页面路由，逐页生成完整页面截图。
+
+```bash
+./agent visual-check
+```
+
+输出归档：
+
+- `src/data/agent/visual/runs/<runId>/screenshots/*.png`
+- `src/data/agent/visual/runs/<runId>/manifest.json`
+- `src/data/agent/visual/latest.json`
+
+检查分两层：
+
+- 本地浏览器规则：HTTP 状态、页面脚本错误、console error、横向溢出、坏图。
+- Gemini 多模态：基于完整截图检查遮挡、截断、对比度、异常留白、导航/正文/页脚碰撞等显示问题，并输出 `suggested_adjustments`。
+
+如果没有 `GEMINI_API_KEY`，命令仍会保存截图和 manifest，但会把结果标记为 degraded。
+
+常用排障参数：
+
+```bash
+./agent visual-check --no-build
+./agent visual-check --skip-gemini
+./agent visual-check --max-pages 5
+./agent visual-check --route /posts/example
+./agent visual-check --gemini-timeout-ms 12000
+./agent visual-check --viewport 390x1200
+```

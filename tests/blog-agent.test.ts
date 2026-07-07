@@ -11,6 +11,12 @@ import { parseMarkdownDocument, stringifyMarkdownDocument } from "../src/agent/p
 import { analyzeMarkdownBody } from "../src/agent/parsers/markdown.js";
 import { applyHomePanelGuide, buildHomePanelData } from "../src/agent/core/home-panel.js";
 import { buildKnowledgeMap } from "../src/agent/core/knowledge.js";
+import {
+  collectStaticHtmlRoutes,
+  filterStaticHtmlRoutes,
+  routeToVisualArtifactName,
+  sanitizeVisualReview,
+} from "../src/agent/core/visual-check.js";
 import { inferCodeFenceLanguage } from "../src/agent/parsers/markdown.js";
 import { inferAgentModelMeta } from "../src/agent/model-meta.js";
 import { extractJsonPayload } from "../src/agent/providers/gemini.js";
@@ -427,6 +433,100 @@ test("gemini json extraction ignores trailing commentary", () => {
 
   assert.equal(payload.summary, "ok");
   assert.equal(payload.public_commentary, "brace { inside string }");
+});
+
+test("visual check route discovery maps built html files to site routes", async () => {
+  const root = path.join(
+    process.cwd(),
+    ".tmp",
+    `visual-routes-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  );
+
+  await fs.mkdir(path.join(root, "about"), { recursive: true });
+  await fs.mkdir(path.join(root, "posts", "agent-notes"), {
+    recursive: true,
+  });
+  await fs.writeFile(path.join(root, "index.html"), "<html></html>", "utf8");
+  await fs.writeFile(path.join(root, "404.html"), "<html></html>", "utf8");
+  await fs.writeFile(
+    path.join(root, "about", "index.html"),
+    "<html></html>",
+    "utf8"
+  );
+  await fs.writeFile(
+    path.join(root, "posts", "agent-notes", "index.html"),
+    "<html></html>",
+    "utf8"
+  );
+
+  try {
+    const routes = await collectStaticHtmlRoutes(root);
+
+    assert.deepEqual(
+      routes.map(route => route.route_path),
+      ["/", "/404", "/about", "/posts/agent-notes"]
+    );
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test("visual check artifact names are stable ascii path keys", () => {
+  assert.equal(routeToVisualArtifactName("/"), "index");
+  assert.equal(routeToVisualArtifactName("/tags/c++"), "tags__c~2B~2B");
+  assert.match(routeToVisualArtifactName("/tags/机器学习"), /^[\x00-\x7F]+$/u);
+});
+
+test("visual check route filter selects explicit routes", () => {
+  const routes = [
+    { route_path: "/", html_path: "dist/index.html" },
+    { route_path: "/about", html_path: "dist/about/index.html" },
+    {
+      route_path: "/posts/image-heavy",
+      html_path: "dist/posts/image-heavy/index.html",
+    },
+  ];
+
+  assert.deepEqual(
+    filterStaticHtmlRoutes(routes, "posts/image-heavy").map(
+      route => route.route_path
+    ),
+    ["/posts/image-heavy"]
+  );
+  assert.deepEqual(
+    filterStaticHtmlRoutes(routes, "/about,/").map(route => route.route_path),
+    ["/", "/about"]
+  );
+  assert.throws(() => filterStaticHtmlRoutes(routes, "/missing"), /No static/);
+});
+
+test("visual review sanitizer keeps bounded display issues", () => {
+  const review = sanitizeVisualReview(
+    {
+      route_path: "/about",
+      summary: "页面整体正常。",
+      severity: "info",
+      confidence: 0.91,
+      issues: [
+        {
+          code: "visual-overlap",
+          severity: "warn",
+          message: "页脚文字与上一段内容距离过近。",
+          region: "footer",
+          selector_hint: "footer",
+          confidence: 0.84,
+        },
+      ],
+      action_items: ["检查页脚上边距。"],
+      suggested_adjustments: ["为 footer 增加更稳定的 block spacing。"],
+    },
+    { route_path: "/fallback" }
+  );
+
+  assert.equal(review.route_path, "/about");
+  assert.equal(review.severity, "warn");
+  assert.equal(review.issues[0].code, "visual-overlap");
+  assert.deepEqual(review.action_items, ["检查页脚上边距。"]);
 });
 
 test("home panel builder summarizes site themes and entry points", () => {

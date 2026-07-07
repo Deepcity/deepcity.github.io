@@ -1,4 +1,5 @@
 // @ts-nocheck
+import fs from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { DEFAULT_MODEL } from "../shared/constants.js";
 import { dedupeStrings, roundConfidence } from "../shared/utils.js";
@@ -22,14 +23,14 @@ function findJsonObject(text) {
         escaped = false;
       } else if (char === "\\") {
         escaped = true;
-      } else if (char === "\"") {
+      } else if (char === '"') {
         inString = false;
       }
 
       continue;
     }
 
-    if (char === "\"") {
+    if (char === '"') {
       inString = true;
       continue;
     }
@@ -172,18 +173,23 @@ function buildPrompt(input, context) {
   ].join("\n");
 }
 
-function buildTextRequestPayload(prompt) {
+function buildRequestPayload(parts, generationConfig = {}) {
   return JSON.stringify({
     generationConfig: {
       responseMimeType: "application/json",
+      ...generationConfig,
     },
     contents: [
       {
         role: "user",
-        parts: [{ text: prompt }],
+        parts,
       },
     ],
   });
+}
+
+function buildTextRequestPayload(prompt) {
+  return buildRequestPayload([{ text: prompt }]);
 }
 
 function formatError(error) {
@@ -199,6 +205,15 @@ function formatError(error) {
   const cause = error.cause?.message;
 
   return cause && cause !== message ? `${message}; cause: ${cause}` : message;
+}
+
+function isTimeoutError(error) {
+  const name = String(error?.name ?? "");
+  const message = String(error?.message ?? error ?? "");
+
+  return (
+    name === "AbortError" || /timed out|timeout|aborted|abort/iu.test(message)
+  );
 }
 
 export function resolveGeminiConfig(options = {}) {
@@ -221,14 +236,20 @@ export async function requestGeminiJson(options = {}) {
   }
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${gemini.model}:generateContent?key=${gemini.apiKey}`;
-  const body = buildTextRequestPayload(String(options.prompt ?? ""));
+  const body = options.parts
+    ? buildRequestPayload(options.parts, options.generationConfig)
+    : buildTextRequestPayload(String(options.prompt ?? ""));
   let payload;
 
   try {
-    payload = await requestWithFetch(url, body);
+    payload = await requestWithFetch(url, body, options.timeoutMs);
   } catch (fetchError) {
+    if (isTimeoutError(fetchError)) {
+      throw new Error(`Gemini request timed out: ${formatError(fetchError)}`);
+    }
+
     try {
-      payload = await requestWithCurl(url, body);
+      payload = await requestWithCurl(url, body, options.timeoutMs);
     } catch (curlError) {
       throw new Error(
         `Gemini request failed via fetch (${formatError(fetchError)}) and curl (${formatError(curlError)})`
@@ -248,14 +269,62 @@ export async function requestGeminiJson(options = {}) {
   return extractJsonPayload(text);
 }
 
-async function requestWithFetch(url, body) {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+export async function requestGeminiImageJson(options = {}) {
+  const imagePath = String(options.imagePath ?? "");
+
+  if (!imagePath) {
+    throw new Error("imagePath is required for Gemini image review");
+  }
+
+  const imageBytes = await fs.readFile(imagePath);
+  const mimeType = options.mimeType ?? "image/png";
+  const parts = [
+    { text: String(options.prompt ?? "") },
+    {
+      inline_data: {
+        mime_type: mimeType,
+        data: imageBytes.toString("base64"),
+      },
     },
-    body,
+  ];
+
+  return requestGeminiJson({
+    apiKey: options.apiKey,
+    model: options.model,
+    parts,
+    generationConfig: options.generationConfig,
+    timeoutMs: options.timeoutMs,
   });
+}
+
+async function requestWithFetch(url, body, timeoutMs) {
+  const controller = new AbortController();
+  const timeout = Number(
+    timeoutMs ?? process.env.BLOG_AGENT_GEMINI_TIMEOUT_MS ?? 45000
+  );
+  const timeoutId =
+    timeout > 0
+      ? setTimeout(() => {
+          controller.abort();
+        }, timeout)
+      : null;
+
+  let response;
+
+  try {
+    response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+      signal: controller.signal,
+    });
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
 
   if (!response.ok) {
     const detail = (await response.text().catch(() => "")).trim();
@@ -267,8 +336,11 @@ async function requestWithFetch(url, body) {
   return response.json();
 }
 
-function requestWithCurl(url, body) {
+function requestWithCurl(url, body, timeoutMs) {
   return new Promise((resolve, reject) => {
+    const timeout = Number(
+      timeoutMs ?? process.env.BLOG_AGENT_GEMINI_TIMEOUT_MS ?? 45000
+    );
     const child = spawn(
       "curl",
       [
@@ -276,6 +348,8 @@ function requestWithCurl(url, body) {
         "--show-error",
         "--fail-with-body",
         "--location",
+        "--max-time",
+        String(Math.max(1, Math.ceil(timeout / 1000))),
         "--request",
         "POST",
         "--header",
@@ -291,6 +365,17 @@ function requestWithCurl(url, body) {
 
     let stdout = "";
     let stderr = "";
+    let settled = false;
+    const timeoutId =
+      timeout > 0
+        ? setTimeout(() => {
+            settled = true;
+            child.kill("SIGTERM");
+            reject(
+              new Error(`Gemini curl request timed out after ${timeout}ms`)
+            );
+          }, timeout + 1000)
+        : null;
 
     child.stdout.on("data", chunk => {
       stdout += chunk.toString();
@@ -301,10 +386,25 @@ function requestWithCurl(url, body) {
     });
 
     child.on("error", error => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       reject(error);
     });
 
     child.on("close", code => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
       if (code !== 0) {
         reject(
           new Error(

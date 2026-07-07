@@ -11,6 +11,15 @@ type Props = {
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
 const { title, description, ...props } = data;
+
+function stripInlineMarkdown(value: string) {
+  return value
+    .replace(/!\[([^\]]*)\]\([^)]*\)/gu, "$1")
+    .replace(/\[([^\]]+)\]\([^)]*\)/gu, "$1")
+    .replace(/(\*\*|__)(.*?)\1/gu, "$2")
+    .replace(/(\*|_)(.*?)\1/gu, "$2")
+    .replace(/`([^`]+)`/gu, "$1");
+}
 ---
 
 <li class="my-6">
@@ -29,5 +38,5 @@ const { title, description, ...props } = data;
     </Heading>
   </a>
   <Datetime {...props} />
-  <p>{description}</p>
+  <p>{stripInlineMarkdown(description)}</p>
 </li>
