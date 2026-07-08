@@ -58,9 +58,6 @@ const toc = headings.filter(({ depth }) => depth >= 2 && depth <= 4);
         l.classList.toggle("text-accent", isActive);
         l.classList.toggle("font-medium", isActive);
         l.classList.toggle("text-foreground/50", !isActive);
-        if (isActive) {
-          l.scrollIntoView({ block: "nearest", inline: "nearest" });
-        }
       });
     };
 
