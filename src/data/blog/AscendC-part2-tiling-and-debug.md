@@ -94,10 +94,7 @@ extern "C" __global__ __aicore__ void sinh_custom(GM_ADDR x, GM_ADDR y, GM_ADDR 
 
 主要流程
 
-```mermaid
-flowchart TD
-	A[设计Tiling结构体] --> B[实现Tiling解析函数] --> C[核函数中调用Tiling结构体]
-```
+设计 Tiling 结构体 -> 实现 Tiling 解析函数 -> 在核函数中调用 Tiling 结构体。
 
 > Tiling结构体中的信息
 >
@@ -179,4 +176,3 @@ this->tileLength = this.blockLength / tileNum /BUFFER_NUM;
 
 1. Huawei docs(W3)
 1. Huawei ilearning
-1.

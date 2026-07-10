@@ -228,7 +228,7 @@ kernel_name<<<blockDim, l2ctrl, stream>>>(argument list);
 ## REF
 
 1. Huawei docs (W3)
-2. [【CANN训练营】Ascend算子开发入门笔记-云社区-华为云](https://bbs.huaweicloud.com/blogs/412456#:~:text=0级丰富功能计算API，可以完整发挥硬件优势的计算API，该功能可以充分发挥CANN系列芯片的强大指令%2C支持对每个操作数的repeattimes%2Crepetstride%2CMASK的操作。,调用类似：Add (dst%2Csrc1%2Csrc2%2CrepeatTimes%2CrepeatParams)%3B)
+2. [【CANN训练营】Ascend算子开发入门笔记-云社区-华为云](<https://bbs.huaweicloud.com/blogs/412456#:~:text=0级丰富功能计算API，可以完整发挥硬件优势的计算API，该功能可以充分发挥CANN系列芯片的强大指令%2C支持对每个操作数的repeattimes%2Crepetstride%2CMASK的操作。,调用类似：Add (dst%2Csrc1%2Csrc2%2CrepeatTimes%2CrepeatParams)%3B>)
 3. [基本架构-CANN社区版8.2.RC1.alpha001-昇腾社区](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/82RC1alpha001/opdevg/Ascendcopdevg/atlas_ascendc_10_0008.html)
 4. [(99+ 封私信 / 80 条消息) Ascend C算子开发（入门）笔记一：基础概念 - 知乎](https://zhuanlan.zhihu.com/p/687100816)
 5. [GEMM类算子调优-昇腾社区](https://www.hiascend.com/developer/courses/detail/1925473416036966402)

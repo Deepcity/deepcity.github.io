@@ -1,0 +1,721 @@
+{
+  "generated_at": "2026-07-09T08:07:10.297Z",
+  "run_id": "latex-auto-fix-2026-07-09",
+  "run_mode": "visual-check",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "review_mode": "all",
+  "visual_review_prompt_version": "visual-review-v1",
+  "review_cache": {
+    "base_run_id": null,
+    "base_manifest_path": null
+  },
+  "degraded": true,
+  "degraded_reason": null,
+  "build": {
+    "ran": false,
+    "command": null
+  },
+  "dist_root": "dist",
+  "dist_asset_sha256": "8b24c90cd61935097f94f36e236c14d0da5249bdd60609d0f6e0f0beb8a56e9a",
+  "route_filter": "/posts/cmu-15213-malloclab,/posts/mindspore-06-functional-autodiff",
+  "visual_font": {
+    "cjk": {
+      "available": true,
+      "source": "cache",
+      "path": "/tmp/astro-agent-visual-fonts/NotoSansCJKsc-Regular.otf",
+      "error": null
+    },
+    "cjk_bold": {
+      "available": true,
+      "source": "cache",
+      "path": "/tmp/astro-agent-visual-fonts/NotoSansCJKsc-Bold.otf",
+      "error": null
+    },
+    "emoji": {
+      "available": true,
+      "source": "cache",
+      "path": "/tmp/astro-agent-visual-fonts/NotoColorEmoji.ttf",
+      "error": null
+    }
+  },
+  "screenshot_root": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/screenshots",
+  "viewport": {
+    "width": 1440,
+    "height": 1200
+  },
+  "gemini_timeout_ms": 90000,
+  "summary": {
+    "page_count": 2,
+    "screenshot_count": 2,
+    "reviewed_count": 2,
+    "review_fresh_count": 2,
+    "review_cached_count": 0,
+    "issue_count": 5,
+    "error_count": 5,
+    "warn_count": 0,
+    "visual_fix_count": 5,
+    "highest_severity": "error"
+  },
+  "notes": [
+    "Applied 5 visual safe fix(es) to Markdown sources. Rebuild and rerun visual-check to verify screenshots."
+  ],
+  "applied_fixes": [
+    {
+      "code": "latex-render-fix",
+      "rule": "escape-text-underscore",
+      "message": "转义数学公式 \\text{...} 内的裸下划线，避免 KaTeX 把普通文本当作下标解析。",
+      "before": "--- title: \"CMU-15213-MallocLab\" pubDatetime: 2025-09-28T20:00:00Z description: \"CMU 15-213 课程 Malloc Lab 实验记录，从隐式空闲链表到显式空闲链表实现动态内存分配器，最终得分 85/100。\" slug: \"cmu-15213-malloclab\" draft: false tags: - \"CMU15213\" - \"c\" --- ## Malloc Lab ## Declaration 本文使用了 AIGC…",
+      "after": "--- title: \"CMU-15213-MallocLab\" pubDatetime: 2025-09-28T20:00:00Z description: \"CMU 15-213 课程 Malloc Lab 实验记录，从隐式空闲链表到显式空闲链表实现动态内存分配器，最终得分 85/100。\" slug: \"cmu-15213-malloclab\" draft: false tags: - \"CMU15213\" - \"c\" --- ## Malloc Lab ## Declaration 本文使用了 AIGC…",
+      "route_path": "/posts/cmu-15213-malloclab",
+      "source_path": "src/data/blog/CMU-15213-MallocLab.md",
+      "applied_at": "2026-07-09T08:07:10.294Z"
+    },
+    {
+      "code": "latex-render-fix",
+      "rule": "eqnarray-to-aligned",
+      "message": "将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。",
+      "before": "$$ \\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray} $$",
+      "after": "$$ \\begin{aligned} H(X)&=-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{aligned} $$",
+      "route_path": "/posts/mindspore-06-functional-autodiff",
+      "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+      "applied_at": "2026-07-09T08:07:10.297Z"
+    },
+    {
+      "code": "latex-render-fix",
+      "rule": "eqnarray-to-aligned",
+      "message": "将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。",
+      "before": "$$ \\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray} $$",
+      "after": "$$ \\begin{aligned} loss&=-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=-log(0.6) \\end{aligned} $$",
+      "route_path": "/posts/mindspore-06-functional-autodiff",
+      "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+      "applied_at": "2026-07-09T08:07:10.297Z"
+    },
+    {
+      "code": "latex-render-fix",
+      "rule": "eqnarray-to-aligned",
+      "message": "将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。",
+      "before": "$$ \\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray} $$",
+      "after": "$$ \\begin{aligned} loss_{\\text{猫}} &=-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_{\\text{蛙}} &=-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_{\\text{鼠}} &=-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{aligned} $$",
+      "route_path": "/posts/mindspore-06-functional-autodiff",
+      "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+      "applied_at": "2026-07-09T08:07:10.297Z"
+    },
+    {
+      "code": "latex-render-fix",
+      "rule": "inline-align-to-display-aligned",
+      "message": "将同一行 $$...$$ 中的 align 环境改为多行 display aligned，避免被解析成行内公式。",
+      "before": "$$\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align} $$",
+      "after": "$$ \\begin{aligned} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{aligned} $$",
+      "route_path": "/posts/mindspore-06-functional-autodiff",
+      "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+      "applied_at": "2026-07-09T08:07:10.297Z"
+    }
+  ],
+  "pages": [
+    {
+      "page_id": "posts__cmu-15213-malloclab",
+      "route_path": "/posts/cmu-15213-malloclab",
+      "html_path": "dist/posts/cmu-15213-malloclab/index.html",
+      "url": "http://127.0.0.1:35313/posts/cmu-15213-malloclab",
+      "title": "CMU-15213-MallocLab | Deepcity's Blog",
+      "capture_ok": true,
+      "screenshot_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/screenshots/posts__cmu-15213-malloclab.png",
+      "screenshot_bytes": 2808923,
+      "screenshot_sha256": "b9a7b531b86d7c3436c3c9aab1fe0c53b403444a39a61af0827aba638cc7578b",
+      "html_sha256": "a6b76b559d54c025b2cab2eae5334b8cde752fff31f45d5ea01dd742960eb4a6",
+      "dist_asset_sha256": "8b24c90cd61935097f94f36e236c14d0da5249bdd60609d0f6e0f0beb8a56e9a",
+      "render_input_sha256": "d238b97b705b2318fddab610b0b72dd608e42dcd9667f834adc428899f80c32b",
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "page_metrics": {
+        "title": "CMU-15213-MallocLab | Deepcity's Blog",
+        "scroll_width": 1440,
+        "scroll_height": 26995,
+        "viewport_width": 1440,
+        "viewport_height": 1200,
+        "broken_images": [],
+        "katex_errors": [
+          {
+            "text": "\\text{util} = \\frac{\\text{测试过程中某个时刻用户实际请求的总 payload 大小最大值}}{\\text{你向堆申请的总空间大小（通过 mem_sbrk）}}",
+            "title": "ParseError: KaTeX parse error: Expected 'EOF', got '_' at position 85: …申请的总空间大小（通过 mem_̲sbrk）}}",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 3378,
+              "width": 770,
+              "height": 52
+            }
+          }
+        ],
+        "raw_latex_nodes": []
+      },
+      "browser_errors": {
+        "console": [],
+        "page": [],
+        "image_requests": []
+      },
+      "hard_checks": [
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: Expected 'EOF', got '_' at position 85: …申请的总空间大小（通过 mem_̲sbrk）}}",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,3378,770,52",
+          "rect": {
+            "x": 160,
+            "y": 3378,
+            "width": 770,
+            "height": 52
+          },
+          "latex_source": "\\text{util} = \\frac{\\text{测试过程中某个时刻用户实际请求的总 payload 大小最大值}}{\\text{你向堆申请的总空间大小（通过 mem_sbrk）}}"
+        }
+      ],
+      "local_findings_sha256": "c9c896bd69cc921329b8d0e13cd55b33f681ed42d4e7fe36bedcb1d222d5d22c",
+      "review": {
+        "route_path": "/posts/cmu-15213-malloclab",
+        "summary": "在文章的“指标度量”小节下，发现一处 KaTeX 数学公式渲染错误。公式内部的下划线字符未进行转义，导致渲染引擎解析失败，直接将红色的 LaTeX 源码暴露在页面上，严重影响阅读体验。",
+        "severity": "error",
+        "confidence": null,
+        "issues": [
+          {
+            "code": "math-render-error",
+            "severity": "error",
+            "message": "KaTeX 公式解析失败：公式中的下划线字符 '_' 未正确转义，导致解析器期待公式结束或报错。公式以红色错误源码形式暴露在页面中。",
+            "region": "160,3378,770,52",
+            "selector_hint": "span.katex-error",
+            "confidence": 0.72,
+            "source": "gemini+local-check",
+            "evidence": "\\text{util} = \\frac{\\text{测试过程中某个时刻用户实际请求的总 payload 大小最大值}}{\\text{你向堆申请的总空间大小（通过 mem_sbrk）}}",
+            "rect": null,
+            "fixable": false
+          }
+        ],
+        "action_items": [
+          "将 Markdown 源码中的 `mem_sbrk` 修改为 `mem\\_sbrk` 以对下划线字符进行转义，从而使 KaTeX 能够正常解析并渲染公式。"
+        ],
+        "suggested_adjustments": [],
+        "review_source": "gemini",
+        "cached": false,
+        "prompt_version": "visual-review-v1"
+      },
+      "review_image_manifest": [
+        {
+          "role": "full-page-overview",
+          "issue_code": null,
+          "issue_message": null,
+          "selector_hint": null,
+          "image_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/review-images/posts__cmu-15213-malloclab.jpg",
+          "mime_type": "image/jpeg"
+        },
+        {
+          "role": "evidence-crop",
+          "issue_code": "math-render-error",
+          "issue_message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: Expected 'EOF', got '_' at position 85: …申请的总空间大小（通过 mem_̲sbrk）}}",
+          "selector_hint": "span.katex-error",
+          "image_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/review-crops/posts__cmu-15213-malloclab__1-math-render-error.jpg",
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "visual_findings": [
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：公式中的下划线字符 '_' 未正确转义，导致解析器期待公式结束或报错。公式以红色错误源码形式暴露在页面中。",
+          "region": "160,3378,770,52",
+          "selector_hint": "span.katex-error",
+          "confidence": 0.92,
+          "source": "gemini+local-check",
+          "evidence": "\\text{util} = \\frac{\\text{测试过程中某个时刻用户实际请求的总 payload 大小最大值}}{\\text{你向堆申请的总空间大小（通过 mem_sbrk）}}",
+          "rect": {
+            "x": 160,
+            "y": 3378,
+            "width": 770,
+            "height": 52
+          },
+          "fixable": false
+        }
+      ],
+      "visual_fixes_applied": [
+        {
+          "code": "latex-render-fix",
+          "rule": "escape-text-underscore",
+          "message": "转义数学公式 \\text{...} 内的裸下划线，避免 KaTeX 把普通文本当作下标解析。",
+          "before": "--- title: \"CMU-15213-MallocLab\" pubDatetime: 2025-09-28T20:00:00Z description: \"CMU 15-213 课程 Malloc Lab 实验记录，从隐式空闲链表到显式空闲链表实现动态内存分配器，最终得分 85/100。\" slug: \"cmu-15213-malloclab\" draft: false tags: - \"CMU15213\" - \"c\" --- ## Malloc Lab ## Declaration 本文使用了 AIGC…",
+          "after": "--- title: \"CMU-15213-MallocLab\" pubDatetime: 2025-09-28T20:00:00Z description: \"CMU 15-213 课程 Malloc Lab 实验记录，从隐式空闲链表到显式空闲链表实现动态内存分配器，最终得分 85/100。\" slug: \"cmu-15213-malloclab\" draft: false tags: - \"CMU15213\" - \"c\" --- ## Malloc Lab ## Declaration 本文使用了 AIGC…",
+          "route_path": "/posts/cmu-15213-malloclab",
+          "source_path": "src/data/blog/CMU-15213-MallocLab.md",
+          "applied_at": "2026-07-09T08:07:10.294Z"
+        }
+      ]
+    },
+    {
+      "page_id": "posts__mindspore-06-functional-autodiff",
+      "route_path": "/posts/mindspore-06-functional-autodiff",
+      "html_path": "dist/posts/mindspore-06-functional-autodiff/index.html",
+      "url": "http://127.0.0.1:35313/posts/mindspore-06-functional-autodiff",
+      "title": "MindSpore 专题：第六章、函数式自动微分 | Deepcity's Blog",
+      "capture_ok": true,
+      "screenshot_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/screenshots/posts__mindspore-06-functional-autodiff.png",
+      "screenshot_bytes": 4145276,
+      "screenshot_sha256": "491b85c35d1843c262dae53cfe7df424ac442fb5e9ebe53ea98acd3b0b62ff45",
+      "html_sha256": "f66a5b7c77b3833faf2c084d15553eecb7271feddf7b951061a05f72824461ef",
+      "dist_asset_sha256": "8b24c90cd61935097f94f36e236c14d0da5249bdd60609d0f6e0f0beb8a56e9a",
+      "render_input_sha256": "aae4ada4a18875e5a39d2f66493dfcb2b176de175107a367a0ee799a67b9ec66",
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "page_metrics": {
+        "title": "MindSpore 专题：第六章、函数式自动微分 | Deepcity's Blog",
+        "scroll_width": 1440,
+        "scroll_height": 21889,
+        "viewport_width": 1440,
+        "viewport_height": 1200,
+        "broken_images": [],
+        "katex_errors": [
+          {
+            "text": "\\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray}",
+            "title": "ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ H(X)&=&-\\sum_{…",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 11170,
+              "width": 694,
+              "height": 52
+            }
+          },
+          {
+            "text": "\\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray}",
+            "title": "ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ loss&=&-(0\\tim…",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 13568,
+              "width": 675,
+              "height": 52
+            }
+          },
+          {
+            "text": "\\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray}",
+            "title": "ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ loss_猫 &=&-0\\t…",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 14440,
+              "width": 775,
+              "height": 52
+            }
+          },
+          {
+            "text": "\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align}",
+            "title": "ParseError: KaTeX parse error: {align} can be used only in display mode.",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 17986,
+              "width": 479,
+              "height": 24
+            }
+          }
+        ],
+        "raw_latex_nodes": [
+          {
+            "text": "\\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray}",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 11170,
+              "width": 694,
+              "height": 52
+            }
+          },
+          {
+            "text": "\\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray}",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 13568,
+              "width": 675,
+              "height": 52
+            }
+          },
+          {
+            "text": "\\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray}",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 14440,
+              "width": 775,
+              "height": 52
+            }
+          },
+          {
+            "text": "\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align}",
+            "selector": "span.katex-error",
+            "rect": {
+              "x": 160,
+              "y": 17986,
+              "width": 479,
+              "height": 24
+            }
+          }
+        ]
+      },
+      "browser_errors": {
+        "console": [],
+        "page": [],
+        "image_requests": []
+      },
+      "hard_checks": [
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ H(X)&=&-\\sum_{…",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,11170,694,52",
+          "rect": {
+            "x": 160,
+            "y": 11170,
+            "width": 694,
+            "height": 52
+          },
+          "latex_source": "\\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray}"
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ loss&=&-(0\\tim…",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,13568,675,52",
+          "rect": {
+            "x": 160,
+            "y": 13568,
+            "width": 675,
+            "height": 52
+          },
+          "latex_source": "\\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray}"
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ loss_猫 &=&-0\\t…",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,14440,775,52",
+          "rect": {
+            "x": 160,
+            "y": 14440,
+            "width": 775,
+            "height": 52
+          },
+          "latex_source": "\\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray}"
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: {align} can be used only in display mode.",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,17986,479,24",
+          "rect": {
+            "x": 160,
+            "y": 17986,
+            "width": 479,
+            "height": 24
+          },
+          "latex_source": "\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align}"
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "LaTeX 环境源码未被渲染：\\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray}",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,11170,694,52",
+          "rect": {
+            "x": 160,
+            "y": 11170,
+            "width": 694,
+            "height": 52
+          },
+          "latex_source": "\\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray}"
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "LaTeX 环境源码未被渲染：\\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray}",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,13568,675,52",
+          "rect": {
+            "x": 160,
+            "y": 13568,
+            "width": 675,
+            "height": 52
+          },
+          "latex_source": "\\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray}"
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "LaTeX 环境源码未被渲染：\\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray}",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,14440,775,52",
+          "rect": {
+            "x": 160,
+            "y": 14440,
+            "width": 775,
+            "height": 52
+          },
+          "latex_source": "\\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray}"
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "LaTeX 环境源码未被渲染：\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align}",
+          "fixable": false,
+          "selector_hint": "span.katex-error",
+          "region": "160,17986,479,24",
+          "rect": {
+            "x": 160,
+            "y": 17986,
+            "width": 479,
+            "height": 24
+          },
+          "latex_source": "\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align}"
+        }
+      ],
+      "local_findings_sha256": "96c78bbdc809c3e333096e1fb25bedeb725341adbf18010e825343c5e3cdf458",
+      "review": {
+        "route_path": "/posts/mindspore-06-functional-autodiff",
+        "summary": "检测到多处数学公式渲染失败的问题。主要由于在 KaTeX 渲染引擎中使用了不支持的 eqnarray 环境，以及在行内模式（inline mode）下使用了仅支持块级显示模式（display mode）的 align 环境，导致 LaTeX 源码直接暴露并显示为红色错误文本。",
+        "severity": "error",
+        "confidence": null,
+        "issues": [
+          {
+            "code": "math-render-error",
+            "severity": "error",
+            "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，导致公式源码暴露为红色错误文本。",
+            "region": "160 11170 694 52",
+            "selector_hint": "span.katex-error",
+            "confidence": 0.99,
+            "source": "gemini",
+            "evidence": "\\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray}",
+            "rect": null,
+            "fixable": false
+          },
+          {
+            "code": "math-render-error",
+            "severity": "error",
+            "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，导致公式源码暴露为红色错误文本。",
+            "region": "160 13568 675 52",
+            "selector_hint": "span.katex-error",
+            "confidence": 0.99,
+            "source": "gemini",
+            "evidence": "\\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray}",
+            "rect": null,
+            "fixable": false
+          },
+          {
+            "code": "math-render-error",
+            "severity": "error",
+            "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，且在公式内直接使用了中文字符，导致公式源码暴露为红色错误文本。",
+            "region": "160 14440 775 52",
+            "selector_hint": "span.katex-error",
+            "confidence": 0.99,
+            "source": "gemini",
+            "evidence": "\\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray}",
+            "rect": null,
+            "fixable": false
+          },
+          {
+            "code": "math-render-error",
+            "severity": "error",
+            "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: {align} can be used only in display mode。行内数学模式下不能直接使用 align 环境，应当使用 block 块级公式包裹，或改用 aligned 环境。",
+            "region": "160 17986 479 24",
+            "selector_hint": "span.katex-error",
+            "confidence": 0.99,
+            "source": "gemini",
+            "evidence": "\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align}",
+            "rect": null,
+            "fixable": false
+          }
+        ],
+        "action_items": [
+          "将所有的 eqnarray 环境替换为 KaTeX 支持的 aligned 环境，并用双美元符号 $$ 包裹使其作为独立块显示。",
+          "将行内的 \\begin{align} ... \\end{align} 格式修改为块级展示公式 $$ \\begin{aligned} ... \\end{aligned} $$ 或者是行内的 \\begin{aligned} ... \\end{aligned} 结构。",
+          "修改公式中的中文字符，使用 \\text{...} 包裹（如 \\text{猫}、\\text{蛙}、\\text{鼠}）以符合 LaTeX 规范。"
+        ],
+        "suggested_adjustments": [
+          "[object Object]"
+        ],
+        "review_source": "gemini",
+        "cached": false,
+        "prompt_version": "visual-review-v1"
+      },
+      "review_image_manifest": [
+        {
+          "role": "full-page-overview",
+          "issue_code": null,
+          "issue_message": null,
+          "selector_hint": null,
+          "image_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/review-images/posts__mindspore-06-functional-autodiff.jpg",
+          "mime_type": "image/jpeg"
+        },
+        {
+          "role": "evidence-crop",
+          "issue_code": "math-render-error",
+          "issue_message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ H(X)&=&-\\sum_{…",
+          "selector_hint": "span.katex-error",
+          "image_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/review-crops/posts__mindspore-06-functional-autodiff__1-math-render-error.jpg",
+          "mime_type": "image/jpeg"
+        },
+        {
+          "role": "evidence-crop",
+          "issue_code": "math-render-error",
+          "issue_message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ loss&=&-(0\\tim…",
+          "selector_hint": "span.katex-error",
+          "image_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/review-crops/posts__mindspore-06-functional-autodiff__2-math-render-error.jpg",
+          "mime_type": "image/jpeg"
+        },
+        {
+          "role": "evidence-crop",
+          "issue_code": "math-render-error",
+          "issue_message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray at position 7: \\begin{̲e̲q̲n̲a̲r̲r̲a̲y̲}̲ loss_猫 &=&-0\\t…",
+          "selector_hint": "span.katex-error",
+          "image_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/review-crops/posts__mindspore-06-functional-autodiff__3-math-render-error.jpg",
+          "mime_type": "image/jpeg"
+        },
+        {
+          "role": "evidence-crop",
+          "issue_code": "math-render-error",
+          "issue_message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: {align} can be used only in display mode.",
+          "selector_hint": "span.katex-error",
+          "image_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/review-crops/posts__mindspore-06-functional-autodiff__4-math-render-error.jpg",
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "visual_findings": [
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，导致公式源码暴露为红色错误文本。",
+          "region": "160 11170 694 52",
+          "selector_hint": "span.katex-error",
+          "confidence": 0.99,
+          "source": "gemini+local-check",
+          "evidence": "\\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray}",
+          "rect": {
+            "x": 160,
+            "y": 11170,
+            "width": 694,
+            "height": 52
+          },
+          "fixable": false
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，导致公式源码暴露为红色错误文本。",
+          "region": "160 13568 675 52",
+          "selector_hint": "span.katex-error",
+          "confidence": 0.99,
+          "source": "gemini+local-check",
+          "evidence": "\\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray}",
+          "rect": {
+            "x": 160,
+            "y": 13568,
+            "width": 675,
+            "height": 52
+          },
+          "fixable": false
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，且在公式内直接使用了中文字符，导致公式源码暴露为红色错误文本。",
+          "region": "160 14440 775 52",
+          "selector_hint": "span.katex-error",
+          "confidence": 0.99,
+          "source": "gemini+local-check",
+          "evidence": "\\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray}",
+          "rect": {
+            "x": 160,
+            "y": 14440,
+            "width": 775,
+            "height": 52
+          },
+          "fixable": false
+        },
+        {
+          "code": "math-render-error",
+          "severity": "error",
+          "message": "KaTeX 公式解析失败：ParseError: KaTeX parse error: {align} can be used only in display mode。行内数学模式下不能直接使用 align 环境，应当使用 block 块级公式包裹，或改用 aligned 环境。",
+          "region": "160 17986 479 24",
+          "selector_hint": "span.katex-error",
+          "confidence": 0.99,
+          "source": "gemini+local-check",
+          "evidence": "\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align}",
+          "rect": {
+            "x": 160,
+            "y": 17986,
+            "width": 479,
+            "height": 24
+          },
+          "fixable": false
+        }
+      ],
+      "visual_fixes_applied": [
+        {
+          "code": "latex-render-fix",
+          "rule": "eqnarray-to-aligned",
+          "message": "将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。",
+          "before": "$$ \\begin{eqnarray} H(X)&=&-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=&-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{eqnarray} $$",
+          "after": "$$ \\begin{aligned} H(X)&=-\\sum_{i=1}^n p(x_i)log(p(x_i))\\\\ &=-p(x)log(p(x))-(1-p(x))log(1-p(x)) \\end{aligned} $$",
+          "route_path": "/posts/mindspore-06-functional-autodiff",
+          "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+          "applied_at": "2026-07-09T08:07:10.297Z"
+        },
+        {
+          "code": "latex-render-fix",
+          "rule": "eqnarray-to-aligned",
+          "message": "将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。",
+          "before": "$$ \\begin{eqnarray} loss&=&-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=&-log(0.6) \\end{eqnarray} $$",
+          "after": "$$ \\begin{aligned} loss&=-(0\\times log(0.3)+1\\times log(0.6)+0\\times log(0.1)\\\\ &=-log(0.6) \\end{aligned} $$",
+          "route_path": "/posts/mindspore-06-functional-autodiff",
+          "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+          "applied_at": "2026-07-09T08:07:10.297Z"
+        },
+        {
+          "code": "latex-render-fix",
+          "rule": "eqnarray-to-aligned",
+          "message": "将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。",
+          "before": "$$ \\begin{eqnarray} loss_猫 &=&-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_蛙 &=&-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_鼠 &=&-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{eqnarray} $$",
+          "after": "$$ \\begin{aligned} loss_{\\text{猫}} &=-0\\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\\\ loss_{\\text{蛙}} &=-1\\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\\\ loss_{\\text{鼠}} &=-1\\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \\end{aligned} $$",
+          "route_path": "/posts/mindspore-06-functional-autodiff",
+          "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+          "applied_at": "2026-07-09T08:07:10.297Z"
+        },
+        {
+          "code": "latex-render-fix",
+          "rule": "inline-align-to-display-aligned",
+          "message": "将同一行 $$...$$ 中的 align 环境改为多行 display aligned，避免被解析成行内公式。",
+          "before": "$$\\begin{align} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{align} $$",
+          "after": "$$ \\begin{aligned} p(cat) & = 1 \\\\ p(pig) &= 0 \\\\ p(dog) & = 0 \\end{aligned} $$",
+          "route_path": "/posts/mindspore-06-functional-autodiff",
+          "source_path": "src/data/blog/mindspore-06-functional-autodiff.md",
+          "applied_at": "2026-07-09T08:07:10.297Z"
+        }
+      ]
+    }
+  ],
+  "report_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/report.html",
+  "report_markdown_path": "src/data/agent/visual/runs/latex-auto-fix-2026-07-09/report.md"
+}

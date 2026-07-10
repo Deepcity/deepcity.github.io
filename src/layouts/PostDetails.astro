@@ -126,7 +126,7 @@ const nextPost =
 
       <aside
         data-pagefind-ignore
-        class="space-y-6 lg:sticky lg:top-24 lg:flex lg:h-[calc(100svh-7rem)] lg:flex-col lg:gap-4 lg:space-y-0 lg:overflow-hidden"
+        class="space-y-6 lg:sticky lg:top-24 lg:flex lg:max-h-[calc(100svh-7rem)] lg:flex-col lg:gap-4 lg:space-y-0 lg:overflow-y-auto lg:pe-1"
         aria-label="文章辅助信息"
       >
         {
@@ -139,7 +139,7 @@ const nextPost =
             </div>
           )
         }
-        <AgentPanel sidecar={agentSidecar} class="lg:min-h-0 lg:flex-1" />
+        <AgentPanel sidecar={agentSidecar} class="lg:flex-none" />
       </aside>
     </div>
 

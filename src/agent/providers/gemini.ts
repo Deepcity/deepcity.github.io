@@ -216,6 +216,17 @@ function isTimeoutError(error) {
   );
 }
 
+function hasProxyEnv() {
+  return Boolean(
+    process.env.HTTPS_PROXY ||
+    process.env.HTTP_PROXY ||
+    process.env.ALL_PROXY ||
+    process.env.https_proxy ||
+    process.env.http_proxy ||
+    process.env.all_proxy
+  );
+}
+
 export function resolveGeminiConfig(options = {}) {
   const apiKey = options.apiKey ?? process.env.GEMINI_API_KEY;
   const model = options.model ?? process.env.BLOG_AGENT_MODEL ?? DEFAULT_MODEL;
@@ -240,20 +251,35 @@ export async function requestGeminiJson(options = {}) {
     ? buildRequestPayload(options.parts, options.generationConfig)
     : buildTextRequestPayload(String(options.prompt ?? ""));
   let payload;
+  const preferCurl = options.preferCurl ?? hasProxyEnv();
 
-  try {
-    payload = await requestWithFetch(url, body, options.timeoutMs);
-  } catch (fetchError) {
-    if (isTimeoutError(fetchError)) {
-      throw new Error(`Gemini request timed out: ${formatError(fetchError)}`);
-    }
-
+  if (preferCurl) {
     try {
       payload = await requestWithCurl(url, body, options.timeoutMs);
     } catch (curlError) {
-      throw new Error(
-        `Gemini request failed via fetch (${formatError(fetchError)}) and curl (${formatError(curlError)})`
-      );
+      try {
+        payload = await requestWithFetch(url, body, options.timeoutMs);
+      } catch (fetchError) {
+        throw new Error(
+          `Gemini request failed via curl (${formatError(curlError)}) and fetch (${formatError(fetchError)})`
+        );
+      }
+    }
+  } else {
+    try {
+      payload = await requestWithFetch(url, body, options.timeoutMs);
+    } catch (fetchError) {
+      if (isTimeoutError(fetchError)) {
+        throw new Error(`Gemini request timed out: ${formatError(fetchError)}`);
+      }
+
+      try {
+        payload = await requestWithCurl(url, body, options.timeoutMs);
+      } catch (curlError) {
+        throw new Error(
+          `Gemini request failed via fetch (${formatError(fetchError)}) and curl (${formatError(curlError)})`
+        );
+      }
     }
   }
 
@@ -270,23 +296,36 @@ export async function requestGeminiJson(options = {}) {
 }
 
 export async function requestGeminiImageJson(options = {}) {
-  const imagePath = String(options.imagePath ?? "");
+  const images = Array.isArray(options.images)
+    ? options.images
+    : [
+        {
+          imagePath: options.imagePath,
+          mimeType: options.mimeType,
+        },
+      ];
+  const normalizedImages = images
+    .map(image => ({
+      imagePath: String(image?.imagePath ?? ""),
+      mimeType: image?.mimeType ?? "image/png",
+    }))
+    .filter(image => image.imagePath);
 
-  if (!imagePath) {
-    throw new Error("imagePath is required for Gemini image review");
+  if (normalizedImages.length === 0) {
+    throw new Error("imagePath or images are required for Gemini image review");
   }
 
-  const imageBytes = await fs.readFile(imagePath);
-  const mimeType = options.mimeType ?? "image/png";
-  const parts = [
-    { text: String(options.prompt ?? "") },
-    {
+  const parts = [{ text: String(options.prompt ?? "") }];
+
+  for (const image of normalizedImages) {
+    const imageBytes = await fs.readFile(image.imagePath);
+    parts.push({
       inline_data: {
-        mime_type: mimeType,
+        mime_type: image.mimeType,
         data: imageBytes.toString("base64"),
       },
-    },
-  ];
+    });
+  }
 
   return requestGeminiJson({
     apiKey: options.apiKey,

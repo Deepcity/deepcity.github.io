@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Visual Check Report - latex-auto-fix-2026-07-09</title>
+    <style>
+      :root { color-scheme: light; --bg: #f7f7f4; --paper: #fff; --ink: #242424; --muted: #686868; --line: #dedbd2; --accent: #006cac; --warn: #9a5b00; --error: #b42318; --info: #31615f; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+      header { padding: 32px clamp(18px, 4vw, 56px); border-bottom: 1px solid var(--line); background: var(--paper); }
+      main { padding: 24px clamp(18px, 4vw, 56px) 48px; }
+      h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; letter-spacing: 0; }
+      h2 { margin: 0; font-size: 18px; letter-spacing: 0; }
+      p { margin: 0; color: var(--muted); line-height: 1.65; }
+      .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+      .stat, .pill { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; background: #fafafa; font-size: 13px; font-weight: 650; color: var(--ink); }
+      .pill.warn { color: var(--warn); border-color: #e4c27b; background: #fff8e7; }
+      .pill.error { color: var(--error); border-color: #f0a39c; background: #fff1f0; }
+      .pill.info { color: var(--info); border-color: #9fc9c5; background: #effaf8; }
+      .section-title { margin: 32px 0 14px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+      .page-card { display: grid; grid-template-columns: minmax(180px, 280px) minmax(0, 1fr); gap: 18px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+      .thumb { display: block; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: #eceae3; aspect-ratio: 4 / 3; }
+      .thumb img, .gallery-card img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+      .page-title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .title { margin-top: 4px; font-size: 13px; }
+      ul { margin: 14px 0 0; padding: 0; list-style: none; }
+      .issue { padding: 12px 0; border-top: 1px solid var(--line); }
+      .issue:first-child { border-top: 0; }
+      .issue-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: var(--ink); }
+      .source { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+      small { display: block; color: var(--muted); margin-top: 4px; font-size: 12px; line-height: 1.45; }
+      .notes { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 16px 18px; }
+      .notes li { margin: 6px 0; color: var(--muted); line-height: 1.55; }
+      .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+      .gallery-card { display: grid; gap: 8px; color: inherit; text-decoration: none; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 10px; }
+      .gallery-card img, .missing-thumb { aspect-ratio: 4 / 3; border-radius: 6px; background: #eceae3; }
+      .gallery-card span { font-size: 13px; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .gallery-card em { color: var(--muted); font-size: 12px; font-style: normal; }
+      .gallery-card.has-issues { border-color: #e4c27b; }
+      .empty { padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+      @media (max-width: 760px) { .page-card { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Visual Check Report</h1>
+      <p>Run latex-auto-fix-2026-07-09 generated at 2026-07-09T08:07:10.297Z.</p>
+      <div class="meta">
+        <span class="stat">2 pages</span>
+        <span class="stat">2 screenshots</span>
+        <span class="stat">2 reviewed</span>
+        
+        <span class="stat">2 fresh reviews</span>
+        <span class="stat">0 cached reviews</span>
+        <span class="stat">5 issues</span>
+        <span class="stat">5 fixes</span>
+        <span class="pill error">error</span>
+      </div>
+    </header>
+    <main>
+      <section><div class="section-title"><h2>Applied Fixes</h2><p>5 source edits applied by visual safe-fix rules.</p></div><ul class="notes">
+        <li>
+          <strong>src/data/blog/CMU-15213-MallocLab.md</strong>
+          <span class="code">escape-text-underscore</span>
+          <p>转义数学公式 \text{...} 内的裸下划线，避免 KaTeX 把普通文本当作下标解析。</p>
+          <small>Before: --- title: &quot;CMU-15213-MallocLab&quot; pubDatetime: 2025-09-28T20:00:00Z description: &quot;CMU 15-213 课程 Malloc Lab 实验记录，从隐式空闲链表到显式空闲链表实现动态内存分配器，最终得分 85/100。&quot; slug: &quot;cmu-15213-malloclab&quot; draft: false tags: - &quot;CMU15213&quot; - &quot;c&quot; --- ## Malloc Lab ## Declaration 本文使用了 AIGC…</small>
+          <small>After: --- title: &quot;CMU-15213-MallocLab&quot; pubDatetime: 2025-09-28T20:00:00Z description: &quot;CMU 15-213 课程 Malloc Lab 实验记录，从隐式空闲链表到显式空闲链表实现动态内存分配器，最终得分 85/100。&quot; slug: &quot;cmu-15213-malloclab&quot; draft: false tags: - &quot;CMU15213&quot; - &quot;c&quot; --- ## Malloc Lab ## Declaration 本文使用了 AIGC…</small>
+        </li>
+        <li>
+          <strong>src/data/blog/mindspore-06-functional-autodiff.md</strong>
+          <span class="code">eqnarray-to-aligned</span>
+          <p>将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。</p>
+          <small>Before: $$ \begin{eqnarray} H(X)&amp;=&amp;-\sum_{i=1}^n p(x_i)log(p(x_i))\\ &amp;=&amp;-p(x)log(p(x))-(1-p(x))log(1-p(x)) \end{eqnarray} $$</small>
+          <small>After: $$ \begin{aligned} H(X)&amp;=-\sum_{i=1}^n p(x_i)log(p(x_i))\\ &amp;=-p(x)log(p(x))-(1-p(x))log(1-p(x)) \end{aligned} $$</small>
+        </li>
+        <li>
+          <strong>src/data/blog/mindspore-06-functional-autodiff.md</strong>
+          <span class="code">eqnarray-to-aligned</span>
+          <p>将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。</p>
+          <small>Before: $$ \begin{eqnarray} loss&amp;=&amp;-(0\times log(0.3)+1\times log(0.6)+0\times log(0.1)\\ &amp;=&amp;-log(0.6) \end{eqnarray} $$</small>
+          <small>After: $$ \begin{aligned} loss&amp;=-(0\times log(0.3)+1\times log(0.6)+0\times log(0.1)\\ &amp;=-log(0.6) \end{aligned} $$</small>
+        </li>
+        <li>
+          <strong>src/data/blog/mindspore-06-functional-autodiff.md</strong>
+          <span class="code">eqnarray-to-aligned</span>
+          <p>将 KaTeX 不支持的 eqnarray 环境改为 display math 内可渲染的 aligned 环境。</p>
+          <small>Before: $$ \begin{eqnarray} loss_猫 &amp;=&amp;-0\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\ loss_蛙 &amp;=&amp;-1\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\ loss_鼠 &amp;=&amp;-1\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \end{eqnarray} $$</small>
+          <small>After: $$ \begin{aligned} loss_{\text{猫}} &amp;=-0\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\ loss_{\text{蛙}} &amp;=-1\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\ loss_{\text{鼠}} &amp;=-1\times log(0.8)-(1-1)log(1-0.8)=-log(0.8) \end{aligned} $$</small>
+        </li>
+        <li>
+          <strong>src/data/blog/mindspore-06-functional-autodiff.md</strong>
+          <span class="code">inline-align-to-display-aligned</span>
+          <p>将同一行 $$...$$ 中的 align 环境改为多行 display aligned，避免被解析成行内公式。</p>
+          <small>Before: $$\begin{align} p(cat) &amp; = 1 \\ p(pig) &amp;= 0 \\ p(dog) &amp; = 0 \end{align} $$</small>
+          <small>After: $$ \begin{aligned} p(cat) &amp; = 1 \\ p(pig) &amp;= 0 \\ p(dog) &amp; = 0 \end{aligned} $$</small>
+        </li></ul></section>
+      <section>
+        <div class="section-title">
+          <h2>Needs Attention</h2>
+          <p>2 pages with issues, 0 clean pages.</p>
+        </div>
+        
+        <article class="page-card issue-card">
+          <a class="thumb" href="screenshots/posts__mindspore-06-functional-autodiff.png">
+            <img src="screenshots/posts__mindspore-06-functional-autodiff.png" alt="/posts/mindspore-06-functional-autodiff screenshot" loading="lazy" />
+          </a>
+          <div class="page-body">
+            <div class="page-title-row">
+              <h2>/posts/mindspore-06-functional-autodiff</h2>
+              <span class="pill error">error</span>
+            </div>
+            <p class="title">MindSpore 专题：第六章、函数式自动微分 | Deepcity&#39;s Blog</p>
+            <ul>
+            <li class="issue issue-error">
+              <div class="issue-head">
+                <span class="pill error">error</span>
+                <span class="code">math-render-error</span>
+                <span class="source">gemini+local-check</span>
+              </div>
+              <p>KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，导致公式源码暴露为红色错误文本。</p>
+              <small>Region: 160 11170 694 52</small>
+              <small>Selector: span.katex-error</small>
+            </li>
+            <li class="issue issue-error">
+              <div class="issue-head">
+                <span class="pill error">error</span>
+                <span class="code">math-render-error</span>
+                <span class="source">gemini+local-check</span>
+              </div>
+              <p>KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，导致公式源码暴露为红色错误文本。</p>
+              <small>Region: 160 13568 675 52</small>
+              <small>Selector: span.katex-error</small>
+            </li>
+            <li class="issue issue-error">
+              <div class="issue-head">
+                <span class="pill error">error</span>
+                <span class="code">math-render-error</span>
+                <span class="source">gemini+local-check</span>
+              </div>
+              <p>KaTeX 公式解析失败：ParseError: KaTeX parse error: No such environment: eqnarray。KaTeX 不支持 eqnarray 环境，且在公式内直接使用了中文字符，导致公式源码暴露为红色错误文本。</p>
+              <small>Region: 160 14440 775 52</small>
+              <small>Selector: span.katex-error</small>
+            </li>
+            <li class="issue issue-error">
+              <div class="issue-head">
+                <span class="pill error">error</span>
+                <span class="code">math-render-error</span>
+                <span class="source">gemini+local-check</span>
+              </div>
+              <p>KaTeX 公式解析失败：ParseError: KaTeX parse error: {align} can be used only in display mode。行内数学模式下不能直接使用 align 环境，应当使用 block 块级公式包裹，或改用 aligned 环境。</p>
+              <small>Region: 160 17986 479 24</small>
+              <small>Selector: span.katex-error</small>
+            </li></ul>
+          </div>
+        </article>
+        <article class="page-card issue-card">
+          <a class="thumb" href="screenshots/posts__cmu-15213-malloclab.png">
+            <img src="screenshots/posts__cmu-15213-malloclab.png" alt="/posts/cmu-15213-malloclab screenshot" loading="lazy" />
+          </a>
+          <div class="page-body">
+            <div class="page-title-row">
+              <h2>/posts/cmu-15213-malloclab</h2>
+              <span class="pill error">error</span>
+            </div>
+            <p class="title">CMU-15213-MallocLab | Deepcity&#39;s Blog</p>
+            <ul>
+            <li class="issue issue-error">
+              <div class="issue-head">
+                <span class="pill error">error</span>
+                <span class="code">math-render-error</span>
+                <span class="source">gemini+local-check</span>
+              </div>
+              <p>KaTeX 公式解析失败：公式中的下划线字符 &#39;_&#39; 未正确转义，导致解析器期待公式结束或报错。公式以红色错误源码形式暴露在页面中。</p>
+              <small>Region: 160,3378,770,52</small>
+              <small>Selector: span.katex-error</small>
+            </li></ul>
+          </div>
+        </article>
+      </section>
+      <section><div class="section-title"><h2>Run Notes</h2></div><ul class="notes"><li>Applied 5 visual safe fix(es) to Markdown sources. Rebuild and rerun visual-check to verify screenshots.</li></ul></section>
+      <section>
+        <div class="section-title">
+          <h2>Screenshot Gallery</h2>
+          <p>Click any thumbnail to open the full-page screenshot.</p>
+        </div>
+        <div class="gallery">
+        <a class="gallery-card has-issues" href="screenshots/posts__cmu-15213-malloclab.png">
+          <img src="screenshots/posts__cmu-15213-malloclab.png" alt="/posts/cmu-15213-malloclab screenshot" loading="lazy" />
+          <span>/posts/cmu-15213-malloclab</span>
+          <em>1 issue</em>
+        </a>
+        <a class="gallery-card has-issues" href="screenshots/posts__mindspore-06-functional-autodiff.png">
+          <img src="screenshots/posts__mindspore-06-functional-autodiff.png" alt="/posts/mindspore-06-functional-autodiff screenshot" loading="lazy" />
+          <span>/posts/mindspore-06-functional-autodiff</span>
+          <em>4 issues</em>
+        </a></div>
+      </section>
+    </main>
+  </body>
+</html>

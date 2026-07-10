@@ -28,19 +28,18 @@ timezone: "Asia/Shanghai"
 > 1. 通过10mins - 15 mins的时间产生一个Fast overview stage，搞清楚「这篇论文在说什么、为什么重要」
 >
 >    阅读顺序为
->
 >    1. Title & Abstraction：对研究对象，核心方法，主要结论有基本印象
 >    2. Introduction：理解研究背景，定位问题，找到作者提出的核心矛盾/gap
 >    3. Conclusion: 直接看作者总结的Contribution，与Abstraction交叉验证
 >    4. Figures & Tables：论文的视觉中心，通过不看文字理解的方式找到自己的不足
 >
 >    在这个stage的目标中，应该需要搞清楚，论文解决了什么问题，创新点是什么，结果如何
+>
 > 2. 理解方法
 >
 >    这是比较重要的一部分，花30-60mins目标是搞清楚「它是怎么做到的」。
 >
 >    阅读顺序为：
->
 >    1. Related work：理解作者如何定义前人工作的不足之处，这一点决定了创新的边界
 >    2. Method/Approach：精读
 >       1. 核心假设（作者对问题做了什么简化或前提设定）
@@ -52,25 +51,26 @@ timezone: "Asia/Shanghai"
 >       3. 哪些指标被刻意选择/回避？
 >
 >    这里的核心是要求能够一句话概括该方法的核心insight，它在哪些环节与前人不同
+>
 > 3. 批判性审视
 >
 >    15-30mins 去做自己的判断
->
 >    1. 这个方法的适用边界是什么？在哪些情况下会失效？
 >    2. 实验有没有刻意回避某些对比？
 >    3. 这个 insight 能否迁移到其他领域？
 >    4. 作者的思考范式（paradigm）是什么——是 reformulation、借鉴跨领域、数据驱动还是理论推导？
+>
 > 4. blog架构，参照这篇论文blog
 
 ## Infomation Card
 
-| 项目       | 内容                                                                                                                                                                                                                                     |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 论文标题   | Learning to Inference Adaptively for Multimodal Large Language Models                                                                                                                                                                    |
-| 发表于     | ICCV2025                                                                                                                                                                                                                                 |
-| 核心一句话 | 通过一个概率分布采样的调度器在端到端联合训练中解决了“给定时间内的最好回答问题”                                                                                                                                                         |
-| 适用场景   | 边缘计算推理，世界AI，具身智能                                                                                                                                                                                                           |
-| 代码/项目  | [ICCV 2025 Open Access Repository](https://openaccess.thecvf.com/content/ICCV2025/html/Xu_Learning_to_Inference_Adaptively_for_Multimodal_Large_Language_Models_ICCV_2025_paper.html)  [AdaLLaVA](https://zhuoyan-xu.github.io/ada-llava/) |
+| 项目       | 内容                                                                                                                                                                                                                                      |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 论文标题   | Learning to Inference Adaptively for Multimodal Large Language Models                                                                                                                                                                     |
+| 发表于     | ICCV2025                                                                                                                                                                                                                                  |
+| 核心一句话 | 通过一个概率分布采样的调度器在端到端联合训练中解决了“给定时间内的最好回答问题”                                                                                                                                                            |
+| 适用场景   | 边缘计算推理，世界AI，具身智能                                                                                                                                                                                                            |
+| 代码/项目  | [ICCV 2025 Open Access Repository](https://openaccess.thecvf.com/content/ICCV2025/html/Xu_Learning_to_Inference_Adaptively_for_Multimodal_Large_Language_Models_ICCV_2025_paper.html) [AdaLLaVA](https://zhuoyan-xu.github.io/ada-llava/) |
 
 ## Background & Motivation
 
@@ -264,9 +264,9 @@ eval_model(args)
 
 后面跟着六项指标，
 
-![Output_QS](C:/Users/deepc/AppData/Roaming/Typora/typora-user-images/image-20260331160337039.png)
+> 原文此处引用了本机 Typora 缓存图片 `Output_QS`；当前站点未迁移该图片资源。
 
-  关键设计点：latency 参数（0~1）控制 AdaLLaVA 在各层保留多少比例的注意力头。设为 1.0 时等同于标准 LLaVA（全头），设为 0.85 之类的值时模型会根据输入动态跳过部分头，FLOPs和延迟会相应下降，这正是论文"自适应推理"的核心机制。
+关键设计点：latency 参数（0~1）控制 AdaLLaVA 在各层保留多少比例的注意力头。设为 1.0 时等同于标准 LLaVA（全头），设为 0.85 之类的值时模型会根据输入动态跳过部分头，FLOPs和延迟会相应下降，这正是论文"自适应推理"的核心机制。
 
 这里是latency为1时的值，下面可以看一下不同值时模型的输出，依然由claude sonnet编写一个脚本，他会做一些数据分析。
 
@@ -411,10 +411,10 @@ for r in results:
 >
 > 2. 有效计算节省范围：latency 0.6~1.0
 >
-> | 区间 | FLOPs 节省 | 质量 |
-> | --- | --- | --- |
-> | 1.0 → 0.8 | -22% | 无损 |
-> | 1.0 → 0.6 | -43% | 基本无损 |
+> | 区间      | FLOPs 节省   | 质量     |
+> | --------- | ------------ | -------- |
+> | 1.0 → 0.8 | -22%         | 无损     |
+> | 1.0 → 0.6 | -43%         | 基本无损 |
 > | 1.0 → 0.5 | -49%（上限） | 开始退化 |
 >
 > 3. 质量拐点在 latency=0.5
@@ -761,18 +761,14 @@ print(f"""
 > 结构分析
 >
 > 1. TTFT 极稳定（63ms, std=0.6ms）
-> 视觉编码 35ms + Prefill 28ms，这部分完全由输入长度决定，无随机性。TTFT 是用户感知延迟的关键指标，63ms 对于 7B 多模态模型非常优秀。
->
+>    视觉编码 35ms + Prefill 28ms，这部分完全由输入长度决定，无随机性。TTFT 是用户感知延迟的关键指标，63ms 对于 7B 多模态模型非常优秀。
 > 2. Decode 时间是主要开销（占总延迟 95%）
-> ~1357ms 生成约 128 tokens → 每 token 约 10.6ms（约 94 tokens/s）。这完全符合 A100 上 7B FP16 模型的预期吞吐。
->
+>    ~1357ms 生成约 128 tokens → 每 token 约 10.6ms（约 94 tokens/s）。这完全符合 A100 上 7B FP16 模型的预期吞吐。
 > 3. inter-request 方差大（std ≈ 430~486ms）
-> 方差来源不是图片切换（只有 35ms），而是不同 prompt 导致生成长度差异巨大（最短回答 ~25 tokens，最长 ~128 tokens）。decode 按 token 计费，输出越长越慢。
->
+>    方差来源不是图片切换（只有 35ms），而是不同 prompt 导致生成长度差异巨大（最短回答 ~25 tokens，最长 ~128 tokens）。decode 按 token 计费，输出越长越慢。
 > 4. 同图 vs 不同图差异不显著（716ms vs 843ms）
-> 这两类的主要差距来自 prompt 内容（即生成长度），而非视觉编码（35ms，占比 < 3%）。这说明：若要优化 inter-request 延迟，缓存视觉编码结果（image features）价值有限，减少生成 token 数（early stopping / beam
-> search）才是主要手段。
->
+>    这两类的主要差距来自 prompt 内容（即生成长度），而非视觉编码（35ms，占比 < 3%）。这说明：若要优化 inter-request 延迟，缓存视觉编码结果（image features）价值有限，减少生成 token 数（early stopping / beam
+>    search）才是主要手段。
 > 5. 一个异常点：Part 2 的 req1（1394ms）和 Part 3 的 req1（1297ms）偏高——这是因为 warmup 刚结束，PyTorch 的 CUDA 内存分配器还在调整，与后续请求相比属于正常的首次惩罚。
 
 这里我认为有个非常值得注意的数据，在单图、不同文本下，**7B模型在单卡A100上实际inter-request最小达到了252ms**。而中位数则是508ms。
@@ -983,13 +979,13 @@ print("\nData saved to docs/linearity_data.json")
 >
 > LLM prefill 部分其实减少了约 51%，与 FLOPs 预期吻合。但视觉编码这 35ms 是铁板钉钉的固定成本，拉低了整体 TTFT 的加速比：
 >
-> TTFT 加速比 = 92 / 63 = 1.45×   ← 被35ms固定项拖累
+> TTFT 加速比 = 92 / 63 = 1.45× ← 被35ms固定项拖累
 >
 > 而 E2E 的组成是：
 >
 > E2E = TTFT + decode(49个token)
-> ≈ 63ms  + 510ms   (lat=0.5时)
-> ≈ 92ms  + 1098ms   (lat=1.0时)
+> ≈ 63ms + 510ms (lat=0.5时)
+> ≈ 92ms + 1098ms (lat=1.0时)
 >
 > decode 阶段占 E2E 的 95%，而 decode 每个 token 的加速比是 2.09×（与 FLOPs 几乎完全线性），所以 E2E 的整体加速被 decode 主导，最终达到 2.02×，接近理论预期。
 >
@@ -1042,7 +1038,7 @@ print("\nData saved to docs/linearity_data.json")
 > AdaLLaVA 的自适应机制作用于 LLM 的注意力头（每层选择性跳过部分 attention heads），而 Vision Encoding 是在 LLM 之前、完全独立运行的 CLIP 模型，二者是串行的两个模块：
 >
 > 图片 → [CLIP ViT] → image tokens → [AdaLLaVA LLM（注意力头自适应）] → 输出
-> ↑ 不受 latency 参数影响        ↑ latency 参数控制的范围
+> ↑ 不受 latency 参数影响 ↑ latency 参数控制的范围
 >
 > latency 参数只编码为一个特殊 token 插入 LLM 的输入序列，用于控制 LLM 各层的 scheduler 决策，完全不触及 CLIP。所以无论 latency 设为 1.0 还是 0.5，CLIP ViT 都完整跑一遍，耗时固定在 ~35ms。
 

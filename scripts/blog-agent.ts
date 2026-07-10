@@ -46,6 +46,8 @@ function parseArgs(rawArgs) {
     "--no-fix",
     "--no-build",
     "--no-generate-frontmatter",
+    "--no-visual-fix",
+    "--no-visual-fixes",
     "--refresh-knowledge",
     "--skip-gemini",
     "--allow-unsafe-fixes",
@@ -96,7 +98,7 @@ function printUsage() {
   writeStdout("  node scripts/blog-agent.js build-panel <post|--changed|--all>");
   writeStdout("  node scripts/blog-agent.js build-home-panel");
   writeStdout(
-    "  node scripts/blog-agent.js visual-check [--no-build] [--skip-gemini] [--route /posts/example]"
+    "  node scripts/blog-agent.js visual-check [--no-build] [--no-visual-fix] [--review-mode changed|all|none] [--route /posts/example] [--review-base-manifest-path path]"
   );
   writeStdout("  node scripts/blog-agent.js refresh-knowledge");
   writeStdout("  node scripts/blog-agent.js check-knowledge");
@@ -319,18 +321,26 @@ function parseViewport(value) {
 
 function printVisualCheckReport(result) {
   writeStdout(
-    `[agent] visual check: pages=${result.summary.page_count} screenshots=${result.summary.screenshot_count} reviewed=${result.summary.reviewed_count} severity=${result.summary.highest_severity} issues=${result.summary.issue_count}`
+    `[agent] visual check: pages=${result.summary.page_count} screenshots=${result.summary.screenshot_count} reviewed=${result.summary.reviewed_count} fresh=${result.summary.review_fresh_count ?? 0} cached=${result.summary.review_cached_count ?? 0} severity=${result.summary.highest_severity} issues=${result.summary.issue_count} fixes=${result.summary.visual_fix_count ?? 0}`
   );
   writeStdout(`[agent] visual manifest: ${result.manifest_path}`);
+  writeStdout(`[agent] visual report: ${result.report_path}`);
+  writeStdout(`[agent] visual markdown: ${result.report_markdown_path}`);
 
   if (result.notes?.length > 0) {
     writeStdout(`  note: ${result.notes[0]}`);
   }
 
+  for (const fix of (result.applied_fixes ?? []).slice(0, 5)) {
+    writeStdout(
+      `  fix: ${fix.source_path} ${fix.rule}: ${fix.message}`
+    );
+  }
+
   const pagesWithIssues = result.pages
     .map(page => ({
       page,
-      issues: [...(page.hard_checks ?? []), ...(page.review?.issues ?? [])],
+      issues: page.visual_findings ?? [],
     }))
     .filter(item => item.issues.length > 0)
     .slice(0, 8);
@@ -412,12 +422,41 @@ async function main() {
       provider: parsed.flags.get("--provider") ?? "auto",
       model: parsed.flags.get("--model"),
       skipGemini: parsed.flags.get("--skip-gemini") === true,
+      reviewMode: parsed.flags.get("--review-mode"),
       maxPages: parsed.flags.get("--max-pages"),
       route: parsed.flags.get("--route"),
       runId: parsed.flags.get("--run-id"),
+      reviewBaseManifestPath: parsed.flags.get("--review-base-manifest-path"),
+      applyVisualFixes:
+        parsed.flags.get("--no-visual-fix") !== true &&
+        parsed.flags.get("--no-visual-fixes") !== true,
       timeoutMs: parsed.flags.get("--timeout-ms"),
       geminiTimeoutMs: parsed.flags.get("--gemini-timeout-ms"),
       viewport: parseViewport(parsed.flags.get("--viewport")),
+      onProgress: event => {
+        if (event.type === "start") {
+          writeStdout(`[agent] visual pages queued: ${event.total}`);
+          return;
+        }
+
+        if (event.type === "capture") {
+          writeStdout(
+            `[agent] visual capture ${event.index}/${event.total}: ${event.route_path} ${event.ok ? "ok" : "failed"}`
+          );
+          return;
+        }
+
+        if (event.type === "review") {
+          const status = event.cached
+            ? "cached"
+            : event.ok
+              ? "ok"
+              : "skipped";
+          writeStdout(
+            `[agent] visual review ${event.index}/${event.total}: ${event.route_path} ${status}`
+          );
+        }
+      },
     });
     const report = {
       generated_at: new Date().toISOString(),
@@ -436,8 +475,11 @@ async function main() {
         degraded_reason: result.degraded_reason,
         manifest_path: result.manifest_path,
         latest_path: result.latest_path,
+        report_path: result.report_path,
+        report_markdown_path: result.report_markdown_path,
         screenshot_root: result.screenshot_root,
         notes: result.notes,
+        applied_fixes: result.applied_fixes,
       },
     };
 

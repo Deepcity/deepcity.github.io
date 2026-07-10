@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Visual Check Report - latex-auto-fix-verify-clean-2026-07-09</title>
+    <style>
+      :root { color-scheme: light; --bg: #f7f7f4; --paper: #fff; --ink: #242424; --muted: #686868; --line: #dedbd2; --accent: #006cac; --warn: #9a5b00; --error: #b42318; --info: #31615f; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+      header { padding: 32px clamp(18px, 4vw, 56px); border-bottom: 1px solid var(--line); background: var(--paper); }
+      main { padding: 24px clamp(18px, 4vw, 56px) 48px; }
+      h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; letter-spacing: 0; }
+      h2 { margin: 0; font-size: 18px; letter-spacing: 0; }
+      p { margin: 0; color: var(--muted); line-height: 1.65; }
+      .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+      .stat, .pill { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; background: #fafafa; font-size: 13px; font-weight: 650; color: var(--ink); }
+      .pill.warn { color: var(--warn); border-color: #e4c27b; background: #fff8e7; }
+      .pill.error { color: var(--error); border-color: #f0a39c; background: #fff1f0; }
+      .pill.info { color: var(--info); border-color: #9fc9c5; background: #effaf8; }
+      .section-title { margin: 32px 0 14px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+      .page-card { display: grid; grid-template-columns: minmax(180px, 280px) minmax(0, 1fr); gap: 18px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+      .thumb { display: block; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: #eceae3; aspect-ratio: 4 / 3; }
+      .thumb img, .gallery-card img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+      .page-title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .title { margin-top: 4px; font-size: 13px; }
+      ul { margin: 14px 0 0; padding: 0; list-style: none; }
+      .issue { padding: 12px 0; border-top: 1px solid var(--line); }
+      .issue:first-child { border-top: 0; }
+      .issue-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: var(--ink); }
+      .source { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+      small { display: block; color: var(--muted); margin-top: 4px; font-size: 12px; line-height: 1.45; }
+      .notes { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 16px 18px; }
+      .notes li { margin: 6px 0; color: var(--muted); line-height: 1.55; }
+      .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+      .gallery-card { display: grid; gap: 8px; color: inherit; text-decoration: none; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 10px; }
+      .gallery-card img, .missing-thumb { aspect-ratio: 4 / 3; border-radius: 6px; background: #eceae3; }
+      .gallery-card span { font-size: 13px; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .gallery-card em { color: var(--muted); font-size: 12px; font-style: normal; }
+      .gallery-card.has-issues { border-color: #e4c27b; }
+      .empty { padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+      @media (max-width: 760px) { .page-card { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Visual Check Report</h1>
+      <p>Run latex-auto-fix-verify-clean-2026-07-09 generated at 2026-07-09T08:17:33.266Z.</p>
+      <div class="meta">
+        <span class="stat">2 pages</span>
+        <span class="stat">2 screenshots</span>
+        <span class="stat">2 reviewed</span>
+        
+        <span class="stat">2 fresh reviews</span>
+        <span class="stat">0 cached reviews</span>
+        <span class="stat">2 issues</span>
+        <span class="stat">0 fixes</span>
+        <span class="pill warn">warn</span>
+      </div>
+    </header>
+    <main>
+      
+      <section>
+        <div class="section-title">
+          <h2>Needs Attention</h2>
+          <p>1 pages with issues, 1 clean pages.</p>
+        </div>
+        
+        <article class="page-card issue-card">
+          <a class="thumb" href="screenshots/posts__mindspore-06-functional-autodiff.png">
+            <img src="screenshots/posts__mindspore-06-functional-autodiff.png" alt="/posts/mindspore-06-functional-autodiff screenshot" loading="lazy" />
+          </a>
+          <div class="page-body">
+            <div class="page-title-row">
+              <h2>/posts/mindspore-06-functional-autodiff</h2>
+              <span class="pill warn">warn</span>
+            </div>
+            <p class="title">MindSpore 专题：第六章、函数式自动微分 | Deepcity&#39;s Blog</p>
+            <ul>
+            <li class="issue issue-warn">
+              <div class="issue-head">
+                <span class="pill warn">warn</span>
+                <span class="code">text-readability</span>
+                <span class="source">gemini</span>
+              </div>
+              <p>代码块输出过于冗长。在‘总结输出（单次）’等区域，代码块直接打印了数十行重复的 Tensor 调试数据，未进行高度限制（如设置 max-height 并启用滚动条）或折叠处理，导致页面纵向跨度被无意义地拉长，严重影响了读者的阅读和滚动效率。</p>
+              <small>Region: 180 8000 780 3500</small>
+              <small>Selector: pre:has(code)</small>
+            </li>
+            <li class="issue issue-warn">
+              <div class="issue-head">
+                <span class="pill warn">warn</span>
+                <span class="code">visual-blank-space</span>
+                <span class="source">gemini</span>
+              </div>
+              <p>右侧侧边栏大面积空白。由于页面整体高度极长，右侧的目录和推荐卡片在页面滚动到中后段后便不再显示，导致右侧大面积留白，左右视觉分布极不均衡。</p>
+              <small>Region: 1050 2000 300 18000</small>
+              <small>Selector: aside</small>
+            </li></ul>
+          </div>
+        </article>
+      </section>
+      
+      <section>
+        <div class="section-title">
+          <h2>Screenshot Gallery</h2>
+          <p>Click any thumbnail to open the full-page screenshot.</p>
+        </div>
+        <div class="gallery">
+        <a class="gallery-card clean" href="screenshots/posts__cmu-15213-malloclab.png">
+          <img src="screenshots/posts__cmu-15213-malloclab.png" alt="/posts/cmu-15213-malloclab screenshot" loading="lazy" />
+          <span>/posts/cmu-15213-malloclab</span>
+          <em>0 issues</em>
+        </a>
+        <a class="gallery-card has-issues" href="screenshots/posts__mindspore-06-functional-autodiff.png">
+          <img src="screenshots/posts__mindspore-06-functional-autodiff.png" alt="/posts/mindspore-06-functional-autodiff screenshot" loading="lazy" />
+          <span>/posts/mindspore-06-functional-autodiff</span>
+          <em>2 issues</em>
+        </a></div>
+      </section>
+    </main>
+  </body>
+</html>

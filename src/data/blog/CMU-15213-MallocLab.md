@@ -137,7 +137,7 @@ Total            -       -         -     -
 - **util**指标的计算公式为：
 
 $$
-\text{util} = \frac{\text{测试过程中某个时刻用户实际请求的总 payload 大小最大值}}{\text{你向堆申请的总空间大小（通过 mem_sbrk）}}
+\text{util} = \frac{\text{测试过程中某个时刻用户实际请求的总 payload 大小最大值}}{\text{你向堆申请的总空间大小（通过 mem\_sbrk）}}
 $$
 
 - **ops**指标表示在该 trace 中，malloc/free/realloc 操作的总次数。

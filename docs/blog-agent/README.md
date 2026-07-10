@@ -13,6 +13,8 @@
 
 - [`architecture.md`](./architecture.md)
   说明整体架构、模块划分、sidecar/memory 数据布局，以及页面和 CI 的接线方式。
+- [`agent-change-log.md`](./agent-change-log.md)
+  汇总 Blog Agent 自身能力、CLI、报告格式和修复边界的更新记录；每次修改 Agent 行为都应追加记录。
 - [`format-check-agent.md`](./format-check-agent.md)
   说明负责博客格式检查与机械修复的 Agent 子系统。
 - [`review-agent.md`](./review-agent.md)
@@ -60,6 +62,7 @@ Agent 系统由四层组成：
 ## 你应该先看哪一篇
 
 - 如果你想理解系统全貌：先看 [`architecture.md`](./architecture.md)。
+- 如果你要追踪 Agent 最近改了什么：先看 [`agent-change-log.md`](./agent-change-log.md)。
 - 如果你要改 lint / fix 规则：先看 [`format-check-agent.md`](./format-check-agent.md)。
 - 如果你要改评论生成逻辑：先看 [`review-agent.md`](./review-agent.md)。
 - 如果你要改文章知识位置或系列纠错：先看 [`knowledge-map.md`](./knowledge-map.md)。

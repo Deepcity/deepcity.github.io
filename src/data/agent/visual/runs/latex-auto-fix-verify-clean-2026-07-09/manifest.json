@@ -232,6 +232,5 @@
     }
   ],
   "report_path": "src/data/agent/visual/runs/latex-auto-fix-verify-clean-2026-07-09/report.html",
-  "report_markdown_path": "src/data/agent/visual/runs/latex-auto-fix-verify-clean-2026-07-09/report.md",
-  "manifest_path": "src/data/agent/visual/runs/latex-auto-fix-verify-clean-2026-07-09/manifest.json"
+  "report_markdown_path": "src/data/agent/visual/runs/latex-auto-fix-verify-clean-2026-07-09/report.md"
 }

@@ -166,13 +166,37 @@ Markdown 结构分析在 [`src/agent/markdown.ts`](/home/deepc/deepcity.github.i
 输出归档：
 
 - `src/data/agent/visual/runs/<runId>/screenshots/*.png`
+- `src/data/agent/visual/runs/<runId>/report.html`
+- `src/data/agent/visual/runs/<runId>/report.md`
 - `src/data/agent/visual/runs/<runId>/manifest.json`
 - `src/data/agent/visual/latest.json`
 
-检查分两层：
+人工审查优先打开 `report.html`。它会按摘要、问题页面、截图缩略图和完整截图 gallery 组织结果。
 
-- 本地浏览器规则：HTTP 状态、页面脚本错误、console error、横向溢出、坏图。
-- Gemini 多模态：基于完整截图检查遮挡、截断、对比度、异常留白、导航/正文/页脚碰撞等显示问题，并输出 `suggested_adjustments`。
+`report.md` 面向 PR / issue / 终端记录，默认只展开摘要表；需要深挖时再打开每个异常页面的详情块。`manifest.json` 主要给 CI 或后续 Agent 消费，不建议作为人工主入口。
+
+检查结果会统一汇总成 `visual_findings`：
+
+- 本地浏览器证据：HTTP 状态、页面脚本错误、console error、横向溢出、坏图、KaTeX 错误、页面中直接暴露的 LaTeX 环境源码。
+- Gemini 多模态：接收全页概览图、本地证据对应的高质量局部 crop，以及结构化 `local_findings`，再输出一份统一的显示纠错结论。
+
+本地证据不是第二份人工报告；它会作为已验证证据进入 Gemini prompt，并在最终 `report.html` / `report.md` 中与 Gemini 结论合并去重。即使 Gemini 单页响应失败，已验证的本地证据也会保留在统一 `visual_findings` 中。
+
+`visual-check` 默认会应用 allowlist 内的内容小修复。目前只覆盖边界清晰的 LaTeX / KaTeX 渲染修复，例如转义 `\text{...}` 内裸下划线、把 display math 中的 `eqnarray` 改为 `aligned`、把同一行 `$$\begin{align}...\end{align}$$` 改为多行 `aligned`。报告会在 `Applied Fixes` 区块列出源文件、规则、修改摘要和替换前后片段。
+
+默认只审查输入变化或本地证据变化的页面，未变化页面复用上一轮结果。
+
+默认构建前会清理 Astro 生成内容缓存，确保前一次小修复写回 Markdown 后，下一轮截图和 hard-check 基于最新正文。
+
+截图环境会继承 `HTTPS_PROXY` / `HTTP_PROXY` / `ALL_PROXY`，并自动绕过本地静态服务器地址（`127.0.0.1`、`localhost`、`::1`）。截图前会滚动整页触发 lazy images，并对已失败的外链图片做有限重试，减少本地调试网络抖动造成的坏图误报。
+
+成本控制：
+
+- `--review-mode changed`：默认模式。每次仍全量保存截图和统一报告，但只对页面输入 fingerprint、viewport、provider/model 或审查版本变化的页面调用 Gemini。
+- `--review-mode all`：强制全量 Gemini 审查。
+- `--review-mode none` / `--skip-gemini`：只归档截图与本地浏览器检查。
+- `--review-base-manifest-path <path>`：指定复用哪一轮 manifest 的 Gemini 结果，适合刚跑过局部 smoke 后再做 full run。
+- `--no-visual-fix`：只审查与归档，不应用默认 LaTeX 小修复。
 
 如果没有 `GEMINI_API_KEY`，命令仍会保存截图和 manifest，但会把结果标记为 degraded。
 
@@ -181,8 +205,11 @@ Markdown 结构分析在 [`src/agent/markdown.ts`](/home/deepc/deepcity.github.i
 ```bash
 ./agent visual-check --no-build
 ./agent visual-check --skip-gemini
+./agent visual-check --no-visual-fix
+./agent visual-check --review-mode all
+./agent visual-check --review-base-manifest-path src/data/agent/visual/runs/full-visual-unified-2026-07-09/manifest.json
 ./agent visual-check --max-pages 5
 ./agent visual-check --route /posts/example
-./agent visual-check --gemini-timeout-ms 12000
+./agent visual-check --gemini-timeout-ms 60000
 ./agent visual-check --viewport 390x1200
 ```

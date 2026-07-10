@@ -12,8 +12,13 @@ import { analyzeMarkdownBody } from "../src/agent/parsers/markdown.js";
 import { applyHomePanelGuide, buildHomePanelData } from "../src/agent/core/home-panel.js";
 import { buildKnowledgeMap } from "../src/agent/core/knowledge.js";
 import {
+  buildMathRenderIssuesFromMetrics,
+  canReuseVisualReview,
   collectStaticHtmlRoutes,
   filterStaticHtmlRoutes,
+  applyLatexVisualSafeFixesToMarkdown,
+  mergeVisualFindings,
+  resolvePlaywrightProxyConfig,
   routeToVisualArtifactName,
   sanitizeVisualReview,
 } from "../src/agent/core/visual-check.js";
@@ -498,6 +503,182 @@ test("visual check route filter selects explicit routes", () => {
     ["/", "/about"]
   );
   assert.throws(() => filterStaticHtmlRoutes(routes, "/missing"), /No static/);
+});
+
+test("visual check browser proxy keeps local static server bypassed", () => {
+  const proxy = resolvePlaywrightProxyConfig({
+    HTTPS_PROXY: "http://127.0.0.1:17899",
+    NO_PROXY: "example.com",
+  });
+
+  assert.equal(proxy.server, "http://127.0.0.1:17899");
+  assert.match(proxy.bypass, /example\.com/u);
+  assert.match(proxy.bypass, /127\.0\.0\.1/u);
+  assert.match(proxy.bypass, /localhost/u);
+});
+
+test("visual check reuses review only for unchanged screenshot context", () => {
+  const currentPage = {
+    route_path: "/posts/example",
+    capture_ok: true,
+    screenshot_sha256: "abc123",
+    render_input_sha256: "input123",
+    viewport: { width: 1440, height: 1200 },
+  };
+  const previousPage = {
+    route_path: "/posts/example",
+    screenshot_sha256: "abc123",
+    render_input_sha256: "input123",
+    viewport: { width: 1440, height: 1200 },
+    review: { route_path: "/posts/example", issues: [] },
+  };
+  const previousManifest = {
+    provider: "gemini",
+    model: "gemini-test",
+    visual_review_prompt_version: "visual-review-v1",
+  };
+  const gemini = { provider: "gemini", model: "gemini-test" };
+
+  assert.equal(
+    canReuseVisualReview(currentPage, previousPage, previousManifest, gemini),
+    true
+  );
+  assert.equal(
+    canReuseVisualReview(
+      { ...currentPage, screenshot_sha256: "changed" },
+      previousPage,
+      previousManifest,
+      gemini
+    ),
+    true
+  );
+  assert.equal(
+    canReuseVisualReview(
+      { ...currentPage, render_input_sha256: "changed" },
+      previousPage,
+      previousManifest,
+      gemini
+    ),
+    false
+  );
+  assert.equal(
+    canReuseVisualReview(currentPage, previousPage, previousManifest, {
+      provider: "gemini",
+      model: "other-model",
+    }),
+    false
+  );
+  assert.equal(
+    canReuseVisualReview(
+      {
+        ...currentPage,
+        hard_checks: [{ code: "math-render-error" }],
+        local_findings_sha256: "local-changed",
+      },
+      {
+        ...previousPage,
+        hard_checks: [{ code: "math-render-error" }],
+        local_findings_sha256: "local-old",
+      },
+      previousManifest,
+      gemini
+    ),
+    false
+  );
+});
+
+test("visual check reports KaTeX and raw LaTeX render failures", () => {
+  const issues = buildMathRenderIssuesFromMetrics({
+    katex_errors: [
+      {
+        text: "\\text{bad_formula}",
+        title: "ParseError: KaTeX parse error",
+        selector: "span.katex-error",
+      },
+    ],
+    raw_latex_nodes: [
+      {
+        text: "\\begin{eqnarray} a&=&b \\end{eqnarray}",
+        selector: "p",
+      },
+    ],
+  });
+
+  assert.equal(issues.length, 2);
+  assert.equal(issues[0].code, "math-render-error");
+  assert.equal(issues[0].severity, "error");
+  assert.match(issues[0].message, /KaTeX/u);
+  assert.match(issues[1].message, /LaTeX/u);
+});
+
+test("visual check merges local hard-check evidence into unified findings", () => {
+  const findings = mergeVisualFindings(
+    [
+      {
+        code: "math-render-error",
+        severity: "warn",
+        message: "KaTeX parse error is visible in the equation.",
+        region: "10,20,100,40",
+        selector_hint: "span.katex-error",
+        confidence: 0.74,
+        source: "gemini",
+      },
+    ],
+    [
+      {
+        code: "math-render-error",
+        severity: "error",
+        message: "KaTeX parse error: Undefined control sequence: \\bad",
+        region: "12,22,96,38",
+        selector_hint: "span.katex-error",
+        rect: { x: 12, y: 22, width: 96, height: 38 },
+        latex_source: "\\bad",
+      },
+    ]
+  );
+
+  assert.equal(findings.length, 1);
+  assert.equal(findings[0].code, "math-render-error");
+  assert.equal(findings[0].severity, "error");
+  assert.match(findings[0].source, /gemini\+local-check/u);
+  assert.equal(findings[0].confidence >= 0.92, true);
+
+  const localOnly = mergeVisualFindings([], [
+    {
+      code: "broken-image",
+      severity: "error",
+      message: "Image failed to load.",
+      region: "hero",
+      asset_hint: "/missing.webp",
+    },
+  ]);
+
+  assert.equal(localOnly.length, 1);
+  assert.equal(localOnly[0].source, "local-check");
+});
+
+test("visual latex safe fixes stay inside allowlisted render repairs", () => {
+  const source = [
+    "$$",
+    "\\text{通过 mem_sbrk 申请空间}",
+    "$$",
+    "$$",
+    "\\begin{eqnarray}",
+    "loss_猫 &=&-0\\times log(0.1)\\\\",
+    "\\end{eqnarray}",
+    "$$",
+    "$$\\begin{align} p(cat) & = 1 \\\\ p(dog) &= 0 \\end{align} $$",
+    "",
+  ].join("\n");
+
+  const result = applyLatexVisualSafeFixesToMarkdown(source);
+
+  assert.equal(result.fixes.length, 3);
+  assert.match(result.content, /mem\\_sbrk/u);
+  assert.match(result.content, /\\begin\{aligned\}/u);
+  assert.doesNotMatch(result.content, /\\begin\{eqnarray\}/u);
+  assert.doesNotMatch(result.content, /\\begin\{align\}/u);
+  assert.match(result.content, /loss_\{\\text\{猫\}\}/u);
 });
 
 test("visual review sanitizer keeps bounded display issues", () => {

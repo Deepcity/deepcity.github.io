@@ -342,10 +342,10 @@ H(x) = -\sum_{i=1}^np(x_i)\log(p(x_i))
 $$
 比较特殊的有二项分布熵
 $$
-\begin{eqnarray}
-H(X)&=&-\sum_{i=1}^n p(x_i)log(p(x_i))\\
-&=&-p(x)log(p(x))-(1-p(x))log(1-p(x))
-\end{eqnarray}
+\begin{aligned}
+H(X)&=-\sum_{i=1}^n p(x_i)log(p(x_i))\\
+&=-p(x)log(p(x))-(1-p(x))log(1-p(x))
+\end{aligned}
 $$
 *熵也有其他类型的计算公式，这里是信息学上的定义*
 
@@ -425,10 +425,10 @@ $$
 
 
 $$
-\begin{eqnarray}
-loss&=&-(0\times log(0.3)+1\times log(0.6)+0\times log(0.1)\\
-&=&-log(0.6)
-\end{eqnarray}
+\begin{aligned}
+loss&=-(0\times log(0.3)+1\times log(0.6)+0\times log(0.1)\\
+&=-log(0.6)
+\end{aligned}
 $$
 对应的一个batch的loss就是
 $$
@@ -458,11 +458,11 @@ $$
 注意，上式只是针对一个节点的计算公式。这一点一定要和单分类loss区分开来。
 例子中可以计算为：
 $$
-\begin{eqnarray}
-loss_猫 &=&-0\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\
-loss_蛙 &=&-1\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\
-loss_鼠 &=&-1\times log(0.8)-(1-1)log(1-0.8)=-log(0.8)
-\end{eqnarray}
+\begin{aligned}
+loss_{\text{猫}} &=-0\times log(0.1)-(1-0)log(1-0.1)=-log(0.9)\\
+loss_{\text{蛙}} &=-1\times log(0.7)-(1-1)log(1-0.7)=-log(0.7)\\
+loss_{\text{鼠}} &=-1\times log(0.8)-(1-1)log(1-0.8)=-log(0.8)
+\end{aligned}
 $$
 单张样本的loss即为
 每一个batch的loss就是：
@@ -556,7 +556,11 @@ $$H(p,q) =-\sum_ip(c_i)\log q(c_i) $$
 
 每个训练样本所属的类别是已知的，并且每个样本只会属于一个类别（概率为1），属于其他类别概率为0。具体的，可以假设有个三分类任务，三个类分别是：猫，猪，狗。现有一个训练样本类别为猫，则有：
 
-$$\begin{align} p(cat) & = 1 \\ p(pig) &= 0 \\ p(dog) & = 0 \end{align} $$
+$$
+\begin{aligned}
+p(cat) & = 1 \\ p(pig) &= 0 \\ p(dog) & = 0
+\end{aligned}
+$$
 
 通过预测得到的三个类别的概率分别为：$q(cat) = 0.6,q(pig) = 0.2,q(dog) = 0.2$ ，计算$p$ 和$q$ 的交叉熵为：
 $$
