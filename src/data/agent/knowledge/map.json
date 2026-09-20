@@ -1542,13 +1542,32 @@
         "topic:机器学习",
         "topic:人工智能"
       ]
+    },
+    {
+      "post_id": "system-one-model-jev",
+      "title": "Jev: cheapest and fastest structural Model in 2026",
+      "source_path": "src/data/blog/system-one-model-jev.md",
+      "route_path": "/posts/system-one-model-jev",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [],
+      "related_posts": [],
+      "position_summary": "Jev: cheapest and fastest structural Model in 2026 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:TypeSafe AI",
+        "topic:前沿热点",
+        "topic:One System Model"
+      ]
     }
   ],
   "issues": [],
-  "generated_at": "2026-07-07T08:00:56.107Z",
-  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "generated_at": "2026-09-20T16:35:36.628Z",
+  "knowledge_hash": "e66dc43c8fb7e5cc336216c8775bf01e8f4da83e990441bac1fa6293838d2a34",
   "source": {
-    "post_count": 33,
+    "post_count": 34,
     "overrides_path": "src/data/agent/knowledge/overrides.yml"
   }
 }

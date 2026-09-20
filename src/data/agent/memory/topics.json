@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-07T08:00:00.033Z",
+  "updated_at": "2026-09-20T16:35:36.640Z",
   "topics": [
     {
       "tag": "人工智能",
@@ -314,6 +314,15 @@
       "count": 1
     },
     {
+      "tag": "One System Model",
+      "category": "custom",
+      "post_ids": [
+        "system-one-model-jev"
+      ],
+      "latest_post_id": "system-one-model-jev",
+      "count": 1
+    },
+    {
       "tag": "others",
       "category": "custom",
       "post_ids": [
@@ -332,12 +341,30 @@
       "count": 1
     },
     {
+      "tag": "TypeSafe AI",
+      "category": "custom",
+      "post_ids": [
+        "system-one-model-jev"
+      ],
+      "latest_post_id": "system-one-model-jev",
+      "count": 1
+    },
+    {
       "tag": "云服务",
       "category": "software",
       "post_ids": [
         "onedrive-experience-and-warnings"
       ],
       "latest_post_id": "onedrive-experience-and-warnings",
+      "count": 1
+    },
+    {
+      "tag": "前沿热点",
+      "category": "custom",
+      "post_ids": [
+        "system-one-model-jev"
+      ],
+      "latest_post_id": "system-one-model-jev",
       "count": 1
     },
     {
