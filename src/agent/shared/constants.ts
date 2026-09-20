@@ -77,6 +77,6 @@ export const SAFE_FIX_CODES = new Set([
   "missing-code-language",
 ]);
 
-export const DEFAULT_MODEL = "gemini-3.5-flash";
+export const DEFAULT_MODEL = "gemini-3.8-flash";
 export const DEFAULT_PROVIDER = "auto";
 export const DEFAULT_RUN_MODE = "cli";

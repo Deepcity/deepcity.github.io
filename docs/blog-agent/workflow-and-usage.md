@@ -443,7 +443,7 @@ export GEMINI_API_KEY=your_api_key
 可选地覆盖模型：
 
 ```bash
-export BLOG_AGENT_MODEL=gemini-3.5-flash
+export BLOG_AGENT_MODEL=gemini-3.8-flash
 ```
 
 如果不设置 `GEMINI_API_KEY`，系统会回退到 heuristic provider，但 sidecar 和页面都会标记 `degraded`，避免把保底结果当作完整 Agent Review。
