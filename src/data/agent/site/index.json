@@ -2,7 +2,7 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-09-20T16:35:36.680Z",
+  "generated_at": "2026-09-20T16:42:24.159Z",
   "run_mode": "build-home-panel",
   "provider": "heuristic",
   "model": "heuristic-v1",
@@ -60,5 +60,5 @@
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
     "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic guide."
   ],
-  "posts_hash": "fa610def1da9e2e893cc329f80b6d14d5346f0380bacc53b095612bba7be4a29"
+  "posts_hash": "d5810910546b02637dfb5450fc01b80205c196a77f0dbda705fa5427a23d47d4"
 }

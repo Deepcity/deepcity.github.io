@@ -14,6 +14,8 @@ timezone: "Asia/Shanghai"
 
 ## Jev: cheapest and fastest structural model in 2026
 
+从Gemini的规则化调用到AdaLLaVA，我一直想找到一个ms级别的决策模型。Jev的出现，似乎为这个梦想提供了可能。
+
 ## 传送门
 
 [发布blog Introducing System One Models & Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev)
