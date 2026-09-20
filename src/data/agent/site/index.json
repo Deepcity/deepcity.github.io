@@ -2,13 +2,13 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-09-20T16:42:24.159Z",
+  "generated_at": "2026-09-20T16:50:56.316Z",
   "run_mode": "build-home-panel",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 Agent / MCP / Embedding 工程、OSDI / SOSP 论文阅读、CMU 15-213 实验与系统基础、Ascend C 算子开发 等主题，帮助首次访问者快速理解站点内容主线，并跳转到最值得先读的入口。",
-  "agent_role": "这个首页 Agent 不是在线客服，而是构建期生成的静态导览员：它负责概括博客主题、解释文章页 Agent Review 的作用，并把读者引到站内最有代表性的内容入口。",
-  "site_overview": "站点当前收录 34 篇文章，其中 0 篇被标记为精选。内容主要围绕 Agent / MCP / Embedding 工程、OSDI / SOSP 论文阅读、CMU 15-213 实验与系统基础、Ascend C 算子开发 展开，既包含课程实验与论文阅读，也包含 AI 基础设施和工程实践。最近更新是《Jev: cheapest and fastest structural Model in 2026》。",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦智能体工程、系统顶会论文、基础系统实验与算子开发等方向，帮助初访读者理清内容主线并快速进入核心阅读入口。",
+  "agent_role": "我是构建期生成的静态导览员，负责介绍站点主题、解释页面预生成的 Agent Review 机制，并为读者指引最具代表性的技术入口。",
+  "site_overview": "站点现收录 34 篇文章，围绕 Agent 与模型工程、OSDI/SOSP 论文精读、CMU 15-213 实验与昇腾算子开发展开，兼具工程实践与底层系统研究。最新发布为《Jev: cheapest and fastest structural Model in 2026》。",
   "focus_topics": [
     "Agent / MCP / Embedding 工程",
     "OSDI / SOSP 论文阅读",
@@ -16,10 +16,9 @@
     "Ascend C 算子开发"
   ],
   "highlights": [
-    "首页精选与最近发布共同构成阅读入口，当前已收录 34 篇文章、0 篇精选。",
-    "站点主线集中在 Agent / MCP / Embedding 工程、OSDI / SOSP 论文阅读、CMU 15-213 实验与系统基础、Ascend C 算子开发，适合按专题连续阅读。",
-    "Agent 相关主题当前已有 8 篇，最近一篇是《OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models》。",
-    "文章页中的 Agent Review 来自预先生成的 sidecar JSON，访问页面时不会触发在线请求。"
+    "全站收录 34 篇涉及底层系统与前沿 AI 技术的深度实践与精读笔记。",
+    "核心主题涵盖从算子开发、系统实验到顶会大模型推理架构的全栈探索。",
+    "文章页面配套的 Agent Review 均为构建期生成的静态资产，无外部运行时请求开销。"
   ],
   "recommended_paths": [
     {
@@ -30,7 +29,7 @@
     {
       "label": "Agent / MCP / Embedding 工程",
       "href": "/posts/osdi22-orca",
-      "description": "最近相关更新是《OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models》。"
+      "description": "最近相关更新是《OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative…"
     },
     {
       "label": "Ascend C 算子开发",
@@ -38,9 +37,9 @@
       "description": "最近相关更新是《Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结》。"
     },
     {
-      "label": "CMU 15-213 实验与系统基础",
-      "href": "/posts/cmu-15213-malloclab",
-      "description": "最近相关更新是《CMU-15213-MallocLab》。"
+      "label": "浏览全部文章",
+      "href": "/posts/",
+      "description": "按时间线查看站内全部文章。"
     }
   ],
   "content_stats": {
@@ -54,11 +53,11 @@
       "Ascend C 算子开发"
     ]
   },
-  "confidence": 0.9,
+  "confidence": 0.95,
   "notes": [
     "Home panel is generated from committed blog posts and frontmatter only.",
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic guide."
+    "Homepage guide was refined by Gemini from committed site data."
   ],
   "posts_hash": "d5810910546b02637dfb5450fc01b80205c196a77f0dbda705fa5427a23d47d4"
 }
