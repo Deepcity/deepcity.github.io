@@ -18,7 +18,7 @@ timezone: "Asia/Shanghai"
 
 ## 传送门
 
-[发布blog Introducing System One Models & Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev)
+[发布blog Introducing System One Models &amp; Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev)
 [官方文档 docs.typesafe.ai](https://docs.typesafe.ai/)
 [官方评测站 evals.typesafe.ai](https://evals.typesafe.ai/)
 [**GitHub**：typesafe-ai/system-one-adapter-python](https://github.com/typesafe-ai/system-one-adapter-python)
@@ -54,19 +54,20 @@ Jev目前采用invite-only制度，在添加完waitlist后无任何官方模型�
 
 ## Performance
 
-| 测试                                                         | 任务                            | Jev                                  | 对照                                | 延迟       |
-| ------------------------------------------------------------ | ------------------------------- | ------------------------------------ | ----------------------------------- | ---------- |
+| 测试                                                                  | 任务                            | Jev                                  | 对照                                | 延迟       |
+| --------------------------------------------------------------------- | ------------------------------- | ------------------------------------ | ----------------------------------- | ---------- |
 | [lindfors.no](https://lindfors.no/blog/a-first-look-at-typesafes-jev/) | 24 份挪威语听证文件，立场四分类 | 83%                                  | DeepSeek 开推理 92%，不开 83%       | 中位 0.32s |
-| [韩语基准](https://github.com/mahlernim/jev-korean-benchmark) | Belebele 韩 / 英                | 96 / 97                              | 与 Luna 无显著差                    | 中位 221ms |
-| 同上                                                         | PAWS-X 韩 / 英；韩国医考        | 76 / 80；80                          | 医考上 Luna 高 8 分                 | —          |
-| [钓鱼邮件基准](https://github.com/anisselbd/jev-phishing-bench) | 2,000 封邮件                    | 准确率 62.6%，AUROC 0.689，ECE 0.154 | Haiku 4.5：81.3%，0.837，0.097      | p50 239ms  |
-| [Laptop 复现](https://github.com/rorshopping/jev-on-a-laptop) | 官方安全事件用例                | 76.9%                                | 本地 Qwen3-8B 同为 76.9%，Sol 88.5% | —          |
+| [韩语基准](https://github.com/mahlernim/jev-korean-benchmark)          | Belebele 韩 / 英                | 96 / 97                              | 与 Luna 无显著差                    | 中位 221ms |
+| 同上                                                                  | PAWS-X 韩 / 英；韩国医考        | 76 / 80；80                          | 医考上 Luna 高 8 分                 | —         |
+| [钓鱼邮件基准](https://github.com/anisselbd/jev-phishing-bench)        | 2,000 封邮件                    | 准确率 62.6%，AUROC 0.689，ECE 0.154 | Haiku 4.5：81.3%，0.837，0.097      | p50 239ms  |
+| [Laptop 复现](https://github.com/rorshopping/jev-on-a-laptop)          | 官方安全事件用例                | 76.9%                                | 本地 Qwen3-8B 同为 76.9%，Sol 88.5% | —         |
 
 ## 社区观点
 
 总体来讲社区观点偏向保守。认为其不是“性能等同terra的luna”，相反，这个架构采取了极端的trade off，比较准确受认可的描述是“基本就是个零样本分类器”。
 
 主要批评集中于
+
 - 针对case的展示存在误导，例如喂给模型的是坐标、角度这类结构化游戏状态，不是图像
 - "frontier model"和"不会幻觉"的说法，存在夸大宣传的嫌疑
 
@@ -76,3 +77,21 @@ Jev目前采用invite-only制度，在添加完waitlist后无任何官方模型�
 
 1. 训练：RLCD。社区整理的技术谱系里，最接近的公开工作是 RLCR（[arXiv 2507.16806](https://arxiv.org/abs/2507.16806)，2025 年），它用 Brier 分数作奖励。
 2. [LLaDA](https://arxiv.org/abs/2502.09992)
+
+---
+
+Update 21 **September**
+
+## Jev实际使用
+
+就个人而言，填写了waitlist，并且补充真实信息后，第二天收到了typesafe ai的邮件。
+
+![invate](https://p.ipic.vip/ogw9f5.png)
+
+console界面如下：
+
+![console](https://p.ipic.vip/seqact.png)
+
+## Case Study
+
+待更新

@@ -3,41 +3,43 @@
   "title": "Jev: cheapest and fastest structural Model in 2026",
   "source_path": "src/data/blog/system-one-model-jev.md",
   "route_path": "/posts/system-one-model-jev",
-  "source_hash": "73d0c4386ec346fb4b84580c4ad406e2617e4b909fac19dd30872a510d42138a",
-  "generated_at": "2026-09-20T16:50:56.276Z",
+  "source_hash": "b8df965bd5d2df7fbea72779a8af9668ff5ecb7a11f7f5dbd760a06d9f8c8ba9",
+  "generated_at": "2026-09-21T02:13:20.250Z",
   "run_mode": "cli",
-  "provider": "gemini",
-  "model": "gemini-3.8-flash",
-  "degraded": false,
-  "degraded_reason": null,
+  "provider": "heuristic",
+  "model": "heuristic-v1",
+  "degraded": true,
+  "degraded_reason": "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review.",
   "agent_experiment": false,
   "agent_experiment_note": "",
-  "public_commentary": "本文聚焦于 TypeSafe AI 推出的 System One 架构模型 Jev，围绕其主打的低成本、极速响应与宣称的“零幻觉”特性展开了梳理与社区复测还原。在当前大模型普遍堆叠推理时间（System Two / Test-time Compute）的背景下，反向押注轻量级极速架构确实提供了一个差异化的前沿观察视角，也填补了站点在轻量化结构模型方向的讨论空白。\n\n不过，文章在技术机制层面的穿透力略显不足。关于“无幻觉”这一极其反直觉的宣称，目前讨论多停留在官方宣发用词与社区零星测试的表面对比，缺少对 Jev 底层状态表示、结构化约束或是知识蒸馏机制的深入剖析。对于读者而言，更想看到的是它究竟是通过硬编码语法约束、专有架构验证，还是单纯依赖 benchmark 过滤来达成这种效果。\n\n整体而言，这是一篇及时的行业动态追踪，把发布前后的社区质疑与官方回应当作一面镜子，照出了当前 AI 圈“跑分繁荣与实测翻车”并存的常见生态。当然，如果一个模型既宣称最快最便宜，又打包票绝无幻觉，那我们通常不仅要捂紧钱包，还得先备好更严苛的单元测试。",
+  "public_commentary": "本条评论由本地规则保底生成，主要用于提示 Gemini 审稿没有完成。Jev: cheapest and fastest structural Model in 2026 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。\n\n本地规则没有发现高优先级结构问题，但它也不会替代真正的模型审稿。建议之后重新运行 Gemini 版本，让 sidebar 获得更自然的公开旁批。",
   "related_posts": [],
-  "summary": "文章系统梳理了 TypeSafe AI 发布的 Jev 模型，剖析其低成本、高响应速度及“无幻觉”宣发背后的技术特征与社区实测争议。",
-  "structural_review": "结构层级清晰，8个小节逻辑推进顺畅，外链引用丰富但建议保持排版一致性，正文未依赖代码块而是以测试案例与论述为主。",
-  "technical_review": "对 Jev 的性能指标与争议梳理到位，但对“结构化模型”如何消除幻觉的核心机理挖掘较浅，缺乏技术原理解读与架构深度剖析。",
+  "summary": "TypeSafe AI 发布的 System One 模型 Jev：terra 级智力、低成本低延迟、无幻觉宣传，以及社区评测与质疑的整理。",
+  "structural_review": "文章分段较完整，主线已经能靠 10 个标题展开。当前还配有 0 个代码块和 4 张图片，适合作为技术记录继续细化关键结论。",
+  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
   "strengths": [
-    "敏锐捕捉了 2026 年非 System Two 路径的前沿模型动向与市场宣传点",
-    "客观收录了社区针对其宣发与实际表现落差的真实测试反馈",
-    "引用源丰富，为读者追踪第一手讨论提供了充足线索"
+    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
+    "正文存在明确分节，阅读路径基本清楚。",
+    "引用链接数量足够，外部材料入口比较明确。"
   ],
-  "concerns": [
-    "对官方声称“无幻觉”的具体实现机理（如解码约束或知识库结合方式）缺乏深度技术剖析",
-    "缺少可复现的具体测试 prompt 案例或定量评测对比表格"
-  ],
+  "concerns": [],
   "action_items": [
-    "补充 1-2 个具体的测试 Prompt 与输出对比示例，具象化展示其所谓的结构化表现与翻车点",
-    "在技术章节深入探讨 TypeSafe AI 的底层约束机制与传统微调的区别"
+    "当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"
   ],
   "severity": "info",
-  "confidence": 0.88,
+  "confidence": 0.74,
   "memory_refs": [
+    "global:tag_registry",
     "topic:One System Model",
     "topic:TypeSafe AI",
-    "topic:前沿热点"
+    "topic:前沿热点",
+    "issue:body-h1",
+    "issue:bare-url",
+    "issue:non-canonical-post-id",
+    "issue:missing-code-language",
+    "issue:heading-skip"
   ],
-  "knowledge_hash": "e66dc43c8fb7e5cc336216c8775bf01e8f4da83e990441bac1fa6293838d2a34",
+  "knowledge_hash": "b47e462562023157b3c736306bdfe603d1920925f5a97be16ec3d52a1b0dc5a8",
   "knowledge_refs": [
     "topic:TypeSafe AI",
     "topic:前沿热点",
@@ -74,5 +76,7 @@
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": []
+  "notes": [
+    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
+  ]
 }
