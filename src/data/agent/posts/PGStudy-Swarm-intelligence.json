@@ -3,16 +3,21 @@
   "title": "群体智能 Part 1 - PSO",
   "source_path": "src/data/blog/PGStudy-Swarm-intelligence.md",
   "route_path": "/posts/pgstudy-swarm-intelligence",
-  "source_hash": "25c57ddb1589e8da78d1863de2458f01aa7fbd74a2f4e1fb952ee77d8782c5b1",
-  "generated_at": "2026-07-07T07:56:23.284Z",
+  "source_hash": "4335bded97f8822f351e5288647716f41ae7d556d8eb511d98dd28144c386b23",
+  "review_key": "7332120e8c6f5a78dcba0822f5eb5eb4144c1ca84a9cf469e5e5b8afd3db5ef4",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:12:55.833Z",
   "run_mode": "cli",
   "provider": "gemini",
-  "model": "gemini-3.5-flash",
+  "model": "gemini-3.8-flash",
   "degraded": false,
   "degraded_reason": null,
   "agent_experiment": false,
   "agent_experiment_note": "",
-  "public_commentary": "作为“群体智能”系列的开篇之作，本文对**粒子群优化算法 (PSO)** 的数学机理进行了清晰的梳理。在计算智能的版图中，PSO 与邻近的进化算法（如我们在 *进化算法 - EA 与 GA* 中讨论的）共享着相似的“涌现”哲学。对于习惯了梯度下降等传统机器学习优化器的读者来说，PSO 提供了一种无需梯度信息即可在复杂、非凸空间中进行全局寻优的“鸟群”视角。\n\n不过，文章在展示公式的优美之余，略微忽略了 PSO 在高维复杂空间中**易陷入局部最优**（早熟收敛）的经典痛点，以及惯性权重和学习因子的调优艺术。如果能补充一些动态调整权重（例如线性递减策略）的讨论，会给后续的实践篇章带来更明确的指导作用。\n\n读完此文，或许你会发现，算法里的粒子通过个体极值和全局极值不断修正轨迹，像极了在科研和工作路上既要坚持自我、又不得不时刻盯着同行最新进展的我们——只不过粒子撞墙了还能无痛重来，而我们的发际线可不行。",
+  "public_commentary": "作为群体智能主题系列的第一篇，本文旨在梳理群智优化的宏观脉络，并通过 Python 与 Matplotlib 动态演示经典的粒子群优化算法（PSO）。正文对 Bonabeau 提出的自组织与劳动分工概念做了清晰转述，并在经典多峰测试函数 Rastrigin 上给出了完整的求解脚本。\n\n不过文章在论证与编排上暴露出明显的拼贴感与仓促痕迹。正文罗列了 ACO、DE、ABC 等七种常见算法，但其中有五种仅草率地写着“见参考文献1”，既未展开机理也未交代演进关系。在 PSO 核心机制上，虽然提到了文献中的分离、对齐与内聚，甚至给出了“如图 3 所示”，正文里却完全遗漏了该对应图示与数学形式的桥梁；速度更新公式被直接硬编码进脚本，缺少对惯性权重、个体学习与社会学习项的数学原理解释。\n\n最后，正文还直接大段重复粘贴了带可视化与不带可视化的同一份代码，代码占幅远超文本解析。对于群智能学习者而言，建议搭配站内的遗传算法（GA）笔记一同对照阅读，但若想深入理解 PSO 的参数收敛条件与拓扑变体，本文目前更像一份随手记下的运行脚本备份，仍需大量原理性补充。",
+  "related_post_ids": [
+    "PGStudy-EAandGA"
+  ],
   "related_posts": [
     {
       "post_id": "PGStudy-EAandGA",
@@ -21,32 +26,33 @@
       "relation": "相邻主题"
     }
   ],
-  "summary": "本文是群体人工智能系列的第一篇，系统介绍了粒子群优化算法 (PSO) 的基本原理、数学模型、标准公式及其具体应用场景，为理解启发式优化算法奠定了基础。",
-  "structural_review": "文章整体结构逻辑清晰，分段合理。但在排版规范上存在两处硬性问题：首先，文件名包含大写字母，不符合站点规范；其次，正文第一行直接使用了 H1 标题，应当降级为 H2 开始，以便更好地契合前端渲染引擎的大纲生成规则。",
-  "technical_review": "技术公式推导准确，速度与位置更新方程书写规范。然而，文章在论证的深度上存在轻微缺口。PSO 算法核心在于“探索”与“开发”的平衡，未对惯性权重 $w$、加速度常数 $c_1, c_2$ 的物理意义和调节方法进行展开，也缺乏对高维空间中“早熟收敛”现象的应对策略分析。",
+  "summary": "文章简要介绍了群体智能的基本概念与分类，重点给出了粒子群优化（PSO）算法在 Rastrigin 函数上的 Python 模拟与可视化实现，并附带了基础代码与参考文献。",
+  "structural_review": "文章结构呈现严重的头重脚轻与草稿感。第一节列举了七种群智能算法，却有五种直接敷衍为“见参考文献1”，未做实质展开；第二节连续贴出两份重复度极高的 Python 代码实现，正文有效分析篇幅过短，缺乏承上启下的段落过渡。",
+  "technical_review": "在技术推导上，文章提到了 Del Valle 对 PSO 的分离、对齐与内聚行为描述及“如图3所示”，但正文根本没有配图3，也没有将这三者与后续代码中的速度更新公式建立数学映射。速度与位置更新代码中，超参数（如 inertia、cognitive_component、social_component）直接硬编码出现，未说明其参数选取的经验范围与收敛性影响。此外，数学符号排版存在如 $(\\underline+0.5,\\underline+0.5)$ 这类明显的 LaTeX/OCR 格式残留与拼写错别字（如“找道”）。",
   "strengths": [
-    "核心数学模型与公式推导清晰直观，降低了读者的理解门槛。",
-    "成功将自然界中的鸟群捕食行为与粒子状态更新公式进行了恰当的映射对应。"
+    "提供了基于 Matplotlib 动态交互绘制粒子群轨迹的可运行 Python 演示代码。",
+    "准确引用了 Bonabeau 关于群体智能与自组织四大要素的经典理论定义。"
   ],
   "concerns": [
-    "文章文件名 `PGStudy-Swarm-intelligence.md` 包含大写字母，与站点推行的 kebab-case 规范冲突。",
-    "第 1 行使用了正文 H1 标题，破坏了文档的大纲层级结构。",
-    "缺乏对 PSO 容易陷入局部最优等局限性以及超参数敏感度的讨论。"
+    "在“群体智能”列表第 2、4、5、6、7 项中均直接敷衍写为“见参考文献1”，缺乏基础算法说明。",
+    "在“3. 粒子群优化PSO”段落中提及“分别如图3所示”，但全文并未提供图3，上下文脱节。",
+    "在“群智PSO算法实现”中连续粘贴了两段高度冗余的完整代码（带可视化与无可视化），正文解析严重不足。",
+    "在 Rastrigin 最优解描述中出现了非标准 LaTeX 符号 `(\\underline+0.5,\\underline+0.5)` 及错别字“找道”。"
   ],
   "action_items": [
-    "将文章文件名重命名为小写格式 `pgstudy-swarm-intelligence.md` 并更新站内引用链接。",
-    "将第 1 行的 H1 标题降级为 H2，确保正文标题层级从 H2 开始。",
-    "在算法讨论部分，补充一小段关于如何防止 PSO 早熟收敛以及超参数（如惯性权重）动态调整的经典策略。"
+    "补齐或精简群体智能列表中挂起的内容（ACO、DE、ABC 等），避免出现“见参考文献1”的草稿残留。",
+    "修正正文对“图3”的悬空引用，补充 PSO 速度与位置更新的标准数学公式推导。",
+    "精简重复代码块，无可视化版本建议通过类参数开关（如 `visualize=True`）合并展示并深入讲解超参数。",
+    "修正正文排版，清理 `\\underline+` 符号并修正“找道”为“找到”，遵循站内文件名与 H2 标题规范。"
   ],
   "severity": "warn",
-  "confidence": null,
+  "confidence": 0.95,
   "memory_refs": [
-    "topic:机器学习",
-    "topic:人工智能",
     "topic:群体人工智能",
-    "topic:PSO"
+    "topic:PSO",
+    "topic:机器学习"
   ],
-  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
   "knowledge_refs": [
     "topic:机器学习",
     "topic:人工智能",
@@ -90,7 +96,9 @@
       "fixable": false
     }
   ],
-  "fixes_applied": [],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
   "safe_fix_codes": [],
   "suggestions": {
     "normalized_tags": [
@@ -104,5 +112,6 @@
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": []
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.443Z"
 }

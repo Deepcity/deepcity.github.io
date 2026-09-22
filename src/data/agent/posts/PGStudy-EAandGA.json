@@ -3,16 +3,21 @@
   "title": "进化算法 - EA 与 GA",
   "source_path": "src/data/blog/PGStudy-EAandGA.md",
   "route_path": "/posts/pgstudy-eaandga",
-  "source_hash": "6f56b05df8e5ade8dc3ed790ccf16cb8b6c40baa37b764743b3ca3f42f99eaa0",
-  "generated_at": "2026-07-07T07:52:37.263Z",
+  "source_hash": "0aa3b2b3a341a5999a48c9110853ba223f1dca6bfbb8f222a75715f472abab80",
+  "review_key": "865235eb589d9568f3446ad6f81f3e9f68fd7bb01eb26e4f17a7fdb0c8341cc9",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:12:53.870Z",
   "run_mode": "cli",
   "provider": "gemini",
-  "model": "gemini-3.5-flash",
+  "model": "gemini-3.8-flash",
   "degraded": false,
   "degraded_reason": null,
   "agent_experiment": false,
   "agent_experiment_note": "",
-  "public_commentary": "本文作为自然启发式算法的奠基篇章，在智能计算知识网络中占据了关键的生态位。它与后续的群智能算法共同构成了无梯度优化（Gradient-free Optimization）的基石。对于习惯了现代深度学习“万物皆可梯度反传”的读者来说，重温这种模拟自然选择、在非连续空间中进行全局搜索的经典范式，能提供极佳的解题新视角。\n\n在技术论证上，笔记详尽地梳理了表示法、选择机制和重组变异。但值得补充的是，在实际应用（如 TSP 问题）中，遗传算法常常面临**早熟收敛**和**维度灾难**的挑战。读者在阅读 TSP 实践时，可以重点思考算子设计是如何在“探索”与“开发”之间进行权衡的。此外，现代工业界常将 GA 与局部搜索（如 2-opt）结合形成混合进化算法，这也是提升求解质量的核心 Trick。\n\n顺便调侃一句，看着算法在生存选择里无情地淘汰低适应度个体，这集权式的“优胜劣汰”简直比残酷的 KPI 考核还要冰冷。不过别担心，只要你的代码没有陷入局部最优，在这个由位串和实数构成的数字世界里，每一次变异都孕育着打破现状的无限可能——前提是，你没有在第 63 行因为忘记写代码块语言标记而让编译器抓狂。",
+  "public_commentary": "作为优化与启发式搜索领域的入门笔记，本文系统梳理了进化算法（EA）与遗传算法（GA）的生命周期：从基因编码的选择逻辑、亲本选择（轮盘赌与锦标赛）、交叉变异，到生存选择中的精英策略。文中所引用的 TSP（旅行商问题）案例较好地解释了为何在排列问题中必须抛弃简单的二进制表示与单点交叉，并给出了基于 Python 的完整流水线实现。\n\n不过，文章在学术严谨性上留有明显的草稿痕迹。最显眼的问题在于文首将 GA 的英文全称误写为 *Generation Algorithm*（应为 Genetic Algorithm）；同时代码中自称的 `partial_map_crossover` 实际上并非教科书意义上的 PMX（部分映射交叉），而是一种保留前缀并顺序去重追加的变体。此外，文末扩展的连通块环路问题虽然颇具趣味，但扰动逻辑中的分支缩进 bug 会导致种群规模在迭代中发生隐式漂移。\n\n顺带一提，把大纲导览（Overview）笔误写成 *Overline*、把进度条写成 *tqpm*，再配上正文中夹杂的英语生词注音，让整篇笔记充满了一种在研一专业课上边赶作业边查词典的鲜活代入感。",
+  "related_post_ids": [
+    "PGStudy-Swarm-intelligence"
+  ],
   "related_posts": [
     {
       "post_id": "PGStudy-Swarm-intelligence",
@@ -21,23 +26,25 @@
       "relation": "相邻主题"
     }
   ],
-  "summary": "本书评针对《进化算法 - EA 与 GA》一文进行审校。该文作为研究生学习笔记，系统地梳理了进化算法与遗传算法的核心机制（表示、选择、交叉、变异、生存），并结合 TSP 问题给出了具体实践，结构清晰，是优秀的无梯度优化入门参考。",
-  "structural_review": "文章大纲结构清晰，层级分明，从基础定义、通用流程、关键算子到具体案例层层递进。硬伤在于文件名及部分代码块格式不规范，需按照站点统一标准进行微调以确保路径和渲染正常。",
-  "technical_review": "技术内容准确度高。对选择算子（轮盘赌、锦标赛）、交叉算子及变异算子的归纳符合标准定义。TSP 实践部分是极好的加分项，若能进一步补充适应度函数尺度变换（Fitness Scaling）或混合算法的概念，其技术深度将更加完备。",
+  "summary": "文章记录了进化算法（EA）与遗传算法（GA）的核心概念与标准流程，详细探讨了排列表示、亲本选择策略、交叉与变异机制以及精英生存选择，并提供了标准 TSP 与二维连通块路径规划的 Python 实现代码。",
+  "structural_review": "文章基本按照进化算法的标准流程展开，层级划分合理。但在形式上中英混杂较严重，存在大量直接粘贴的英文原句与生词查词批注，更偏向个人阅读笔记；后半部分堆砌了大量未加详细注释的代码块，缺少收敛曲线与可视化结果的图文展示。",
+  "technical_review": "核心机制梳理总体清晰，但在基础定义与代码实现上存在多处明显缺陷。其一，文首将遗传算法 GA 错误定义为 'Generation Algorithm'；其二，在 'Recombination 重组' 章节实现的交叉函数并非标准 PMX，缺乏两点切分与映射链替换逻辑；其三，实践章节的 `Solution.__init__` 中 `self.y_lim` 误用了 `[:, 0]` 切片提取 x 坐标；其四，`run_evolution` 的扰动循环中，候选个体仅在满足 `p_swop` 时才加入 `next_generation`，导致种群数量无法稳定维持在设定值。",
   "strengths": [
-    "系统地覆盖了进化算法的核心框架与遗传算法的关键组件，结构完整、条理清晰。",
-    "提供了具体的 TSP 案例作为实践，使抽象的遗传算子理论推导具有了落地的具象化参考。",
-    "图文结合且公式表达准确，能帮助读者快速建立无梯度优化算法的宏观认知。"
+    "直观解释了排列问题下二进制表示因汉明距离不均和非有效解导致的局限性。",
+    "指出轮盘赌选择对负适应度的处理缺陷，并给出了基于 baseline 平移的归一化方案。",
+    "实践部分将标准 TSP 扩展到二维连通块代表点寻优，设计了二元坐标基因结构。"
   ],
   "concerns": [
-    "文件命名不符合站点路径规范，会影响站内链接的一致性与 SEO 表现。",
-    "部分代码块缺少语言标记，可能导致线上页面语法高亮失效。",
-    "在讨论算法收敛性与参数敏感性上，论证深度略显不足。"
+    "在章节'EA 与 GA'中，将 GA 全称错误写为'Generation Algorithm'（正确应为 Genetic Algorithm）。",
+    "在'Recombination 重组'中实现的'partial_map_crossover'并非真正的部分映射交叉（PMX）。",
+    "实践代码中'Solution'初始化'self.y_lim'时切片索引错误写成'[:, 0]'导致求的是 X 轴极大值。",
+    "实践代码'run_evolution'中'next_generation'列表的追加逻辑在扰动阶段受概率门控，导致每代种群数量发生漂移。"
   ],
   "action_items": [
-    "将文件名 `PGStudy-EAandGA.md` 修改为 `pgstudy-eaandga.md`，并同步更新站内所有指向该路径的链接。",
-    "为第 63 行及其他可能遗漏的代码块补充明确的语言标记（如 python）。",
-    "在总结部分简要增加关于遗传算法如何克服早熟收敛（如引入多样性维护机制）的补充说明。"
+    "修正文首 GA 的全称为 Genetic Algorithm。",
+    "修正实践代码 Solution 初始化中 self.y_lim 的索引为 [:, 1]。",
+    "修复 run_evolution 中精英扰动个体的加入逻辑，保证种群总规模恒定。",
+    "修正二级标题 'Overline' 为 'Overview'，并统一正文中混用的 TPS 与 TSP 缩写。"
   ],
   "severity": "warn",
   "confidence": 0.95,
@@ -45,10 +52,9 @@
     "topic:人工智能",
     "topic:机器学习",
     "topic:进化算法",
-    "topic:遗传算法",
-    "issue:non-canonical-post-id"
+    "topic:遗传算法"
   ],
-  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
   "knowledge_refs": [
     "topic:机器学习",
     "topic:人工智能",
@@ -83,22 +89,12 @@
       "severity": "warn",
       "message": "文件名 `PGStudy-EAandGA.md` 不符合站点路径规范，建议改为 `pgstudy-eaandga.md`，站内文章链接统一使用小写 kebab-case。",
       "fixable": false
-    },
-    {
-      "code": "missing-code-language",
-      "severity": "warn",
-      "message": "第 63 行代码块缺少语言标记。",
-      "line": 63,
-      "fixable": true,
-      "fixed": true
     }
   ],
   "fixes_applied": [
-    "为第 63 行代码块补全语言标记 `py`。"
+    "补全 frontmatter 字段：author、timezone。"
   ],
-  "safe_fix_codes": [
-    "missing-code-language"
-  ],
+  "safe_fix_codes": [],
   "suggestions": {
     "normalized_tags": [
       "机器学习",
@@ -111,5 +107,6 @@
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": []
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.439Z"
 }

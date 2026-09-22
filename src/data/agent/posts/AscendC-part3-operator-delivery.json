@@ -2,40 +2,109 @@
   "post_id": "AscendC-part3-operator-delivery",
   "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
   "source_path": "src/data/blog/AscendC-part3-operator-delivery.md",
-  "route_path": "/posts/AscendC-part3-operator-delivery",
-  "source_hash": "34ccf675eb54b47b6343fd07fafee6e4cd3c267b140d155e15b08a557ce94051",
-  "generated_at": "2026-03-16T04:07:04.110Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "Ascend C 算子开发第三部分，介绍 HOST/DEVICE 交付件结构、编译工作流与算子工程组织方式。",
-  "structural_review": "文章分段较完整，主线已经能靠 9 个标题展开。当前还配有 1 个代码块和 8 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
-  "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+  "route_path": "/posts/ascendc-part3-operator-delivery",
+  "source_hash": "7170dae53416f0486174ff33d8cc74647c1c4fd5bb869d355ebde66f25bedcb8",
+  "review_key": "297151d9a849f1cca4309069f51939a8965e921745d7f6bc34ac30f1063a00ec",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:10:06.087Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为「Ascend C 算子开发」系列的承上启下篇，本文聚焦于算子工程的物理形态——从 Host 侧原型注册与 Tiling 结构体封装，到 Kernel 侧核函数编译，再到 `msopgen` 自动生成算子工程与 CANN `opp` 目录下的交付安装。这些内容是从单算子逻辑跃迁到系统级集成的必经之路。\n\n不过，本文在交付形式上更像是一份「幻灯片讲义速览」：正文文本极为精简，几乎将所有代码实现、目录结构与流程示意都托付给了截图。读者能够快速建立宏观脉络，但无法直接复制关键宏定义或核函数片段，也难以深入理解诸如 `SetTilingKey` 在多分支调度中的内核逻辑。建议配合 CANN 官方文档与系列前后篇（Tiling 计算与后续调用）同步阅读，才能补齐工程落地的具体细节。",
+  "related_post_ids": [
+    "AscendC-part2-tiling-and-debug",
+    "AscendC-part4-operator-invocation",
+    "AscendC-part5-pytorch-summary"
   ],
-  "concerns": [],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
-  "severity": "info",
-  "confidence": 0.76,
+  "related_posts": [
+    {
+      "post_id": "AscendC-part2-tiling-and-debug",
+      "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
+      "route_path": "/posts/ascendc-part2-tiling-and-debug",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "AscendC-part4-operator-invocation",
+      "title": "Ascend C 算子开发 Part4 算子调用与测试",
+      "route_path": "/posts/ascendc-part4-operator-invocation",
+      "relation": "后续阅读"
+    },
+    {
+      "post_id": "AscendC-part5-pytorch-summary",
+      "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+      "route_path": "/posts/ascendc-part5-pytorch-summary",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章概述了 Ascend C 算子工程的交付体系，包括 HOST/DEVICE 双侧交付件职责、Tiling 宏注册与非对齐 Shape 处理，并演示了使用 msopgen 生成工程及部署到 CANN opp 目录的流程。",
+  "structural_review": "文章结构按照算子交付件划分（HOST/KERNEL/其他）再过渡到自定义算子工程创建与编译，逻辑清晰连贯。但正文图文比重严重失调，文字篇幅过短，各小节内容更接近截图题注，缺乏充分的展开叙述。",
+  "technical_review": "技术脉络抓住了 HOST/DEVICE 编译分流、TilingData 宏展开封装以及 msopgen 脚手架生成的核心流程。但在具体技术机制上，针对「其他交付件（非对齐 Shape）」小节仅列举了函数名而未解释 Former/Tail 分割机制；同时对 `SetTilingKey` 的原理解释过于简略，未结合具体算子执行分支说明动态分发的实现方式。此外，所有关键头文件与接口定义均置于截图中，缺乏代码级展示。",
+  "strengths": [
+    "清晰勾勒出 Ascend C 算子从 HOST 侧 Tiling 注册到 DEVICE 侧核函数接入的完整交付骨架。",
+    "准确指出了 msopgen 原型配置与 HOST 侧注册逻辑的对应关系，以及编译输出在 CANN opp 目录下的部署位置。"
+  ],
+  "concerns": [
+    "正文字数严重不足（正文文本不足百字），依赖 8 张图片传达主要技术信息，代码与目录树无法检索或复制。",
+    "「其他交付件（非对齐 Shape）」小节仅提及 set_formerNum 等宏函数名称，未说明非对齐对齐核处理的具体切分算法与执行逻辑。",
+    "REF 包含华为内网/受限链接（Huawei w3, Huawei ilearning），且 REF 3 存在未格式化的裸 URL。"
+  ],
+  "action_items": [
+    "将截图中关键的 Tiling 注册宏、C++ 声明以及工程目录树提取为 Markdown 代码块，减少对纯截图的依赖。",
+    "补充「非对齐 Shape」处理机制的技术解释，阐明前块（Former）与尾块（Tail）的切分逻辑。",
+    "将 REF 3 转换为标准 Markdown 链接，并重命名文件符合小写 kebab-case 规范。"
+  ],
+  "severity": "warn",
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
     "series:ascendc",
     "topic:Ascend",
     "topic:c++",
     "topic:算子开发",
-    "issue:body-h1",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "issue:non-canonical-post-id"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:ascendc",
+    "topic:Ascend",
+    "topic:c++",
+    "topic:算子开发"
+  ],
+  "knowledge_position": {
+    "series_id": "ascendc",
+    "series_label": "Ascend C 算子开发",
+    "role": "系列第 3 篇",
+    "previous_posts": [
+      "AscendC-part2-tiling-and-debug"
+    ],
+    "next_posts": [
+      "AscendC-part4-operator-invocation"
+    ],
+    "topic_neighbors": [
+      "AscendC-part5-pytorch-summary",
+      "AscendC-part1-basic-concept",
+      "algorithm-tree-palindrome-path-query"
+    ],
+    "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「系列第 3 篇」，前置文章 AscendC-part2-tiling-and-debug，后续文章 AscendC-part4-operator-invocation。"
+  },
   "series_key": "ascendc",
   "series_label": "Ascend C 算子开发",
   "published_at": "2025-08-28T20:00:00Z",
-  "tags_snapshot": ["Ascend", "c++", "算子开发"],
+  "tags_snapshot": [
+    "Ascend",
+    "c++",
+    "算子开发"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `AscendC-part3-operator-delivery.md` 不符合站点路径规范，建议改为 `ascendc-part3-operator-delivery.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "bare-url",
       "severity": "info",
@@ -43,16 +112,21 @@
       "fixable": false
     }
   ],
-  "fixes_applied": [],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["Ascend", "c++", "算子开发"],
+    "normalized_tags": [
+      "Ascend",
+      "c++",
+      "算子开发"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.384Z"
 }

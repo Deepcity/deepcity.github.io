@@ -2,46 +2,113 @@
   "post_id": "CMU-15213-BombLab",
   "title": "CMU-15213-BombLab",
   "source_path": "src/data/blog/CMU-15213-BombLab.md",
-  "route_path": "/posts/CMU-15213-BombLab",
-  "source_hash": "7523cd6934bcdbfddc5457bbc6f88c828408ab74f3ebe0a0c285a5ced42b0540",
-  "generated_at": "2026-03-16T04:07:04.159Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "CMU 15-213 课程 Bomb Lab 实验笔记，通过反汇编与 GDB 调试破解六个关卡。",
-  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 26 个标题、65 个代码块、3 张图片。",
-  "technical_review": "这篇文章具备实验记录的骨架，适合继续补足关键实现决策、调试过程与为什么这样做。课程实验类内容如果只停留在步骤罗列，会削弱对并发、体系结构或漏洞利用细节的解释力。",
+  "route_path": "/posts/cmu-15213-bomblab",
+  "source_hash": "67e5600d26ac73f7151b6506fe3d3de68999a097c8c230649c2f52f0520022d6",
+  "review_key": "62bfa1ebc4cd8b1675346968b3a295e9592b8bc36b2bacbd4730495b01cb86f5",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:10:46.605Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为「CMU 15-213 Labs」系列的揭幕篇，本文完整记录了 CS:APP 最经典的拆弹实验（Bomb Lab）全六关的逆向破解过程。作者采用「反汇编比对 + CGDB 单步跟踪」的双轨思路，将汇编指令的执行流与 C 语言高层控制结构（循环、switch 跳转表、递归、链表重排）一一对应，不仅还原了每一关的破解逻辑，还在文末附带了实用性极强的指令集与 GDB 速查表，对初学者非常友好。\n\n不过文章在底层的内存与 ABI 理解上仍有几处值得商榷的缝隙。例如在 phase_5 分析 Canary 栈金丝雀时，作者试图用 `x/d $rax` 解引用随机值导致内存访问报错，误将金丝雀值当成了地址；在 phase_6 中将位于数据段（`0x6032d0`）的全局链表节点误判为「malloc 出来的堆空间」。此外，文末指令表中编造了并不存在的 `movzlq` 指令（x86-64 中对 32 位寄存器的写入会自动对高 32 位零扩展，无需专门的扩展指令）。\n\n顺带一提：在炸弹还没有拆完就敢直接把栈顶金丝雀当指针解引用，GDB 没直接给你 SIGSEGV 爆炸已经算是格外留情了。",
+  "related_post_ids": [
+    "CMU-15213-AttackLab",
+    "CMU-15213-MallocLab",
+    "CMU-15213-ShellLab"
+  ],
+  "related_posts": [
+    {
+      "post_id": "CMU-15213-AttackLab",
+      "title": "CMU-15213-AttackLab",
+      "route_path": "/posts/cmu-15213-attacklab",
+      "relation": "后续阅读"
+    },
+    {
+      "post_id": "CMU-15213-MallocLab",
+      "title": "CMU-15213-MallocLab",
+      "route_path": "/posts/cmu-15213-malloclab",
+      "relation": "相邻主题"
+    },
+    {
+      "post_id": "CMU-15213-ShellLab",
+      "title": "CMU-15213-ShellLab",
+      "route_path": "/posts/cmu-15213-shelllab",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章记录了 CMU 15-213 Bomb Lab 实验的完整破解流程，利用 objdump 与 CGDB 反汇编调试逐一解密六个阶段的汇编逻辑，涵盖跳转表、递归调用、字符掩码与链表排序，并在文末汇总了寄存器与常用指令速查手册。",
+  "structural_review": "文章结构脉络清晰，以关卡为序逐级推进，每关保持了「断点与反汇编展示 -> 关键跳转分析 -> 规律推导 -> 验证通过」的标准实验日志节奏。文末的寄存器、汇编指令与 GDB 常用命令速查总结起到了很好的工具书补充作用。但正文开头直接使用 H1，且大纲中部分标题层级有跳级现象，排版规范仍需微调。",
+  "technical_review": "实验整体破解思路有效成立，阶段 2 的等比序列、阶段 3 的跳转表地址计算和阶段 4 的递归二分讲解均清晰到位。但在底层概念认知上存在三处明显缺陷：一是阶段 5 遇到 `%fs:0x28` Canary 机制时，试图对存储随机值的寄存器做内存解引用 `x/d $rax` 并对报错感到困惑；二是阶段 6 中位于 `0x6032d0` 的链表节点实为静态数据段数据（ELF non-PIE 默认数据段），正文却误写为「malloc 出来的空间」；三是文末指令参考中虚构了 `movzlq` 指令，并在 `sar` 小节误贴了 `shr` 的提示文本。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "按关卡完整覆盖了 Bomb Lab 全部六个 phase，反汇编片段与寄存器状态对照详实。",
+    "对 phase_3 的跳转表地址寻址算式（disp + index * scale）和 phase_4 递归树还原准确。",
+    "文末系统整理了 x86-64 常用指令、寄存器约定与 GDB/CGDB 调试命令速查表，兼具参考价值。"
   ],
   "concerns": [
-    "第 1 行存在正文 H1，建议从 H2 开始。",
-    "第 198 行代码块缺少语言标记。",
-    "第 412 行代码块缺少语言标记。",
-    "第 418 行代码块缺少语言标记。",
-    "第 872 行代码块缺少语言标记。",
-    "第 888 行代码块缺少语言标记。"
+    "phase_5 中对 `%fs:0x28` Stack Canary 的理解存在偏差，尝试用 `x/d $rax` 解引用随机数并疑惑其无法访问内存。",
+    "phase_6 中将 `0x6032d0` 附近的全局链表节点误称为「malloc 出来的空间」，混淆了静态数据段与动态堆内存。",
+    "command ref 章节中列出了并不存在的 `movzlq` 指令，且 `sar` 说明项下方遗留了复制自 `shr` 的提示文案。",
+    "gdb ref 章节中将 `x/d $rsp + 0x8` 描述为「偏移一个字节」，实际应为偏移 8 字节。"
   ],
-  "action_items": ["处理 missing-code-language 对应的问题。"],
+  "action_items": [
+    "修正 phase_5 中对 Canary 随机整数的解引用操作说明，指出 Canary 本身是随机整数而非指针。",
+    "更正 phase_6 链表节点内存来源描述，明确其位于 ELF 程序的已初始化数据段（.data）而非堆区（malloc）。",
+    "修正 command ref 表格：移除 `movzlq` 并注明 x86-64 中 32 位操作数指令默认向高位零扩展的规则，修正 sar 处的描述文案与 GDB 偏移字节数说明。",
+    "按照站点规范将文件名重命名为 kebab-case（`cmu-15213-bomblab.md`），正文 H1 降级为 H2，并补齐缺漏的代码块语言标识。"
+  ],
   "severity": "warn",
-  "confidence": 0.82,
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
     "series:cmu-15213",
-    "topic:c",
     "topic:CMU15213",
-    "topic:反编译",
+    "topic:c",
     "topic:汇编",
-    "issue:heading-skip"
+    "topic:反编译",
+    "issue:non-canonical-post-id"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:cmu-15213",
+    "topic:CMU15213",
+    "topic:c",
+    "topic:汇编",
+    "topic:反编译"
+  ],
+  "knowledge_position": {
+    "series_id": "cmu-15213",
+    "series_label": "CMU 15-213 Labs",
+    "role": "系列开篇",
+    "previous_posts": [],
+    "next_posts": [
+      "CMU-15213-AttackLab"
+    ],
+    "topic_neighbors": [
+      "CMU-15213-MallocLab",
+      "CMU-15213-ShellLab",
+      "CMU-15213-CacheLab"
+    ],
+    "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「系列开篇」，后续文章 CMU-15213-AttackLab。"
+  },
   "series_key": "cmu-15213",
   "series_label": "CMU 15-213 Labs",
   "published_at": "2025-08-13T20:29:00Z",
-  "tags_snapshot": ["CMU15213", "c", "汇编", "反编译"],
+  "tags_snapshot": [
+    "CMU15213",
+    "c",
+    "汇编",
+    "反编译"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `CMU-15213-BombLab.md` 不符合站点路径规范，建议改为 `cmu-15213-bomblab.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "body-h1",
       "severity": "warn",
@@ -55,7 +122,7 @@
       "message": "第 198 行代码块缺少语言标记。",
       "line": 198,
       "fixable": true,
-      "fixed": false
+      "fixed": true
     },
     {
       "code": "missing-code-language",
@@ -63,7 +130,7 @@
       "message": "第 412 行代码块缺少语言标记。",
       "line": 412,
       "fixable": true,
-      "fixed": false
+      "fixed": true
     },
     {
       "code": "missing-code-language",
@@ -71,7 +138,7 @@
       "message": "第 418 行代码块缺少语言标记。",
       "line": 418,
       "fixable": true,
-      "fixed": false
+      "fixed": true
     },
     {
       "code": "missing-code-language",
@@ -79,7 +146,7 @@
       "message": "第 872 行代码块缺少语言标记。",
       "line": 872,
       "fixable": true,
-      "fixed": false
+      "fixed": true
     },
     {
       "code": "missing-code-language",
@@ -87,7 +154,7 @@
       "message": "第 888 行代码块缺少语言标记。",
       "line": 888,
       "fixable": true,
-      "fixed": false
+      "fixed": true
     },
     {
       "code": "bare-url",
@@ -96,16 +163,33 @@
       "fixable": false
     }
   ],
-  "fixes_applied": [],
-  "safe_fix_codes": [],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。",
+    "为第 198 行代码块补全语言标记 `text`。",
+    "为第 412 行代码块补全语言标记 `text`。",
+    "为第 418 行代码块补全语言标记 `text`。",
+    "为第 872 行代码块补全语言标记 `text`。",
+    "为第 888 行代码块补全语言标记 `text`。"
+  ],
+  "safe_fix_codes": [
+    "missing-code-language",
+    "missing-code-language",
+    "missing-code-language",
+    "missing-code-language",
+    "missing-code-language"
+  ],
   "suggestions": {
-    "normalized_tags": ["CMU15213", "c", "汇编", "反编译"],
+    "normalized_tags": [
+      "CMU15213",
+      "c",
+      "汇编",
+      "反编译"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.399Z"
 }

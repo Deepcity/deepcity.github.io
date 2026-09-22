@@ -2,50 +2,121 @@
   "post_id": "CMU-15213-ShellLab",
   "title": "CMU-15213-ShellLab",
   "source_path": "src/data/blog/CMU-15213-ShellLab.md",
-  "route_path": "/posts/CMU-15213-ShellLab",
-  "source_hash": "a3afc444643eace1ad3b696493412e05b48350b7ae579a92cfe3e38ef9144490",
-  "generated_at": "2026-03-16T04:07:04.184Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "CMU 15-213 课程 Shell Lab 实验记录，实现带作业控制的 Unix Shell，涉及进程控制、信号处理与并发。",
-  "structural_review": "文章分段较完整，主线已经能靠 11 个标题展开。当前还配有 1 个代码块和 1 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "这篇文章具备实验记录的骨架，适合继续补足关键实现决策、调试过程与为什么这样做。课程实验类内容如果只停留在步骤罗列，会削弱对并发、体系结构或漏洞利用细节的解释力。",
-  "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+  "route_path": "/posts/cmu-15213-shelllab",
+  "source_hash": "50d76a2393ea3e867472dfc4e046060563fa55fcee1b4a2ea2733b7a324145c0",
+  "review_key": "221dee11caf26ac2af8a7f567112d193a334121a44688f72f8348224e2f3d71a",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:11:12.006Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为 CMU 15-213 系列中承上启下的系统编程硬仗，Shell Lab 的核心痛点从不在于解析命令行字符串，而在于多进程与异步信号交织下的并发控制与时序竞争。本文列出了作业控制需要实现的 7 个关键函数以及几道简答题，但在实验记录的深度上显得略为仓促。\n\n最值得关注的是测试用例调试部分（`TEST` 章节）。作者虽标注了 TEST04、TEST05、TEST06 和 TEST14 的调试点，但正文仅以“注意看 eval 函数中对后台作业的处理部分”一两句话带过，并未还原真实的踩坑场景。在 Shell Lab 中，诸如 `fork` 之后父子进程对 `addjob` 与 `deletejob` 的时序竞争、`sigsuspend` 消除自旋忙等、以及前台进程组信号转发等经典并发陷阱，如果能附带具体的代码片段或时序推演，文章的参考价值将大幅提升。\n\n后半部分的 QA 梳理了 `errno` 恢复、负 PID 传参（进程组发送信号）及信号屏蔽字机制，对复习 CS:APP 第 8 章异常控制流有不错的提纲挈领作用。不过，像“看函数里怎么处理”这种提示，就像菜谱里写着“加入适量食盐”，读者看着不免有些隔靴搔痒。",
+  "related_post_ids": [
+    "CMU-15213-CacheLab",
+    "CMU-15213-MallocLab",
+    "CMU-15213-ArchitectureLab"
   ],
-  "concerns": [],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
-  "severity": "info",
-  "confidence": 0.76,
+  "related_posts": [
+    {
+      "post_id": "CMU-15213-CacheLab",
+      "title": "CMU-15213-CacheLab",
+      "route_path": "/posts/cmu-15213-cachelab",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "CMU-15213-MallocLab",
+      "title": "CMU-15213-MallocLab",
+      "route_path": "/posts/cmu-15213-malloclab",
+      "relation": "后续阅读"
+    },
+    {
+      "post_id": "CMU-15213-ArchitectureLab",
+      "title": "CMU-15213-ArchitectureLab",
+      "route_path": "/posts/cmu-15213-architecturelab",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章记录了 CMU 15-213 Shell Lab 的实验概况，概述了需实现的 7 个关键函数，简要提及 4 个测试用例的关注点，并以问答形式梳理了信号处理、errno 保护、进程组信号及 sigprocmask 等核心概念。",
+  "structural_review": "文章结构清晰，按照步骤规划、编码规范、测试用例排查和理论 QA 递进展开。但是章节内容极度不平衡，TEST 部分各个测试用例仅有一两句话的泛化提示，缺乏细节展开，使得整个测试排查章节形同占位符。",
+  "technical_review": "QA 部分对系统编程概念（如保护 errno、向进程组发送信号 `kill(-pid, sig)`、`sigprocmask`）的解释基本准确。但在关键机制上存在技术阐述缺失与瑕疵：其一，QA 8 提到了在操作作业列表时需要阻塞信号，但没有明确指出最经典的 `fork` 与 `addjob`/`SIGCHLD` 之间的并发竞态（即若不阻塞，子进程可能在 `addjob` 前就结束并触发 `deletejob`）；其二，TEST06 中提到了“注意 exec_cmd 函数”，但无论是在前面的 Steps 还是官方 lab 框架中，均无此函数（官方一般为 `eval`），容易对读者产生误导。",
+  "strengths": [
+    "梳理了需要实现的 7 个核心函数的行数规模，对初学者评估工作量较有帮助。",
+    "QA 问答对保存恢复 errno、kill 负 PID 针对进程组等要点解释清晰准确。"
+  ],
+  "concerns": [
+    "TEST 章节中的 TEST04、TEST05、TEST06、TEST14 内容极度匮乏，仅有一句“注意看 xxx 函数”，没有呈现具体遇到的 bug 和解决方案。",
+    "TEST06 中提到了“注意 exec_cmd 函数”，但 Steps 与官方框架中并未定义该函数（应为 eval）。",
+    "QA 8 讨论阻塞信号原因时仅泛泛提到“修改作业列表”，未点透 Shell Lab 中最核心的 fork 与 addjob 竞态条件。"
+  ],
+  "action_items": [
+    "补充 TEST 章节中各测试用例的具体错误日志、踩坑原因与修复代码，避免空泛提示。",
+    "核对 TEST06 中的 `exec_cmd` 函数命名，修正为统一的 `eval` 或说明其为自定义封装函数。",
+    "在 QA 8 或 eval 讨论中深入剖析并发竞态：解释父进程必须在 `fork` 前阻塞 `SIGCHLD`、并在 `addjob` 后解除阻塞的原因。"
+  ],
+  "severity": "warn",
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
     "series:cmu-15213",
     "topic:c",
     "topic:CMU15213",
-    "issue:body-h1",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "issue:non-canonical-post-id"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:cmu-15213",
+    "topic:CMU15213",
+    "topic:c"
+  ],
+  "knowledge_position": {
+    "series_id": "cmu-15213",
+    "series_label": "CMU 15-213 Labs",
+    "role": "实验记录",
+    "previous_posts": [
+      "CMU-15213-CacheLab"
+    ],
+    "next_posts": [
+      "CMU-15213-MallocLab"
+    ],
+    "topic_neighbors": [
+      "CMU-15213-ArchitectureLab",
+      "CMU-15213-AttackLab",
+      "CMU-15213-BombLab"
+    ],
+    "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「实验记录」，前置文章 CMU-15213-CacheLab，后续文章 CMU-15213-MallocLab。"
+  },
   "series_key": "cmu-15213",
   "series_label": "CMU 15-213 Labs",
   "published_at": "2025-09-14T20:00:00Z",
-  "tags_snapshot": ["CMU15213", "c"],
-  "hard_checks": [],
-  "fixes_applied": [],
+  "tags_snapshot": [
+    "CMU15213",
+    "c"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `CMU-15213-ShellLab.md` 不符合站点路径规范，建议改为 `cmu-15213-shelllab.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["CMU15213", "c"],
+    "normalized_tags": [
+      "CMU15213",
+      "c"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.404Z"
 }

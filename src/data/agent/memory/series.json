@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-20T16:50:56.280Z",
+  "updated_at": "2026-09-22T08:19:56.584Z",
   "series": [
     {
       "id": "ascendc",
@@ -14,7 +14,7 @@
           "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
           "file_path": "src/data/blog/AscendC-part5-pytorch-summary.md",
           "published_at": "2025-09-12T20:00:00Z",
-          "severity": "info",
+          "severity": "warn",
           "tags": [
             "Ascend",
             "c++",
@@ -27,7 +27,7 @@
           "title": "Ascend C 算子开发 Part4 算子调用与测试",
           "file_path": "src/data/blog/AscendC-part4-operator-invocation.md",
           "published_at": "2025-09-05T20:00:00Z",
-          "severity": "info",
+          "severity": "warn",
           "tags": [
             "Ascend",
             "c++",
@@ -39,7 +39,7 @@
           "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
           "file_path": "src/data/blog/AscendC-part3-operator-delivery.md",
           "published_at": "2025-08-28T20:00:00Z",
-          "severity": "info",
+          "severity": "warn",
           "tags": [
             "Ascend",
             "c++",
@@ -51,7 +51,7 @@
           "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
           "file_path": "src/data/blog/AscendC-part2-tiling-and-debug.md",
           "published_at": "2025-08-20T20:00:00Z",
-          "severity": "info",
+          "severity": "warn",
           "tags": [
             "Ascend",
             "c++",
@@ -99,7 +99,7 @@
           "title": "CMU-15213-ShellLab",
           "file_path": "src/data/blog/CMU-15213-ShellLab.md",
           "published_at": "2025-09-14T20:00:00Z",
-          "severity": "info",
+          "severity": "warn",
           "tags": [
             "CMU15213",
             "c"
@@ -110,7 +110,7 @@
           "title": "CMU-15213-CacheLab",
           "file_path": "src/data/blog/CMU-15213-CacheLab.md",
           "published_at": "2025-09-07T20:00:00Z",
-          "severity": "info",
+          "severity": "warn",
           "tags": [
             "CMU15213",
             "c",
@@ -168,6 +168,20 @@
       "missing": [],
       "posts": [
         {
+          "post_id": "OSDI22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "file_path": "src/data/blog/OSDI22-orca.md",
+          "published_at": "2026-04-12T00:00:00+08:00",
+          "severity": "warn",
+          "tags": [
+            "论文阅读",
+            "OSDI",
+            "分布式系统",
+            "大模型推理",
+            "LLM"
+          ]
+        },
+        {
           "post_id": "ICCV25-AdaLLaVA",
           "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
           "file_path": "src/data/blog/ICCV25-AdaLLaVA.md",
@@ -188,7 +202,10 @@
           "published_at": "2026-03-21T09:52:22Z",
           "severity": "warn",
           "tags": [
-            "others"
+            "论文阅读",
+            "ISOCC",
+            "HBM",
+            "ECC"
           ]
         },
         {

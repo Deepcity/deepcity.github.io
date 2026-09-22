@@ -4,42 +4,44 @@
   "source_path": "src/data/blog/system-one-model-jev.md",
   "route_path": "/posts/system-one-model-jev",
   "source_hash": "b8df965bd5d2df7fbea72779a8af9668ff5ecb7a11f7f5dbd760a06d9f8c8ba9",
-  "generated_at": "2026-09-21T02:13:20.250Z",
+  "review_key": "67d98bd31e2e613a15b0aeba708e6b54fac34401861e86229fc01783baa02334",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:14:16.743Z",
   "run_mode": "cli",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "degraded": true,
-  "degraded_reason": "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review.",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
   "agent_experiment": false,
   "agent_experiment_note": "",
-  "public_commentary": "本条评论由本地规则保底生成，主要用于提示 Gemini 审稿没有完成。Jev: cheapest and fastest structural Model in 2026 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。\n\n本地规则没有发现高优先级结构问题，但它也不会替代真正的模型审稿。建议之后重新运行 Gemini 版本，让 sidebar 获得更自然的公开旁批。",
+  "public_commentary": "在追求超大参数与长思维链的当下，Jev 这种反向押注毫秒级结构化决策的模型迅速激起了技术圈的兴奋点。文章敏锐地捕捉到了 TypeSafe AI 主打的 *System One* 理念——试图用非自回归架构换取两个数量级的延迟优势，并宣称彻底杜绝幻觉。在多智能体系统与 LLM 路由器（Router）呼之欲出的背景下，这种轻量级决策组件切中了工业落地对成本与确定性的双重刚需。\n\n然而，正文中列出的第三方实测迅速给这份宣发泼了一盆冷水：无论是在钓鱼邮件检测中大幅落后于 Haiku 4.5，还是在挪威语评测中与 DeepSeek 基线拉不开差距，社区的共识逐渐收敛为它本质上只是个**高度特化的零样本结构化分类器**。把非自回归掩码采样装扮成“无幻觉的前沿模型”，依然没有跳出 AI 宣发制造叙事溢价的老套路。\n\n文章目前的进度条极富戏剧性地停在了“已收到内测邮件、截屏控制台”这一刻，末尾的*待更新*像极了工程师刚配好环境准备大干一场的备忘草稿。期待作者后续在真实业务链路（例如上下文剪枝或路由裁决）中交出真机实测，看看这把“快刀”到底能不能扛住复杂 schema 的严苛考验。",
+  "related_post_ids": [],
   "related_posts": [],
-  "summary": "TypeSafe AI 发布的 System One 模型 Jev：terra 级智力、低成本低延迟、无幻觉宣传，以及社区评测与质疑的整理。",
-  "structural_review": "文章分段较完整，主线已经能靠 10 个标题展开。当前还配有 0 个代码块和 4 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "summary": "文章整理了 TypeSafe AI 发布的毫秒级决策模型 Jev 的核心宣发亮点，汇总了关于非自回归架构与参数的推测，梳理了社区在分类与安全任务上的多项基准测试及质疑，并记录了作者获取内测资格的初步进展。",
+  "structural_review": "文章整体呈现出前沿追踪速记与实测草稿的形态。前半部分从官方材料、参数猜测到社区第三方多方评测，结构展开紧凑且信息密度适中；但文章在后半部分呈现断崖式结尾，末尾仅保留空白占位，整体结构尚未闭环。",
+  "technical_review": "在 `Performance` 章节中，作者搜集了多语种与安全领域的独立评测，直面其与 Haiku 4.5 及本地小模型的差距，对打破官方虚标宣传有很强说服力。然而在 `Jev的参数细节` 中对“非自回归采样”与“decode不可能并行化”的推断过于概括，未展开掩码生成机制；此外 `Related works` 仅列出 RLCD 与 LLaDA 论文链接，缺乏对 Brier 分数如何约束校准概率的技术机理解释。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "汇集了社区多个独立评测（如 Belebele、钓鱼邮件基准与 Laptop 复现），客观揭示了模型真实能力界限。",
+    "敏锐指出了模型可能为非自回归采样与零样本分类器的技术本质，未盲从官方宣传叙事。"
   ],
-  "concerns": [],
+  "concerns": [
+    "末尾 `## Case Study` 章节仅标注‘待更新’，属于未完成的草稿占位内容。",
+    "正文多次出现的 `terra`、`luna`、`Sol` 等代号未作注释或上下文说明，给读者带来理解门槛。",
+    "`Jev实际使用` 章节仅停留在控制台截图展示，未给出实际的 API 请求样例或 Schema 遵守度验证。"
+  ],
   "action_items": [
-    "当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"
+    "补全 `Case Study` 中的实测请求与结果数据，或在内容就绪前暂时移除占位段落。",
+    "在正文首次出现处对 `terra` 和 `luna` 等比较基准代号补齐简短标注。",
+    "在 `Related works` 中补充 1-2 句对 LLaDA 掩码并行采样及 Brier score 概率校准机制的简要说明。"
   ],
-  "severity": "info",
-  "confidence": 0.74,
+  "severity": "warn",
+  "confidence": 0.9,
   "memory_refs": [
-    "global:tag_registry",
-    "topic:One System Model",
     "topic:TypeSafe AI",
     "topic:前沿热点",
-    "issue:body-h1",
-    "issue:bare-url",
-    "issue:non-canonical-post-id",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "topic:One System Model"
   ],
-  "knowledge_hash": "b47e462562023157b3c736306bdfe603d1920925f5a97be16ec3d52a1b0dc5a8",
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
   "knowledge_refs": [
     "topic:TypeSafe AI",
     "topic:前沿热点",
@@ -76,7 +78,6 @@
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.448Z"
 }

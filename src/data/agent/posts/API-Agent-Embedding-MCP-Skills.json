@@ -2,43 +2,77 @@
   "post_id": "API-Agent-Embedding-MCP-Skills",
   "title": "API Agent: Embedding, MCP, Skills",
   "source_path": "src/data/blog/API-Agent-Embedding-MCP-Skills.md",
-  "route_path": "/posts/API-Agent-Embedding-MCP-Skills",
-  "source_hash": "ef994a8c6cbca3ea82aa27acc34234e20901bea36ffae86e9ad2a3178713813c",
-  "generated_at": "2026-03-16T06:51:08.900Z",
-  "run_mode": "build",
+  "route_path": "/posts/api-agent-embedding-mcp-skills",
+  "source_hash": "528be326c13e7417e9df00b6a66b44a9a64d83f24b26a55e0292fc3ff34f1b56",
+  "review_key": "4491ba7848511be29a0bf7e6233309fb66ddfc9065caa3a27bebffe0299c664a",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-22T02:47:52.766Z",
+  "run_mode": "cli",
   "provider": "gemini",
-  "model": "gemini-3.1-pro-preview",
-  "summary": "本文是基于Gemini API Cookbook的Agent实操笔记，详细梳理了Embedding、Function Calling、MCP与Skills的关系，包含大量代码示例，为大模型应用开发提供了清晰的实践指南。",
-  "structural_review": "文章结构详实，包含31个标题、34个代码块和27个链接，支撑了高密度的技术笔记定位；但根据排版检测，可能存在正文误用H1标签、标题跳级以及裸链接等Markdown规范问题需要优化。",
-  "technical_review": "技术内容紧跟当前Agent开发的最新趋势，以Gemini的实操作为切入点，逻辑连贯地串联了从基础Embedding到高阶MCP和Skills的演进路线，对LLM应用开发者具有极高的参考价值。",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "这是一篇非常实用的工程实战记录。作者围绕 Google Gen AI SDK，从最基础的模型对话、流式输出，逐步推进到 Grounding、Context Caching、多模态 Embedding 以及 Agent 核心的循环调度机制。正文中直接放出了完整的图寻定位 Agent 循环实现（`agent.py`），对外部编排器如何分发 `function_call`、提取 JSON 以及触发反思（reflection prompt）的链路拆解得相当接地气。\n\n值得肯定的是文章末尾的两个 Q&A。作者没有停留在“如何调通 API”的搬运工视角，而是直击 Agent 系统最根本的工程痛点：大模型本身并不执行工具，它只是在丰富上下文后预测下一段特殊格式的 Token；同时精确区分了“语法合法”、“Schema 遵从”与“语义正确”三者的层级差异，并给出了实际的 benchmark 评测数据。\n\n不过，标题中赫然列出的 **MCP (Model Context Protocol)** 和 **Skills** 在被保留的正文篇幅中存在明显的论述断层。虽然引用链接里给出了微软的入门项目，但正文未深入剖析 MCP 协议的具体通信规范与工程落地方案。读者在阅读时，建议将本文定位为 **Gemini API 与 Agent 调度运行时（Runtime）的基础工程指南**，对 MCP 的规范细节则需配合额外资料查阅。",
+  "related_post_ids": [
+    "openai-daybreak",
+    "ICCV25-AdaLLaVA"
+  ],
+  "related_posts": [
+    {
+      "post_id": "ICCV25-AdaLLaVA",
+      "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+      "route_path": "/posts/iccv25-adallava",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章基于 Gemini API 探讨 Agent 的构建模式，解析了 SDK 核心功能（Context Caching、多模态 Embedding 等），展示了图寻 Agent 状态机循环，并深入讨论了 Function Calling 中间层机制与结构化输出指标。",
+  "structural_review": "整体结构遵循从快速体验、完整 Agent 示例、SDK 机制盘点到深度 Q&A 的演进路径，脉络清晰。但正文中间对 API 各能力的枚举略显平铺直叙，相较之下前段的 Tuxun 脚本和末尾的 Q&A 论证质量最高，可考虑将调度原理的探讨提前以统领全文。",
+  "technical_review": "在技术逻辑上，作者对 Agent 调度循环的理解十分透彻：精准指出 LLM 负责决策输出结构化提议，中间层（Orchestrator）负责校验执行并将观测结果喂回上下文。对 Structured Output 拆解的四个指标（语法合法、Schema 遵从、一次成功率、任务正确率）非常专业。技术隐患在于：标题包含了 MCP，但正文中对 MCP 具体的 Client-Server 协议交互与工具定义缺少实际代码或规范拆解；另外文末基准评测出现 3.1 Pro 成功率反而劣于 2.5 的异常，作者仅以“这里就不仔细看原因了”带过，未做严谨的控制变量分析。",
   "strengths": [
-    "系统性梳理了从Embedding到MCP等Agent核心组件，理论与实践结合紧密。",
-    "提供了多达34段实操代码块，极大增强了文章的可复现性和指导意义。",
-    "引用了丰富的外部参考链接，便于开发者进行深入的扩展学习。"
+    "提供了完整的 Tuxun Agent 运行主循环代码，清晰展现了从多模态输入、Function Call 分发、自我反思到兜底解析的全流程。",
+    "Q&A 部分透彻地解释了中间层编排器的角色本质，打破了新手对‘大模型直接执行工具’的直觉误区。",
+    "给出了具体的结构化输出（Structured Outputs）四维评测框架，紧密贴合工业界生产落地关注点。"
   ],
   "concerns": [
-    "正文可能直接使用了H1标签，破坏了文档结构的层级规范。",
-    "存在代码块缺少语言声明的情况，可能会影响代码高亮和阅读体验。",
-    "可能包含未修饰的裸链接以及标题层级跳级的问题，需要优化阅读排版。"
+    "正文截断前的内容中，对标题提及的 MCP (Model Context Protocol) 核心规范与使用场景缺乏具体展开与代码支撑。",
+    "文末测试 Gemini 3.1 Pro 与 2.5 Flash 的评测结果出现反常降低时，作者直接跳过了归因排查（‘这里就不仔细看原因了’），论证严谨度不足。",
+    "本地硬校验提示文件名 `API-Agent-Embedding-MCP-Skills.md` 不符合站点的 kebab-case 路由规范。"
   ],
   "action_items": [
-    "将正文中使用的H1标签降级为H2或H3。",
-    "检查所有Markdown代码块，补充对应的语言语法高亮标识。",
-    "将正文中的裸链接替换为带描述文字的标准Markdown链接格式。",
-    "修正各级标题，确保不存在跳跃层级的情况。"
+    "重命名文章源文件为 `api-agent-embedding-mcp-skills.md`，保持与站点规范一致。",
+    "在 Function calling 或相关章节中补齐 MCP (Model Context Protocol) 的具体调用流程与集成示例，使之名副其实。",
+    "对文末 Benchmark 评测中 3.1 表现下降的反常数据做简要的错误日志分析，补充归因结论。"
   ],
   "severity": "warn",
-  "confidence": 0.95,
+  "confidence": 0.88,
   "memory_refs": [
     "topic:LLM",
     "topic:Agent",
-    "topic:Embedding",
     "topic:MCP",
-    "issue:body-h1",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "topic:Embedding"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "topic:LLM",
+    "topic:Agent",
+    "topic:MCP",
+    "topic:Embedding"
+  ],
+  "knowledge_position": {
+    "series_id": null,
+    "series_label": null,
+    "role": "独立文章",
+    "previous_posts": [],
+    "next_posts": [],
+    "topic_neighbors": [
+      "OSDI22-orca",
+      "ICCV25-AdaLLaVA",
+      "AscendC-part5-pytorch-summary"
+    ],
+    "position_summary": "API Agent: Embedding, MCP, Skills 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
+  },
   "series_key": null,
   "series_label": null,
   "published_at": "2026-03-07T00:00:00Z",
@@ -48,7 +82,14 @@
     "MCP",
     "Embedding"
   ],
-  "hard_checks": [],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `API-Agent-Embedding-MCP-Skills.md` 不符合站点路径规范，建议改为 `api-agent-embedding-mcp-skills.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
   "fixes_applied": [],
   "safe_fix_codes": [],
   "suggestions": {
@@ -63,5 +104,6 @@
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": []
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.373Z"
 }

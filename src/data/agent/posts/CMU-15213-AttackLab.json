@@ -2,43 +2,109 @@
   "post_id": "CMU-15213-AttackLab",
   "title": "CMU-15213-AttackLab",
   "source_path": "src/data/blog/CMU-15213-AttackLab.md",
-  "route_path": "/posts/CMU-15213-AttackLab",
-  "source_hash": "b31d01963f8f7b4cd8caecf42304daf1096b130bf9b5e292f29aca10ef4def54",
-  "generated_at": "2026-03-16T04:07:04.149Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "CMU 15-213 课程 Attack Lab 实验记录，涉及缓冲区溢出攻击、ROP 等系统安全技术。",
-  "structural_review": "文章结构已经有基本分段，但仍存在 2 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 11 个标题、53 个代码块、12 张图片。",
-  "technical_review": "这篇文章具备实验记录的骨架，适合继续补足关键实现决策、调试过程与为什么这样做。课程实验类内容如果只停留在步骤罗列，会削弱对并发、体系结构或漏洞利用细节的解释力。",
+  "route_path": "/posts/cmu-15213-attacklab",
+  "source_hash": "cdb0fb7ad8329eb7ec77500551dd719814029b3068fddab714f1a9a4e02f5e52",
+  "review_key": "d3f25988f7ddc7bcf88127cebfc819b3c64ccb1f97fccb92ac0e29cd8bd9c9f6",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:10:35.414Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为「CMU 15-213 Labs」系列中承接 Bomb Lab 的第二篇逆向攻防实录，本文忠实地记录了攻破 Attack Lab 全部 5 个关卡（代码注入到 ROP 攻击）的过程。文章最大的亮点在于对调试现场的真实还原：作者没有简单地贴出最终 payload，而是把环境输入重定向引发的 glibc `__vfprintf_internal` 段错误、进程替换 `<(...)` 导致的问题排查，以及在 Level 4 对比失败路径与成功路径栈帧状态的推演过程都细致保留了下来。\n\n不过，正文在技术深度上留有两处明显的缺口。第一，在排查 Level 1 启动段错误时，作者追踪到 `cmp %rax, infile` 后将其归因于“特殊的 SPJ 判断”，实则是靶机代码在区分输入来自标准输入还是文件参数（`-i` 选项），此处解释略显含糊；第二，在 Level 4 分析失败样本与寄存器 `rcx` 变动时，作者停留在“超出技术水平”并猜测为某种运行时检查，实际上是失败的 ROP 链破坏了返回地址或对齐要求，导致提前跳入未预期路径并触发标准库的 fortified printf 检查。如果能结合 x86-64 的 16 字节栈对齐规范与 `glibc` 的 FORTIFY 机制补完这块分析，本文的深度将更上一层楼。\n\n有趣的是，作者甚至把实验指导书里“你已经拿到 95 分了，有要紧事可以立刻收手”的官方劝退语和自己“HAHAHA! 还要再战”的心理活动原样记录了下来，生动展现了硬核踩坑通关后的爽快感。",
+  "related_post_ids": [
+    "CMU-15213-BombLab",
+    "CMU-15213-ArchitectureLab"
+  ],
+  "related_posts": [
+    {
+      "post_id": "CMU-15213-BombLab",
+      "title": "CMU-15213-BombLab",
+      "route_path": "/posts/cmu-15213-bomblab",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "CMU-15213-ArchitectureLab",
+      "title": "CMU-15213-ArchitectureLab",
+      "route_path": "/posts/cmu-15213-architecturelab",
+      "relation": "后续阅读"
+    }
+  ],
+  "summary": "本文记录了 CMU 15-213 Attack Lab 的全流程通关，涵盖 Level 1 至 Level 3 的栈溢出代码注入，以及 Level 4 和 Level 5 绕过 ASLR 与栈不可执行保护的 ROP Gadget 链构造与调试细节。",
+  "structural_review": "文章按照实验手册推进的 5 个 Level 组织小节，逻辑演进自然。但在排版上有明显瑕疵：第 279 行标题由 H3 直接跳到了 H6（`###### gdb解决了该问题后`），破坏了目录树完整性；此外正文开头保留了内部路径占位链接，整体行文偏向原始实验草稿。",
+  "technical_review": "代码注入与 ROP 链的构造与偏移计算全部验证通过，汇编片段与 dump 数据相互印证。主要技术缺陷集中在故障机理分析：Level 1 中对 `launch` 函数 `infile` 比较分支的解释流于表面，未讲清靶机对输入源校验机制的设计意图；Level 279 附近与 Level 4 结尾处，作者将 `__fprintf_chk` 的报错归结为“对 ROP 的某种检查”，未识别出栈指针对齐或跳转地址非法导致的 glibc 内部防护机制。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "细致记录了从 GDB 断点、寄存器查看、汇编逆向到 payload 十六进制构造的完整推导过程，重现性极佳。",
+    "真实记录了使用 process substitution `<()` 遇到 glibc 崩溃的意外排查细节，对动手自学该实验的读者极具参考价值。",
+    "完整攻克了难度最高的 Level 5，清晰展示了利用动态计算 `%rsp` 偏移绕过栈地址随机化的 Gadget 链设计。"
   ],
   "concerns": [
-    "第 1 行存在正文 H1，建议从 H2 开始。",
-    "第 279 行标题层级从 H3 跳到了 H6。",
-    "第 689 行代码块缺少语言标记。"
+    "在 Level 4 结尾分析失败原因时，将控制流偏转归咎于“对 ROP 做了检查”，缺少对指令对齐及具体被破坏的控制流路径的深入确认。",
+    "第 279 行标题层级从 H3 骤降至 H6（`###### gdb解决了该问题后`），格式不够规范。",
+    "正文中间有约 1883 字符的截断（主要为 Level 4 失败尝试的具体中间过程），未完整评估该失败尝试的具体 Gadget 序列。"
   ],
-  "action_items": ["处理 missing-code-language 对应的问题。"],
+  "action_items": [
+    "统一文章文件名与站内文章链接为小写 kebab-case（如 `cmu-15213-attacklab.md`）。",
+    "修复第 279 行标题层级，将其提升为 H4，并清理文内未解析的相对路径占位链接（如 `../course-note/...`）。",
+    "在 Level 4 结尾补充对失败路径的具体原因分析（如栈对齐不满足或跳转地址无效导致触发 glibc abort），修正“超出目前技术水平”的技术空白。"
+  ],
   "severity": "warn",
-  "confidence": 0.82,
+  "confidence": 0.9,
   "memory_refs": [
-    "global:tag_registry",
     "series:cmu-15213",
-    "topic:c",
     "topic:CMU15213",
-    "topic:反编译",
+    "topic:c",
     "topic:汇编",
+    "topic:反编译",
+    "topic:Exploit String Attack",
+    "issue:non-canonical-post-id"
+  ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:cmu-15213",
+    "topic:CMU15213",
+    "topic:c",
+    "topic:汇编",
+    "topic:反编译",
     "topic:Exploit String Attack"
   ],
+  "knowledge_position": {
+    "series_id": "cmu-15213",
+    "series_label": "CMU 15-213 Labs",
+    "role": "实验记录",
+    "previous_posts": [
+      "CMU-15213-BombLab"
+    ],
+    "next_posts": [
+      "CMU-15213-ArchitectureLab"
+    ],
+    "topic_neighbors": [
+      "CMU-15213-MallocLab",
+      "CMU-15213-ShellLab",
+      "CMU-15213-CacheLab"
+    ],
+    "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「实验记录」，前置文章 CMU-15213-BombLab，后续文章 CMU-15213-ArchitectureLab。"
+  },
   "series_key": "cmu-15213",
   "series_label": "CMU 15-213 Labs",
   "published_at": "2025-08-17T20:29:00Z",
-  "tags_snapshot": ["CMU15213", "c", "汇编", "反编译", "Exploit String Attack"],
+  "tags_snapshot": [
+    "CMU15213",
+    "c",
+    "汇编",
+    "反编译",
+    "Exploit String Attack"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `CMU-15213-AttackLab.md` 不符合站点路径规范，建议改为 `cmu-15213-attacklab.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "body-h1",
       "severity": "warn",
@@ -59,7 +125,7 @@
       "message": "第 689 行代码块缺少语言标记。",
       "line": 689,
       "fixable": true,
-      "fixed": false
+      "fixed": true
     },
     {
       "code": "bare-url",
@@ -68,8 +134,13 @@
       "fixable": false
     }
   ],
-  "fixes_applied": [],
-  "safe_fix_codes": [],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。",
+    "为第 689 行代码块补全语言标记 `yaml`。"
+  ],
+  "safe_fix_codes": [
+    "missing-code-language"
+  ],
   "suggestions": {
     "normalized_tags": [
       "CMU15213",
@@ -83,7 +154,6 @@
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.393Z"
 }

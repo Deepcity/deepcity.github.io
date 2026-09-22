@@ -2,13 +2,13 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-09-21T02:13:20.293Z",
+  "generated_at": "2026-09-22T08:19:52.481Z",
   "run_mode": "build-home-panel",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦 OSDI / SOSP 论文阅读、Agent / MCP / Embedding 工程、CMU 15-213 实验与系统基础、Ascend C 算子开发 等主题，帮助首次访问者快速理解站点内容主线，并跳转到最值得先读的入口。",
-  "agent_role": "这个首页 Agent 不是在线客服，而是构建期生成的静态导览员：它负责概括博客主题、解释文章页 Agent Review 的作用，并把读者引到站内最有代表性的内容入口。",
-  "site_overview": "站点当前收录 38 篇文章，其中 0 篇被标记为精选。内容主要围绕 OSDI / SOSP 论文阅读、Agent / MCP / Embedding 工程、CMU 15-213 实验与系统基础、Ascend C 算子开发 展开，既包含课程实验与论文阅读，也包含 AI 基础设施和工程实践。最近更新是《Jev: cheapest and fastest structural Model in 2026》。",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "summary": "这是 Deepcity 博客首页的静态导览，聚焦顶会论文阅读、AI 系统工程、底层实验与算子开发等主线，帮助读者快速把握技术脉络并定位核心内容。",
+  "agent_role": "作为构建期生成的静态导览员，负责梳理全站核心议题、阐明 Agent Review 机制，并为首次访问的读者指引最有价值的阅读入口。",
+  "site_overview": "站点现收录 34 篇文章，围绕 OSDI/SOSP 论文、Agent 与 MCP 工程、CMU 15-213 基础及昇腾算子开发展开，兼具系统理论与工程实践，最新更新聚焦 Jev 模型讨论。",
   "focus_topics": [
     "OSDI / SOSP 论文阅读",
     "Agent / MCP / Embedding 工程",
@@ -16,10 +16,9 @@
     "Ascend C 算子开发"
   ],
   "highlights": [
-    "首页精选与最近发布共同构成阅读入口，当前已收录 38 篇文章、0 篇精选。",
-    "站点主线集中在 OSDI / SOSP 论文阅读、Agent / MCP / Embedding 工程、CMU 15-213 实验与系统基础、Ascend C 算子开发，适合按专题连续阅读。",
-    "Agent 相关主题当前已有 8 篇，最近一篇是《OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models》。",
-    "文章页中的 Agent Review 来自预先生成的 sidecar JSON，访问页面时不会触发在线请求。"
+    "全站已收录 34 篇深度技术文章，覆盖顶会系统论文研读与底层工程实操。",
+    "核心聚焦大模型推理调度、Agent 架构设计以及硬件算子开发实践。",
+    "文章内包含的 Agent Review 均由离线构建生成，页面浏览无需额外请求。"
   ],
   "recommended_paths": [
     {
@@ -30,7 +29,7 @@
     {
       "label": "Agent / MCP / Embedding 工程",
       "href": "/posts/osdi22-orca",
-      "description": "最近相关更新是《OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models》。"
+      "description": "最近相关更新是《OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative…"
     },
     {
       "label": "Ascend C 算子开发",
@@ -38,13 +37,13 @@
       "description": "最近相关更新是《Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结》。"
     },
     {
-      "label": "OSDI / SOSP 论文阅读",
-      "href": "/posts/eurosys26-maya",
-      "description": "最近相关更新是《Maya: optimizing deep learning training workloads using GPU runtime emulation》。"
+      "label": "浏览全部文章",
+      "href": "/posts/",
+      "description": "按时间线查看站内全部文章。"
     }
   ],
   "content_stats": {
-    "total_posts": 38,
+    "total_posts": 34,
     "featured_posts": 0,
     "latest_post_title": "Jev: cheapest and fastest structural Model in 2026",
     "primary_topics": [
@@ -54,11 +53,11 @@
       "Ascend C 算子开发"
     ]
   },
-  "confidence": 0.9,
+  "confidence": 0.95,
   "notes": [
     "Home panel is generated from committed blog posts and frontmatter only.",
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic guide."
+    "Homepage guide was refined by Gemini from committed site data."
   ],
-  "posts_hash": "6954f1792dbb6a4e63924f29a34a5bc806af4d469c618b3c7a3d2ff0afb2a6a0"
+  "posts_hash": "ac9b60ba490b8e2f951473b30435ed29b2e9b88a5b8cd9f5c760fdb2180a0e7b"
 }

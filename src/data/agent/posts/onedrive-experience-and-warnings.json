@@ -3,49 +3,88 @@
   "title": "使用OneDrive的三年经验与不得不知的警告",
   "source_path": "src/data/blog/onedrive-experience-and-warnings.md",
   "route_path": "/posts/onedrive-experience-and-warnings",
-  "source_hash": "2777928be026c90049465e43c6f1004a9d1411d378b3df8c196245d3ebffc754",
-  "generated_at": "2026-03-16T04:07:04.191Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "三年 OneDrive 使用经验总结与重要警告，包括文件同步陷阱、数据丢失风险及最佳实践。",
-  "structural_review": "文章分段较完整，主线已经能靠 10 个标题展开。当前还配有 0 个代码块和 0 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "source_hash": "b2506ac4fa112af8dba13bf682b9c06c27f1e2aad8d10694064835a8d2c6d1a9",
+  "review_key": "f88678cce9a584f37e4d1e84b1368c37665c6705e5e3948e30038331d1d243f0",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:12:32.911Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "OneDrive 作为 Windows 的原生级云存储组件，凭借按需占位（Files On-Demand）与静默自动备份，在干净的办公环境下表现可圈可点。然而一旦置身于国内桌面生态，海量应用（尤其习惯将收发文件与运行日志直接丢进“文档”目录的微信与 QQ）便会引发无休止的文件句柄占用、同步挂起与回收站污染。本文敏锐且精准地捕捉到了这一国内 Windows 用户极为高频却常被忽视的“水土不服”痛点。但在技术机制的拆解上，文章尚有进一步夯实的空间。例如文中对新设备登录拉取策略给出了模糊推测，忽略了现代 OneDrive 默认启用占位符而非全量下载的机制；针对微信目录冲突，最直接的解法实为前往微信设置更改文件存储路径或关闭 OneDrive 的文档备份重定向。此外，作者规劝读者切勿以网盘同步代替 Git 版本控制的建议十分中肯，避免了许多开发者在多端编译产物冲突上的踩坑。至于文末将资源管理器 Explorer 调侃（或笔误）为 Exploder，倒是极其传神地描摹出了同步锁死时桌面崩溃的真实体验；但若真想保全数据，与其指望崩溃重启，不如谨记公用设备莫登私号、跨驱动器慎用软链接这两条铁律。",
+  "related_post_ids": [],
+  "related_posts": [],
+  "summary": "文章总结了作者三年使用 OneDrive 的心得与风险防范经验，剖析了微信、QQ 占用文档目录导致的同步异常及国内网络连接隐患，警示了公用设备登录的隐私泄露风险，并通过问答形式解答了代码项目同步、速度、个人保管库及软链接等日常使用疑问。",
+  "structural_review": "文章从安全警示开篇，逐步展开至基础定位、本土软件与网络适配、设备安全，最后以 Q&A 形式收尾，脉络清晰。但开篇的危险操作警告与正文后半段的“文件回档”脱节，“文件回档”小节仅寥寥数语，未能与标题强调的“三年警告”深度呼应。",
+  "technical_review": "“CN本地适配 - 软件”一节对微信、QQ 占用“文档”目录导致同步频繁挂起机制的阐述切中要害，但在“文件安全”中推测“设定为始终保存的文件会直接下载到登入电脑上（可能，记忆不是很清楚）”，忽视了按需文件（Files On-Demand）机制的默认表现。在“其他”第 5 条中建议使用软链接迁移存储，忽略了新版 OneDrive 对 symlink/junction 支持并不稳定且不再被官方推荐的风险。此外第 4 条将资源管理器 Explorer 写作 Exploder 属于笔误或未作解释的俚语化表述。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "精准指出了微信、QQ 等本土常用软件侵占“文档”目录导致 OneDrive 频繁锁文件与报错的实际痛点。",
+    "针对临时在他人电脑登录个人账号引发的隐私泄露与文件索引扩散场景给出了直观且具警示意义的分析。",
+    "明确指出了 OneDrive 无法替代 Git 等专用版本控制系统的客观局限，给开发者的协作选型提供了务实建议。"
   ],
-  "concerns": [],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "concerns": [
+    "“文件安全”段落中关于多设备下载行为使用了“可能，记忆不是很清楚”的不确定表述，且未区分按需占位符与全量缓存机制。",
+    "“CN本地适配 - 软件”部分指出了通讯软件霸占目录的弊端，但未提供在客户端设置中迁移存储路径或调整 OneDrive 备份文件夹的实操规避方案。",
+    "“其他”第 5 条推荐软链接挂载到非系统盘，缺少关于 OneDrive 近年限制跨卷符号链接导致同步异常的风险提示。"
+  ],
+  "action_items": [
+    "核实并补充按需文件（Files On-Demand）在新设备登录时的具体行为，移除正文中“记忆不是很清楚”的不确定措辞。",
+    "在“CN本地适配 - 软件”段落中补充解决方案，建议读者在微信/QQ设置中更改数据目录或在 OneDrive 备份设置中解除“文档”保护。",
+    "修正“其他”第 4 条中“Exploder”为“Explorer”，并在第 5 条中注明软链接可能在客户端更新后失效的注意事项。"
+  ],
   "severity": "info",
-  "confidence": 0.74,
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
-    "topic:365",
-    "topic:Microsoft",
-    "topic:云服务",
     "topic:软件",
-    "issue:body-h1",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "topic:云服务",
+    "topic:Microsoft",
+    "topic:365"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "topic:软件",
+    "topic:云服务",
+    "topic:Microsoft",
+    "topic:365"
+  ],
+  "knowledge_position": {
+    "series_id": null,
+    "series_label": null,
+    "role": "独立文章",
+    "previous_posts": [],
+    "next_posts": [],
+    "topic_neighbors": [],
+    "position_summary": "使用OneDrive的三年经验与不得不知的警告 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
+  },
   "series_key": null,
   "series_label": null,
   "published_at": "2025-04-24T15:01:39Z",
-  "tags_snapshot": ["软件", "云服务", "Microsoft", "365"],
+  "tags_snapshot": [
+    "软件",
+    "云服务",
+    "Microsoft",
+    "365"
+  ],
   "hard_checks": [],
-  "fixes_applied": [],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["软件", "云服务", "Microsoft", "365"],
+    "normalized_tags": [
+      "软件",
+      "云服务",
+      "Microsoft",
+      "365"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.430Z"
 }

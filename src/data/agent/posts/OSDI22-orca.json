@@ -1,0 +1,134 @@
+{
+  "post_id": "OSDI22-orca",
+  "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+  "source_path": "src/data/blog/OSDI22-orca.md",
+  "route_path": "/posts/osdi22-orca",
+  "source_hash": "17b53007721ab5ae2618ffdb8543ea57b50331be5a7b7fa87c4613a4463bea4e",
+  "review_key": "4f558232570eb54383bdf142db6f9102036d6c15de4d7c42b39dd9ec57029960",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:12:38.815Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为现代大模型推理引擎（如 vLLM、TGI、TensorRT-LLM）的祖师爷级工作，OSDI 2022 的 Orca 首次系统化提出了 Continuous Batching（在论文中称作 Iteration-level scheduling）与选择性批处理（Selective Batching）。本文梳理了 Orca 的两大关键刀法：非注意力算子的 Token 展平（将 `[B, L, H]` 拍平为 2D 张量）以消除 Padding 气泡，以及将调度粒度缩短到单一解码步，从根本上终结了请求陪跑和晚到阻塞的低效困境。\n\n作者敏锐地指出，Orca 在提出划时代调度范式的同时，也留下了相当粗糙的早期遗迹——例如按最大生成长度预分配连续显存的静态槽位机制。读者在阅读时，恰好可以顺着这一线索，将其与后续 SOSP 2023 的 PagedAttention/vLLM（解决显存碎片与按需分页）以及 Chunked Prefill 等工作做逻辑串联，理解大模型系统技术演进的必然脉络。",
+  "related_post_ids": [
+    "OSDI18-Ray",
+    "ICCV25-AdaLLaVA"
+  ],
+  "related_posts": [
+    {
+      "post_id": "ICCV25-AdaLLaVA",
+      "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+      "route_path": "/posts/iccv25-adallava",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "OSDI18-Ray",
+      "title": "OSDI 2018 - Ray: A Distributed Framework for Emerging AI Applications",
+      "route_path": "/posts/osdi18-ray",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章梳理了 OSDI 2022 经典论文 Orca，核心介绍了其迭代级调度（Continuous Batching）、选择性批处理的 Split/Merge 机制、分布式软硬件解耦与流水线并行设计，并指出了其显存静态预留策略的早期局限性。",
+  "structural_review": "整体结构完整，按照背景痛点、创新点拆解、方法分块（架构、显存、并行）、实验评价及个人总结展开，逻辑推进自然。但在正文第一行重复定义了与页面标题相同的 H1 标题，且部分图表缺乏深入的轴坐标与指标量化解读，略显仓促。",
+  "technical_review": "文章准确捕捉了 Selective Batching 的张量形状操作（将线性层等拍平成 2D `[总Token数, H]`，注意力层按请求 Split/Merge），技术拆解到位；同时指出了 FCFS 配合最大长度预留显存的死锁预防设计及其导致的显存碎片问题。不过，在导言中提及“pipeline parallelize trainning”，有将推理流水线笔误为训练之嫌；且对不同阶段（Prefill 与 Decode）混合调度的算子级干扰未作延展讨论。",
+  "strengths": [
+    "精准拆解了 Selective Batching 中非 Attention 算子拍平张量与 Attention 算子 Split/Merge 的核心机制。",
+    "客观指出了 Orca 为防死锁而采用静态预留最大 token 显存的早期设计缺陷，为读者串联后续 PagedAttention 留下了良好接口。"
+  ],
+  "concerns": [
+    "第 1 行存在正文 H1，与站内标题渲染层级规范冲突。",
+    "前言段落中出现‘pipeline parallelize trainning’的表述，疑似将推理流水线与训练混淆，需修正为 inference。",
+    "Evaluation 章节对实验图表的量化说明较薄弱，仅写了‘有一点 execution time 的 trade off’，未明确指出基准对比指标（如 TTFT、TPOT 或吞吐量具体倍数）。"
+  ],
+  "action_items": [
+    "移除第 1 行正文 H1 标题，改为从 H2 或直接正文开始。",
+    "修正前言中‘pipeline parallelize trainning’的笔误，明确其讨论范围为推理（Serving / Inference）。",
+    "文件名及站内引用统一按站点规范转换为小写 kebab-case（如 `osdi22-orca.md`）。",
+    "在 Evaluation 补充图表具体的性能量化数据与关键对照组配置。"
+  ],
+  "severity": "warn",
+  "confidence": 0.92,
+  "memory_refs": [
+    "series:paper-reading",
+    "topic:论文阅读",
+    "topic:OSDI",
+    "topic:分布式系统",
+    "topic:大模型推理",
+    "topic:LLM",
+    "issue:body-h1",
+    "issue:non-canonical-post-id"
+  ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:paper-reading",
+    "topic:论文阅读",
+    "topic:OSDI",
+    "topic:分布式系统",
+    "topic:大模型推理",
+    "topic:LLM"
+  ],
+  "knowledge_position": {
+    "series_id": "paper-reading",
+    "series_label": "论文阅读",
+    "role": "论文阅读",
+    "previous_posts": [
+      "ICCV25-AdaLLaVA"
+    ],
+    "next_posts": [],
+    "topic_neighbors": [
+      "OSDI18-Ray",
+      "OSDI24-ServerlessLLM",
+      "pgstudy-characterization-llm-development-datacenter"
+    ],
+    "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ICCV25-AdaLLaVA。"
+  },
+  "series_key": "paper-reading",
+  "series_label": "论文阅读",
+  "published_at": "2026-04-12T00:00:00+08:00",
+  "tags_snapshot": [
+    "论文阅读",
+    "OSDI",
+    "分布式系统",
+    "大模型推理",
+    "LLM"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `OSDI22-orca.md` 不符合站点路径规范，建议改为 `osdi22-orca.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
+    {
+      "code": "body-h1",
+      "severity": "warn",
+      "message": "第 1 行存在正文 H1，建议从 H2 开始。",
+      "line": 1,
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "论文阅读",
+      "OSDI",
+      "分布式系统",
+      "大模型推理",
+      "LLM"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [
+    "Gemini proposed related_post_ids outside the allow-list and they were dropped: OSDI24-ServerlessLLM"
+  ],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.434Z"
+}

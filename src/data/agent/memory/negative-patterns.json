@@ -1,7 +1,38 @@
 {
   "version": 1,
-  "updated_at": "2026-09-20T16:50:56.280Z",
+  "updated_at": "2026-09-22T08:19:56.584Z",
   "patterns": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "post_ids": [
+        "Algorithm-number-theory-base",
+        "API-Agent-Embedding-MCP-Skills",
+        "AscendC-part1-basic-concept",
+        "AscendC-part2-tiling-and-debug",
+        "AscendC-part3-operator-delivery",
+        "AscendC-part4-operator-invocation",
+        "AscendC-part5-pytorch-summary",
+        "CMU-15213-ArchitectureLab",
+        "CMU-15213-AttackLab",
+        "CMU-15213-BombLab",
+        "CMU-15213-CacheLab",
+        "CMU-15213-MallocLab",
+        "CMU-15213-ShellLab",
+        "ICCV25-AdaLLaVA",
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+        "OSDI18-Ray",
+        "OSDI22-orca",
+        "OSDI24-ServerlessLLM",
+        "PGStudy-EAandGA",
+        "PGStudy-Swarm-intelligence",
+        "SOSP24-Colloid",
+        "SOSP25-ByteRobust"
+      ],
+      "sample_message": "文件名 `SOSP25-ByteRobust.md` 不符合站点路径规范，建议改为 `sosp25-byterobust.md`，站内文章链接统一使用小写 kebab-case。",
+      "latest_post_id": "SOSP25-ByteRobust",
+      "count": 22
+    },
     {
       "code": "body-h1",
       "severity": "warn",
@@ -13,7 +44,7 @@
         "CMU-15213-BombLab",
         "ICCV25-AdaLLaVA",
         "mindspore-extra-transformer-structure",
-        "osdi22-orca",
+        "OSDI22-orca",
         "pgstudy-characterization-llm-development-datacenter",
         "PGStudy-Swarm-intelligence",
         "SOSP24-Colloid",
@@ -28,6 +59,7 @@
       "severity": "info",
       "post_ids": [
         "Algorithm-number-theory-base",
+        "AscendC-part1-basic-concept",
         "AscendC-part3-operator-delivery",
         "CMU-15213-ArchitectureLab",
         "CMU-15213-AttackLab",
@@ -39,38 +71,7 @@
       ],
       "sample_message": "检测到 3 处裸 URL，建议改成 Markdown 链接。",
       "latest_post_id": "SOSP25-ByteRobust",
-      "count": 9
-    },
-    {
-      "code": "non-canonical-post-id",
-      "severity": "warn",
-      "post_ids": [
-        "ICCV25-AdaLLaVA",
-        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
-        "OSDI18-Ray",
-        "OSDI24-ServerlessLLM",
-        "PGStudy-EAandGA",
-        "PGStudy-Swarm-intelligence",
-        "SOSP24-Colloid",
-        "SOSP25-ByteRobust"
-      ],
-      "sample_message": "文件名 `SOSP25-ByteRobust.md` 不符合站点路径规范，建议改为 `sosp25-byterobust.md`，站内文章链接统一使用小写 kebab-case。",
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 8
-    },
-    {
-      "code": "missing-code-language",
-      "severity": "warn",
-      "post_ids": [
-        "Algorithm-number-theory-base",
-        "CMU-15213-AttackLab",
-        "CMU-15213-BombLab",
-        "CMU-15213-MallocLab",
-        "PGStudy-EAandGA"
-      ],
-      "sample_message": "第 63 行代码块缺少语言标记。",
-      "latest_post_id": "PGStudy-EAandGA",
-      "count": 5
+      "count": 10
     },
     {
       "code": "heading-skip",
@@ -82,6 +83,18 @@
       ],
       "sample_message": "第 11 行标题层级从 H1 跳到了 H3。",
       "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
+      "count": 3
+    },
+    {
+      "code": "missing-code-language",
+      "severity": "warn",
+      "post_ids": [
+        "CMU-15213-AttackLab",
+        "CMU-15213-BombLab",
+        "CMU-15213-MallocLab"
+      ],
+      "sample_message": "第 144 行代码块缺少语言标记。",
+      "latest_post_id": "CMU-15213-MallocLab",
       "count": 3
     }
   ]

@@ -2,41 +2,105 @@
   "post_id": "CMU-15213-MallocLab",
   "title": "CMU-15213-MallocLab",
   "source_path": "src/data/blog/CMU-15213-MallocLab.md",
-  "route_path": "/posts/CMU-15213-MallocLab",
-  "source_hash": "d1038dc3ee932d4e184308f76facbf8745dda0a9d49c48465c4693a6b6a853f1",
-  "generated_at": "2026-03-16T04:07:04.175Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "CMU 15-213 课程 Malloc Lab 实验记录，从隐式空闲链表到显式空闲链表实现动态内存分配器，最终得分 85/100。",
-  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 10 个标题、12 个代码块、0 张图片。",
-  "technical_review": "这篇文章具备实验记录的骨架，适合继续补足关键实现决策、调试过程与为什么这样做。课程实验类内容如果只停留在步骤罗列，会削弱对并发、体系结构或漏洞利用细节的解释力。",
+  "route_path": "/posts/cmu-15213-malloclab",
+  "source_hash": "e77e8049423c7f10143d82beca966fd7b42ead1579974d681e87eb57a16fe6c8",
+  "review_key": "4b12c88c477ba727fae6ce9c123f1fa8a871ca274fb2a362e4aca4dcbdda459b",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:11:04.803Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为 15-213 系列中工程量最大、调试最折磨人的实验之一，Malloc Lab 是检验指针操作与内存布局理解的试金石。本文忠实记录了从最原始的 bump-pointer（仅向堆顶分配、不回收），到隐式空闲链表（Implicit Free List），再到显式双向空闲链表（Explicit Free List）的完整迭代路径。通过基准测试数据，读者可以非常直观地观察到利用率（util）与吞吐量（throughput / Kops）随着数据结构优化的演进历程。\n\n不过，文章目前的形态更偏向于一份带有阶段日志的“代码仓转储”。在从隐式切换到显式链表时，作者略过了设计层面的关键机制对比——例如显式链表如何复用 payload 存储前驱/后继指针、空闲块的插入策略（LIFO vs 地址序）对碎片的潜在影响等。代码注释中零散标着诸如 `bug6`、`bug8` 的排错心得，恰恰是实验中最有价值的踩坑经验，但正文未对其提炼展开，殊为可惜。\n\n值得一提的是在 `mm_realloc` 的优化上，作者充分考虑了就地扩展与利用相邻空闲块合并的策略，这使得吞吐得分直接拉升到了满分档。如果读者正在做该实验，阅读此文的宏定义设计与边界对齐处理会是极佳的对照样本。",
+  "related_post_ids": [
+    "CMU-15213-ShellLab",
+    "CMU-15213-CacheLab",
+    "CMU-15213-ArchitectureLab"
+  ],
+  "related_posts": [
+    {
+      "post_id": "CMU-15213-ShellLab",
+      "title": "CMU-15213-ShellLab",
+      "route_path": "/posts/cmu-15213-shelllab",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "CMU-15213-CacheLab",
+      "title": "CMU-15213-CacheLab",
+      "route_path": "/posts/cmu-15213-cachelab",
+      "relation": "相邻主题"
+    },
+    {
+      "post_id": "CMU-15213-ArchitectureLab",
+      "title": "CMU-15213-ArchitectureLab",
+      "route_path": "/posts/cmu-15213-architecturelab",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章记录了 CMU 15-213 Malloc Lab 的实验全过程，从最简 bump 分配器逐步演化为隐式空闲链表和显式双向空闲链表，并给出了利用相邻块扩展的 realloc 优化实现及对应跑分演变。",
+  "structural_review": "整体结构脉络清晰，按照“起步基线 -> 隐式空闲链表 -> 显式双向空闲链表”的递进顺序组织，每阶段均附有测试跑分，逻辑顺畅。不足之处在于显式链表章节直接堆砌长代码，缺少对核心辅助函数（如空闲链表插入/解链）的设计说明，且标题层级存在 H2 跳至 H4 的断层。",
+  "technical_review": "代码整体实现符合 CSAPP Malloc Lab 的标准解法。隐式链表部分正确实现了序言块、结尾块与带边界标记的 coalesce 机制。显式链表中通过在空闲块 payload 处记录 pred 与 succ 指针减少了遍历开销，并在 `mm_realloc` 中实现了就地缩减分割与利用后继空闲块合并扩容的高效策略。但需注意正文在隐式链表描述中给出的公式 `Kops = (secs / ops) / 1000` 存在笔误，实际应为千次操作/秒（ops / secs / 1000）。此外，在显式双向链表中，空闲块的最小尺寸要求（头尾各4B + 双指针16B = 24B，8B对齐下至少24B或32B）与已分配块的最小尺寸区分应在正文中明确推导。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "完整保留了三个版本的演进对比与评测数据输出，直观体现了数据结构对吞吐量的巨大提升（58分到85分）。",
+    "在 Explicit Free List 的 `mm_realloc` 中实现了后继空闲块直接合并与原地截断机制，避免了无脑 malloc-memcpy-free 带来的碎片与性能损耗。"
   ],
   "concerns": [
-    "第 1045 行标题层级从 H2 跳到了 H4。",
-    "第 144 行代码块缺少语言标记。"
+    "在 Implicit Free List 小节指标说明处，公式 `Kops = (secs/ops) ÷ 1000` 技术性错误，Kops 表示每秒千次操作数，公式应为 (ops / secs) / 1000。",
+    "正文在 Explicit Free List 处写道“直接show code吧，这个courcse中已经写的相当详细了，具体的代码这里掠过”，直接贴出上百行代码，缺乏对空闲链表插入/解链策略（如 LIFO 还是 Address-ordered）的技术分析。",
+    "正文第 1045 行左右标题层级直接从 H2（Explicit Free List）跳跃至 H4（运行结果），排版层级断层。"
   ],
-  "action_items": ["处理 missing-code-language 对应的问题。"],
+  "action_items": [
+    "统一文章文件名与站内文章链接为小写 kebab-case。",
+    "修复正文中 Kops 的计算公式错误，将其纠正为 ops / (secs * 1000)。",
+    "修复第 1045 行的标题层级跳跃，将 H4 `#### 运行结果` 调整为 H3 `### 运行结果`。",
+    "将 Explicit Free List 中代码注释里散落的 `bug6`、`bug8` 提炼为正文排错小结。"
+  ],
   "severity": "warn",
-  "confidence": 0.81,
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
     "series:cmu-15213",
-    "topic:c",
     "topic:CMU15213",
-    "issue:body-h1",
-    "issue:bare-url"
+    "topic:c",
+    "issue:non-canonical-post-id"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:cmu-15213",
+    "topic:CMU15213",
+    "topic:c"
+  ],
+  "knowledge_position": {
+    "series_id": "cmu-15213",
+    "series_label": "CMU 15-213 Labs",
+    "role": "阶段总结",
+    "previous_posts": [
+      "CMU-15213-ShellLab"
+    ],
+    "next_posts": [],
+    "topic_neighbors": [
+      "CMU-15213-CacheLab",
+      "CMU-15213-ArchitectureLab",
+      "CMU-15213-AttackLab"
+    ],
+    "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「阶段总结」，前置文章 CMU-15213-ShellLab。"
+  },
   "series_key": "cmu-15213",
   "series_label": "CMU 15-213 Labs",
   "published_at": "2025-09-28T20:00:00Z",
-  "tags_snapshot": ["CMU15213", "c"],
+  "tags_snapshot": [
+    "CMU15213",
+    "c"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `CMU-15213-MallocLab.md` 不符合站点路径规范，建议改为 `cmu-15213-malloclab.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "heading-skip",
       "severity": "warn",
@@ -50,19 +114,26 @@
       "message": "第 144 行代码块缺少语言标记。",
       "line": 144,
       "fixable": true,
-      "fixed": false
+      "fixed": true
     }
   ],
-  "fixes_applied": [],
-  "safe_fix_codes": [],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。",
+    "为第 144 行代码块补全语言标记 `text`。"
+  ],
+  "safe_fix_codes": [
+    "missing-code-language"
+  ],
   "suggestions": {
-    "normalized_tags": ["CMU15213", "c"],
+    "normalized_tags": [
+      "CMU15213",
+      "c"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.404Z"
 }

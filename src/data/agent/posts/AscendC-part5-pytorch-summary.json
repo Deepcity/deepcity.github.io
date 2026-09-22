@@ -2,51 +2,127 @@
   "post_id": "AscendC-part5-pytorch-summary",
   "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
   "source_path": "src/data/blog/AscendC-part5-pytorch-summary.md",
-  "route_path": "/posts/AscendC-part5-pytorch-summary",
-  "source_hash": "113e5a4d9cb6266f22fcf8108dc82c8f68eac89201eed017f8603d5a79a14fe5",
-  "generated_at": "2026-03-16T04:07:04.127Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "Ascend C 算子开发第五部分，介绍 PTA 适配框架（torch-npu）与 PyTorch 算子集成方式，并对全系列进行阶段性总结。",
-  "structural_review": "文章分段较完整，主线已经能靠 8 个标题展开。当前还配有 0 个代码块和 4 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "文章主题本身有较高的系统性，建议持续强调术语边界、模块关系与 runtime 编排的因果链。只要把概念表和实现取舍讲透，这类内容会比单纯 API 清单更有复用价值。",
-  "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "引用链接数量足够，外部材料入口比较明确。"
+  "route_path": "/posts/ascendc-part5-pytorch-summary",
+  "source_hash": "94ab57be3e747fd257478e195325f6e453b76acb2444e83591cd57e46647f961",
+  "review_key": "c26349bec4b5411401ef01cd2880af77bd64666c9d88495903121dd39e111003",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:10:16.188Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为「Ascend C 算子开发」系列的收官篇，本文聚焦于算子工程落地中最为关键的一环——如何将底层编译出来的自定义算子暴露给上层深度学习框架（PyTorch / torch-npu），并打通端到端的调用与测试链路。文章梳理了从 `npu_native_functions.yaml` 声明分发接口、编写 `KernelNpu.cpp` 适配参数与属性，到通过 Python 侧单元测试检验精度与金标一致性的核心流程。\n\n不过，相比于系列前作对流水线和核函数细节的拆解，本篇在关键技术落地上的颗粒度显得较为单薄。绝大多数核心步骤（如 YAML 注册、参数适配实现）主要依托贴图呈现，缺少实际的 C++ 适配代码示例与必要的解释；测试部分也仅一笔带过数据在 CPU/NPU 间的拷贝要求，缺乏可直接运行的完整用例。\n\n文末的「Additional Summary」更像是一份高密度的算子开发知识速查表（甚至包含了许多前面章节遗留的核心概念与开发细则），信息量虽大但排版略显仓促。如果能将这些知识点与前 4 篇文章形成更明确的结构化对应，这一系列作为 Ascend C 入门教程的完备度将更上层楼。",
+  "related_post_ids": [
+    "AscendC-part4-operator-invocation",
+    "AscendC-part3-operator-delivery",
+    "AscendC-part1-basic-concept"
   ],
-  "concerns": [],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
-  "severity": "info",
-  "confidence": 0.74,
+  "related_posts": [
+    {
+      "post_id": "AscendC-part4-operator-invocation",
+      "title": "Ascend C 算子开发 Part4 算子调用与测试",
+      "route_path": "/posts/ascendc-part4-operator-invocation",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "AscendC-part1-basic-concept",
+      "title": "Ascend C 算子开发 Part1 基本概念",
+      "route_path": "/posts/ascendc-part1-basic-concept",
+      "relation": "相邻主题"
+    },
+    {
+      "post_id": "AscendC-part3-operator-delivery",
+      "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+      "route_path": "/posts/ascendc-part3-operator-delivery",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "本文作为 Ascend C 系列结篇，简要梳理了通过 PTA (torch-npu) 进行 PyTorch 算子适配与调用的四步流程，并以速记清单形式对 Ascend C 开发中的 Tiling、动态 Shape、工程编译及 AscendCL 运行机制进行了阶段性总结。",
+  "structural_review": "文章结构清晰，按照 PTA 框架适配、算子注册、插件开发、测试文件编写的逻辑层层递进，最后辅以重点总结与结语。但主体部分篇幅极为精炼且严重依赖截图，而尾部的「Additional Summary」条目繁多，与前文结构稍显割裂。",
+  "technical_review": "文章准确指出了 torch-npu 适配自定义算子的核心机制（`npu_native_functions.yaml` 接口声明、op_api 适配函数转换及 aclnn 调用等）。但技术论证深度不足：适配插件开发章节列出了 4 个步骤却未提供任何实际代码逻辑；测试开发章节仅简单提及设备转移，未展示 PyTorch 对比 golden 数据的容差与测试框架用法。此外「Additional Summary」中存在个别错别字（如“蛀牙”应为“主要”）。",
+  "strengths": [
+    "清晰勾勒出自定义 Ascend C 算子接入 PyTorch (torch-npu) 的全流程骨架与必要文件路径。",
+    "文末的 Additional Summary 覆盖了从 Tiling 宏、动态 Shape 到 AscendCL 执行时序的大量关键踩坑点，具备很高的速查价值。"
+  ],
+  "concerns": [
+    "「适配插件开发」与「测试文件开发」章节正文缺乏代码块展示，关键信息几乎完全依赖外链图片，影响阅读与复制验证体验。",
+    "「Additional Summary」第 6 条出现错别字：“使用NPU仿真实验蛀牙是为了...”，应为“主要”。",
+    "文件名及路由路径包含大写字符 `AscendC-part5-pytorch-summary.md`，不符合站点的小写 kebab-case 规范。"
+  ],
+  "action_items": [
+    "将「算子注册分发」、「适配插件开发」和「测试文件开发」中的关键代码从图片提取为规范的代码块，并补全语言标识。",
+    "修复「Additional Summary」中的文字错别字（如将“蛀牙”修正为“主要”）。",
+    "将文件重命名为 `ascendc-part5-pytorch-summary.md` 并同步更新站内引用路径。"
+  ],
+  "severity": "warn",
+  "confidence": 0.9,
   "memory_refs": [
-    "global:tag_registry",
     "series:ascendc",
     "topic:Ascend",
     "topic:c++",
     "topic:算子开发",
     "topic:LLM",
-    "issue:body-h1",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "issue:non-canonical-post-id"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:ascendc",
+    "topic:Ascend",
+    "topic:c++",
+    "topic:算子开发",
+    "topic:LLM"
+  ],
+  "knowledge_position": {
+    "series_id": "ascendc",
+    "series_label": "Ascend C 算子开发",
+    "role": "阶段总结",
+    "previous_posts": [
+      "AscendC-part4-operator-invocation"
+    ],
+    "next_posts": [],
+    "topic_neighbors": [
+      "AscendC-part1-basic-concept",
+      "AscendC-part3-operator-delivery",
+      "AscendC-part2-tiling-and-debug"
+    ],
+    "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「阶段总结」，前置文章 AscendC-part4-operator-invocation。"
+  },
   "series_key": "ascendc",
   "series_label": "Ascend C 算子开发",
   "published_at": "2025-09-12T20:00:00Z",
-  "tags_snapshot": ["Ascend", "c++", "算子开发", "LLM"],
-  "hard_checks": [],
-  "fixes_applied": [],
+  "tags_snapshot": [
+    "Ascend",
+    "c++",
+    "算子开发",
+    "LLM"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `AscendC-part5-pytorch-summary.md` 不符合站点路径规范，建议改为 `ascendc-part5-pytorch-summary.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["Ascend", "c++", "算子开发", "LLM"],
+    "normalized_tags": [
+      "Ascend",
+      "c++",
+      "算子开发",
+      "LLM"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.387Z"
 }

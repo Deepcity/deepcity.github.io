@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-20T16:50:56.280Z",
+  "updated_at": "2026-09-22T08:19:56.584Z",
   "topics": [
     {
       "tag": "人工智能",
@@ -43,6 +43,37 @@
       "count": 12
     },
     {
+      "tag": "论文阅读",
+      "category": "paper",
+      "post_ids": [
+        "ICCV25-AdaLLaVA",
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+        "OSDI18-Ray",
+        "OSDI22-orca",
+        "OSDI24-ServerlessLLM",
+        "pgstudy-characterization-llm-development-datacenter",
+        "SOSP24-Colloid",
+        "SOSP25-ByteRobust"
+      ],
+      "latest_post_id": "SOSP25-ByteRobust",
+      "count": 8
+    },
+    {
+      "tag": "LLM",
+      "category": "development",
+      "post_ids": [
+        "API-Agent-Embedding-MCP-Skills",
+        "AscendC-part1-basic-concept",
+        "AscendC-part5-pytorch-summary",
+        "ICCV25-AdaLLaVA",
+        "mindspore-extra-transformer-structure",
+        "OSDI22-orca",
+        "pgstudy-characterization-llm-development-datacenter"
+      ],
+      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
+      "count": 7
+    },
+    {
       "tag": "MindSpore",
       "category": "custom",
       "post_ids": [
@@ -57,36 +88,6 @@
       ],
       "latest_post_id": "mindspore-extra-transformer-structure",
       "count": 8
-    },
-    {
-      "tag": "LLM",
-      "category": "development",
-      "post_ids": [
-        "API-Agent-Embedding-MCP-Skills",
-        "AscendC-part1-basic-concept",
-        "AscendC-part5-pytorch-summary",
-        "ICCV25-AdaLLaVA",
-        "mindspore-extra-transformer-structure",
-        "osdi22-orca",
-        "pgstudy-characterization-llm-development-datacenter"
-      ],
-      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
-      "count": 7
-    },
-    {
-      "tag": "论文阅读",
-      "category": "paper",
-      "post_ids": [
-        "ICCV25-AdaLLaVA",
-        "OSDI18-Ray",
-        "osdi22-orca",
-        "OSDI24-ServerlessLLM",
-        "pgstudy-characterization-llm-development-datacenter",
-        "SOSP24-Colloid",
-        "SOSP25-ByteRobust"
-      ],
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 7
     },
     {
       "tag": "c",
@@ -161,7 +162,7 @@
       "category": "paper",
       "post_ids": [
         "OSDI18-Ray",
-        "osdi22-orca",
+        "OSDI22-orca",
         "OSDI24-ServerlessLLM"
       ],
       "latest_post_id": "OSDI24-ServerlessLLM",
@@ -172,7 +173,7 @@
       "category": "paper",
       "post_ids": [
         "OSDI18-Ray",
-        "osdi22-orca",
+        "OSDI22-orca",
         "pgstudy-characterization-llm-development-datacenter"
       ],
       "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
@@ -183,7 +184,7 @@
       "category": "paper",
       "post_ids": [
         "ICCV25-AdaLLaVA",
-        "osdi22-orca",
+        "OSDI22-orca",
         "OSDI24-ServerlessLLM"
       ],
       "latest_post_id": "OSDI24-ServerlessLLM",
@@ -260,6 +261,15 @@
       "count": 2
     },
     {
+      "tag": "软件",
+      "category": "software",
+      "post_ids": [
+        "onedrive-experience-and-warnings"
+      ],
+      "latest_post_id": "onedrive-experience-and-warnings",
+      "count": 1
+    },
+    {
       "tag": "365",
       "category": "software",
       "post_ids": [
@@ -278,6 +288,15 @@
       "count": 1
     },
     {
+      "tag": "ECC",
+      "category": "custom",
+      "post_ids": [
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+      ],
+      "latest_post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+      "count": 1
+    },
+    {
       "tag": "Embedding",
       "category": "development",
       "post_ids": [
@@ -293,6 +312,24 @@
         "CMU-15213-AttackLab"
       ],
       "latest_post_id": "CMU-15213-AttackLab",
+      "count": 1
+    },
+    {
+      "tag": "HBM",
+      "category": "custom",
+      "post_ids": [
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+      ],
+      "latest_post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+      "count": 1
+    },
+    {
+      "tag": "ISOCC",
+      "category": "custom",
+      "post_ids": [
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+      ],
+      "latest_post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
       "count": 1
     },
     {
@@ -320,15 +357,6 @@
         "system-one-model-jev"
       ],
       "latest_post_id": "system-one-model-jev",
-      "count": 1
-    },
-    {
-      "tag": "others",
-      "category": "custom",
-      "post_ids": [
-        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
-      ],
-      "latest_post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
       "count": 1
     },
     {
@@ -446,15 +474,6 @@
         "PGStudy-Swarm-intelligence"
       ],
       "latest_post_id": "PGStudy-Swarm-intelligence",
-      "count": 1
-    },
-    {
-      "tag": "软件",
-      "category": "software",
-      "post_ids": [
-        "onedrive-experience-and-warnings"
-      ],
-      "latest_post_id": "onedrive-experience-and-warnings",
       "count": 1
     },
     {

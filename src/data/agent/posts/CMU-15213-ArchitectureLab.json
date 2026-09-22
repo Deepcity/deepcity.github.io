@@ -2,40 +2,115 @@
   "post_id": "CMU-15213-ArchitectureLab",
   "title": "CMU-15213-ArchitectureLab",
   "source_path": "src/data/blog/CMU-15213-ArchitectureLab.md",
-  "route_path": "/posts/CMU-15213-ArchitectureLab",
-  "source_hash": "a222c7e8962ef28bb38d5798a5003e963982c879a11c6ce44f6300c6746ca0d0",
-  "generated_at": "2026-03-16T04:07:04.139Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "CMU 15-213 课程 Architecture Lab 实验记录，基于 Y86-64 指令集实现流水线处理器的设计与优化。",
-  "structural_review": "文章结构已经有基本分段，但仍存在 1 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 17 个标题、49 个代码块、20 张图片。",
-  "technical_review": "这篇文章具备实验记录的骨架，适合继续补足关键实现决策、调试过程与为什么这样做。课程实验类内容如果只停留在步骤罗列，会削弱对并发、体系结构或漏洞利用细节的解释力。",
-  "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+  "route_path": "/posts/cmu-15213-architecturelab",
+  "source_hash": "2062a56f9d2a1349fceb11509b0fff302c52f2b4651bf081eda516f21e90e758",
+  "review_key": "9b402d6b32a0eb69624947a7d03c76eaa1f7a23165e77119fd20479c5aa157d2",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:10:22.170Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为 15-213 体系中最硬核的微架构实验，Architecture Lab 要求学生从编写 Y86-64 汇编过渡到在 HCL 中实现流水线逻辑与分支预测调优。本文呈现了极为详实的实验记录，从 Part A 的基础链表操作汇编，到 Part B 为 SEQ 处理器扩展 `iaddq` 指令，再到 Part C 通过多路循环展开（甚至附带了 Perl 自动代码生成脚本）压榨 CPE。\n\n尤其难得的是，作者在附录中详细记录了现代 Linux 发行版编译十多年前 CS:APP 实验源码的“排雷指南”：包括 GCC 10+ 默认 `-fno-common` 导致的符号重定义冲突、Tcl/Tk 8.6 与弃用符号 `matherr` 的适配，以及 MobaXterm X11 GUI 转发的调试细节。这对卡在环境搭建步骤的后来者极具参考价值。\n\n不过，正文对 Part C 核心调优的叙述存在明显的“软硬件失衡”——文章大量篇幅落在了汇编层的循环展开与尾数二分处理，甚至给出了“可以说是除修改 pipe-full 以外最优解”的结论；而对于本实验最关键的流水线控制冒险（如改变分支预测策略为默认不跳转）和数据转发旁路修改，仅在文末匆匆提了一句。既然提到了“结合特殊的展开拉低整体 CPE”，建议将 `pipe-full.hcl` 的具体改动与汇编分支结构如何协同配合补齐，这才是微架构调优的精髓所在。",
+  "related_post_ids": [
+    "CMU-15213-AttackLab",
+    "CMU-15213-CacheLab",
+    "CMU-15213-MallocLab"
   ],
-  "concerns": ["第 1 行存在正文 H1，建议从 H2 开始。"],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
+  "related_posts": [
+    {
+      "post_id": "CMU-15213-AttackLab",
+      "title": "CMU-15213-AttackLab",
+      "route_path": "/posts/cmu-15213-attacklab",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "CMU-15213-CacheLab",
+      "title": "CMU-15213-CacheLab",
+      "route_path": "/posts/cmu-15213-cachelab",
+      "relation": "后续阅读"
+    },
+    {
+      "post_id": "CMU-15213-MallocLab",
+      "title": "CMU-15213-MallocLab",
+      "route_path": "/posts/cmu-15213-malloclab",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "记录 CMU 15-213 Architecture Lab 的实现全流程，包括 Y86-64 汇编程序编写、SEQ 处理器扩展 iaddq 指令、Part C 循环展开调优与 Perl 生成脚本，以及高版本 GCC 和 Tcl/Tk 环境下的编译踩坑解决。",
+  "structural_review": "文章整体按照 Lab 的 Part A、B、C 及环境附录展开，逻辑线索清晰。Part A 到 Part B 的铺垫非常充分，并结合了数据通路流程图与模拟器 GUI 界面进行可视化说明；但 Part C 作为重头戏略显头重脚轻，硬件 HCL 逻辑修改与汇编级循环展开的篇幅分配不够均衡。",
+  "technical_review": "文章技术细节充实，正确分析了 Y86-64 指令系统限制（如寻址模式与寄存器操作）、阶段控制逻辑及 GCC 符号冲突机制（-fcommon）。但存在两个值得注意的缺口：一是 Part C 最终跑分 58.1/60 时提到修改了 pipe-full 的预测策略和 forwarding，但正文未贴出并解析关键的 HCL 转发/分支预测控制逻辑；二是正文由于篇幅过长被截断了中间近 3 万字符，导致截断部分包含的流水线冲突分析与部分中间版本未能纳入完整评估。",
+  "strengths": [
+    "环境配置与现代 Linux 兼容性排错极其详细，精准定位了 -fcommon 与 Tcl/Tk matherr 问题并提供解决方案。",
+    "Part A 提供了易错点辨析（如误用 mrmovq 代替 addq 指针自增）及规范汇编写法对比。",
+    "编写了 Perl 脚本自动化生成多路循环展开代码，工程意识优秀。"
+  ],
+  "concerns": [
+    "正文中间约 29609 字符被截断，未能完整评估 Part B 向 Part C 过渡期间的具体 HCL 实现细节。",
+    "Part C 结尾提到修改了 pipe-full.hcl 的分支预测和转发机制以冲满分，但未给出具体 HCL 关键控制信号的代码与原理解释。"
+  ],
+  "action_items": [
+    "将文章文件名改为小写 kebab-case 规范（cmu-15213-architecturelab.md）。",
+    "调整第 1 行正文标题，将 H1 改为 H2 开始以符合站点排版规范。",
+    "在 Part C 补充 pipe-full.hcl 中旁路转发与分支预测逻辑的具体改动片段，讲清硬件改动如何与软件循环展开配合达到满分。"
+  ],
   "severity": "warn",
-  "confidence": 0.82,
+  "confidence": 0.88,
   "memory_refs": [
-    "global:tag_registry",
-    "topic:c",
+    "series:cmu-15213",
     "topic:CMU15213",
+    "topic:c",
     "topic:x86-64",
     "topic:指令集",
     "topic:流水线处理器",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "issue:non-canonical-post-id"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:cmu-15213",
+    "topic:CMU15213",
+    "topic:c",
+    "topic:x86-64",
+    "topic:指令集",
+    "topic:流水线处理器"
+  ],
+  "knowledge_position": {
+    "series_id": "cmu-15213",
+    "series_label": "CMU 15-213 Labs",
+    "role": "实验记录",
+    "previous_posts": [
+      "CMU-15213-AttackLab"
+    ],
+    "next_posts": [
+      "CMU-15213-CacheLab"
+    ],
+    "topic_neighbors": [
+      "CMU-15213-MallocLab",
+      "CMU-15213-ShellLab",
+      "CMU-15213-BombLab"
+    ],
+    "position_summary": "这篇文章位于「CMU 15-213 Labs」系列中，当前角色是「实验记录」，前置文章 CMU-15213-AttackLab，后续文章 CMU-15213-CacheLab。"
+  },
   "series_key": "cmu-15213",
   "series_label": "CMU 15-213 Labs",
   "published_at": "2025-08-24T20:29:00Z",
-  "tags_snapshot": ["CMU15213", "c", "x86-64", "指令集", "流水线处理器"],
+  "tags_snapshot": [
+    "CMU15213",
+    "c",
+    "x86-64",
+    "指令集",
+    "流水线处理器"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `CMU-15213-ArchitectureLab.md` 不符合站点路径规范，建议改为 `cmu-15213-architecturelab.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "body-h1",
       "severity": "warn",
@@ -50,16 +125,23 @@
       "fixable": false
     }
   ],
-  "fixes_applied": [],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["CMU15213", "c", "x86-64", "指令集", "流水线处理器"],
+    "normalized_tags": [
+      "CMU15213",
+      "c",
+      "x86-64",
+      "指令集",
+      "流水线处理器"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.393Z"
 }

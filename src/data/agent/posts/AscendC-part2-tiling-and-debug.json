@@ -2,51 +2,127 @@
   "post_id": "AscendC-part2-tiling-and-debug",
   "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
   "source_path": "src/data/blog/AscendC-part2-tiling-and-debug.md",
-  "route_path": "/posts/AscendC-part2-tiling-and-debug",
-  "source_hash": "c669dd569b2a1218d5a7c2e6cd8c7756e1f307cf8757a1aa6e7865488558019c",
-  "generated_at": "2026-03-16T04:07:04.103Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "Ascend C 算子开发第二部分，深入讲解 Tiling 计算模式、数据切分策略与算子调试方法。",
-  "structural_review": "文章分段较完整，主线已经能靠 15 个标题展开。当前还配有 6 个代码块和 4 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
-  "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+  "route_path": "/posts/ascendc-part2-tiling-and-debug",
+  "source_hash": "edb648b0a508248582e75873b656d859aed490510896538aed01ec6e9c995c93",
+  "review_key": "a855211e5f1a2e4609b22e759331ef4a5a7cf10b26428e6a596298796586f79d",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:09:57.403Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为 Ascend C 系列的承前启后之作，本文聚焦算子开发中最核心的调度设计——Tiling（数据切分）。文章对比了 Part1 中硬编码常量的固定 Shape 模式，剖析了动态 Shape 下为何需要把切分决策前移到 Host 侧动态计算，再经由 Global Memory 打包传入核函数。这种把搬运粒度（Block/Tile）与硬件局部空间（Double Buffer）解耦的思路，正是让昇腾 AI Core 充分榨干流水线潜力的关键基石。\n\n不过，正文在最关键的“核内接力棒”上略显留白：Host 侧将 Tiling 结构体拷贝到 Device 之后，核函数内部究竟如何通过官方推荐的 `GET_TILING_DATA` 宏或指针强转还原出结构体，正文直接用 `// 解析tiling的逻辑 ...` 一笔带过，恰好略去了初学者最容易踩坑的胶水逻辑。另外，示例代码中还遗留了 `this.blockLength` 的点号访问、缺少分号以及将 Strategy 误写成 *Tragedy*（虽说写算子切分有时确实挺像悲剧）等偶发笔误，读者参考时需要稍作甄别。\n\n文末总结的 CPU 与 NPU 孪生调试思路非常清晰，明确指出了“CPU 侧 GDB 验证逻辑精度”与“NPU 仿真器利用波形图分析 PipeLine 瓶颈”的分工原则，这对没有真实昇腾硬件却需要做功能闭环的开发者而言尤为实用。",
+  "related_post_ids": [
+    "AscendC-part1-basic-concept",
+    "AscendC-part3-operator-delivery",
+    "AscendC-part5-pytorch-summary"
   ],
-  "concerns": [],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
-  "severity": "info",
-  "confidence": 0.82,
+  "related_posts": [
+    {
+      "post_id": "AscendC-part1-basic-concept",
+      "title": "Ascend C 算子开发 Part1 基本概念",
+      "route_path": "/posts/ascendc-part1-basic-concept",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "AscendC-part3-operator-delivery",
+      "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+      "route_path": "/posts/ascendc-part3-operator-delivery",
+      "relation": "后续阅读"
+    },
+    {
+      "post_id": "AscendC-part5-pytorch-summary",
+      "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+      "route_path": "/posts/ascendc-part5-pytorch-summary",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章阐述了 Ascend C 中 Tiling 的基本概念与实现流程，对比了固定 Shape 与动态 Shape 下核函数入参及类成员变量的变化，并介绍了基于 CPU 仿真与 NPU Model 仿真器的孪生调试机制。",
+  "structural_review": "文章从 Tiling 理论定义、结构体传递，平滑过渡到动态 Shape 的代码改造与调试体系，技术递进关系自然。但中段“固定、动态Shape中的tiling”严重依赖图片展示，正文推导文字偏少；结尾关于孪生调试与文件分析的讨论也稍显简略。",
+  "technical_review": "文章准确阐明了 Tiling 数据在 Host 侧分配、计算并通过 H2D 拷贝传递给 Device 端的生命周期，对核内基于 `GetBlockNum()` 动态计算分块大小的机制表述清晰。但代码片段存在多处低级语法错误：第 20 行结构体定义漏掉分号，第 106 行混用了 C++ 箭头与点号 `this.blockLength`，第 121 行 gdb 命令中误写为 `chlid`。此外，核函数内解析 Tiling 数据的具体方式未作展开，使得从 Host 传参到 Kernel 使用的逻辑链路出现空缺。",
+  "strengths": [
+    "清晰阐述了 Tiling 数据从 Host 侧决策、内存分配到 H2D 拷贝至 Device 侧的完整链路。",
+    "准确对比了固定 Shape 与动态 Shape 算子在参数列表及内部成员变量上的改动要点。",
+    "对 CPU 精度调试与 NPU 仿真器输出（如 summary log 与 VCD 波形）的分工定位梳理得当。"
+  ],
+  "concerns": [
+    "第 20 行代码块中 `struct AddCustomTilingData` 结尾缺少必要的分号，存在语法错误。",
+    "第 106 行在 C++ 类内部混用指针与点操作符（`this.blockLength`），无法通过编译。",
+    "第 121 行 GDB 调试命令中将 `child` 拼写为 `chlid`。",
+    "核函数内部省略了解析 Tiling 结构体的核心逻辑，未能向读者展示如何从 `GM_ADDR tiling` 还原业务数据结构。"
+  ],
+  "action_items": [
+    "修正代码中的 C++ 语法笔误（补全结构体分号、修正 `this->blockLength` 访问符号）并更正 gdb 的 `child` 拼写。",
+    "补齐核函数中使用 `GET_TILING_DATA` 宏或指针强转解析 Tiling 数据的标准示例代码。",
+    "为文章中的切分示意图补充必要的文字说明，明确核间切分与核内核内分块（Tile）的对应关系。",
+    "按照站点规范将文件名 `AscendC-part2-tiling-and-debug.md` 重命名为小写 kebab-case 格式。"
+  ],
+  "severity": "warn",
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
     "series:ascendc",
     "topic:Ascend",
     "topic:c++",
-    "topic:算子开发",
-    "issue:body-h1",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "topic:算子开发"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:ascendc",
+    "topic:Ascend",
+    "topic:c++",
+    "topic:算子开发"
+  ],
+  "knowledge_position": {
+    "series_id": "ascendc",
+    "series_label": "Ascend C 算子开发",
+    "role": "系列第 2 篇",
+    "previous_posts": [
+      "AscendC-part1-basic-concept"
+    ],
+    "next_posts": [
+      "AscendC-part3-operator-delivery"
+    ],
+    "topic_neighbors": [
+      "AscendC-part5-pytorch-summary",
+      "AscendC-part4-operator-invocation",
+      "algorithm-tree-palindrome-path-query"
+    ],
+    "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「系列第 2 篇」，前置文章 AscendC-part1-basic-concept，后续文章 AscendC-part3-operator-delivery。"
+  },
   "series_key": "ascendc",
   "series_label": "Ascend C 算子开发",
   "published_at": "2025-08-20T20:00:00Z",
-  "tags_snapshot": ["Ascend", "c++", "算子开发"],
-  "hard_checks": [],
-  "fixes_applied": [],
+  "tags_snapshot": [
+    "Ascend",
+    "c++",
+    "算子开发"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `AscendC-part2-tiling-and-debug.md` 不符合站点路径规范，建议改为 `ascendc-part2-tiling-and-debug.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["Ascend", "c++", "算子开发"],
+    "normalized_tags": [
+      "Ascend",
+      "c++",
+      "算子开发"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.383Z"
 }

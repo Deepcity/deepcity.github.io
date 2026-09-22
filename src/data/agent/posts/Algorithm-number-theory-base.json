@@ -2,42 +2,90 @@
   "post_id": "Algorithm-number-theory-base",
   "title": "算法数论基础",
   "source_path": "src/data/blog/Algorithm-number-theory-base.md",
-  "route_path": "/posts/Algorithm-number-theory-base",
-  "source_hash": "18d9065b3cd54bd8c6180e4169e3d23ec40fec0ecb385b0adcaf39a93fc69d9a",
-  "generated_at": "2026-03-16T04:07:04.072Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "算法竞赛中常用的数论基础知识总结，包括快速幂、GCD、素数筛、欧拉函数等核心算法。",
-  "structural_review": "文章结构已经有基本分段，但仍存在 2 处标题层级问题；建议先把正文层级理顺，再考虑扩展细节。当前正文包含 66 个标题、25 个代码块、2 张图片。",
-  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
+  "route_path": "/posts/algorithm-number-theory-base",
+  "source_hash": "d289c09ded2285b0de243f906e2be82a999c36dac8442a4688c0931f6c66d034",
+  "review_key": "c973595e461a4b8480d2073478239ed8dd0f78d9f6163c853615ae9e32e25149",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-22T03:50:22.935Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "这是一份典型的算法竞赛选手集训笔记合集，横跨了数论基础、素数判定、筛法、同余方程、线性基直至组合数学与斐波那契性质。文章的价值在于紧扣 AcWing、洛谷与 CodeForces 的经典题型，将算法模板与题目建模思路直接绑定，实战查阅属性极强。\n\n不过，本文在内容完整性与校对上留下了明显的“急就章”痕迹。部分核心章节如“暴力判断”、“埃氏筛法”、“欧拉筛法”在正文中仅有标题，随后一句“十分简单就不多阐述”直接略过；而在纯暴力判定章节中，循环条件写着 `i <= x / i`，标题却冠以 *O(n)*，暴露出概念标注的不严谨。此外，排版中混入了多处手误（例如将取模写成“去摸”、最小公倍数写作 LCD 等）。\n\n对于备赛读者，本文的题解代码和线性基环路异或模型十分具有参考价值；但若作为数论入门教材，建议搭配正规算法教材查漏补缺，毕竟筛法部分开天窗后，直接跳到变形题可能会让初学者措手不及。",
+  "related_post_ids": [
+    "algorithm-tree-palindrome-path-query"
+  ],
+  "related_posts": [
+    {
+      "post_id": "algorithm-tree-palindrome-path-query",
+      "title": "树上最短回文问题",
+      "route_path": "/posts/algorithm-tree-palindrome-path-query",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章系统性总结了算法竞赛中的常用数论与数学知识，涵盖随机数生成、GCD、素数判定与筛法、约数相关定理、欧拉函数、同余与扩展欧几里得、线性基及其在图上异或路径中的应用，并附带了典型例题的代码实现。",
+  "structural_review": "文章跨度极大，涵盖数论、同余、组合计数与线性代数，整体更偏向个人刷题知识库而非单一主题教程。章节划分虽然细致，但后半部分结构失衡，第 1874 行再次出现一级标题；同时素数筛法等关键章节只列出了小标题却缺乏正文，详略分配亟待重新规划。",
+  "technical_review": "文章给出的诸多模板（如扩展欧几里得、线性基插入与查询）基本规范且具有实战价值。但在细节描述上存在多处技术硬伤：在“纯暴力 O( n )”章节中，代码实现实际为步长到根号 n 的试除法，时间复杂度应为 O(sqrt(n)) 而非 O(n)；“GCD 与 LCD 以及其衍生的素数判定问题”中将 LCM 误写为 LCD；代码块中出现了将 C++ 代码标注为 sh 的语法高亮错误（第 144 行附近）。此外，正文中间约 7870 字符被截断，截断部分包含的矩阵乘法与组合数学推导未在本次审查中全部核验。",
   "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+    "题目针对性强，结合了夏洛特和他的女朋友、质数距离、樱花等经典题型的建模分析",
+    "线性基章节详尽，不仅覆盖了基础插入和第 k 大异或和，还深入探讨了最大路径异或和与子段无关性"
   ],
   "concerns": [
-    "第 1 行存在正文 H1，建议从 H2 开始。",
-    "第 1875 行存在正文 H1，建议从 H2 开始。",
-    "第 126 行代码块缺少语言标记。",
-    "第 380 行代码块缺少语言标记。"
+    "“纯暴力 O( n )”章节代码条件为 i <= x / i，复杂度标注与代码实际逻辑冲突",
+    "“素数筛”下的暴力判断、埃氏筛法、欧拉筛法三个小节完全为空白占位符",
+    "正文存在错别字与术语笔误，如将“取模”误写为“去摸”，最小公倍数简写误写作“LCD”",
+    "文件命名不符合站内 kebab-case 规范，且正文包含多个 H1 标题及 1 处裸 URL"
   ],
-  "action_items": ["处理 missing-code-language 对应的问题。"],
+  "action_items": [
+    "将文件名重命名为 algorithm-number-theory-base.md 并统一采用小写 kebab-case",
+    "将正文内所有 H1 统一降级为 H2 及对应子层级",
+    "修正“纯暴力”章节的时间复杂度标注为 O(sqrt(n))，并补全或删除素数筛法下的空白小节",
+    "校对全文错别字（如“去摸”改为“取模”，“LCD”规范为“LCM”），修正 C++ 代码块语言标记为 cpp，并将裸 URL 转为 Markdown 链接"
+  ],
   "severity": "warn",
-  "confidence": 0.8,
+  "confidence": 0.9,
   "memory_refs": [
-    "global:tag_registry",
+    "topic:算法",
     "topic:数学",
     "topic:数论",
-    "topic:算法",
+    "issue:missing-code-language",
     "issue:heading-skip"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "topic:数论",
+    "topic:算法",
+    "topic:数学"
+  ],
+  "knowledge_position": {
+    "series_id": null,
+    "series_label": null,
+    "role": "独立文章",
+    "previous_posts": [],
+    "next_posts": [],
+    "topic_neighbors": [
+      "algorithm-tree-palindrome-path-query"
+    ],
+    "position_summary": "算法数论基础 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
+  },
   "series_key": null,
   "series_label": null,
   "published_at": "2024-08-24T16:38:26Z",
-  "tags_snapshot": ["数论", "算法", "数学"],
+  "tags_snapshot": [
+    "数论",
+    "算法",
+    "数学"
+  ],
   "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `Algorithm-number-theory-base.md` 不符合站点路径规范，建议改为 `algorithm-number-theory-base.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    },
     {
       "code": "body-h1",
       "severity": "warn",
@@ -48,25 +96,9 @@
     {
       "code": "body-h1",
       "severity": "warn",
-      "message": "第 1875 行存在正文 H1，建议从 H2 开始。",
-      "line": 1875,
+      "message": "第 1874 行存在正文 H1，建议从 H2 开始。",
+      "line": 1874,
       "fixable": false
-    },
-    {
-      "code": "missing-code-language",
-      "severity": "warn",
-      "message": "第 126 行代码块缺少语言标记。",
-      "line": 126,
-      "fixable": true,
-      "fixed": false
-    },
-    {
-      "code": "missing-code-language",
-      "severity": "warn",
-      "message": "第 380 行代码块缺少语言标记。",
-      "line": 380,
-      "fixable": true,
-      "fixed": false
     },
     {
       "code": "bare-url",
@@ -78,13 +110,16 @@
   "fixes_applied": [],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["数论", "算法", "数学"],
+    "normalized_tags": [
+      "数论",
+      "算法",
+      "数学"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.368Z"
 }

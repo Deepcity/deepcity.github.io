@@ -4,6 +4,7 @@
     {
       "id": "ascendc",
       "label": "Ascend C 算子开发",
+      "role_label": null,
       "post_ids": [
         "AscendC-part1-basic-concept",
         "AscendC-part2-tiling-and-debug",
@@ -18,6 +19,7 @@
     {
       "id": "cmu-15213",
       "label": "CMU 15-213 Labs",
+      "role_label": "实验记录",
       "post_ids": [
         "CMU-15213-BombLab",
         "CMU-15213-AttackLab",
@@ -33,6 +35,7 @@
     {
       "id": "mindspore",
       "label": "MindSpore 入门专题",
+      "role_label": null,
       "post_ids": [
         "mindspore-01-install",
         "mindspore-02-try-mindspore",
@@ -50,6 +53,7 @@
     {
       "id": "paper-reading",
       "label": "论文阅读",
+      "role_label": "论文阅读",
       "post_ids": [
         "pgstudy-characterization-llm-development-datacenter",
         "SOSP24-Colloid",
@@ -58,7 +62,7 @@
         "SOSP25-ByteRobust",
         "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
         "ICCV25-AdaLLaVA",
-        "osdi22-orca"
+        "OSDI22-orca"
       ],
       "expected_total": null,
       "open_ended": true,
@@ -148,13 +152,13 @@
       "previous_posts": [],
       "next_posts": [],
       "topic_neighbors": [
-        "osdi22-orca",
+        "OSDI22-orca",
         "ICCV25-AdaLLaVA",
         "AscendC-part5-pytorch-summary"
       ],
       "related_posts": [
         {
-          "post_id": "osdi22-orca",
+          "post_id": "OSDI22-orca",
           "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
           "route_path": "/posts/osdi22-orca",
           "relation": "相邻主题"
@@ -706,7 +710,7 @@
         "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
       ],
       "next_posts": [
-        "osdi22-orca"
+        "OSDI22-orca"
       ],
       "topic_neighbors": [
         "SOSP25-ByteRobust",
@@ -721,7 +725,7 @@
           "relation": "前置阅读"
         },
         {
-          "post_id": "osdi22-orca",
+          "post_id": "OSDI22-orca",
           "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
           "route_path": "/posts/osdi22-orca",
           "relation": "后续阅读"
@@ -733,7 +737,7 @@
           "relation": "相邻主题"
         }
       ],
-      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis，后续文章 osdi22-orca。",
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis，后续文章 OSDI22-orca。",
       "memory_refs": [
         "series:paper-reading",
         "topic:论文阅读",
@@ -757,7 +761,11 @@
       "next_posts": [
         "ICCV25-AdaLLaVA"
       ],
-      "topic_neighbors": [],
+      "topic_neighbors": [
+        "OSDI22-orca",
+        "OSDI18-Ray",
+        "OSDI24-ServerlessLLM"
+      ],
       "related_posts": [
         {
           "post_id": "SOSP25-ByteRobust",
@@ -770,12 +778,21 @@
           "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
           "route_path": "/posts/iccv25-adallava",
           "relation": "后续阅读"
+        },
+        {
+          "post_id": "OSDI22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "相邻主题"
         }
       ],
       "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 SOSP25-ByteRobust，后续文章 ICCV25-AdaLLaVA。",
       "memory_refs": [
         "series:paper-reading",
-        "topic:others"
+        "topic:论文阅读",
+        "topic:ISOCC",
+        "topic:HBM",
+        "topic:ECC"
       ]
     },
     {
@@ -1186,7 +1203,7 @@
         "SOSP25-ByteRobust"
       ],
       "topic_neighbors": [
-        "osdi22-orca",
+        "OSDI22-orca",
         "pgstudy-characterization-llm-development-datacenter",
         "ICCV25-AdaLLaVA"
       ],
@@ -1204,7 +1221,7 @@
           "relation": "后续阅读"
         },
         {
-          "post_id": "osdi22-orca",
+          "post_id": "OSDI22-orca",
           "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
           "route_path": "/posts/osdi22-orca",
           "relation": "相邻主题"
@@ -1220,9 +1237,9 @@
       ]
     },
     {
-      "post_id": "osdi22-orca",
+      "post_id": "OSDI22-orca",
       "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
-      "source_path": "src/data/blog/osdi22-orca.md",
+      "source_path": "src/data/blog/OSDI22-orca.md",
       "route_path": "/posts/osdi22-orca",
       "series_id": "paper-reading",
       "series_label": "论文阅读",
@@ -1281,9 +1298,9 @@
         "OSDI18-Ray"
       ],
       "topic_neighbors": [
-        "osdi22-orca",
+        "OSDI22-orca",
         "ICCV25-AdaLLaVA",
-        "SOSP25-ByteRobust"
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
       ],
       "related_posts": [
         {
@@ -1299,7 +1316,7 @@
           "relation": "后续阅读"
         },
         {
-          "post_id": "osdi22-orca",
+          "post_id": "OSDI22-orca",
           "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
           "route_path": "/posts/osdi22-orca",
           "relation": "相邻主题"
@@ -1328,7 +1345,7 @@
         "SOSP24-Colloid"
       ],
       "topic_neighbors": [
-        "osdi22-orca",
+        "OSDI22-orca",
         "ICCV25-AdaLLaVA",
         "OSDI18-Ray"
       ],
@@ -1340,7 +1357,7 @@
           "relation": "后续阅读"
         },
         {
-          "post_id": "osdi22-orca",
+          "post_id": "OSDI22-orca",
           "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
           "route_path": "/posts/osdi22-orca",
           "relation": "相邻主题"
@@ -1463,7 +1480,7 @@
       ],
       "topic_neighbors": [
         "SOSP25-ByteRobust",
-        "osdi22-orca",
+        "OSDI22-orca",
         "ICCV25-AdaLLaVA"
       ],
       "related_posts": [
@@ -1564,8 +1581,8 @@
     }
   ],
   "issues": [],
-  "generated_at": "2026-09-20T16:50:50.562Z",
-  "knowledge_hash": "e66dc43c8fb7e5cc336216c8775bf01e8f4da83e990441bac1fa6293838d2a34",
+  "generated_at": "2026-09-22T08:19:52.356Z",
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
   "source": {
     "post_count": 34,
     "overrides_path": "src/data/agent/knowledge/overrides.yml"

@@ -3,57 +3,56 @@
   "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
   "source_path": "src/data/blog/ICCV25-AdaLLaVA.md",
   "route_path": "/posts/iccv25-adallava",
-  "source_hash": "e081805049b2589e34648d120b288109b7a9e1b19c905643d648daec3e8e22bc",
-  "generated_at": "2026-07-07T07:59:29.969Z",
+  "source_hash": "3b23414624f79566ed965fb94f075dbb9a141230203623e2dbf36254edb0346a",
+  "review_key": "45452603539556c7114cf97965a94304db494989132721310976ae29cd2e9273",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:11:31.294Z",
   "run_mode": "cli",
   "provider": "gemini",
-  "model": "gemini-3.5-flash",
+  "model": "gemini-3.8-flash",
   "degraded": false,
   "degraded_reason": null,
   "agent_experiment": false,
   "agent_experiment_note": "",
-  "public_commentary": "本文深入介绍了 ICCV 2025 的创新工作 **AdaLLaVA**，探讨了多模态大模型（MLLM）在推理阶段的自适应计算优化。在大模型服务领域，我们此前多聚焦于如 `Orca` 等系统层面的调度创新，而 AdaLLaVA 则另辟蹊径，从算法层面试图打破多模态任务中“一刀切”的计算开销。这使得它在我们的知识网络中，成为了连接“多模态算法表征”与“大模型高效推理”的重要桥梁。\n\n论文的核心痛点在于：不同复杂度的图像与文本查询，其所需的推理深度本不相同。用相同的计算资源去应付“猫狗分类”与“复杂图表推导”显然存在极大的算力浪费。然而，如何在极低决策开销下，让模型“自主”决定何时启用快速通道（如浅层推理或缩减视觉 Token）、何时动用深度计算，是目前的硬伤所在。文章详细拆解了门控机制与动态路由，但对高并发场景下动态 Batching 的兼容性略显语焉不详，这是读者在将其落地到生产环境时需要额外补充的知识缺口。\n\n通俗来说，这套机制就像是给大模型装了个“摸鱼检测器”——遇到简单任务能省则省，碰到硬骨头才动用真格。虽然这确实让算力账单好看不少，但也不免让人担心：大模型会不会因为过于“自适应”，在某些看似简单实则暗藏玄机的边缘任务上，因为“能躺平绝不内卷”而聪明反被聪明误呢？",
+  "public_commentary": "这是一篇非常扎实且具备深度复现实证的论文精读笔记。作者没有停留在复述 ICCV 2025 论文《AdaLLaVA》的抽象概念，而是直接在 A100 上跑通了开源权重，完成了跨 latency 档位（从 1.0 到 0.1）的完整吞吐量与时延压测。通过实验清晰捕获到了 0.5 处的饱和下限与解码坍塌（decoding collapse），将论文声称的自适应机制放在真实硬件指标下检验。\n\n文章的技术讨论尤为精彩，直指架构痛点：深入剖析了调度器为何受制于“因果依赖”而只能挂载在模型后半段，并敏锐拆解了 TTFT（首字延迟）与 E2E 解码端在延迟压缩比上的脱节。通过将 ~35ms 固定 CLIP 视觉编码开销与阿姆达尔定律（Amdahl's Law）结合，不仅澄清了读者对多模态端到端推理时延的直觉偏差，也点出了目前主流多模态大模型在自适应架构改造时的边界。\n\n不过，笔记中夹杂了较多与大模型交互问答的痕迹，部分段落直接以“claude解释说”、“这里模型输出的翻译是”铺开，且个别图片引用存在本地缓存未迁移的情况。如果能将对话式复述整理为统一严谨的技术工程叙事，这篇评测在同类前沿读物中会更具工业落地指导意义。",
+  "related_post_ids": [
+    "OSDI22-orca"
+  ],
   "related_posts": [
     {
-      "post_id": "osdi22-orca",
+      "post_id": "OSDI22-orca",
       "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
       "route_path": "/posts/osdi22-orca",
       "relation": "后续阅读"
-    },
-    {
-      "post_id": "SOSP25-ByteRobust",
-      "title": "SOSP 2025 - ByteRobust: Robust LLM Training Infrastructure at ByteDance",
-      "route_path": "/posts/sosp25-byterobust",
-      "relation": "相邻主题"
     }
   ],
-  "summary": "本文对 ICCV 2025 多模态自适应推理方案 AdaLLaVA 展开了深度解读，阐述了其如何根据输入复杂度动态调节计算资源的原理，并探讨了该算法在平衡多模态推理精度与算力成本上的表现。",
-  "structural_review": "文章大纲结构清晰，层级分明（包含14个标题），且配图极其丰富（19张图），极大地辅助了读者对自适应路由流程的理解。然而，文章在排版细节上存在两处硬伤：一是文件名未采用规范的小写 kebab-case；二是首行直接使用了正文 H1 标题，破坏了页面的标准大纲树结构，建议进行规范化重构。",
-  "technical_review": "文章对 AdaLLaVA 的自适应门控机制和多阶段推理路径进行了较好的算法还原。然而，作为一篇关注推理效率的论文解读，文章缺乏对系统开销（Overhead）的批判性思考——例如，门控决策器本身的计算开销、动态形状对 GPU 算子对齐的影响、以及其在多并发吞吐场景下与连续批处理（Continuous Batching）的冲突。建议补充这部分系统层面的评估背景。",
+  "summary": "文章精读了 ICCV 2025 论文 AdaLLaVA，拆解了利用概率调度器动态跳过注意力头以适应延迟预算的机制，重点剖析了前半段冻结与 0.5 预算下限的因果成因，并通过在 A100 上进行延迟梯度扫描，验证了 decode 阶段近线性加速与 TTFT 视觉编码瓶颈。",
+  "structural_review": "整体结构遵循了作者在开头设定的四步阅读范式，从信息速览、方法机理、梯度反传路径拆解，过渡到基于真实环境的复现压测。逻辑推进层次分明，尤其在 Method 与复现实验部分形成了有力的理论与实践闭环。不足之处在于文首的方法论引用稍显繁复，且实证部分夹杂了未完全消化的对话式记录与 Typora 丢失占位符，略微割裂了排版节奏。",
+  "technical_review": "技术推导和系统分析切中要害。在『反向传播』一节中，作者深入论述了前向传播因果依赖（调度器需要前半段提取的高质量多模态表示）导致调度器只能控制后半段，严密解释了为何存在 0.5 的 FLOPs 硬下限；在实证章节中，通过对 TTFT 与 E2E 解码耗时的公式拆解（35ms 视觉编码 + LLM Prefill），精准利用阿姆达尔定律解释了端到端加速比显著优于 TTFT 加速比的原因。关于 batch=1 时跳过 attention head 同时减轻 KV Cache 访存开销以维持近线性加速的推导也完全符合 GPU 实际推理特征。",
   "strengths": [
-    "文章对多模态自适应推理的前沿背景和 AdaLLaVA 的核心技术链路进行了条理清晰的剖析。",
-    "图文搭配极其详实，通过大量的可视化对比生动地展示了算法在不同任务下的路由选择。"
+    "理论剖析透彻，准确解释了因果依赖导致调度器只能作用于后半段及预算下界 0.5 的根本原因。",
+    "实测数据极其详实，在 A100 80G 上完成了从 1.0 到 0.1 的 latency 梯度压测，真实观测到了 decoding collapse 与指标饱和。",
+    "将时延拆解为 CLIP 视觉编码固定项与 LLM prefill/decode 可变项，清晰指明了多模态大模型加速的阿姆达尔瓶颈。"
   ],
   "concerns": [
-    "未深入探讨自适应 token 缩减对多模态 KV Cache 碎片化及动态内存管理的潜在负面影响。",
-    "缺乏对门控决策网络（Gating Network）自身计算开销占比的量化说明。"
+    "在『OpenSource individual experiment』章节存在『原文此处引用了本机 Typora 缓存图片 Output_QS；当前站点未迁移该图片资源』的占位遗留。",
+    "正文中间约 14354 字符被截断，部分高级延迟测试（如连续跨图片/文本请求的实际对比数据）未能完整呈现。",
+    "笔调中带有多处未整理的 AI 协作痕迹（如直接出现『依然由claude sonnet编写一个脚本』、『claude解释说』），稍减弱了技术总结的严肃性。"
   ],
   "action_items": [
-    "统一文章文件名与站内文章链接，将 `ICCV25-AdaLLaVA.md` 修改为符合规范的小写 kebab-case 格式 `iccv25-adallava.md`。",
-    "修正第 1 行存在的正文 H1 标题，将其降级为 H2，确保页面大纲层级自 H2 开始递增。",
-    "对文章中存在的 bare URL 进行 Markdown 格式化，并确保所有代码块（code fences）都明确指定了语言高亮标识。"
+    "清理文章中的 Typora 缓存图片占位符，补齐或移除缺失的图片引用。",
+    "按照站点硬校验规则将正文第 1 行的 H1 降为 H2，并调整文件名与路由为规范的小写 kebab-case。",
+    "润色实验分析部分的语句，将对话式痕迹（如 Claude 提法）提炼转化为作者自身的一贯技术陈述。"
   ],
   "severity": "warn",
-  "confidence": 0.99,
+  "confidence": 0.95,
   "memory_refs": [
     "series:paper-reading",
-    "topic:论文阅读",
     "topic:大模型推理",
     "topic:LLM",
-    "topic:机器学习",
-    "topic:人��智能"
+    "topic:论文阅读"
   ],
-  "knowledge_hash": "dda79f4dd737b2b832a9812c90bc18518561f19dac4ac28151b9c0a69fa2a28d",
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
   "knowledge_refs": [
     "series:paper-reading",
     "topic:论文阅读",
@@ -70,14 +69,14 @@
       "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
     ],
     "next_posts": [
-      "osdi22-orca"
+      "OSDI22-orca"
     ],
     "topic_neighbors": [
       "SOSP25-ByteRobust",
       "mindspore-extra-transformer-structure",
       "OSDI24-ServerlessLLM"
     ],
-    "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis，后续文章 osdi22-orca。"
+    "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis，后续文章 OSDI22-orca。"
   },
   "series_key": "paper-reading",
   "series_label": "论文阅读",
@@ -119,5 +118,8 @@
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": []
+  "notes": [
+    "Gemini proposed related_post_ids outside the allow-list and they were dropped: OSDI24-ServerlessLLM"
+  ],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.408Z"
 }

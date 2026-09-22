@@ -3,6 +3,11 @@
 
 # Except these files & folders
 !/src
+
+# Agent-generated artifacts: written by `./agent` via JSON.stringify(_, null, 2),
+# which cannot match Prettier's array collapsing. Re-checking them would make
+# format:check fail after every agent run.
+/src/data/agent
 !/public
 !/.github
 !tsconfig.json

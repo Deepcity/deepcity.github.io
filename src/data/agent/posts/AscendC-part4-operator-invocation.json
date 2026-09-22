@@ -2,51 +2,123 @@
   "post_id": "AscendC-part4-operator-invocation",
   "title": "Ascend C 算子开发 Part4 算子调用与测试",
   "source_path": "src/data/blog/AscendC-part4-operator-invocation.md",
-  "route_path": "/posts/AscendC-part4-operator-invocation",
-  "source_hash": "f5235174e7b7ec022327b4ba0ac500f24586c591ffa09363395ad0117ee71e15",
-  "generated_at": "2026-03-16T04:07:04.119Z",
-  "run_mode": "build",
-  "provider": "heuristic",
-  "model": "heuristic-v1",
-  "summary": "Ascend C 算子开发第四部分，讲解自定义算子的两种调用方式及对应测试方法。",
-  "structural_review": "文章分段较完整，主线已经能靠 11 个标题展开。当前还配有 3 个代码块和 8 张图片，适合作为技术记录继续细化关键结论。",
-  "technical_review": "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。",
-  "strengths": [
-    "frontmatter 中已有可用摘要，页面元信息完整度较好。",
-    "正文存在明确分节，阅读路径基本清楚。",
-    "文章包含代码或命令示例，技术可操作性较强。",
-    "引用链接数量足够，外部材料入口比较明确。"
+  "route_path": "/posts/ascendc-part4-operator-invocation",
+  "source_hash": "4e62a0dbdadfee0ce8c744976242fcfb74b816c312e204476fb305af829b636c",
+  "review_key": "e9d65b720af7f0eeb1e2c2845f6629053ef7736c1d43043a512bde7a5f59d6a1",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-22T02:48:11.439Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为 Ascend C 系列的第四篇，本文将视野移到了算子交付链路的关键两步：如何将算子调起来（调用），以及怎么证明计算结果正确（测试）。文章梳理了 aclnn（API 两段式调用）与 aclop（基于单算子模型执行）的机制差异，补充了单算子执行的 Mermaid 流程图，并针对仿真 UT 与硬件 ST 测试给出了工具链使用范例及浮点容差（atol/rtol）校验公式，在系列中起到了关键的承前启后作用。\n\n然而，当前内容最大的问题在于过度依赖课件截图，文本信息承载量严重不足。特别是在“调用样例演示”等章节，正文仅留有一张图片而没有任何上下文和代码拆解。更为关键的是，正文补充的 Shell 验证脚本混杂了语法错误（如使用 `set` 设置环境变量、在 Bash 变量引用中误用命令替换语法 `$(ASCEND_HOME)`）与路径笔误，读者直接复制执行必然报错。\n\n面对 aclop 繁复的运行时申请流程，作者感叹“我在造火箭”，这份幽默十分贴切；但如果在点火前测试脚本就先因为语法笔误抛出异常，未免有些扫兴。建议尽快补充截图中的实操代码，修正脚本命令，让这段测试指南真正经得起实操推敲。",
+  "related_post_ids": [
+    "AscendC-part3-operator-delivery",
+    "AscendC-part5-pytorch-summary",
+    "AscendC-part2-tiling-and-debug"
   ],
-  "concerns": [],
-  "action_items": ["当前未发现需要立刻修复的硬问题，可继续打磨技术论证。"],
-  "severity": "info",
-  "confidence": 0.8,
+  "related_posts": [
+    {
+      "post_id": "AscendC-part3-operator-delivery",
+      "title": "Ascend C 算子开发 Part3 算子交付件与算子工程",
+      "route_path": "/posts/ascendc-part3-operator-delivery",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "AscendC-part5-pytorch-summary",
+      "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
+      "route_path": "/posts/ascendc-part5-pytorch-summary",
+      "relation": "后续阅读"
+    },
+    {
+      "post_id": "AscendC-part2-tiling-and-debug",
+      "title": "Ascend C 算子开发 Part2 Tiling 计算与调试",
+      "route_path": "/posts/ascendc-part2-tiling-and-debug",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "本文介绍了 Ascend C 自定义算子的调用与测试流程，梳理了单算子 API（aclnn）与模型执行（aclop）的区别与执行时序，并给出了基于 op_ut_run 与 msopst 工具开展 UT/ST 测试的具体命令与浮点容差校验逻辑。",
+  "structural_review": "文章按照从调用机制到测试验证的逻辑推进，结构层次清晰。但后半部分结构失衡，多处关键小节仅靠贴图占位，缺乏必要的文本引导与代码片段说明，削弱了教程的完整度。",
+  "technical_review": "文章准确阐明了 aclnn 两段式调用（获取 Workspace 大小与调度执行）与 aclop 模型执行的机制分野，浮点容差公式的补充也相当实用。然而在“自定义算子的UT测试”与“自定义算子ST测试”提供的 Shell 脚本中存在多处语法与拼写错误：Bash 环境变量设置误用了 `set`、变量引用误写成命令替换 `$(ASCEND_HOME)`、且包含 `lastest` 和 `tset_` 拼写错误，直接执行将导致报错中断。此外，“调用样例演示”缺乏对 Device 内存拷贝与 Stream 同步机制的代码级推演。",
+  "strengths": [
+    "清晰对比了 aclnn 两段式接口与 aclop 离线模型调用的架构差异并绘制了完整的执行流程图。",
+    "严谨给出了单算子 UT 精度比对中绝对误差（atol）与相对误差（rtol）的联合判定数学公式。",
+    "覆盖了从仿真 UT（op_ut_run）到板端实机 ST（msopst）两个层级的完整测试工具链链条。"
+  ],
+  "concerns": [
+    "“自定义算子的UT测试”章节中的 Shell 脚本存在 Bash 变量设置错误（`set ASCEND_HOME`）及路径拼写笔误（`lastest`、`tset_add_custom_impl.py`）。",
+    "“自定义算子ST测试”脚本中将环境变量引用写为 `$(ASCEND_HOME)`，会导致 Bash 尝试执行名为 ASCEND_HOME 的命令而报错失败。",
+    "“调用样例演示”小节正文仅有一张外链图片，缺乏核心 API 调用代码与上下文说明。"
+  ],
+  "action_items": [
+    "修正 Shell 脚本中的语法错误，将 `set` 改为 `export`，将 `$(ASCEND_HOME)` 改为 `${ASCEND_HOME}`，并订正拼写笔误。",
+    "将“调用样例演示”与 UT 截图中的关键 C++ / Python 代码提取为正文代码块并配以原理解释。",
+    "移除文首与标题重复的 H2，并按照规范将文章文件名统一为小写 kebab-case。"
+  ],
+  "severity": "warn",
+  "confidence": 0.95,
   "memory_refs": [
-    "global:tag_registry",
     "series:ascendc",
     "topic:Ascend",
     "topic:c++",
-    "topic:算子开发",
-    "issue:body-h1",
-    "issue:bare-url",
-    "issue:missing-code-language",
-    "issue:heading-skip"
+    "topic:算子开发"
   ],
+  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_refs": [
+    "series:ascendc",
+    "topic:Ascend",
+    "topic:c++",
+    "topic:算子开发"
+  ],
+  "knowledge_position": {
+    "series_id": "ascendc",
+    "series_label": "Ascend C 算子开发",
+    "role": "系列第 4 篇",
+    "previous_posts": [
+      "AscendC-part3-operator-delivery"
+    ],
+    "next_posts": [
+      "AscendC-part5-pytorch-summary"
+    ],
+    "topic_neighbors": [
+      "AscendC-part2-tiling-and-debug",
+      "AscendC-part1-basic-concept",
+      "algorithm-tree-palindrome-path-query"
+    ],
+    "position_summary": "这篇文章位于「Ascend C 算子开发」系列中，当前角色是「系列第 4 篇」，前置文章 AscendC-part3-operator-delivery，后续文章 AscendC-part5-pytorch-summary。"
+  },
   "series_key": "ascendc",
   "series_label": "Ascend C 算子开发",
   "published_at": "2025-09-05T20:00:00Z",
-  "tags_snapshot": ["Ascend", "c++", "算子开发"],
-  "hard_checks": [],
+  "tags_snapshot": [
+    "Ascend",
+    "c++",
+    "算子开发"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `AscendC-part4-operator-invocation.md` 不符合站点路径规范，建议改为 `ascendc-part4-operator-invocation.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
   "fixes_applied": [],
   "safe_fix_codes": [],
   "suggestions": {
-    "normalized_tags": ["Ascend", "c++", "算子开发"],
+    "normalized_tags": [
+      "Ascend",
+      "c++",
+      "算子开发"
+    ],
     "tag_replacements": [],
     "inferred_tags": [],
     "description_suggestion": null,
     "slug_suggestion": null
   },
-  "notes": [
-    "Gemini unavailable (Missing GEMINI_API_KEY); falling back to heuristic review."
-  ]
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-22T08:19:52.387Z"
 }
