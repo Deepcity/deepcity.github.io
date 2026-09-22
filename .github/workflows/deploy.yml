@@ -38,11 +38,22 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run unified blog agent workflow
-        continue-on-error: true
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: ./agent --all --mode ci
+      # Read-only audit of the committed sidecars. The site is always built
+      # from exactly what is in the repository; stale sidecars are reported in
+      # the artifact but do not block the deploy. Regenerate them locally with
+      # `./agent --all` and commit.
+      - name: Audit blog agent artifacts
+        run: |
+          mkdir -p .tmp
+          ./agent --all --mode ci --report-file .tmp/blog-agent-report.json
+
+      - name: Upload blog agent report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-agent-report
+          path: .tmp/blog-agent-report.json
+          if-no-files-found: ignore
 
       - name: Build Astro site
         run: pnpm run build

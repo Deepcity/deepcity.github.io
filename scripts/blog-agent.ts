@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// @ts-nocheck
 
 import fs from "node:fs/promises";
 import {
@@ -11,7 +10,9 @@ import { buildHomePanel } from "../src/agent/core/home-panel.js";
 import {
   checkKnowledgeMap,
   refreshKnowledgeMap,
+  verifyKnowledgeMap,
 } from "../src/agent/core/knowledge.js";
+import { pruneOrphans } from "../src/agent/core/gc.js";
 import { runSyncWorkflow } from "../src/agent/core/sync.js";
 import { runVisualCheck } from "../src/agent/core/visual-check.js";
 import { BLOG_ROOT } from "../src/agent/shared/constants.js";
@@ -24,18 +25,57 @@ import {
 } from "../src/agent/shared/pathing.js";
 import { MemoryStore } from "../src/agent/memory/memory-store.js";
 import { maxSeverity } from "../src/agent/shared/utils.js";
+import type {
+  AnalyzeResult,
+  GcResult,
+  HomePanelResult,
+  KnowledgeRefreshResult,
+  RawJson,
+  RequestedProvider,
+} from "../src/agent/types.js";
 
-function writeStdout(message = "") {
+type FlagValue = string | boolean | undefined;
+
+/** Flags carry `true` for boolean switches and a string for valued ones. */
+function asString(value: FlagValue): string | undefined {
+  return typeof value === "string" ? value : undefined;
+}
+
+interface ParsedArgs {
+  positionals: string[];
+  flags: Map<string, FlagValue>;
+}
+
+interface CommandInfo {
+  command: string;
+  implicit: boolean;
+}
+
+interface Report {
+  generated_at: string;
+  summary: Record<string, unknown> & {
+    stale_count?: number;
+    missing_count?: number;
+    error_count?: number;
+  };
+  results: unknown[];
+  home_panel?: HomePanelResult | null;
+  knowledge?: Record<string, unknown> | null;
+  gc?: GcResult;
+  visual?: Record<string, unknown>;
+}
+
+function writeStdout(message = ""): void {
   process.stdout.write(`${message}\n`);
 }
 
-function writeStderr(message = "") {
+function writeStderr(message = ""): void {
   process.stderr.write(`${message}\n`);
 }
 
-function parseArgs(rawArgs) {
-  const flags = new Map();
-  const positionals = [];
+function parseArgs(rawArgs: string[]): ParsedArgs {
+  const flags = new Map<string, FlagValue>();
+  const positionals: string[] = [];
   const booleanFlags = new Set([
     "--all",
     "--changed",
@@ -51,6 +91,7 @@ function parseArgs(rawArgs) {
     "--refresh-knowledge",
     "--skip-gemini",
     "--allow-unsafe-fixes",
+    "--strict",
   ]);
 
   for (let index = 0; index < rawArgs.length; index += 1) {
@@ -80,7 +121,7 @@ function parseArgs(rawArgs) {
   return { positionals, flags };
 }
 
-function printUsage() {
+function printUsage(): void {
   writeStdout("Usage:");
   writeStdout("  node scripts/blog-agent.js");
   writeStdout("  node scripts/blog-agent.js <post>");
@@ -88,6 +129,15 @@ function printUsage() {
   writeStdout("  node scripts/blog-agent.js --all");
   writeStdout("  node scripts/blog-agent.js --check");
   writeStdout("  node scripts/blog-agent.js --refresh-knowledge");
+  writeStdout(
+    "  node scripts/blog-agent.js --all --mode ci [--strict]      # read-only: verify committed sidecars, never call an LLM or write"
+  );
+  writeStdout(
+    "  node scripts/blog-agent.js --changed --base origin/main   # diff against a ref instead of the working tree (CI on PRs)"
+  );
+  writeStdout(
+    "  node scripts/blog-agent.js --all --concurrency 3          # parallel LLM reviews (default 2, env BLOG_AGENT_CONCURRENCY)"
+  );
   writeStdout("  node scripts/blog-agent.js sync <post|--changed|--all>");
   writeStdout("  node scripts/blog-agent.js analyze <post>");
   writeStdout("  node scripts/blog-agent.js analyze --changed");
@@ -107,7 +157,7 @@ function printUsage() {
   writeStdout("  node scripts/blog-agent.js refresh-memory series <series-id>");
 }
 
-function resolveCommand(parsed) {
+function resolveCommand(parsed: ParsedArgs): CommandInfo {
   const command = parsed.positionals[0];
   const knownCommands = new Set([
     "sync",
@@ -154,17 +204,23 @@ function resolveCommand(parsed) {
   };
 }
 
-function getTargetPosition(commandInfo) {
+function getTargetPosition(commandInfo: CommandInfo): number {
   return commandInfo.implicit ? 0 : 1;
 }
 
-async function collectTargets(command, parsed, commandInfo) {
+async function collectTargets(
+  command: string,
+  parsed: ParsedArgs,
+  commandInfo: CommandInfo
+): Promise<string[]> {
   if (parsed.flags.get("--all")) {
     return listMarkdownFiles(BLOG_ROOT);
   }
 
   if (parsed.flags.get("--changed")) {
-    return getChangedPostPaths();
+    return getChangedPostPaths({
+      base: asString(parsed.flags.get("--base")),
+    });
   }
 
   if (command === "refresh-memory") {
@@ -202,8 +258,14 @@ async function collectTargets(command, parsed, commandInfo) {
         throw new Error(`Unknown series id: ${seriesId}`);
       }
 
+      const idPattern = rule.id_pattern;
+
+      if (!idPattern) {
+        throw new Error(`Series ${seriesId} has no id_pattern to match posts`);
+      }
+
       return allPosts.filter(postPath =>
-        new RegExp(rule.id_pattern, "u").test(getPostIdFromFilePath(postPath))
+        new RegExp(idPattern, "u").test(getPostIdFromFilePath(postPath))
       );
     }
 
@@ -220,17 +282,37 @@ async function collectTargets(command, parsed, commandInfo) {
     throw new Error(`Missing target for command: ${command}`);
   }
 
-  return [await resolvePostInput(target)];
+  try {
+    return [await resolvePostInput(target)];
+  } catch (error) {
+    if (commandInfo.implicit) {
+      throw new Error(
+        `"${target}" is neither a known command nor a resolvable post (${error instanceof Error ? error.message : String(error)}). Known commands: sync, analyze, build-panel, build-home-panel, check-knowledge, refresh-memory, refresh-knowledge, visual-check.`
+      );
+    }
+
+    throw error;
+  }
 }
 
-function buildReport(command, results, extraSummary = {}) {
+function buildReport(
+  command: string,
+  results: Array<Partial<AnalyzeResult>>,
+  extraSummary: Record<string, unknown> = {}
+): Report {
   const hardChecks = results.flatMap(result => result.hard_checks ?? []);
   const skipped = results.filter(result => result.skipped === true).length;
-  const summary = {
+  const summary: Report["summary"] = {
     command,
     processed: results.length,
     skipped,
-    highest_severity: maxSeverity(results.map(result => result.severity ?? "info")),
+    stale_count: results.filter(result => result.stale_status === "stale")
+      .length,
+    missing_count: results.filter(result => result.stale_status === "missing")
+      .length,
+    highest_severity: maxSeverity(
+      results.map(result => result.severity ?? "info")
+    ),
     error_count: hardChecks.filter(issue => issue.severity === "error").length,
     warn_count: hardChecks.filter(issue => issue.severity === "warn").length,
     fix_count: results.reduce(
@@ -247,19 +329,34 @@ function buildReport(command, results, extraSummary = {}) {
   };
 }
 
-function printAnalyzeReport(report) {
+function printAnalyzeReport(report: Report): void {
+  const results = report.results as AnalyzeResult[];
+  const staleSummary =
+    report.summary.stale_count || report.summary.missing_count
+      ? ` stale=${report.summary.stale_count} missing=${report.summary.missing_count}`
+      : "";
   writeStdout(
-    `[agent] processed=${report.summary.processed} skipped=${report.summary.skipped} severity=${report.summary.highest_severity} errors=${report.summary.error_count} warnings=${report.summary.warn_count} fixes=${report.summary.fix_count}`
+    `[agent] processed=${report.summary.processed} skipped=${report.summary.skipped}${staleSummary} severity=${report.summary.highest_severity} errors=${report.summary.error_count} warnings=${report.summary.warn_count} fixes=${report.summary.fix_count}`
   );
 
-  for (const result of report.results) {
+  for (const result of results) {
+    if (result.stale) {
+      writeStdout(`- ${result.post_id} [${result.stale_status}]`);
+
+      for (const note of (result.notes ?? []).slice(0, 2)) {
+        writeStdout(`  note: ${note}`);
+      }
+
+      continue;
+    }
+
     if (result.skipped) {
       writeStdout(
-        `- ${result.post_id} [skipped${result.knowledge_stale ? ", stale-knowledge" : ""}]`
+        `- ${result.post_id} [skipped${result.knowledge_refreshed ? ", knowledge-refreshed" : ""}]`
       );
 
-      if (result.notes?.length > 0) {
-        writeStdout(`  note: ${result.notes[0]}`);
+      for (const note of (result.notes ?? []).slice(0, 2)) {
+        writeStdout(`  note: ${note}`);
       }
 
       continue;
@@ -287,8 +384,15 @@ function printAnalyzeReport(report) {
   }
 }
 
-function printHomePanelResult(result) {
+function printHomePanelResult(
+  result: HomePanelResult | null | undefined
+): void {
   if (!result) {
+    return;
+  }
+
+  if (result.stale) {
+    writeStdout(`[agent] home panel ${result.stale_status}: ${result.notes[0]}`);
     return;
   }
 
@@ -298,11 +402,101 @@ function printHomePanelResult(result) {
   }
 
   writeStdout(
-    `[agent] built home panel: posts=${result.content_stats.total_posts} topics=${result.focus_topics.length} sidecar=${result.sidecar_path}`
+    `[agent] built home panel: posts=${result.content_stats?.total_posts ?? 0} topics=${result.focus_topics.length} sidecar=${result.sidecar_path}`
   );
 }
 
-function parseViewport(value) {
+function printKnowledgeResult(
+  result: (KnowledgeRefreshResult<unknown> & { stale?: boolean }) | null
+): void {
+  if (!result) {
+    return;
+  }
+
+  if (result.stale) {
+    writeStdout(
+      `[agent] knowledge map stale: committed=${result.committed_hash ?? "(none)"} computed=${result.knowledge_hash}; run \`./agent refresh-knowledge\` locally and commit it.`
+    );
+  }
+}
+
+// Garbage-collects sidecars / memory entries for deleted or renamed posts.
+// Only meaningful with the full post list, so it is tied to `--all`.
+async function maybePruneOrphans(
+  report: Report,
+  targets: string[],
+  options: { all?: boolean; readOnly?: boolean } = {}
+): Promise<void> {
+  if (!options.all) {
+    return;
+  }
+
+  const result = await pruneOrphans(targets, { dryRun: options.readOnly });
+  report.gc = result;
+
+  const total =
+    result.orphan_sidecars.length + result.memory_removed_post_ids.length;
+
+  if (total === 0) {
+    return;
+  }
+
+  const verb = result.dry_run ? "would prune" : "pruned";
+  writeStdout(
+    `[agent] gc ${verb}: sidecars=${result.orphan_sidecars.length} memory_posts=${result.memory_removed_post_ids.length}`
+  );
+
+  for (const sidecarPath of result.orphan_sidecars) {
+    writeStdout(`  orphan sidecar: ${sidecarPath}`);
+  }
+
+  for (const postId of result.memory_removed_post_ids) {
+    writeStdout(`  orphan memory entry: ${postId}`);
+  }
+}
+
+// In --strict mode anything that would need a local regeneration fails the run.
+function applyStrictExit(
+  report: Report,
+  options: { strict?: boolean } = {}
+): void {
+  if (!options.strict) {
+    return;
+  }
+
+  const reasons: string[] = [];
+
+  if ((report.summary.missing_count ?? 0) > 0) {
+    reasons.push(`${report.summary.missing_count} post(s) missing a sidecar`);
+  }
+
+  if ((report.summary.stale_count ?? 0) > 0) {
+    reasons.push(`${report.summary.stale_count} stale sidecar(s)`);
+  }
+
+  if ((report.summary.error_count ?? 0) > 0) {
+    reasons.push(`${report.summary.error_count} hard-check error(s)`);
+  }
+
+  if (report.home_panel?.stale) {
+    reasons.push(`home panel ${report.home_panel.stale_status}`);
+  }
+
+  if (report.knowledge?.stale) {
+    reasons.push("knowledge map stale");
+  }
+
+  if (report.gc?.dry_run && report.gc.orphan_sidecars.length > 0) {
+    reasons.push(`${report.gc.orphan_sidecars.length} orphan sidecar(s)`);
+  }
+
+  if (reasons.length > 0) {
+    writeStderr(`[agent] strict mode failed: ${reasons.join("; ")}`);
+    process.exitCode = 1;
+  }
+}
+
+function parseViewport(value: FlagValue) {
   if (!value) {
     return undefined;
   }
@@ -319,7 +513,7 @@ function parseViewport(value) {
   };
 }
 
-function printVisualCheckReport(result) {
+function printVisualCheckReport(result: RawJson): void {
   writeStdout(
     `[agent] visual check: pages=${result.summary.page_count} screenshots=${result.summary.screenshot_count} reviewed=${result.summary.reviewed_count} fresh=${result.summary.review_fresh_count ?? 0} cached=${result.summary.review_cached_count ?? 0} severity=${result.summary.highest_severity} issues=${result.summary.issue_count} fixes=${result.summary.visual_fix_count ?? 0}`
   );
@@ -338,11 +532,11 @@ function printVisualCheckReport(result) {
   }
 
   const pagesWithIssues = result.pages
-    .map(page => ({
+    .map((page: RawJson) => ({
       page,
       issues: page.visual_findings ?? [],
     }))
-    .filter(item => item.issues.length > 0)
+    .filter((item: RawJson) => item.issues.length > 0)
     .slice(0, 8);
 
   for (const item of pagesWithIssues) {
@@ -353,15 +547,18 @@ function printVisualCheckReport(result) {
   }
 }
 
-async function maybeWriteReport(report, reportFile) {
+async function maybeWriteReport(
+  report: unknown,
+  reportFile: FlagValue
+): Promise<void> {
   if (!reportFile) {
     return;
   }
 
-  await writeJson(reportFile, report);
+  await writeJson(String(reportFile), report);
 }
 
-async function main() {
+async function main(): Promise<void> {
   const parsed = parseArgs(process.argv.slice(2));
   const commandInfo = resolveCommand(parsed);
   const command = commandInfo.command;
@@ -393,6 +590,10 @@ async function main() {
   }
 
   const reportFile = parsed.flags.get("--report-file");
+  const runMode = asString(parsed.flags.get("--mode")) ?? null;
+  // ci = read-only: verify committed artifacts, never write or call an LLM.
+  const readOnly = runMode === "ci";
+  const strict = parsed.flags.get("--strict") === true;
 
   if (command === "refresh-knowledge") {
     const result = await refreshKnowledgeMap();
@@ -419,21 +620,23 @@ async function main() {
   if (command === "visual-check") {
     const result = await runVisualCheck({
       build: parsed.flags.get("--no-build") !== true,
-      provider: parsed.flags.get("--provider") ?? "auto",
-      model: parsed.flags.get("--model"),
+      provider: asString(parsed.flags.get("--provider")) ?? "auto",
+      model: asString(parsed.flags.get("--model")),
       skipGemini: parsed.flags.get("--skip-gemini") === true,
-      reviewMode: parsed.flags.get("--review-mode"),
-      maxPages: parsed.flags.get("--max-pages"),
-      route: parsed.flags.get("--route"),
-      runId: parsed.flags.get("--run-id"),
-      reviewBaseManifestPath: parsed.flags.get("--review-base-manifest-path"),
+      reviewMode: asString(parsed.flags.get("--review-mode")),
+      maxPages: asString(parsed.flags.get("--max-pages")),
+      route: asString(parsed.flags.get("--route")),
+      runId: asString(parsed.flags.get("--run-id")),
+      reviewBaseManifestPath: asString(
+        parsed.flags.get("--review-base-manifest-path")
+      ),
       applyVisualFixes:
         parsed.flags.get("--no-visual-fix") !== true &&
         parsed.flags.get("--no-visual-fixes") !== true,
-      timeoutMs: parsed.flags.get("--timeout-ms"),
-      geminiTimeoutMs: parsed.flags.get("--gemini-timeout-ms"),
+      timeoutMs: asString(parsed.flags.get("--timeout-ms")),
+      geminiTimeoutMs: asString(parsed.flags.get("--gemini-timeout-ms")),
       viewport: parseViewport(parsed.flags.get("--viewport")),
-      onProgress: event => {
+      onProgress: (event: RawJson) => {
         if (event.type === "start") {
           writeStdout(`[agent] visual pages queued: ${event.total}`);
           return;
@@ -511,29 +714,31 @@ async function main() {
 
   if (command === "build-home-panel") {
     const result = await buildHomePanel({
-      provider: parsed.flags.get("--provider") ?? "auto",
-      model: parsed.flags.get("--model"),
-      force: parsed.flags.get("--force") === true,
+      provider: (asString(parsed.flags.get("--provider")) ??
+        "auto") as RequestedProvider,
+      model: asString(parsed.flags.get("--model")),
+      force: !readOnly && parsed.flags.get("--force") === true,
+      regenerate: !readOnly,
     });
     const report = {
       generated_at: new Date().toISOString(),
       summary: {
         command,
         processed: 1,
-        highest_severity: "info",
+        highest_severity: result.stale ? "warn" : "info",
         error_count: 0,
-        warn_count: 0,
+        warn_count: result.stale ? 1 : 0,
         fix_count: 0,
+        stale_count: 0,
+        missing_count: 0,
       },
       results: [result],
+      home_panel: result,
     };
 
-    writeStdout(
-      result.skipped
-        ? `[agent] home panel skipped: posts_hash unchanged`
-        : `[agent] built home panel: posts=${result.content_stats.total_posts} topics=${result.focus_topics.length} sidecar=${result.sidecar_path}`
-    );
+    printHomePanelResult(result);
     await maybeWriteReport(report, reportFile);
+    applyStrictExit(report, { strict });
     return;
   }
 
@@ -562,6 +767,7 @@ async function main() {
       writeStdout(
         `[agent] refreshed memory from ${targets.length} posts: series=${summary.series} topics=${summary.topics} negative_patterns=${summary.negative_patterns}`
       );
+      await maybePruneOrphans(report, targets, { all: true, readOnly });
       await maybeWriteReport(report, reportFile);
       return;
     }
@@ -575,7 +781,7 @@ async function main() {
     return;
   }
 
-  const frontmatterHintParts = [];
+  const frontmatterHintParts: string[] = [];
 
   if (parsed.flags.get("--hint")) {
     frontmatterHintParts.push(String(parsed.flags.get("--hint")));
@@ -597,10 +803,29 @@ async function main() {
     frontmatterHintParts.push(implicitHintText);
   }
 
+  function summarizeKnowledge(
+    knowledgeResult: (KnowledgeRefreshResult<unknown> & { stale?: boolean }) | null
+  ) {
+    if (!knowledgeResult) {
+      return null;
+    }
+
+    return {
+      knowledge_hash: knowledgeResult.knowledge_hash,
+      committed_hash: knowledgeResult.committed_hash ?? null,
+      stale: knowledgeResult.stale === true,
+      post_count: knowledgeResult.post_count,
+      series_count: knowledgeResult.series_count,
+      issue_count: knowledgeResult.issue_count,
+      sidecar_path: knowledgeResult.sidecar_path,
+    };
+  }
+
   if (command === "sync") {
     const workflowResult = await runSyncWorkflow(targets, {
-      runMode: parsed.flags.get("--mode") ?? "cli",
-      provider: parsed.flags.get("--provider") ?? "auto",
+      runMode: runMode ?? "cli",
+      provider: (asString(parsed.flags.get("--provider")) ??
+        "auto") as RequestedProvider,
       applyFixes: !parsed.flags.get("--no-fix"),
       allowUnsafeFixes: parsed.flags.get("--allow-unsafe-fixes") === true,
       generateFrontmatter: parsed.flags.get("--no-generate-frontmatter")
@@ -608,63 +833,75 @@ async function main() {
         : true,
       frontmatterHintText: frontmatterHintParts.join("\n").trim(),
       writeMarkdown: true,
-      model: parsed.flags.get("--model"),
+      model: asString(parsed.flags.get("--model")),
       force: parsed.flags.get("--force") === true,
+      regenerate: !readOnly,
+      concurrency: Number(parsed.flags.get("--concurrency")) || undefined,
     });
     const report = buildReport(command, workflowResult.postResults, {
+      read_only: readOnly,
       home_panel_skipped: workflowResult.homePanelResult?.skipped === true,
       home_panel_generated: Boolean(
         workflowResult.homePanelResult &&
           workflowResult.homePanelResult.skipped !== true
       ),
       knowledge_hash: workflowResult.knowledgeResult?.knowledge_hash ?? null,
+      knowledge_stale: workflowResult.knowledgeResult?.stale === true,
       knowledge_issue_count: workflowResult.knowledgeResult?.issue_count ?? 0,
     });
 
     report.home_panel = workflowResult.homePanelResult;
-    report.knowledge = workflowResult.knowledgeResult
-      ? {
-          knowledge_hash: workflowResult.knowledgeResult.knowledge_hash,
-          post_count: workflowResult.knowledgeResult.post_count,
-          series_count: workflowResult.knowledgeResult.series_count,
-          issue_count: workflowResult.knowledgeResult.issue_count,
-          sidecar_path: workflowResult.knowledgeResult.sidecar_path,
-        }
-      : null;
+    report.knowledge = summarizeKnowledge(workflowResult.knowledgeResult);
     printAnalyzeReport(report);
     printHomePanelResult(workflowResult.homePanelResult);
+    printKnowledgeResult(workflowResult.knowledgeResult);
+    await maybePruneOrphans(report, targets, {
+      all: parsed.flags.get("--all") === true,
+      readOnly,
+    });
     await maybeWriteReport(report, reportFile);
+    applyStrictExit(report, { strict });
     return;
   }
 
-  const knowledgeResult = await refreshKnowledgeMap();
+  const knowledgeResult = readOnly
+    ? await verifyKnowledgeMap()
+    : await refreshKnowledgeMap();
   const results = await analyzePosts(targets, {
-    runMode:
-      parsed.flags.get("--mode") ?? (command === "build-panel" ? "build" : "cli"),
-    provider: parsed.flags.get("--provider") ?? "auto",
+    runMode: runMode ?? (command === "build-panel" ? "build" : "cli"),
+    provider: (asString(parsed.flags.get("--provider")) ??
+      "auto") as RequestedProvider,
     applyFixes:
-      command === "build-panel" ? false : !parsed.flags.get("--no-fix"),
-    allowUnsafeFixes: parsed.flags.get("--allow-unsafe-fixes") === true,
-    generateFrontmatter: parsed.flags.get("--generate-frontmatter") === true,
+      !readOnly &&
+      (command === "build-panel" ? false : !parsed.flags.get("--no-fix")),
+    allowUnsafeFixes:
+      !readOnly && parsed.flags.get("--allow-unsafe-fixes") === true,
+    generateFrontmatter:
+      !readOnly && parsed.flags.get("--generate-frontmatter") === true,
     frontmatterHintText: frontmatterHintParts.join("\n").trim(),
-    writeMarkdown: command !== "build-panel",
-    model: parsed.flags.get("--model"),
-    force: parsed.flags.get("--force") === true,
+    writeMarkdown: !readOnly && command !== "build-panel",
+    model: asString(parsed.flags.get("--model")),
+    force: !readOnly && parsed.flags.get("--force") === true,
+    updateMemory: !readOnly,
+    regenerate: !readOnly,
+    concurrency: Number(parsed.flags.get("--concurrency")) || undefined,
     knowledgeMap: knowledgeResult.map,
   });
   const report = buildReport(command, results, {
+    read_only: readOnly,
     knowledge_hash: knowledgeResult.knowledge_hash,
+    knowledge_stale: knowledgeResult.stale === true,
     knowledge_issue_count: knowledgeResult.issue_count,
   });
-  report.knowledge = {
-    knowledge_hash: knowledgeResult.knowledge_hash,
-    post_count: knowledgeResult.post_count,
-    series_count: knowledgeResult.series_count,
-    issue_count: knowledgeResult.issue_count,
-    sidecar_path: knowledgeResult.sidecar_path,
-  };
+  report.knowledge = summarizeKnowledge(knowledgeResult);
   printAnalyzeReport(report);
+  printKnowledgeResult(knowledgeResult);
+  await maybePruneOrphans(report, targets, {
+    all: parsed.flags.get("--all") === true,
+    readOnly,
+  });
   await maybeWriteReport(report, reportFile);
+  applyStrictExit(report, { strict });
 }
 
 main().catch(error => {

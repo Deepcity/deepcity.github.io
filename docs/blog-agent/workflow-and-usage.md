@@ -77,6 +77,7 @@ CLI 入口是根目录 [`agent`](/home/deepc/deepcity.github.io/agent)，内部�
 ```
 
 ### 2.1 底层子命令
+
 支持以下底层主命令：
 
 ### 2.2 analyze
@@ -302,9 +303,21 @@ pnpm exec playwright install chromium
 - staged changed
 - untracked
 
+### `--base <ref>`
+
+配合 `--changed` 使用：改为对比指定 git ref（如 `origin/main`）与 `HEAD` 之间的文章改动，而不是工作区。CI 在 PR 上使用。
+
 ### `--all`
 
 处理 `src/data/blog/**/*.md` 全量文章。
+
+### `--mode ci` / `--strict`
+
+只读校验模式，见第 5 节。`--strict` 让 stale / missing 产物导致非零退出。
+
+### `--concurrency <n>`
+
+并行审稿的文章数（默认 2，也可用环境变量 `BLOG_AGENT_CONCURRENCY`）。只并行调用模型；memory 更新始终按输入顺序串行执行。遇到 429 时可以降到 1。
 
 ### `--no-fix`
 
@@ -408,18 +421,42 @@ npm run test:agent
 
 ## 5. CI 工作流
 
-CI 中的行为定义在 [.github/workflows/ci.yml](/home/deepc/deepcity.github.io/.github/workflows/ci.yml)：
+核心原则：**sidecar / memory / knowledge-map 都是提交进仓库的产物，由作者本地生成；CI 只做只读校验，从不写文件、从不调用 LLM。** 这样线上站点永远等于仓库内容，可复现，也不需要在 CI 里放 `GEMINI_API_KEY`。
 
-1. 安装依赖
-2. 执行 `./agent --changed --mode ci --report-file .tmp/blog-agent-report.json`
+### 5.1 `--mode ci`（只读模式）
+
+`--mode ci` 会让任何命令进入只读模式：
+
+- 不改写 Markdown、不生成 frontmatter、不应用修复
+- 不调用 Gemini / heuristic 重新生成 sidecar
+- 不更新 memory，不写 knowledge-map（只在内存里重算并与已提交的比对）
+- 对每篇文章给出 `skipped`（sidecar 新鲜）/ `stale`（正文、模型或 prompt 变过）/ `missing`（没有 sidecar）三种状态
+
+加上 `--strict` 时，只要存在 `stale` / `missing` / hard-check `error` / 首页面板或 knowledge-map 过期，进程以非零退出。
+
+### 5.2 PR 检查（ci.yml）
+
+1. `fetch-depth: 0` 检出
+2. `./agent --changed --base origin/<base_ref> --mode ci --strict --report-file .tmp/blog-agent-report.json`
+   `--base` 让 `--changed` 对比 PR 基准分支，而不是（在 CI 里永远为空的）工作区改动。
 3. 上传 JSON 报告 artifact
-4. 继续执行 lint / format / build
+4. lint / format / build
 
-重要特性：
+也就是说，PR 里改了文章但没有一起提交新的 sidecar，PR 检查会失败，并在日志里给出需要在本地执行的命令。
 
-- Agent 步骤 `continue-on-error: true`
-- 因此 Agent 不阻断 PR
-- 它只是辅助提示和产物生成
+### 5.3 部署（deploy.yml）
+
+`./agent --all --mode ci --report-file ...`（不带 `--strict`）：审计全站 sidecar 的新鲜度并上传报告，但不阻断部署；随后用仓库里已提交的 sidecar 构建站点。
+
+### 5.4 本地补齐
+
+看到 CI 报 `stale` / `missing` 后，本地执行：
+
+```bash
+./agent 目标文章          # 或 ./agent --all
+git add src/data/agent src/data/blog
+git commit -m "chore(agent): regenerate sidecars"
+```
 
 ## 6. 页面构建工作流
 
@@ -446,7 +483,40 @@ export GEMINI_API_KEY=your_api_key
 export BLOG_AGENT_MODEL=gemini-3.8-flash
 ```
 
-如果不设置 `GEMINI_API_KEY`，系统会回退到 heuristic provider，但 sidecar 和页面都会标记 `degraded`，避免把保底结果当作完整 Agent Review。
+如果不设置 `GEMINI_API_KEY`，系统会回退到 heuristic provider，但 sidecar 和页面都会标记 `degraded`，避免把保底结果当作完整 Agent Review。`auto` 模式下 heuristic 不会覆盖已有的 Gemini sidecar；只有显式 `--provider heuristic` 才会。
+
+根目录 `.env`（已 git-ignore）中的变量会被 `./agent` 自动加载，适合存放 `GEMINI_API_KEY`。
+
+其他可选变量：
+
+- `BLOG_AGENT_MAX_BODY_CHARS`：送入 Gemini 的正文上限（默认 24000；超长时保留开头 70% 与结尾 30%）
+- `BLOG_AGENT_GEMINI_RETRIES`：可重试错误（429 / 5xx / 超时 / 网络）的最大尝试次数（默认 3）
+- `BLOG_AGENT_GEMINI_RETRY_DELAY_MS`：重试基础退避时间（默认 1500，指数增长）
+- `BLOG_AGENT_GEMINI_TIMEOUT_MS`：单次请求超时（默认 45000）
+
+## 7.0 frontmatter 的 description / tags 如何生成
+
+默认智能入口（`./agent <post>`）在发现 description 缺失/过短、或 tags 缺失/只有 `others` 占位时，会让模型基于**完整正文**生成这两个字段；字段已经写好时不会发起请求。
+
+优先级从高到低：
+
+1. 你显式给的 `--hint`（`description: ...` / `tags: a, b`）——`tags:` 一旦显式给出即为最终列表，不再被推断标签补齐
+2. 文章里已有的 frontmatter
+3. 模型生成
+4. 本地规则拼接（兜底）
+
+`--provider heuristic`、没有 `GEMINI_API_KEY`、或调用失败时，自动回到第 4 条，并在报告的 note 中说明原因。tags 会优先复用 `src/data/agent/memory/global.json` 里既有的标签库。
+
+## 7.1 sidecar 何时会被重新生成
+
+每个 sidecar 记录 `review_key = sha256(source_hash, provider, model, prompt_version)`。以下任一情况会触发重新调用模型：
+
+- 正文改动（`source_hash` 变化）
+- 切换模型（`--model` / `BLOG_AGENT_MODEL`）
+- 代码中 `REVIEW_PROMPT_VERSION` 被 bump（prompt 或 schema 改动）
+- 上一次是 `degraded`（Gemini 失败后的 heuristic 兜底）而这次 Gemini 可用
+
+只有 knowledge-map 变化（例如新增文章改变了相邻主题）时，不会重新调用模型，只会原地刷新 `related_posts` / `knowledge_position` 字段。
 
 ## 8. 常见问题
 

@@ -25,6 +25,9 @@ jobs:
     steps:
       - name: "☁️ Checkout repository"
         uses: actions/checkout@v4
+        with:
+          # Full history so the agent can diff the PR against its base branch.
+          fetch-depth: 0
 
       - name: "📦 Install pnpm"
         uses: pnpm/action-setup@v4
@@ -40,11 +43,13 @@ jobs:
       - name: "📦 Install dependencies"
         run: pnpm install
 
-      - name: "🤖 Run unified blog agent workflow"
-        continue-on-error: true
+      # Read-only: verifies that every changed post has a fresh, committed
+      # sidecar. Never writes to the tree and never calls an LLM, so it needs
+      # no secrets and is safe to fail the PR on.
+      - name: "🤖 Verify blog agent artifacts"
         run: |
           mkdir -p .tmp
-          ./agent --changed --mode ci --report-file .tmp/blog-agent-report.json
+          ./agent --changed --base "origin/${{ github.base_ref || 'main' }}" --mode ci --strict --report-file .tmp/blog-agent-report.json
 
       - name: "🧾 Upload blog agent report"
         if: always()
