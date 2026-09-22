@@ -372,8 +372,10 @@ export async function analyzePost(
         Boolean(knowledgeHash) &&
         existingSidecar.knowledge_hash !== knowledgeHash;
       let sidecar = existingSidecar;
+      // Read-only mode reports the drift but must not touch the working tree.
+      const refreshKnowledge = knowledgeStale && options.regenerate !== false;
 
-      if (knowledgeStale) {
+      if (refreshKnowledge) {
         sidecar = refreshSidecarKnowledge(
           existingSidecar,
           knowledgeMap,
@@ -383,10 +385,17 @@ export async function analyzePost(
         skipNotes.push(
           `knowledge refreshed without LLM: ${existingSidecar.knowledge_hash ?? "(none)"} -> ${knowledgeHash}`
         );
+      } else if (knowledgeStale) {
+        skipNotes.push(
+          `stale knowledge refs: ${existingSidecar.knowledge_hash ?? "(none)"} -> ${knowledgeHash}; run \`./agent ${snapshot.post_id}\` locally and commit the sidecar.`
+        );
       }
 
       return buildSkippedResult(snapshot, sidecar, skipNotes, {
-        knowledge_refreshed: knowledgeStale,
+        knowledge_refreshed: refreshKnowledge,
+        ...(knowledgeStale && !refreshKnowledge
+          ? { stale: true, stale_status: "stale" as const }
+          : {}),
       });
     }
 

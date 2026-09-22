@@ -1369,3 +1369,61 @@ Agent runtimes often combine planning, retrieval and tool execution with MCP.
   );
   assert.notEqual(withoutAssist.document.data.description, assist.description);
 });
+
+test("read-only analysis never writes, even when knowledge drifted", async () => {
+  const timestamp = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const postId = `agent-readonly-${timestamp}`;
+  const filePath = path.join(process.cwd(), "src", "data", "blog", `${postId}.md`);
+  const sidecarPath = getSidecarPathForPost(filePath);
+
+  await fs.writeFile(
+    filePath,
+    `---
+title: "Read only"
+pubDatetime: 2026-01-01T00:00:00.000Z
+description: "A description long enough to avoid triggering regeneration."
+tags:
+  - "Agent"
+---
+
+Body.
+`,
+    "utf8"
+  );
+
+  try {
+    // First pass writes a sidecar normally.
+    await analyzePost(filePath, {
+      provider: "heuristic",
+      updateMemory: false,
+    });
+    const before = await fs.readFile(sidecarPath, "utf8");
+
+    // Now the knowledge map moved on. A writing run patches the sidecar...
+    const knowledgeMap = { knowledge_hash: `moved-${timestamp}`, posts: [] };
+    const written = await analyzePost(filePath, {
+      provider: "heuristic",
+      updateMemory: false,
+      knowledgeMap,
+    });
+    assert.equal(written.knowledge_refreshed, true);
+    assert.notEqual(await fs.readFile(sidecarPath, "utf8"), before);
+
+    // ...but a read-only run only reports it.
+    const reset = await fs.readFile(sidecarPath, "utf8");
+    const readOnly = await analyzePost(filePath, {
+      provider: "heuristic",
+      updateMemory: false,
+      regenerate: false,
+      knowledgeMap: { knowledge_hash: `moved-again-${timestamp}`, posts: [] },
+    });
+
+    assert.equal(readOnly.knowledge_refreshed, false);
+    assert.equal(readOnly.stale, true);
+    assert.ok(readOnly.notes.some(note => note.includes("stale knowledge refs")));
+    assert.equal(await fs.readFile(sidecarPath, "utf8"), reset);
+  } finally {
+    await fs.rm(filePath, { force: true });
+    await fs.rm(sidecarPath, { force: true });
+  }
+});
