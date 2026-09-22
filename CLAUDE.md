@@ -23,7 +23,8 @@ Astro 5-based personal blog (AstroPaper theme) focused on systems, algorithms, a
 | Build home panel | `./agent build-home-panel` |
 | Refresh knowledge map | `./agent refresh-knowledge` |
 | Check knowledge overrides | `./agent check-knowledge` |
-| Build all panels | `./agent --all --mode ci` |
+| Build all panels (local, writes sidecars) | `./agent --all` |
+| Verify committed sidecars (read-only, no LLM) | `./agent --all --mode ci [--strict]` |
 | Refresh agent memory | `./agent refresh-memory` |
 
 Build does: `astro check` → `astro build` → `pagefind --site dist` → copy pagefind to public/. Agent code compiles separately via `tsconfig.agent.json` into `.tmp/agent-build/`.
@@ -46,7 +47,8 @@ A standalone TypeScript system that analyzes blog posts and generates JSON sidec
   - `analyzer.ts` — post analysis orchestrator (with hash-based skip)
   - `home-panel.ts` — home page panel orchestrator (with hash-based skip)
   - `checks.ts` — frontmatter and markdown validation rules
-  - `frontmatter-generator.ts` — frontmatter auto-completion
+  - `frontmatter-generator.ts` — frontmatter auto-completion (rule-based)
+  - `frontmatter-assist.ts` — LLM-generated `description`/`tags` from the full body; only runs when those fields are missing or placeholder, and explicit `--hint` values always win
 - `providers/` — LLM interface layer
   - `index.ts` — provider factory (auto/gemini/heuristic)
   - `gemini.ts` — Google Gemini AI reviews (requires `GEMINI_API_KEY`)
@@ -58,9 +60,15 @@ A standalone TypeScript system that analyzes blog posts and generates JSON sidec
   - `frontmatter.ts`, `markdown.ts`, `schema.ts`, `post-snapshot.ts`
 - `shared/` — utilities (no domain logic)
   - `constants.ts`, `pathing.ts`, `fs.ts`, `git.ts`, `utils.ts`, `model-meta.ts`
+- `types.ts` — shared contract types (sidecars, review, memory, checks). `RawJson` marks genuine untyped boundaries (LLM responses, legacy files, YAML).
+- `core/visual-check.ts` — `./agent visual-check` orchestrator; sequences five phases implemented under `core/visual/`: `run-context` → `capture` → `review` → `fixes` → `manifest`/`report`, supported by `constants`, `shared`, `types`, `routes`, `server`, `build`, `cache`, `findings`. `capture.ts` carries a file-scoped `/// <reference lib="dom" />` because its `page.evaluate` callbacks run in the browser.
 - CLI entry: `scripts/blog-agent.ts`, compiled via `tsconfig.agent.json`
 
-Sidecar JSON output goes to `src/data/agent/posts/` and `src/data/agent/site/`. The lightweight knowledge map lives in `src/data/agent/knowledge/map.json`, with author-visible corrections in `src/data/agent/knowledge/overrides.yml`. Hash-based skip logic (`source_hash` / `posts_hash` / `knowledge_hash`) ensures unchanged posts are not re-analyzed during CI builds. Use `--force` to bypass.
+Sidecar JSON output goes to `src/data/agent/posts/` and `src/data/agent/site/`. The lightweight knowledge map lives in `src/data/agent/knowledge/map.json`, with author-visible corrections in `src/data/agent/knowledge/overrides.yml`.
+
+**Sidecars are committed artifacts generated locally.** CI (`--mode ci`) is read-only: it never writes files or calls an LLM, only reports `stale` / `missing` sidecars (`--strict` turns that into a failure). Each sidecar stores `review_key = sha256(source_hash, provider, model, prompt_version)`; a post is re-reviewed when any of those change or when the previous result was `degraded`. Bump `REVIEW_PROMPT_VERSION` in `providers/gemini.ts` whenever the prompt/schema changes. Knowledge-map-only changes patch `related_posts` / `knowledge_position` in place without an LLM call. Use `--force` to bypass all skipping.
+
+Local secrets go in `.env` (git-ignored); the `./agent` wrapper loads it. See `docs/blog-agent/improvement-plan.md` for the current improvement roadmap.
 
 ### Key Directories
 - `src/pages/` — Astro routes (index, posts/[...slug], tags/[tag], archives, search, rss)
@@ -86,8 +94,8 @@ Sidecar JSON output goes to `src/data/agent/posts/` and `src/data/agent/site/`. 
 
 ## CI/CD
 
-- **ci.yml** (PRs): lint, format check, astro check, full build, unified agent workflow for changed posts
-- **deploy.yml** (main push): unified agent workflow for all posts → Astro build → deploy to GitHub Pages
+- **ci.yml** (PRs): read-only agent verification of posts changed vs. base branch (`--mode ci --strict`, fails if a changed post lacks a fresh committed sidecar), lint, format check, astro check, full build
+- **deploy.yml** (main push): read-only agent audit of all posts (report artifact only, non-blocking) → Astro build from committed sidecars → deploy to GitHub Pages. No `GEMINI_API_KEY` needed in CI.
 - Node 20, pnpm
 
 ## Environment Variables
