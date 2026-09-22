@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { readText } from "../shared/fs.js";
 import { parseMarkdownDocument } from "./frontmatter.js";
 import { analyzeMarkdownBody } from "./markdown.js";
@@ -9,8 +8,11 @@ import {
 } from "../shared/pathing.js";
 import { REPO_ROOT } from "../shared/constants.js";
 import { hashContent, repoRelative, truncateText } from "../shared/utils.js";
+import type { PostSnapshot } from "../types.js";
 
-export async function loadPostSnapshot(filePath) {
+export async function loadPostSnapshot(
+  filePath: string
+): Promise<PostSnapshot> {
   const raw = await readText(filePath);
   const document = parseMarkdownDocument(raw);
   const analysis = analyzeMarkdownBody(document.body);
@@ -43,6 +45,7 @@ export async function loadPostSnapshot(filePath) {
     document,
     analysis,
     raw,
+    body: document.body,
     excerpt: truncateText(
       description || analysis.firstParagraphs.join(" "),
       160

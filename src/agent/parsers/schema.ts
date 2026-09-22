@@ -1,8 +1,8 @@
-// @ts-nocheck
 import { CONTENT_SCHEMA_PATH } from "../shared/constants.js";
 import { readText } from "../shared/fs.js";
+import type { ContentSchemaRules, SchemaField } from "../types.js";
 
-function inferFieldType(definition) {
+function inferFieldType(definition: string): string {
   if (definition.includes("z.array(z.string())")) {
     return "string[]";
   }
@@ -22,7 +22,7 @@ function inferFieldType(definition) {
   return "string";
 }
 
-export async function loadContentSchemaRules() {
+export async function loadContentSchemaRules(): Promise<ContentSchemaRules> {
   const source = await readText(CONTENT_SCHEMA_PATH);
   const objectMatch = source.match(/z\.object\(\{([\s\S]*?)\n\s*\}\)/u);
 
@@ -30,7 +30,7 @@ export async function loadContentSchemaRules() {
     throw new Error("Cannot parse blog schema from src/content.config.ts");
   }
 
-  const fields = {};
+  const fields: Record<string, SchemaField> = {};
   const block = objectMatch[1];
 
   for (const line of block.split("\n")) {

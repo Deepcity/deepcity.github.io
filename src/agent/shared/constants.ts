@@ -1,7 +1,30 @@
-// @ts-nocheck
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 
-export const REPO_ROOT = process.cwd();
+// Explicit override → git toplevel → cwd. Makes `node .tmp/agent-build/...`
+// and the Astro build agree on where the repo is regardless of cwd.
+function resolveRepoRoot() {
+  if (process.env.BLOG_AGENT_REPO_ROOT) {
+    return path.resolve(process.env.BLOG_AGENT_REPO_ROOT);
+  }
+
+  try {
+    const toplevel = execFileSync("git", ["rev-parse", "--show-toplevel"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+
+    if (toplevel) {
+      return toplevel;
+    }
+  } catch {
+    // Not a git checkout (e.g. exported tarball); fall through.
+  }
+
+  return process.cwd();
+}
+
+export const REPO_ROOT = resolveRepoRoot();
 export const BLOG_ROOT = path.join(REPO_ROOT, "src", "data", "blog");
 export const AGENT_ROOT = path.join(REPO_ROOT, "src", "data", "agent");
 export const SIDECAR_ROOT = path.join(AGENT_ROOT, "posts");

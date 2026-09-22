@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from "node:path";
 import {
   BLOG_ROOT,
@@ -9,11 +8,11 @@ import {
 import { fileExists, listMarkdownFiles } from "./fs.js";
 import { normalizePathSlashes } from "./utils.js";
 
-function hasNonLatin(value) {
+function hasNonLatin(value: string): boolean {
   return /[^\x00-\x7F]/.test(value);
 }
 
-export function slugifyStr(value) {
+export function slugifyStr(value: string): string {
   return value
     .normalize("NFKD")
     .trim()
@@ -25,7 +24,7 @@ export function slugifyStr(value) {
     .replace(/^-+|-+$/gu, "");
 }
 
-export function resolveRepoPath(value) {
+export function resolveRepoPath(value: string): string {
   if (path.isAbsolute(value)) {
     return value;
   }
@@ -33,20 +32,20 @@ export function resolveRepoPath(value) {
   return path.join(REPO_ROOT, value);
 }
 
-export function getPostRelativePath(filePath) {
+export function getPostRelativePath(filePath: string): string {
   return normalizePathSlashes(path.relative(BLOG_ROOT, filePath));
 }
 
-export function getPostIdFromFilePath(filePath) {
+export function getPostIdFromFilePath(filePath: string): string {
   return path.basename(filePath, path.extname(filePath));
 }
 
-export function getSidecarPathForPost(filePath) {
+export function getSidecarPathForPost(filePath: string): string {
   const relativePath = getPostRelativePath(filePath).replace(/\.md$/u, ".json");
   return path.join(SIDECAR_ROOT, relativePath);
 }
 
-export function getSiteSidecarPath(pageId) {
+export function getSiteSidecarPath(pageId: string): string {
   const normalizedPageId = pageId
     .replace(/^\/+|\/+$/gu, "")
     .replace(/[^a-z0-9/_-]+/giu, "-");
@@ -57,11 +56,11 @@ export function getSiteSidecarPath(pageId) {
   return path.join(SITE_SIDECAR_ROOT, sidecarFile);
 }
 
-export function getHomeSidecarPath() {
+export function getHomeSidecarPath(): string {
   return getSiteSidecarPath("index");
 }
 
-export function getRoutePathFromFile(filePath) {
+export function getRoutePathFromFile(filePath: string): string {
   const relativePath = getPostRelativePath(filePath);
   const segments = relativePath.split("/");
   const fileName = segments.pop() ?? "";
@@ -74,7 +73,7 @@ export function getRoutePathFromFile(filePath) {
   return ["/posts", ...dirSegments, slug].join("/");
 }
 
-function canonicalizePathInput(value) {
+function canonicalizePathInput(value: string): string {
   return value
     .split("/")
     .filter(Boolean)
@@ -82,8 +81,8 @@ function canonicalizePathInput(value) {
     .join("/");
 }
 
-export async function resolvePostInput(input) {
-  const directCandidates = [];
+export async function resolvePostInput(input: string): Promise<string> {
+  const directCandidates: string[] = [];
   const trimmedInput = input.trim();
 
   if (path.isAbsolute(trimmedInput)) {

@@ -1,13 +1,20 @@
-// @ts-nocheck
 import path from "node:path";
+import type {
+  Severity,
+  BareUrl,
+  CodeFence,
+  Heading,
+  ImageRef,
+  MarkdownAnalysis,
+} from "../types.js";
 
-function countWords(value) {
+function countWords(value: string): number {
   return value.trim() ? value.trim().split(/\s+/u).length : 0;
 }
 
-function collectParagraphs(lines) {
-  const paragraphs = [];
-  let buffer = [];
+function collectParagraphs(lines: string[]): string[] {
+  const paragraphs: string[] = [];
+  let buffer: string[] = [];
 
   for (const line of lines) {
     if (!line.trim()) {
@@ -38,20 +45,20 @@ function collectParagraphs(lines) {
   return paragraphs;
 }
 
-export function getParagraphs(body, maxParagraphs = 3) {
+export function getParagraphs(body: string, maxParagraphs = 3): string[] {
   return collectParagraphs(body.split(/\r?\n/u)).slice(0, maxParagraphs);
 }
 
-export function analyzeMarkdownBody(body) {
+export function analyzeMarkdownBody(body: string): MarkdownAnalysis {
   const lines = body.split(/\r?\n/u);
-  const headings = [];
-  const codeFences = [];
-  const images = [];
-  const bareUrls = [];
+  const headings: Heading[] = [];
+  const codeFences: CodeFence[] = [];
+  const images: ImageRef[] = [];
+  const bareUrls: BareUrl[] = [];
   let linkCount = 0;
   let inFence = false;
-  let currentFence = null;
-  const proseLines = [];
+  let currentFence: Omit<CodeFence, "endLine"> | null = null;
+  const proseLines: string[] = [];
 
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index];
@@ -135,7 +142,10 @@ export function analyzeMarkdownBody(body) {
   };
 }
 
-export function inferCodeFenceLanguage(contentLines) {
+export function inferCodeFenceLanguage(contentLines: string[]): {
+  language: string;
+  confidence: number;
+} {
   const content = contentLines.join("\n").trim();
   const lowerContent = content.toLowerCase();
 
@@ -197,7 +207,7 @@ export function inferCodeFenceLanguage(contentLines) {
   return { language: "text", confidence: 0.45 };
 }
 
-export function suggestImageAlt(url) {
+export function suggestImageAlt(url: string): string {
   const cleanUrl = url.split("?")[0].split("#")[0];
   const baseName = path.posix.basename(cleanUrl, path.posix.extname(cleanUrl));
   const normalized = decodeURIComponent(baseName)
@@ -207,11 +217,23 @@ export function suggestImageAlt(url) {
   return normalized || "image";
 }
 
-export function suggestCodeFenceLanguage(contentLines) {
+export function suggestCodeFenceLanguage(contentLines: string[]): string {
   return inferCodeFenceLanguage(contentLines).language;
 }
 
-export function applyCodeFenceLanguageFixes(markdown, codeBlocks) {
+export interface InspectedCodeBlock {
+  language: string;
+  content: string[];
+  line: number;
+  openLineIndex: number;
+  openingLine: string;
+  suggestedLanguage: string;
+}
+
+export function applyCodeFenceLanguageFixes(
+  markdown: string,
+  codeBlocks: Array<Partial<InspectedCodeBlock>>
+): { changed: boolean; markdown: string } {
   const lines = markdown.split(/\r?\n/u);
   let changed = false;
 
@@ -220,7 +242,8 @@ export function applyCodeFenceLanguageFixes(markdown, codeBlocks) {
       continue;
     }
 
-    const lineIndex = block.openLineIndex ?? block.startLine - 1;
+    const lineIndex =
+      block.openLineIndex ?? (block as { startLine: number }).startLine - 1;
     const openingLine = lines[lineIndex] ?? "";
     const indentation = openingLine.match(/^(\s*)/u)?.[1] ?? "";
     lines[lineIndex] =
@@ -234,10 +257,19 @@ export function applyCodeFenceLanguageFixes(markdown, codeBlocks) {
   };
 }
 
-export function inspectMarkdown(markdown, options = {}) {
+export function inspectMarkdown(
+  markdown: string,
+  options: { lineOffset?: number } = {}
+) {
   const { lineOffset = 0 } = options;
   const analyzed = analyzeMarkdownBody(markdown);
-  const issues = [];
+  const issues: Array<{
+    code: string;
+    severity: Severity;
+    line?: number;
+    message: string;
+    fixable?: boolean;
+  }> = [];
   const codeBlocks = analyzed.codeFences.map(codeFence => {
     const suggestion = inferCodeFenceLanguage(codeFence.content);
     if (!codeFence.language) {

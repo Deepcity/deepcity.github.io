@@ -1,7 +1,11 @@
-// @ts-nocheck
 import { FRONTMATTER_FIELD_ORDER } from "../shared/constants.js";
+import type {
+  FrontmatterData,
+  FrontmatterScalar,
+  MarkdownDocument,
+} from "../types.js";
 
-function parseScalar(rawValue) {
+function parseScalar(rawValue: string): FrontmatterScalar {
   const value = rawValue.trim();
 
   if (value === "true") {
@@ -26,10 +30,13 @@ function parseScalar(rawValue) {
   return value;
 }
 
-function parseFrontmatterBlock(rawBlock) {
+function parseFrontmatterBlock(rawBlock: string): {
+  data: FrontmatterData;
+  order: string[];
+} {
   const lines = rawBlock.split(/\r?\n/u);
-  const data = {};
-  const order = [];
+  const data: FrontmatterData = {};
+  const order: string[] = [];
   let index = 0;
 
   while (index < lines.length) {
@@ -51,7 +58,7 @@ function parseFrontmatterBlock(rawBlock) {
     order.push(key);
 
     if (!rawValue.trim()) {
-      const values = [];
+      const values: FrontmatterScalar[] = [];
       let cursor = index + 1;
 
       while (cursor < lines.length) {
@@ -78,7 +85,7 @@ function parseFrontmatterBlock(rawBlock) {
   return { data, order };
 }
 
-function formatScalar(key, value) {
+function formatScalar(key: string, value: FrontmatterScalar): string {
   if (typeof value === "boolean") {
     return String(value);
   }
@@ -101,7 +108,7 @@ function formatScalar(key, value) {
   return `"${normalizedValue.replace(/\\/gu, "\\\\").replace(/"/gu, '\\"')}"`;
 }
 
-export function parseMarkdownDocument(source) {
+export function parseMarkdownDocument(source: string): MarkdownDocument {
   const newline = source.includes("\r\n") ? "\r\n" : "\n";
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/u);
 
@@ -128,8 +135,12 @@ export function parseMarkdownDocument(source) {
   };
 }
 
-export function serializeFrontmatter(data, order = [], newline = "\n") {
-  const orderedKeys = [];
+export function serializeFrontmatter(
+  data: FrontmatterData,
+  order: string[] = [],
+  newline = "\n"
+): string {
+  const orderedKeys: string[] = [];
 
   for (const key of FRONTMATTER_FIELD_ORDER) {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
@@ -170,7 +181,10 @@ export function serializeFrontmatter(data, order = [], newline = "\n") {
     .join(newline);
 }
 
-export function stringifyMarkdownDocument(document) {
+export function stringifyMarkdownDocument(
+  document: Pick<MarkdownDocument, "data" | "order" | "body"> &
+    Partial<MarkdownDocument>
+): string {
   const newline = document.newline ?? "\n";
   const frontmatter = serializeFrontmatter(
     document.data,
@@ -186,7 +200,7 @@ export function stringifyMarkdownDocument(document) {
   return `---${newline}${frontmatter}${newline}---${newline}${newline}${body}`;
 }
 
-export function parseMarkdownFile(source) {
+export function parseMarkdownFile(source: string) {
   const document = parseMarkdownDocument(source);
   const normalized = source.replace(/\r\n?/g, "\n");
   const match = normalized.match(/^---\n([\s\S]*?)\n---\n?/u);
@@ -201,7 +215,11 @@ export function parseMarkdownFile(source) {
   };
 }
 
-export function composeMarkdown(frontmatter, body, order = []) {
+export function composeMarkdown(
+  frontmatter: FrontmatterData,
+  body: string,
+  order: string[] = []
+): string {
   return stringifyMarkdownDocument({
     hasFrontmatter: true,
     data: frontmatter,
