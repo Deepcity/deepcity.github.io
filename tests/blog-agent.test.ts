@@ -2,8 +2,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
-import { analyzePost } from "../src/agent/core/analyzer.js";
+import {
+  analyzePost,
+  buildReviewKey,
+  refreshSidecarKnowledge,
+  resolveSkipReason,
+} from "../src/agent/core/analyzer.js";
 import { runChecks } from "../src/agent/core/checks.js";
 import { generateFrontmatter } from "../src/agent/core/frontmatter-generator.js";
 import { runSyncWorkflow } from "../src/agent/core/sync.js";
@@ -24,13 +30,24 @@ import {
 } from "../src/agent/core/visual-check.js";
 import { inferCodeFenceLanguage } from "../src/agent/parsers/markdown.js";
 import { inferAgentModelMeta } from "../src/agent/model-meta.js";
-import { extractJsonPayload } from "../src/agent/providers/gemini.js";
+import {
+  buildBodyForPrompt,
+  extractJsonPayload,
+  sanitizeReview,
+  withRetry,
+} from "../src/agent/providers/gemini.js";
 import {
   getHomeSidecarPath,
   getRoutePathFromFile,
   getSidecarPathForPost,
 } from "../src/agent/shared/pathing.js";
 import { loadContentSchemaRules } from "../src/agent/parsers/schema.js";
+import {
+  getAssistableFields,
+  hasAssistableField,
+  sanitizeFrontmatterAssist,
+} from "../src/agent/core/frontmatter-assist.js";
+import { writeJsonIfChanged } from "../src/agent/shared/fs.js";
 
 function createSnapshot(postId, source) {
   const document = parseMarkdownDocument(source);
@@ -821,4 +838,534 @@ test("home panel guide merge accepts Gemini output and sanitizes routes", () => 
       description: "从 Agent 工程主题切入。",
     },
   ]);
+});
+
+test("gemini prompt body keeps head and tail when truncating", () => {
+  const head = "开头".repeat(200);
+  const tail = "结尾".repeat(200);
+  const body = `${head}${"中间".repeat(2000)}${tail}`;
+  const result = buildBodyForPrompt(body, 1000);
+
+  assert.equal(result.truncated, true);
+  assert.ok(result.text.startsWith("开头开头"));
+  assert.ok(result.text.endsWith("结尾结尾"));
+  assert.match(result.text, /省略了约 \d+ 个字符/u);
+  assert.ok(result.omitted_chars > 0);
+
+  const short = buildBodyForPrompt("短正文", 1000);
+  assert.equal(short.truncated, false);
+  assert.equal(short.text, "短正文");
+});
+
+test("gemini review sanitizer records invalid fields instead of silently coercing", () => {
+  const review = sanitizeReview(
+    {
+      summary: "ok",
+      public_commentary: "",
+      severity: "critical",
+      confidence: "high",
+      related_post_ids: ["allowed-post", "made-up-post"],
+    },
+    {
+      knowledge: {
+        related_posts: [{ post_id: "allowed-post" }],
+      },
+    }
+  );
+
+  assert.equal(review.severity, "warn");
+  assert.equal(review.confidence, 0.72);
+  assert.deepEqual(review.related_post_ids, ["allowed-post"]);
+  assert.equal(review.public_commentary, "ok");
+  assert.ok(review.notes.some(note => note.includes("invalid severity")));
+  assert.ok(review.notes.some(note => note.includes("non-numeric confidence")));
+  assert.ok(review.notes.some(note => note.includes("made-up-post")));
+  assert.ok(review.notes.some(note => note.includes("empty public_commentary")));
+});
+
+test("gemini retry backs off on retryable errors and gives up on others", async () => {
+  let calls = 0;
+  const result = await withRetry(
+    async () => {
+      calls += 1;
+
+      if (calls < 3) {
+        const error = new Error("Gemini request failed: 503");
+        error.status = 503;
+        throw error;
+      }
+
+      return "ok";
+    },
+    { retryAttempts: 3, retryBaseDelayMs: 0 }
+  );
+
+  assert.equal(result, "ok");
+  assert.equal(calls, 3);
+
+  let fatalCalls = 0;
+  await assert.rejects(
+    withRetry(
+      async () => {
+        fatalCalls += 1;
+        const error = new Error("Gemini request failed: 400 bad request");
+        error.status = 400;
+        throw error;
+      },
+      { retryAttempts: 3, retryBaseDelayMs: 0 }
+    ),
+    /400/u
+  );
+  assert.equal(fatalCalls, 1);
+
+  let exhaustedCalls = 0;
+  await assert.rejects(
+    withRetry(
+      async () => {
+        exhaustedCalls += 1;
+        const error = new Error("Gemini request timed out");
+        error.name = "AbortError";
+        throw error;
+      },
+      { retryAttempts: 2, retryBaseDelayMs: 0 }
+    ),
+    /after 2 attempt/u
+  );
+  assert.equal(exhaustedCalls, 2);
+});
+
+test("analyzer skip logic keys on model/prompt and never pins degraded reviews", () => {
+  const snapshot = { source_hash: "abc" };
+  const gemini = {
+    name: "gemini",
+    model: "gemini-3.8-flash",
+    prompt_version: "v1",
+  };
+  const heuristic = {
+    name: "heuristic",
+    model: "heuristic-v1",
+    prompt_version: "heuristic-v1",
+  };
+  const keyFor = provider =>
+    buildReviewKey({
+      sourceHash: snapshot.source_hash,
+      provider: provider.name,
+      model: provider.model,
+      promptVersion: provider.prompt_version,
+    });
+
+  // Fresh, matching sidecar → skip.
+  assert.match(
+    resolveSkipReason({
+      existingSidecar: {
+        source_hash: "abc",
+        provider: "gemini",
+        degraded: false,
+        review_key: keyFor(gemini),
+      },
+      snapshot,
+      provider: gemini,
+      requestedProvider: "auto",
+      reviewKey: keyFor(gemini),
+    }),
+    /review_key unchanged/u
+  );
+
+  // Same source but model bumped → regenerate.
+  assert.equal(
+    resolveSkipReason({
+      existingSidecar: {
+        source_hash: "abc",
+        provider: "gemini",
+        degraded: false,
+        review_key: keyFor({ ...gemini, model: "gemini-old" }),
+      },
+      snapshot,
+      provider: gemini,
+      requestedProvider: "auto",
+      reviewKey: keyFor(gemini),
+    }),
+    null
+  );
+
+  // Legacy sidecar without review_key → regenerate.
+  assert.equal(
+    resolveSkipReason({
+      existingSidecar: { source_hash: "abc", provider: "gemini" },
+      snapshot,
+      provider: gemini,
+      requestedProvider: "auto",
+      reviewKey: keyFor(gemini),
+    }),
+    null
+  );
+
+  // Degraded sidecar with matching key → retry when Gemini is available…
+  assert.equal(
+    resolveSkipReason({
+      existingSidecar: {
+        source_hash: "abc",
+        provider: "heuristic",
+        degraded: true,
+        review_key: keyFor(gemini),
+      },
+      snapshot,
+      provider: gemini,
+      requestedProvider: "auto",
+      reviewKey: keyFor(gemini),
+    }),
+    null
+  );
+
+  // …but kept when only heuristic is available.
+  assert.match(
+    resolveSkipReason({
+      existingSidecar: {
+        source_hash: "abc",
+        provider: "heuristic",
+        degraded: true,
+        review_key: keyFor(heuristic),
+      },
+      snapshot,
+      provider: heuristic,
+      requestedProvider: "auto",
+      reviewKey: keyFor(heuristic),
+    }),
+    /degraded review kept/u
+  );
+
+  // Auto mode fell back to heuristic: never overwrite a good Gemini sidecar.
+  assert.match(
+    resolveSkipReason({
+      existingSidecar: {
+        source_hash: "abc",
+        provider: "gemini",
+        degraded: false,
+        review_key: keyFor(gemini),
+      },
+      snapshot,
+      provider: heuristic,
+      requestedProvider: "auto",
+      reviewKey: keyFor(heuristic),
+    }),
+    /preserved/u
+  );
+
+  // Explicit --provider heuristic is allowed to overwrite.
+  assert.equal(
+    resolveSkipReason({
+      existingSidecar: {
+        source_hash: "abc",
+        provider: "gemini",
+        degraded: false,
+        review_key: keyFor(gemini),
+      },
+      snapshot,
+      provider: heuristic,
+      requestedProvider: "heuristic",
+      reviewKey: keyFor(heuristic),
+    }),
+    null
+  );
+});
+
+test("analyzer refreshes knowledge fields in place without touching the review", () => {
+  const sidecar = {
+    post_id: "a",
+    public_commentary: "keep me",
+    generated_at: "2026-01-01T00:00:00.000Z",
+    related_post_ids: ["c"],
+    related_posts: [],
+    knowledge_hash: "old",
+  };
+  const refreshed = refreshSidecarKnowledge(
+    sidecar,
+    { knowledge_hash: "new" },
+    {
+      memory_refs: ["topic:x"],
+      series_id: "s",
+      series_label: "S",
+      role: "系列开篇",
+      position_summary: "pos",
+      related_posts: [
+        { post_id: "b", title: "B", route_path: "/posts/b", relation: "前置阅读" },
+        { post_id: "c", title: "C", route_path: "/posts/c", relation: "后续阅读" },
+      ],
+    }
+  );
+
+  assert.equal(refreshed.public_commentary, "keep me");
+  assert.equal(refreshed.generated_at, "2026-01-01T00:00:00.000Z");
+  assert.equal(refreshed.knowledge_hash, "new");
+  assert.deepEqual(refreshed.knowledge_refs, ["topic:x"]);
+  assert.deepEqual(
+    refreshed.related_posts.map(post => post.post_id),
+    ["c"]
+  );
+  assert.equal(refreshed.knowledge_position.role, "系列开篇");
+  assert.ok(refreshed.knowledge_refreshed_at);
+});
+
+test("writeJsonIfChanged ignores timestamp churn", async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "blog-agent-fs-"));
+  const target = path.join(dir, "memory.json");
+
+  try {
+    assert.equal(
+      await writeJsonIfChanged(target, { updated_at: "a", topics: [1] }),
+      true
+    );
+    assert.equal(
+      await writeJsonIfChanged(target, { updated_at: "b", topics: [1] }),
+      false
+    );
+    assert.equal(
+      await writeJsonIfChanged(target, { updated_at: "b", topics: [1, 2] }),
+      true
+    );
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
+  }
+});
+
+test("knowledge map series detection is driven by global rules only", async () => {
+  const map = await buildKnowledgeMap({
+    postPaths: [],
+    globalRules: {
+      series_naming_rules: [
+        {
+          id: "labs",
+          label: "Labs",
+          id_pattern: "^Lab-",
+          role_label: "实验记录",
+          open_ended: true,
+          known_post_ids: [],
+        },
+        {
+          id: "papers",
+          label: "Papers",
+          id_pattern: "^(EuroSys|ISCA)\\d{2}-",
+          tag_triggers: ["论文阅读"],
+          role_label: "论文阅读",
+          open_ended: true,
+          known_post_ids: [],
+        },
+      ],
+    },
+    overrides: { version: 1, series: {}, posts: {} },
+    snapshots: [
+      createSnapshot(
+        "Lab-1",
+        `---
+title: Lab 1
+pubDatetime: 2026-01-01T00:00:00.000Z
+tags: []
+---
+
+Body.
+`
+      ),
+      createSnapshot(
+        "Lab-2",
+        `---
+title: Lab 2
+pubDatetime: 2026-01-02T00:00:00.000Z
+tags: []
+---
+
+Body.
+`
+      ),
+      createSnapshot(
+        "EuroSys26-MAYA",
+        `---
+title: MAYA
+pubDatetime: 2026-01-03T00:00:00.000Z
+tags: []
+---
+
+Body.
+`
+      ),
+      createSnapshot(
+        "some-notes",
+        `---
+title: Notes
+pubDatetime: 2026-01-04T00:00:00.000Z
+tags:
+  - "论文阅读"
+---
+
+Body.
+`
+      ),
+    ],
+  });
+  const byId = new Map(map.posts.map(post => [post.post_id, post]));
+
+  assert.equal(byId.get("Lab-1").series_id, "labs");
+  assert.equal(byId.get("Lab-1").role, "系列开篇");
+  assert.equal(byId.get("Lab-2").role, "实验记录");
+  assert.equal(byId.get("EuroSys26-MAYA").series_id, "papers");
+  assert.equal(byId.get("some-notes").series_id, "papers");
+  assert.equal(byId.get("some-notes").role, "论文阅读");
+});
+
+test("home panel tracks come from global rules", () => {
+  const sidecar = buildHomePanelData(
+    [
+      createSnapshot(
+        "rust-notes",
+        `---
+title: Rust ownership notes
+pubDatetime: 2026-01-01T00:00:00.000Z
+description: Borrow checker walkthrough.
+tags:
+  - "Rust"
+---
+
+Body.
+`
+      ),
+    ],
+    {
+      homeTracks: [
+        {
+          id: "rust",
+          label: "Rust 学习",
+          patterns: ["\\brust\\b"],
+          tags: ["Rust"],
+        },
+      ],
+    }
+  );
+
+  assert.deepEqual(sidecar.focus_topics, ["Rust 学习"]);
+});
+
+test("frontmatter assist only fires for fields that need filling", async () => {
+  const schemaRules = await loadContentSchemaRules();
+  const complete = createSnapshot(
+    "assist-complete",
+    `---
+title: "Done"
+pubDatetime: 2026-01-01T00:00:00.000Z
+description: "A description that is comfortably long enough to stand on its own."
+tags:
+  - "Agent"
+---
+
+Body.
+`
+  );
+  const bare = createSnapshot(
+    "assist-bare",
+    `## Heading
+
+Body without frontmatter.
+`
+  );
+  const placeholder = createSnapshot(
+    "assist-placeholder",
+    `---
+title: "Placeholder tags"
+pubDatetime: 2026-01-01T00:00:00.000Z
+description: "A description that is comfortably long enough to stand on its own."
+tags:
+  - "others"
+---
+
+Body.
+`
+  );
+
+  assert.deepEqual(getAssistableFields(complete, schemaRules), {
+    description: false,
+    tags: false,
+  });
+  assert.deepEqual(getAssistableFields(bare, schemaRules), {
+    description: true,
+    tags: true,
+  });
+  assert.deepEqual(getAssistableFields(placeholder, schemaRules), {
+    description: false,
+    tags: true,
+  });
+
+  // An explicit hint means the author already decided; don't spend a call.
+  assert.deepEqual(
+    getAssistableFields(bare, schemaRules, {
+      structured: { description: "mine", tags: ["Agent"] },
+    }),
+    { description: false, tags: false }
+  );
+
+  assert.equal(hasAssistableField({ description: false, tags: false }), false);
+  assert.equal(hasAssistableField({ description: false, tags: true }), true);
+});
+
+test("frontmatter assist sanitizer drops placeholder and malformed tags", () => {
+  const globalRules = { tag_registry: { Agent: {}, "论文阅读": {} } };
+  const assist = sanitizeFrontmatterAssist(
+    {
+      description:
+        "  这是一段足够长的中文摘要，用来描述文章实际讲了什么内容。  ",
+      tags: ["agent", "others", "  论文阅读 ", "", "GPU模拟器", "Agent"],
+    },
+    globalRules,
+    { description: true, tags: true }
+  );
+
+  // Registry casing wins so `agent` does not fork into a near-duplicate tag.
+  assert.deepEqual(assist.tags, ["Agent", "论文阅读", "GPU模拟器"]);
+  assert.match(assist.description, /^这是一段足够长的中文摘要/u);
+  assert.ok(assist.notes.some(note => note.includes("GPU模拟器")));
+
+  const empty = sanitizeFrontmatterAssist(
+    { description: "   ", tags: ["others"] },
+    globalRules,
+    { description: true, tags: true }
+  );
+  assert.equal(empty.description, undefined);
+  assert.equal(empty.tags, undefined);
+  assert.equal(empty.notes.length, 2);
+});
+
+test("frontmatter generator prefers assist over inferred tags but yields to hints", async () => {
+  const schemaRules = await loadContentSchemaRules();
+  const snapshot = createSnapshot(
+    "assist-precedence",
+    `## Intro
+
+Agent runtimes often combine planning, retrieval and tool execution with MCP.
+`
+  );
+  const assist = {
+    description: "模型生成的摘要，应当优先于规则拼接的结果。",
+    tags: ["GPU模拟器", "Accel-Sim"],
+    notes: [],
+  };
+
+  const withAssist = generateFrontmatter(snapshot, schemaRules, TEST_GLOBAL_RULES, {
+    assist,
+  });
+  assert.equal(withAssist.document.data.description, assist.description);
+  assert.deepEqual(withAssist.document.data.tags, assist.tags);
+
+  // An explicit hint still outranks the model, and is taken as the full list.
+  const withHint = generateFrontmatter(snapshot, schemaRules, TEST_GLOBAL_RULES, {
+    assist,
+    hintText: "description: 作者手写的摘要。\ntags: Agent, MCP",
+  });
+  assert.equal(withHint.document.data.description, "作者手写的摘要。");
+  assert.deepEqual(withHint.document.data.tags, ["Agent", "MCP"]);
+
+  // Without an assist the rule-based path is unchanged.
+  const withoutAssist = generateFrontmatter(
+    snapshot,
+    schemaRules,
+    TEST_GLOBAL_RULES,
+    {}
+  );
+  assert.notEqual(withoutAssist.document.data.description, assist.description);
 });

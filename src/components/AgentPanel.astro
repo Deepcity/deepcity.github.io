@@ -1,31 +1,10 @@
 ---
 import AgentModelMark from "./AgentModelMark.astro";
 import { inferAgentModelMeta } from "@/agent/model-meta";
+import type { PostSidecar } from "@/agent/site";
 
-type AgentSidecar = {
-  provider?: string;
-  model?: string;
-  degraded?: boolean;
-  degraded_reason?: string | null;
-  public_commentary?: string;
-  related_posts?: {
-    post_id: string;
-    title: string;
-    route_path: string;
-    relation?: string;
-  }[];
-  summary?: string;
-  structural_review?: string;
-  technical_review?: string;
-  strengths?: string[];
-  concerns?: string[];
-  severity?: "info" | "warn" | "error";
-  confidence?: number;
-  generated_at?: string;
-  memory_refs?: string[];
-  knowledge_refs?: string[];
-  notes?: string[];
-};
+// Field-optional view of the committed sidecar (see src/agent/types.ts).
+type AgentSidecar = Partial<PostSidecar>;
 
 interface Props {
   sidecar?: AgentSidecar | null;

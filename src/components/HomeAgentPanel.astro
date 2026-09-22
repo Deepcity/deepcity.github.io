@@ -1,34 +1,10 @@
 ---
 import AgentModelMark from "./AgentModelMark.astro";
 import { inferAgentModelMeta } from "@/agent/model-meta";
+import type { HomeSidecar } from "@/agent/site";
 
-type RecommendedPath = {
-  label: string;
-  href: string;
-  description?: string;
-};
-
-type HomeAgentSidecar = {
-  page_id?: string;
-  title?: string;
-  provider?: string;
-  model?: string;
-  summary?: string;
-  agent_role?: string;
-  site_overview?: string;
-  focus_topics?: string[];
-  highlights?: string[];
-  recommended_paths?: RecommendedPath[];
-  content_stats?: {
-    total_posts?: number;
-    featured_posts?: number;
-    latest_post_title?: string;
-    primary_topics?: string[];
-  };
-  confidence?: number;
-  generated_at?: string;
-  notes?: string[];
-};
+// Field-optional view of the committed home sidecar (see src/agent/types.ts).
+type HomeAgentSidecar = Partial<HomeSidecar>;
 
 interface Props {
   sidecar?: HomeAgentSidecar | null;
