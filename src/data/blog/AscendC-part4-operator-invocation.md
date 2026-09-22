@@ -8,6 +8,8 @@ tags:
   - "Ascend"
   - "c++"
   - "算子开发"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 ## Ascend C算子开发 Part4 算子调用与测试
@@ -25,12 +27,12 @@ tags:
 
 单算子调用有两种调用方式
 
-- ACLOP（模型执行）：基于C/CPP定义的API执行算子。无需进行离线转换
-- ACLNN（API执行）：基于图IR执行算子。需要通过两种方式取一编译，然后运行
+- ACLOP（模型执行）：基于图IR执行算子。需要通过两种方式取一编译，然后运行
   - 编译
     - 通过ATC工具将Ascend IR定义的单算子描述文件编译成算子om模型文件
     - 在编译单算子
   - 调用AscendCL接口加载算子模型，最后使用AscendCL接口执行算子
+- ACLNN（API执行）：基于C/CPP定义的API执行算子。无需进行离线转换
 
 > 单算子API执行时显而易见的，会有ACLNN。
 >
@@ -62,7 +64,7 @@ flowchart TD
 	compile -- 算子相关数据存储在.om模型文件中 --> atccompile
 	aclopmalloc[申请内存存放执行
 	算子的输入/输出数据
-	**aclopMalloc**]
+	**aclrtMalloc**]
 	ifone -- 是 --> aclopmalloc
 	aclopcompile[编译算子，算子模型
 	相关数据保存在内存中
@@ -70,20 +72,20 @@ flowchart TD
 	ifone -- 否 --> aclopcompile
 	aclrtmemcpy[传输数据
 	**aclrtMemcpy**或
-	**aclrtMemcopyAsync**]
+	**aclrtMemcpyAsync**]
 	aclopmalloc --> aclrtmemcpy
 	aclrtmemcpy --> aclop[编译+执行算子
 	**aclopCompileAndExecute**] --> aclrtsync[同步等待
-	**aclrtSynchronizcStream**] --> aclrtfree[释放内存
+	**aclrtSynchronizeStream**] --> aclrtfree[释放内存
 	**aclrtFree**] --> End
 
 	aclopcompile --> aclrtmalloc2[申请内存存放执行
 	算子的输入/输出数据
-	**aclopMalloc**] --> aclrtmemcpy2[传输数据
+	**aclrtMalloc**] --> aclrtmemcpy2[传输数据
 	**aclrtMemcpy**或
-	**aclrtMemcopyAsync**] --> aclopexecute[执行算子
+	**aclrtMemcpyAsync**] --> aclopexecute[执行算子
 	**aclopExecuteV2**] --> aclrtsync2[同步等待
-	**aclrtSynchronizcStream**] --> aclrtfree2[释放内存
+	**aclrtSynchronizeStream**] --> aclrtfree2[释放内存
 	**aclrtFree**] --> End
 	
 	atccompile --> load[加载算子模型文件
@@ -91,13 +93,13 @@ flowchart TD
 	**aclopLoad**]
 	--> aclrtmalloc3[申请内存存放执行
 	算子的输入/输出数据
-	**aclopMalloc**] --> aclrtmemcpy3[传输数据
+	**aclrtMalloc**] --> aclrtmemcpy3[传输数据
 	**aclrtMemcpy**或
-	**aclrtMemcopyAsync**] --> aclopexecute2[执行算子
+	**aclrtMemcpyAsync**] --> aclopexecute2[执行算子
 	**aclopExecuteV2**或
 	**aclopExecWithHandle**或
 	**CBLAS接口**] --> aclrtsync3[同步等待
-	**aclrtSynchronizcStream**] --> aclrtfree3[释放内存
+	**aclrtSynchronizeStream**] --> aclrtfree3[释放内存
 	**aclrtFree**] --> End
 ```
 
@@ -173,8 +175,8 @@ $$
 ```sh
 set ASCEND_HOME=/usr/local/Ascend/lastest
 export DDK_PATH=$(ASCEND_HOME)
-export NPU_HOST_LIB=$(ASCEND_HOME)/runtime/lib63/stub
-msopst creat -i add_custom.cpp -out ./output
+export NPU_HOST_LIB=$(ASCEND_HOME)/runtime/lib64/stub
+msopst create -i add_custom.cpp -out ./output
 msopst run -i output/AddCustom_case.json -soc Ascend910B1 -out ./output -c Test_AddCustom_001 --err_thr "[0.01,0.05]"
 ```
 

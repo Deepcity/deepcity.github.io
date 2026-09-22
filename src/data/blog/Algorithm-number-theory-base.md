@@ -8,6 +8,8 @@ tags:
   - "数论"
   - "算法"
   - "数学"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 # 算法数论基础
@@ -135,7 +137,7 @@ int gcd(int a, int b)
 
 **gcd 的运算符优化**
 
-```
+```sh
 int gcd(int a, int b) {
     // make sure a >= b.
     if (a < b) {
@@ -290,7 +292,7 @@ void init(int n)
     for (int i = 2; i <= n; i++)
     {
         if (!st[i])prime[countNum++] = i;
-        for (int j = 0; prime[j] * i <= n; i++)
+        for (int j = 0; prime[j] * i <= n; j++)
         {
             st[prime[j] * i] = true;
             if (i % prime[j] == 0)break;
@@ -389,7 +391,7 @@ int main()
 
 [AcWing 97. 约数之和（算法提高课） - AcWing](https://www.acwing.com/activity/content/problem/content/8046/)
 
-```
+```c
 #include <cstdio>
 
 const int mod = 9901;
@@ -818,7 +820,7 @@ int main()
     eular(n);
 
     ll ans=0;
-    for(int i=0;i<countNum;i++ [数论，算法]g)
+    for(int i=0;i<countNum;i++)
     {
         int p=primes[i];
         ans+=s[n/p]*2+1;
@@ -905,7 +907,7 @@ A 追 B (b-a) , 每跳一次 A 追 B(m-n)米
 $(m-n)x=b-a+yL$
 
 => $(m-n)x=b-a+yL$
-[数论，算法]g
+
 => $(m-n)x-yL=b-a$
 
 ```c++
@@ -985,7 +987,7 @@ ll slow_mul(ll a,ll b,ll p)
         if(b&1)res=(res+a)%p;
         a=(a+a)%p;
         b>>=1;
-     [数论，算法]g}
+    }
     return res;
 }
 
@@ -1025,7 +1027,7 @@ int main()
     while(cin>>L,L)
     {
         int d=1;
-        d=gcd(L,8) [数论，算法]g;
+        d=gcd(L,8);
 
         ll c= 9*L/d;
 
@@ -1068,7 +1070,7 @@ x=a_n(mod\quad m_n)
 $$
 
 设 $M=m_1m_2m_3...m_n$
-[数论，算法]g
+
 令 $M_i=M/m_i$ $t_i$ 是 $M_i$ 关于 M 的逆元
 
 $M_it_i=1(mod\quad m_i)$
@@ -1108,7 +1110,7 @@ int main()
     cin>>n;
     ll M=1;
     for(int i=1;i<=n;i++){
-        cin>>a[i]>>b[i] [数论，算法]g;
+        cin>>a[i]>>b[i];
         M*=a[i];
     }
     ll ans=0;
@@ -1148,7 +1150,7 @@ Fn ={fn, fn+1, sn}\*
 
 ```#include<iostream>
 #include<iostream>
-#include<vector [数论，算法]g>
+#include<vector>
 #include<cstring>
 #include<cstdio>
 #include<algorithm>
@@ -1188,7 +1190,7 @@ void mul(int c[][N], int a[][N], int b[][N])
 }
 
 int main()
- [数论，算法]g{
+{
     cin >> n >> m;
     int F1[N] = { 1,1,1 };
     int A[N][N] = {
@@ -1228,7 +1230,7 @@ nsn-tn =(n-1)f1+(n-2)f2+...+fn-1
 
 那么我们设 pn = sn-tn
 
-Fn ={fn, fn+1, sn, pn} [数论，算法]g\*
+Fn ={fn, fn+1, sn, pn}\*
 
 {
 
@@ -1268,7 +1270,7 @@ inline void mul(int c[][N],int a[][N],int b[][N])
         }
     }
     memcpy(c,t,sizeof t);
- [数论，算法]g}
+}
 
 int main()
 {
@@ -1355,7 +1357,6 @@ M ={k1⋅a1, k2⋅a2, ⋯, kn⋅an}M ={k1⋅a1, k2⋅a2, ⋯, kn⋅an}(其中每
 
 ### 错排公式的推导
 
-[数论，算法]g
 假设 $D(k) = k! N(k), k = 1, 2, …, n,$ 且有 $N(1) = 0, N(2) = 1/2.$ 当 $n ≥ 3$ 时，$n!\cdot N(n) = (n-1) (n-1)! N(n-1) + (n-1)! N(n-2)$
 
 即有公式

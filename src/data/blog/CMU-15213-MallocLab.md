@@ -7,6 +7,8 @@ draft: false
 tags:
   - "CMU15213"
   - "c"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 ## Malloc Lab
@@ -152,7 +154,7 @@ $$
 
 ### Implicit Free List
 
-```
+```text
 | header (size + alloc_bit) | payload ...           | footer (size + alloc_bit) |
 ^                            ^
 bp 指向这里                  HDRP(bp) / FTRP(bp)

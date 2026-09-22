@@ -10,6 +10,8 @@ tags:
   - "汇编"
   - "反编译"
   - "Exploit String Attack"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 # CMU15213-AttackLab
@@ -700,7 +702,7 @@ ec 17 40 00 00 00 00 00
 
 然后看一下上面那个错误的执行流,则在比较完edi与rip后直接跳转到了系统库的stdio2.h中
 
-```
+```yaml
 14│ /usr/include/x86_64-linux-gnu/bits/stdio2.h:
 15│ 105       return __fprintf_chk (__stream, __USE_FORTIFY_LEVEL - 1, __fmt,
 16├──> 0x0000000000401804 <+24>:    mov    $0x403208,%esi

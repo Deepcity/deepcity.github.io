@@ -9,6 +9,8 @@ tags:
   - "人工智能"
   - "进化算法"
   - "遗传算法"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 ## EA 与 GA

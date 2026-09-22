@@ -24,13 +24,13 @@ timezone: "Asia/Shanghai"
 
 ## Infromation Card
 
-| 项目       | 内容                                                         |
-| ---------- | ------------------------------------------------------------ |
-| 论文标题   | Orca: A Distributed Serving System for Transformer-Based Generative Models |
-| 发表于     | OSDI 2022                                                    |
+| 项目       | 内容                                                                                                                                                            |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 论文标题   | Orca: A Distributed Serving System for Transformer-Based Generative Models                                                                                      |
+| 发表于     | OSDI 2022                                                                                                                                                       |
 | 核心一句话 | 通过迭代级调度（Iteration-level scheduling，后来在业界常被称为 Continuous Batching/In-flight Batching）和选择性批处理（Selective Batching）极大优化了大模型调度 |
-| 适用场景   | 分布式系统、大模型调度，KVcache                              |
-| 代码/项目  | [osdi22-orca](https://www.usenix.org/conference/osdi22/presentation/yu) [github-orca](https://github.com/LLM-Systems-Research/orca) |
+| 适用场景   | 分布式系统、大模型调度，KVcache                                                                                                                                 |
+| 代码/项目  | [osdi22-orca](https://www.usenix.org/conference/osdi22/presentation/yu) [github-orca](https://github.com/LLM-Systems-Research/orca)                               |
 
 ## Background & Motivation
 

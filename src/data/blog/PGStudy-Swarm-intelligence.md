@@ -9,6 +9,8 @@ tags:
   - "人工智能"
   - "群体人工智能"
   - "PSO"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 # 群体人工智能Part1-PSO

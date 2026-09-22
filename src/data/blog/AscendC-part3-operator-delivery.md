@@ -8,6 +8,8 @@ tags:
   - "Ascend"
   - "c++"
   - "算子开发"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 ## Ascend C 算子开发 Part3 算子交付件与算子工程

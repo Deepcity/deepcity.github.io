@@ -1,0 +1,17 @@
+# Normalize line endings so agent frontmatter write-back never produces
+# whole-file CRLF/LF diffs (see docs/blog-agent/improvement-plan.md).
+* text=auto eol=lf
+
+# Binary assets must not be touched.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.pdf binary

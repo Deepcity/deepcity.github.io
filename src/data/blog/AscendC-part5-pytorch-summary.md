@@ -9,6 +9,8 @@ tags:
   - "c++"
   - "算子开发"
   - "LLM"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 ## Ascend C算子开发 Part5 Pytorch算子调用与阶段总结

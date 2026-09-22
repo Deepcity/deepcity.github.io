@@ -9,6 +9,8 @@ tags:
   - "LLM"
   - "c++"
   - "算子开发"
+author: "Deepcity"
+timezone: "Asia/Shanghai"
 ---
 
 # Ascend C算子开发 Part1基本概念
