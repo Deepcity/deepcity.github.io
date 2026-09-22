@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   GLOBAL_RULES_PATH,
   MEMORY_ROOT,
@@ -8,12 +7,30 @@ import {
   TOPIC_MEMORY_PATH,
 } from "../shared/constants.js";
 import { DEFAULT_GLOBAL_RULES } from "./default-global-rules.js";
-import { ensureDir, readJsonIfExists, writeJson } from "../shared/fs.js";
+import {
+  ensureDir,
+  readJsonIfExists,
+  writeJson,
+  writeJsonIfChanged,
+} from "../shared/fs.js";
 import { getSidecarPathForPost } from "../shared/pathing.js";
 import { loadPostSnapshot } from "../parsers/post-snapshot.js";
 import { dedupeStrings, isoNow, sortByPublishedAt } from "../shared/utils.js";
+import type {
+  GlobalRules,
+  TagMetadata,
+  MemoryContext,
+  NegativeMemory,
+  MemoryUpdateInput,
+  PostSidecar,
+  RawJson,
+  SeriesMemory,
+  SeriesMemoryPost,
+  SeriesRule,
+  TopicMemory,
+} from "../types.js";
 
-function createSeriesMemory() {
+function createSeriesMemory(): SeriesMemory {
   return {
     version: 1,
     updated_at: null,
@@ -21,7 +38,7 @@ function createSeriesMemory() {
   };
 }
 
-function createTopicMemory() {
+function createTopicMemory(): TopicMemory {
   return {
     version: 1,
     updated_at: null,
@@ -29,7 +46,7 @@ function createTopicMemory() {
   };
 }
 
-function createNegativeMemory() {
+function createNegativeMemory(): NegativeMemory {
   return {
     version: 1,
     updated_at: null,
@@ -37,12 +54,14 @@ function createNegativeMemory() {
   };
 }
 
-function mergeGlobalRules(current) {
+function mergeGlobalRules(current: GlobalRules | null): GlobalRules {
   if (!current) {
     return DEFAULT_GLOBAL_RULES;
   }
 
-  const mergedTagRegistry = { ...DEFAULT_GLOBAL_RULES.tag_registry };
+  const mergedTagRegistry: Record<string, TagMetadata> = {
+    ...DEFAULT_GLOBAL_RULES.tag_registry,
+  };
 
   for (const [tag, metadata] of Object.entries(current.tag_registry ?? {})) {
     const defaultEntry = mergedTagRegistry[tag] ?? {};
@@ -79,10 +98,60 @@ function mergeGlobalRules(current) {
     series_naming_rules: Array.isArray(current.series_naming_rules)
       ? current.series_naming_rules
       : DEFAULT_GLOBAL_RULES.series_naming_rules,
+    home_tracks: Array.isArray(current.home_tracks)
+      ? current.home_tracks
+      : DEFAULT_GLOBAL_RULES.home_tracks,
   };
 }
 
-function normalizeSeriesMemory(memory) {
+function removePostFromMemories(
+  seriesMemory: SeriesMemory,
+  topicMemory: TopicMemory,
+  negativeMemory: NegativeMemory,
+  knownPostIds: string[]
+): string[] {
+  const known = new Set(knownPostIds);
+  const removed = new Set<string>();
+  const noteRemoved = (postId: string): boolean => {
+    if (!known.has(postId)) {
+      removed.add(postId);
+      return true;
+    }
+
+    return false;
+  };
+
+  for (const entry of seriesMemory.series) {
+    entry.posts = entry.posts.filter(post => !noteRemoved(post.post_id));
+  }
+
+  seriesMemory.series = seriesMemory.series.filter(
+    entry => entry.posts.length > 0
+  );
+
+  for (const memory of [topicMemory.topics, negativeMemory.patterns]) {
+    for (const entry of memory) {
+      entry.post_ids = entry.post_ids.filter(postId => !noteRemoved(postId));
+      entry.count = entry.post_ids.length;
+
+      if (entry.latest_post_id && !known.has(entry.latest_post_id)) {
+        entry.latest_post_id =
+          entry.post_ids[entry.post_ids.length - 1] ?? null;
+      }
+    }
+  }
+
+  topicMemory.topics = topicMemory.topics.filter(
+    entry => entry.post_ids.length > 0
+  );
+  negativeMemory.patterns = negativeMemory.patterns.filter(
+    entry => entry.post_ids.length > 0
+  );
+
+  return [...removed].sort();
+}
+
+function normalizeSeriesMemory(memory: RawJson): SeriesMemory {
   if (!memory || Array.isArray(memory.series)) {
     return memory ?? createSeriesMemory();
   }
@@ -90,7 +159,7 @@ function normalizeSeriesMemory(memory) {
   return {
     version: memory.version ?? 1,
     updated_at: memory.updated_at ?? memory.generated_at ?? null,
-    series: Object.values(memory.series ?? {}).map(entry => ({
+    series: (Object.values(memory.series ?? {}) as RawJson[]).map(entry => ({
       id: entry.id,
       label: entry.label ?? entry.title ?? entry.id,
       expected_total: entry.expected_total ?? null,
@@ -101,7 +170,7 @@ function normalizeSeriesMemory(memory) {
   };
 }
 
-function normalizeTopicMemory(memory) {
+function normalizeTopicMemory(memory: RawJson): TopicMemory {
   if (!memory || Array.isArray(memory.topics)) {
     return memory ?? createTopicMemory();
   }
@@ -109,17 +178,19 @@ function normalizeTopicMemory(memory) {
   return {
     version: memory.version ?? 1,
     updated_at: memory.updated_at ?? memory.generated_at ?? null,
-    topics: Object.values(memory.topics ?? {}).map(entry => ({
+    topics: (Object.values(memory.topics ?? {}) as RawJson[]).map(entry => ({
       tag: entry.tag ?? entry.id,
       category: entry.category ?? "custom",
-      post_ids: (entry.posts ?? []).map(post => post.post_id),
+      post_ids: (entry.posts ?? []).map(
+        (post: { post_id: string }) => post.post_id
+      ),
       latest_post_id: entry.latest_post_id ?? entry.posts?.[0]?.post_id ?? null,
       count: entry.count ?? entry.posts?.length ?? 0,
     })),
   };
 }
 
-function normalizeNegativeMemory(memory) {
+function normalizeNegativeMemory(memory: RawJson): NegativeMemory {
   if (!memory || Array.isArray(memory.patterns)) {
     return memory ?? createNegativeMemory();
   }
@@ -127,25 +198,37 @@ function normalizeNegativeMemory(memory) {
   return {
     version: memory.version ?? 1,
     updated_at: memory.updated_at ?? memory.generated_at ?? null,
-    patterns: Object.values(memory.patterns ?? {}).map(entry => ({
-      code: entry.code,
-      severity: entry.severity ?? "warn",
-      post_ids: (entry.posts ?? []).map(post => post.post_id),
-      sample_message: entry.sample_message ?? entry.message ?? "",
-      latest_post_id: entry.latest_post_id ?? entry.posts?.[0]?.post_id ?? null,
-      count: entry.count ?? entry.posts?.length ?? 0,
-    })),
+    patterns: (Object.values(memory.patterns ?? {}) as RawJson[]).map(
+      entry => ({
+        code: entry.code,
+        severity: entry.severity ?? "warn",
+        post_ids: (entry.posts ?? []).map(
+          (post: { post_id: string }) => post.post_id
+        ),
+        sample_message: entry.sample_message ?? entry.message ?? "",
+        latest_post_id:
+          entry.latest_post_id ?? entry.posts?.[0]?.post_id ?? null,
+        count: entry.count ?? entry.posts?.length ?? 0,
+      })
+    ),
   };
 }
 
-function buildSeriesMissing(rule, posts) {
+function buildSeriesMissing(
+  rule: SeriesRule | undefined,
+  posts: SeriesMemoryPost[]
+): string[] {
   const expectedIds = rule?.known_post_ids ?? [];
   const publishedIds = new Set(posts.map(post => post.post_id));
 
   return expectedIds.filter(postId => !publishedIds.has(postId));
 }
 
-function upsertSeries(memory, globalRules, sidecar) {
+function upsertSeries(
+  memory: SeriesMemory,
+  globalRules: GlobalRules,
+  sidecar: MemoryUpdateInput
+): void {
   if (!sidecar.series_key) {
     return;
   }
@@ -192,7 +275,11 @@ function upsertSeries(memory, globalRules, sidecar) {
     .sort((left, right) => left.label.localeCompare(right.label));
 }
 
-function upsertTopics(memory, globalRules, sidecar) {
+function upsertTopics(
+  memory: TopicMemory,
+  globalRules: GlobalRules,
+  sidecar: MemoryUpdateInput
+): void {
   for (const entry of memory.topics) {
     entry.post_ids = entry.post_ids.filter(
       postId => postId !== sidecar.post_id
@@ -207,8 +294,9 @@ function upsertTopics(memory, globalRules, sidecar) {
         const next = {
           tag,
           category: metadata.category ?? "custom",
-          post_ids: [],
+          post_ids: [] as string[],
           latest_post_id: null,
+          count: 0,
         };
         memory.topics.push(next);
         return next;
@@ -228,7 +316,10 @@ function upsertTopics(memory, globalRules, sidecar) {
     );
 }
 
-function upsertNegativePatterns(memory, sidecar) {
+function upsertNegativePatterns(
+  memory: NegativeMemory,
+  sidecar: MemoryUpdateInput
+): void {
   for (const entry of memory.patterns) {
     entry.post_ids = entry.post_ids.filter(
       postId => postId !== sidecar.post_id
@@ -245,6 +336,7 @@ function upsertNegativePatterns(memory, sidecar) {
           post_ids: [],
           sample_message: issue.message,
           latest_post_id: null,
+          count: 0,
         };
         memory.patterns.push(next);
         return next;
@@ -265,7 +357,10 @@ function upsertNegativePatterns(memory, sidecar) {
     );
 }
 
-async function writeJsonIfMissing(filePath, fallback) {
+async function writeJsonIfMissing(
+  filePath: string,
+  fallback: unknown
+): Promise<void> {
   const current = await readJsonIfExists(filePath);
 
   if (!current) {
@@ -274,7 +369,7 @@ async function writeJsonIfMissing(filePath, fallback) {
 }
 
 export class MemoryStore {
-  async ensureLayout() {
+  async ensureLayout(): Promise<void> {
     await ensureDir(MEMORY_ROOT);
     await ensureDir(SIDECAR_ROOT);
     await this.loadGlobalRules();
@@ -283,8 +378,8 @@ export class MemoryStore {
     await writeJsonIfMissing(NEGATIVE_MEMORY_PATH, createNegativeMemory());
   }
 
-  async loadGlobalRules() {
-    const current = await readJsonIfExists(GLOBAL_RULES_PATH);
+  async loadGlobalRules(): Promise<GlobalRules> {
+    const current = await readJsonIfExists<GlobalRules>(GLOBAL_RULES_PATH);
 
     if (current) {
       return mergeGlobalRules(current);
@@ -294,7 +389,11 @@ export class MemoryStore {
     return DEFAULT_GLOBAL_RULES;
   }
 
-  async loadSeriesContext(postId, seriesId, tags = []) {
+  async loadSeriesContext(
+    postId: string,
+    seriesId?: string | null,
+    tags: string[] = []
+  ): Promise<MemoryContext> {
     const [seriesMemoryRaw, topicMemoryRaw, negativeMemoryRaw] =
       await Promise.all([
         readJsonIfExists(SERIES_MEMORY_PATH, createSeriesMemory()),
@@ -304,7 +403,7 @@ export class MemoryStore {
     const seriesMemory = normalizeSeriesMemory(seriesMemoryRaw);
     const topicMemory = normalizeTopicMemory(topicMemoryRaw);
     const negativeMemory = normalizeNegativeMemory(negativeMemoryRaw);
-    const refs = [];
+    const refs: string[] = [];
     const series =
       seriesMemory.series.find(entry => entry.id === seriesId) ?? null;
 
@@ -328,11 +427,11 @@ export class MemoryStore {
     };
   }
 
-  async loadPostMemory(filePath) {
+  async loadPostMemory(filePath: string): Promise<PostSidecar | null> {
     return readJsonIfExists(getSidecarPathForPost(filePath));
   }
 
-  async applyUpdates(sidecar) {
+  async applyUpdates(sidecar: MemoryUpdateInput): Promise<void> {
     const globalRules = await this.loadGlobalRules();
     const [seriesMemoryRaw, topicMemoryRaw, negativeMemoryRaw] =
       await Promise.all([
@@ -348,19 +447,81 @@ export class MemoryStore {
     upsertTopics(topicMemory, globalRules, sidecar);
     upsertNegativePatterns(negativeMemory, sidecar);
 
+    await this.persist(seriesMemory, topicMemory, negativeMemory);
+  }
+
+  // Stamps updated_at and writes each store only if its content changed.
+  async persist(
+    seriesMemory: SeriesMemory,
+    topicMemory: TopicMemory,
+    negativeMemory: NegativeMemory
+  ): Promise<boolean> {
     const updated_at = isoNow();
     seriesMemory.updated_at = updated_at;
     topicMemory.updated_at = updated_at;
     negativeMemory.updated_at = updated_at;
 
-    await Promise.all([
-      writeJson(SERIES_MEMORY_PATH, seriesMemory),
-      writeJson(TOPIC_MEMORY_PATH, topicMemory),
-      writeJson(NEGATIVE_MEMORY_PATH, negativeMemory),
+    const written = await Promise.all([
+      writeJsonIfChanged(SERIES_MEMORY_PATH, seriesMemory),
+      writeJsonIfChanged(TOPIC_MEMORY_PATH, topicMemory),
+      writeJsonIfChanged(NEGATIVE_MEMORY_PATH, negativeMemory),
     ]);
+
+    return written.some(Boolean);
   }
 
-  async rebuildAll(postPaths) {
+  async loadAll(): Promise<{
+    seriesMemory: SeriesMemory;
+    topicMemory: TopicMemory;
+    negativeMemory: NegativeMemory;
+  }> {
+    const [seriesMemoryRaw, topicMemoryRaw, negativeMemoryRaw] =
+      await Promise.all([
+        readJsonIfExists(SERIES_MEMORY_PATH, createSeriesMemory()),
+        readJsonIfExists(TOPIC_MEMORY_PATH, createTopicMemory()),
+        readJsonIfExists(NEGATIVE_MEMORY_PATH, createNegativeMemory()),
+      ]);
+
+    return {
+      seriesMemory: normalizeSeriesMemory(seriesMemoryRaw),
+      topicMemory: normalizeTopicMemory(topicMemoryRaw),
+      negativeMemory: normalizeNegativeMemory(negativeMemoryRaw),
+    };
+  }
+
+  // Lists post ids referenced by memory that no longer exist as posts.
+  async findMissingPosts(knownPostIds: string[]): Promise<string[]> {
+    const { seriesMemory, topicMemory, negativeMemory } = await this.loadAll();
+    return removePostFromMemories(
+      seriesMemory,
+      topicMemory,
+      negativeMemory,
+      knownPostIds
+    );
+  }
+
+  // Drops references to deleted / renamed posts from all three stores.
+  async pruneMissingPosts(knownPostIds: string[]): Promise<string[]> {
+    const { seriesMemory, topicMemory, negativeMemory } = await this.loadAll();
+    const removed = removePostFromMemories(
+      seriesMemory,
+      topicMemory,
+      negativeMemory,
+      knownPostIds
+    );
+
+    if (removed.length > 0) {
+      await this.persist(seriesMemory, topicMemory, negativeMemory);
+    }
+
+    return removed;
+  }
+
+  async rebuildAll(postPaths: string[]): Promise<{
+    series: number;
+    topics: number;
+    negative_patterns: number;
+  }> {
     const globalRules = await this.loadGlobalRules();
     const seriesMemory = createSeriesMemory();
     const topicMemory = createTopicMemory();
@@ -368,7 +529,9 @@ export class MemoryStore {
 
     for (const postPath of postPaths) {
       const snapshot = await loadPostSnapshot(postPath);
-      const sidecar = (await readJsonIfExists(snapshot.sidecar_path)) ?? {
+      const sidecar: MemoryUpdateInput = (await readJsonIfExists<PostSidecar>(
+        snapshot.sidecar_path
+      )) ?? {
         post_id: snapshot.post_id,
         title: snapshot.title,
         source_path: snapshot.file_path,
@@ -385,16 +548,7 @@ export class MemoryStore {
       upsertNegativePatterns(negativeMemory, sidecar);
     }
 
-    const updated_at = isoNow();
-    seriesMemory.updated_at = updated_at;
-    topicMemory.updated_at = updated_at;
-    negativeMemory.updated_at = updated_at;
-
-    await Promise.all([
-      writeJson(SERIES_MEMORY_PATH, seriesMemory),
-      writeJson(TOPIC_MEMORY_PATH, topicMemory),
-      writeJson(NEGATIVE_MEMORY_PATH, negativeMemory),
-    ]);
+    await this.persist(seriesMemory, topicMemory, negativeMemory);
 
     return {
       series: seriesMemory.series.length,

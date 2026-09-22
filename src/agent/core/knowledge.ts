@@ -1,4 +1,3 @@
-// @ts-nocheck
 import fs from "node:fs/promises";
 import { parseDocument } from "yaml";
 import {
@@ -14,7 +13,7 @@ import {
   listMarkdownFiles,
   readJsonIfExists,
   readText,
-  writeJson,
+  writeJsonIfChanged,
 } from "../shared/fs.js";
 import { MemoryStore } from "../memory/memory-store.js";
 import { loadPostSnapshot } from "../parsers/post-snapshot.js";
@@ -25,6 +24,90 @@ import {
   repoRelative,
   truncateText,
 } from "../shared/utils.js";
+import type {
+  GlobalRules,
+  KnowledgeRefreshResult,
+  PostSnapshot,
+  RawJson,
+  RelatedPost,
+  Severity,
+} from "../types.js";
+
+interface SeriesDefinition {
+  id: string;
+  label: string;
+  id_pattern: string | null;
+  tag_triggers: string[];
+  role_label: string | null;
+  expected_total: number | null;
+  open_ended: boolean;
+  order: string[];
+  source: string;
+}
+
+interface PostOverride {
+  series_id: string | null;
+  role: string | null;
+  previous: string[];
+  next: string[];
+  topic_neighbors: string[];
+  reader_context: string | null;
+  position_summary: string | null;
+}
+
+interface KnowledgeOverrides {
+  version: number;
+  series: Record<string, { id: string; label: string; order: string[] }>;
+  posts: Record<string, PostOverride>;
+}
+
+interface KnowledgeIssue {
+  code: string;
+  severity: Severity;
+  message: string;
+}
+
+export interface KnowledgeMapEntry {
+  post_id: string;
+  title: string;
+  source_path: string;
+  route_path: string;
+  series_id: string | null;
+  series_label: string | null;
+  role: string;
+  previous_posts: string[];
+  next_posts: string[];
+  topic_neighbors: string[];
+  related_posts: RelatedPost[];
+  position_summary: string;
+  memory_refs: string[];
+}
+
+export interface KnowledgeMap {
+  version: number;
+  series: Array<{
+    id: string;
+    label: string;
+    role_label: string | null;
+    post_ids: string[];
+    expected_total: number | null;
+    open_ended: boolean;
+    source: string;
+  }>;
+  posts: KnowledgeMapEntry[];
+  issues: KnowledgeIssue[];
+  generated_at: string;
+  knowledge_hash: string;
+  source: { post_count: number; overrides_path: string };
+}
+
+export interface BuildKnowledgeMapOptions {
+  memoryStore?: { loadGlobalRules(): Promise<GlobalRules> };
+  postPaths?: string[];
+  globalRules?: GlobalRules;
+  overrides?: KnowledgeOverrides;
+  snapshots?: PostSnapshot[];
+}
 
 const DEFAULT_OVERRIDES = `# Blog Agent knowledge overrides
 # 只写明显需要人工纠错的例外；没写的部分全部由 Agent 自动推断。
@@ -48,11 +131,11 @@ series: {}
 posts: {}
 `;
 
-function isObject(value) {
-  return value && typeof value === "object" && !Array.isArray(value);
+function isObject(value: unknown): value is Record<string, RawJson> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
-function asArray(value) {
+function asArray(value: unknown): string[] {
   if (!Array.isArray(value)) {
     return [];
   }
@@ -60,7 +143,7 @@ function asArray(value) {
   return value.map(item => String(item).trim()).filter(Boolean);
 }
 
-function createEmptyPostOverride() {
+function createEmptyPostOverride(): PostOverride {
   return {
     series_id: null,
     role: null,
@@ -72,7 +155,7 @@ function createEmptyPostOverride() {
   };
 }
 
-function normalizeOverridePost(rawPost) {
+function normalizeOverridePost(rawPost: unknown): PostOverride {
   const fallback = createEmptyPostOverride();
 
   if (!isObject(rawPost)) {
@@ -94,11 +177,11 @@ function normalizeOverridePost(rawPost) {
   };
 }
 
-function normalizeOverrides(rawOverrides) {
+function normalizeOverrides(rawOverrides: RawJson): KnowledgeOverrides {
   const rawSeries = isObject(rawOverrides?.series) ? rawOverrides.series : {};
   const rawPosts = isObject(rawOverrides?.posts) ? rawOverrides.posts : {};
-  const series = {};
-  const posts = {};
+  const series: KnowledgeOverrides["series"] = {};
+  const posts: KnowledgeOverrides["posts"] = {};
 
   for (const [seriesId, rawSeriesEntry] of Object.entries(rawSeries)) {
     if (!isObject(rawSeriesEntry)) {
@@ -123,7 +206,7 @@ function normalizeOverrides(rawOverrides) {
   };
 }
 
-async function ensureDefaultOverrides() {
+async function ensureDefaultOverrides(): Promise<void> {
   await ensureDir(KNOWLEDGE_ROOT);
 
   if (!(await fileExists(KNOWLEDGE_OVERRIDES_PATH))) {
@@ -131,7 +214,7 @@ async function ensureDefaultOverrides() {
   }
 }
 
-export async function loadKnowledgeOverrides() {
+export async function loadKnowledgeOverrides(): Promise<KnowledgeOverrides> {
   await ensureDefaultOverrides();
 
   const source = await readText(KNOWLEDGE_OVERRIDES_PATH);
@@ -147,14 +230,19 @@ export async function loadKnowledgeOverrides() {
   return normalizeOverrides(document.toJSON() ?? {});
 }
 
-function buildSeriesDefinitions(globalRules, overrides) {
-  const definitions = new Map();
+function buildSeriesDefinitions(
+  globalRules: GlobalRules,
+  overrides: KnowledgeOverrides
+): Map<string, SeriesDefinition> {
+  const definitions = new Map<string, SeriesDefinition>();
 
   for (const rule of globalRules.series_naming_rules ?? []) {
     definitions.set(rule.id, {
       id: rule.id,
       label: rule.label ?? rule.id,
       id_pattern: rule.id_pattern ?? null,
+      tag_triggers: rule.tag_triggers ?? [],
+      role_label: rule.role_label ?? null,
       expected_total: rule.expected_total ?? null,
       open_ended: rule.open_ended ?? true,
       order: rule.known_post_ids ?? [],
@@ -170,6 +258,8 @@ function buildSeriesDefinitions(globalRules, overrides) {
         id: override.id,
         label: override.id,
         id_pattern: null,
+        tag_triggers: [],
+        role_label: null,
         expected_total: null,
         open_ended: true,
         order: [],
@@ -185,11 +275,17 @@ function buildSeriesDefinitions(globalRules, overrides) {
   return definitions;
 }
 
-function detectSeries(snapshot, definitions, override) {
+function detectSeries(
+  snapshot: PostSnapshot,
+  definitions: Map<string, SeriesDefinition>,
+  override?: PostOverride
+): string | null {
   if (override?.series_id) {
     return override.series_id;
   }
 
+  // File-name patterns win over tag triggers so an explicitly numbered
+  // series is never re-homed by a loosely applied tag.
   for (const definition of definitions.values()) {
     if (
       definition.id_pattern &&
@@ -199,39 +295,40 @@ function detectSeries(snapshot, definitions, override) {
     }
   }
 
-  if (
-    snapshot.tags.includes("论文阅读") ||
-    /^(AAAI|ICCV|ISOCC|NSDI|OSDI|SOSP|USENIX)\d{2}[-_]/u.test(snapshot.post_id)
-  ) {
-    return "paper-reading";
+  for (const definition of definitions.values()) {
+    if (
+      (definition.tag_triggers ?? []).some(tag => snapshot.tags.includes(tag))
+    ) {
+      return definition.id;
+    }
   }
 
   return null;
 }
 
-function extractPartNumber(postId) {
+function extractPartNumber(postId: string): number | null {
   const match = postId.match(/part[-_ ]?(\d+)/iu);
 
   return match ? Number(match[1]) : null;
 }
 
-function compareByPublishedAt(left, right) {
+function compareByPublishedAt(left: PostSnapshot, right: PostSnapshot): number {
   return String(left.pubDatetime ?? "").localeCompare(
     String(right.pubDatetime ?? "")
   );
 }
 
-function sortSeriesSnapshots(snapshots, definition) {
+function sortSeriesSnapshots(
+  snapshots: PostSnapshot[],
+  definition?: SeriesDefinition | null
+): PostSnapshot[] {
   const order = definition?.order ?? [];
   const orderIndex = new Map(order.map((postId, index) => [postId, index]));
 
   return [...snapshots].sort((left, right) => {
-    const leftOrder = orderIndex.has(left.post_id)
-      ? orderIndex.get(left.post_id)
-      : Number.POSITIVE_INFINITY;
-    const rightOrder = orderIndex.has(right.post_id)
-      ? orderIndex.get(right.post_id)
-      : Number.POSITIVE_INFINITY;
+    const leftOrder = orderIndex.get(left.post_id) ?? Number.POSITIVE_INFINITY;
+    const rightOrder =
+      orderIndex.get(right.post_id) ?? Number.POSITIVE_INFINITY;
 
     if (leftOrder !== rightOrder) {
       return leftOrder - rightOrder;
@@ -248,12 +345,21 @@ function sortSeriesSnapshots(snapshots, definition) {
   });
 }
 
-function inferRole(snapshot, seriesInfo, seriesSnapshots, override) {
+function inferRole(
+  snapshot: PostSnapshot,
+  seriesInfo: {
+    id: string;
+    label: string;
+    expected_total: number | null;
+    role_label?: string | null;
+  } | null,
+  seriesSnapshots: PostSnapshot[],
+  override?: PostOverride
+): string {
   if (override?.role) {
     return override.role;
   }
 
-  const tags = new Set(snapshot.tags);
   const index = seriesSnapshots.findIndex(
     item => item.post_id === snapshot.post_id
   );
@@ -261,10 +367,6 @@ function inferRole(snapshot, seriesInfo, seriesSnapshots, override) {
   const lowerTitle = snapshot.title.toLowerCase();
 
   if (!seriesInfo) {
-    if (tags.has("论文阅读")) {
-      return "论文阅读";
-    }
-
     return "独立文章";
   }
 
@@ -286,23 +388,23 @@ function inferRole(snapshot, seriesInfo, seriesSnapshots, override) {
     return "阶段总结";
   }
 
-  if (seriesInfo.id === "cmu-15213") {
-    return "实验记录";
-  }
-
-  if (seriesInfo.id === "paper-reading" || tags.has("论文阅读")) {
-    return "论文阅读";
+  if (seriesInfo.role_label) {
+    return seriesInfo.role_label;
   }
 
   return `系列第 ${index + 1} 篇`;
 }
 
-function sharedTagScore(left, right) {
+function sharedTagScore(left: PostSnapshot, right: PostSnapshot): number {
   const rightTags = new Set(right.tags);
   return left.tags.filter(tag => rightTags.has(tag)).length;
 }
 
-function buildTopicNeighbors(snapshot, snapshots, excludedIds) {
+function buildTopicNeighbors(
+  snapshot: PostSnapshot,
+  snapshots: PostSnapshot[],
+  excludedIds: Set<string>
+): string[] {
   return snapshots
     .filter(candidate => candidate.post_id !== snapshot.post_id)
     .filter(candidate => !excludedIds.has(candidate.post_id))
@@ -324,7 +426,13 @@ function buildTopicNeighbors(snapshot, snapshots, excludedIds) {
     .map(item => item.snapshot.post_id);
 }
 
-function describePosition(snapshot, seriesInfo, role, previous, next) {
+function describePosition(
+  snapshot: PostSnapshot,
+  seriesInfo: { label: string } | null,
+  role: string,
+  previous: string[],
+  next: string[]
+): string {
   if (!seriesInfo) {
     return `${snapshot.title} 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。`;
   }
@@ -343,10 +451,14 @@ function describePosition(snapshot, seriesInfo, role, previous, next) {
   );
 }
 
-function buildRelatedPosts(postIds, snapshotsById, relation) {
+function buildRelatedPosts(
+  postIds: string[],
+  snapshotsById: Map<string, PostSnapshot>,
+  relation: string
+): RelatedPost[] {
   return postIds
     .map(postId => snapshotsById.get(postId))
-    .filter(Boolean)
+    .filter((snapshot): snapshot is PostSnapshot => Boolean(snapshot))
     .map(snapshot => ({
       post_id: snapshot.post_id,
       title: snapshot.title,
@@ -355,8 +467,12 @@ function buildRelatedPosts(postIds, snapshotsById, relation) {
     }));
 }
 
-function validateOverrides(overrides, snapshotsById, definitions) {
-  const issues = [];
+function validateOverrides(
+  overrides: KnowledgeOverrides,
+  snapshotsById: Map<string, PostSnapshot>,
+  definitions: Map<string, SeriesDefinition>
+): KnowledgeIssue[] {
+  const issues: KnowledgeIssue[] = [];
 
   for (const [seriesId, series] of Object.entries(overrides.series ?? {})) {
     const seen = new Set();
@@ -399,7 +515,7 @@ function validateOverrides(overrides, snapshotsById, definitions) {
       });
     }
 
-    for (const field of ["previous", "next", "topic_neighbors"]) {
+    for (const field of ["previous", "next", "topic_neighbors"] as const) {
       for (const refId of override[field] ?? []) {
         if (!snapshotsById.has(refId)) {
           issues.push({
@@ -415,7 +531,9 @@ function validateOverrides(overrides, snapshotsById, definitions) {
   return issues;
 }
 
-export async function buildKnowledgeMap(options = {}) {
+export async function buildKnowledgeMap(
+  options: BuildKnowledgeMapOptions = {}
+): Promise<KnowledgeMap> {
   const memoryStore = options.memoryStore ?? new MemoryStore();
   const [postPaths, globalRules, overrides] = await Promise.all([
     options.postPaths
@@ -428,17 +546,20 @@ export async function buildKnowledgeMap(options = {}) {
       ? Promise.resolve(options.overrides)
       : loadKnowledgeOverrides(),
   ]);
-  const snapshots = [];
+  // `snapshots` can be injected (tests / callers that already loaded them).
+  const snapshots = options.snapshots ? [...options.snapshots] : [];
 
-  for (const filePath of postPaths) {
-    snapshots.push(await loadPostSnapshot(filePath));
+  if (!options.snapshots) {
+    for (const filePath of postPaths) {
+      snapshots.push(await loadPostSnapshot(filePath));
+    }
   }
 
   const snapshotsById = new Map(
     snapshots.map(snapshot => [snapshot.post_id, snapshot])
   );
   const definitions = buildSeriesDefinitions(globalRules, overrides);
-  const postSeries = new Map();
+  const postSeries = new Map<string, string | null>();
 
   for (const snapshot of snapshots) {
     const override = overrides.posts?.[snapshot.post_id];
@@ -451,6 +572,8 @@ export async function buildKnowledgeMap(options = {}) {
         id: seriesId,
         label: seriesId,
         id_pattern: null,
+        tag_triggers: [],
+        role_label: null,
         expected_total: null,
         open_ended: true,
         order: [],
@@ -459,7 +582,7 @@ export async function buildKnowledgeMap(options = {}) {
     }
   }
 
-  const series = [];
+  const series: KnowledgeMap["series"] = [];
 
   for (const definition of definitions.values()) {
     const seriesSnapshots = sortSeriesSnapshots(
@@ -476,6 +599,7 @@ export async function buildKnowledgeMap(options = {}) {
     series.push({
       id: definition.id,
       label: definition.label,
+      role_label: definition.role_label ?? null,
       post_ids: seriesSnapshots.map(snapshot => snapshot.post_id),
       expected_total: definition.expected_total,
       open_ended: definition.open_ended,
@@ -486,27 +610,28 @@ export async function buildKnowledgeMap(options = {}) {
   series.sort((left, right) => left.label.localeCompare(right.label));
 
   const seriesById = new Map(series.map(item => [item.id, item]));
-  const posts = [];
+  const posts: KnowledgeMapEntry[] = [];
 
   for (const snapshot of snapshots) {
     const override =
       overrides.posts?.[snapshot.post_id] ?? createEmptyPostOverride();
     const seriesId = postSeries.get(snapshot.post_id);
-    const seriesInfo = seriesId ? seriesById.get(seriesId) : null;
-    const seriesSnapshots = seriesInfo
+    const seriesInfo = (seriesId ? seriesById.get(seriesId) : null) ?? null;
+    const seriesSnapshots: PostSnapshot[] = seriesInfo
       ? seriesInfo.post_ids
           .map(postId => snapshotsById.get(postId))
-          .filter(Boolean)
+          .filter((item): item is PostSnapshot => Boolean(item))
       : [];
     const index = seriesSnapshots.findIndex(
       item => item.post_id === snapshot.post_id
     );
-    const inferredPrevious =
-      index > 0 ? [seriesSnapshots[index - 1].post_id] : [];
-    const inferredNext =
+    const previousSnapshot = index > 0 ? seriesSnapshots[index - 1] : undefined;
+    const nextSnapshot =
       index >= 0 && index < seriesSnapshots.length - 1
-        ? [seriesSnapshots[index + 1].post_id]
-        : [];
+        ? seriesSnapshots[index + 1]
+        : undefined;
+    const inferredPrevious = previousSnapshot ? [previousSnapshot.post_id] : [];
+    const inferredNext = nextSnapshot ? [nextSnapshot.post_id] : [];
     const previousPosts =
       override.previous.length > 0 ? override.previous : inferredPrevious;
     const nextPosts = override.next.length > 0 ? override.next : inferredNext;
@@ -571,9 +696,12 @@ export async function buildKnowledgeMap(options = {}) {
   };
 }
 
-export async function refreshKnowledgeMap(options = {}) {
+export async function refreshKnowledgeMap(
+  options: BuildKnowledgeMapOptions = {}
+): Promise<KnowledgeRefreshResult<KnowledgeMap>> {
   const map = await buildKnowledgeMap(options);
-  await writeJson(KNOWLEDGE_MAP_PATH, map);
+  // Only `generated_at` differs between identical maps; don't churn the file.
+  await writeJsonIfChanged(KNOWLEDGE_MAP_PATH, map);
   return {
     knowledge_hash: map.knowledge_hash,
     post_count: map.posts.length,
@@ -584,11 +712,38 @@ export async function refreshKnowledgeMap(options = {}) {
   };
 }
 
-export async function loadKnowledgeMap() {
+export async function loadKnowledgeMap(): Promise<KnowledgeMap | null> {
   return readJsonIfExists(KNOWLEDGE_MAP_PATH, null);
 }
 
-export function getKnowledgeForPost(knowledgeMap, postId) {
+// Builds the map in memory and compares it with the committed one. Used by
+// read-only (CI) runs so the working tree is never touched.
+export async function verifyKnowledgeMap(
+  options: BuildKnowledgeMapOptions = {}
+): Promise<KnowledgeRefreshResult<KnowledgeMap>> {
+  const map = await buildKnowledgeMap(options);
+  const committed = await loadKnowledgeMap();
+  const committedHash = committed?.knowledge_hash ?? null;
+  const stale = committedHash !== map.knowledge_hash;
+
+  return {
+    knowledge_hash: map.knowledge_hash,
+    committed_hash: committedHash,
+    stale,
+    post_count: map.posts.length,
+    series_count: map.series.length,
+    issue_count: map.issues.length,
+    sidecar_path: repoRelative(KNOWLEDGE_MAP_PATH, REPO_ROOT),
+    // Analysis should reason about the committed state in read-only mode so
+    // that "stale" is reported once here instead of once per post.
+    map: committed ?? map,
+  };
+}
+
+export function getKnowledgeForPost(
+  knowledgeMap: KnowledgeMap | null | undefined,
+  postId: string
+): KnowledgeMapEntry | null {
   if (!knowledgeMap) {
     return null;
   }
@@ -598,7 +753,9 @@ export function getKnowledgeForPost(knowledgeMap, postId) {
   );
 }
 
-export async function checkKnowledgeMap(options = {}) {
+export async function checkKnowledgeMap(
+  options: BuildKnowledgeMapOptions = {}
+) {
   const result = await refreshKnowledgeMap({
     ...options,
   });

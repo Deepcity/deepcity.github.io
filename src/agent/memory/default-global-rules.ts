@@ -1,7 +1,7 @@
-// @ts-nocheck
 import { DEFAULT_MODEL } from "../shared/constants.js";
+import type { GlobalRules } from "../types.js";
 
-export const DEFAULT_GLOBAL_RULES = {
+export const DEFAULT_GLOBAL_RULES: GlobalRules = {
   version: 1,
   updated_at: "2026-03-16T00:00:00.000Z",
   prompt_version: "review-v1",
@@ -17,8 +17,7 @@ export const DEFAULT_GLOBAL_RULES = {
       file_name: "api-agent-embedding-mcp-skills.md",
       route_path: "/posts/api-agent-embedding-mcp-skills",
     },
-    rule:
-      "所有文章文件名、slug 与站内文章链接统一使用小写字母和连字符的 kebab-case 形式。",
+    rule: "所有文章文件名、slug 与站内文章链接统一使用小写字母和连字符的 kebab-case 形式。",
   },
   review_rubric: {
     structure: [
@@ -225,11 +224,15 @@ export const DEFAULT_GLOBAL_RULES = {
       keywords: ["365", "m365", "office 365"],
     },
   },
+  // Single source of truth for series detection. `id_pattern` matches the
+  // post id (file name); `tag_triggers` matches frontmatter tags as a fallback;
+  // `role_label` is the default knowledge-map role for posts in the series.
   series_naming_rules: [
     {
       id: "cmu-15213",
       label: "CMU 15-213 Labs",
       id_pattern: "^CMU-15213-",
+      role_label: "实验记录",
       expected_total: 8,
       open_ended: false,
       known_post_ids: [
@@ -260,10 +263,52 @@ export const DEFAULT_GLOBAL_RULES = {
     {
       id: "paper-reading",
       label: "论文阅读",
-      id_pattern: "^(AAAI|ICCV|ISOCC|NSDI|OSDI|SOSP|USENIX)\\d+-",
+      id_pattern:
+        "^(AAAI|ASPLOS|ATC|CVPR|ECCV|EuroSys|HPCA|ICCV|ICLR|ICML|ISCA|ISOCC|MICRO|MLSys|NeurIPS|NSDI|OSDI|PLDI|PPoPP|SC|SIGCOMM|SIGMOD|SOSP|USENIX|VLDB)\\d{2,4}[-_]",
+      tag_triggers: ["论文阅读"],
+      role_label: "论文阅读",
       expected_total: null,
       open_ended: true,
       known_post_ids: [],
+    },
+  ],
+  // Topic tracks shown on the home panel. Patterns are matched (case-
+  // insensitively) against id + title + description + excerpt + path; tags
+  // are matched case-insensitively against frontmatter tags.
+  home_tracks: [
+    {
+      id: "cmu-15213",
+      label: "CMU 15-213 实验与系统基础",
+      patterns: [
+        "\\bcmu[-\\s]?15[-\\s]?213\\b",
+        "\\b(bomblab|attacklab|shelllab|cachelab|malloclab|architecturelab)\\b",
+        "\\bcsapp\\b",
+      ],
+      tags: ["CMU15213", "CSAPP"],
+    },
+    {
+      id: "papers",
+      label: "OSDI / SOSP 论文阅读",
+      patterns: ["\\b(osdi|sosp|eurosys|isca|nsdi)\\b", "论文", "\\bpaper\\b"],
+      tags: ["OSDI", "SOSP", "论文阅读", "Paper"],
+    },
+    {
+      id: "ascend-c",
+      label: "Ascend C 算子开发",
+      patterns: ["\\bascend\\s*c\\b", "\\bascendc\\b", "算子"],
+      tags: ["AscendC", "Ascend C", "昇腾"],
+    },
+    {
+      id: "agent-engineering",
+      label: "Agent / MCP / Embedding 工程",
+      patterns: ["\\bagent\\b", "\\bmcp\\b", "\\bembedding\\b", "\\bllm\\b"],
+      tags: ["Agent", "MCP", "Embedding", "LLM", "API"],
+    },
+    {
+      id: "algorithms",
+      label: "算法、数论与群体智能",
+      patterns: ["\\balgorithm\\b", "number\\s*theory", "\\bpso\\b", "群体"],
+      tags: ["算法", "数论", "群体智能", "数学"],
     },
   ],
 };

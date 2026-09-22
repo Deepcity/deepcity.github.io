@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { BLOG_ROOT, DEFAULT_PROVIDER, REPO_ROOT } from "../shared/constants.js";
 import {
   listMarkdownFiles,
@@ -6,6 +5,8 @@ import {
   writeJson,
 } from "../shared/fs.js";
 import { getHomeSidecarPath } from "../shared/pathing.js";
+import { DEFAULT_GLOBAL_RULES } from "../memory/default-global-rules.js";
+import { MemoryStore } from "../memory/memory-store.js";
 import { loadPostSnapshot } from "../parsers/post-snapshot.js";
 import { requestGeminiJson, resolveGeminiConfig } from "../providers/gemini.js";
 import {
@@ -16,45 +17,75 @@ import {
   roundConfidence,
   truncateText,
 } from "../shared/utils.js";
+import type {
+  HomePanelResult,
+  HomeSidecar,
+  HomeTrackRule,
+  PostSnapshot,
+  RawJson,
+  RecommendedPath,
+  RequestedProvider,
+} from "../types.js";
 
-const TRACK_DEFINITIONS = [
-  {
-    id: "cmu-15213",
-    label: "CMU 15-213 实验与系统基础",
-    patterns: [
-      /\bcmu[-\s]?15[-\s]?213\b/iu,
-      /\b(bomblab|attacklab|shelllab|cachelab|malloclab|architecturelab)\b/iu,
-      /\bcsapp\b/iu,
-    ],
-    tags: ["CMU15213", "CSAPP"],
-  },
-  {
-    id: "papers",
-    label: "OSDI / SOSP 论文阅读",
-    patterns: [/\b(osdi|sosp)\b/iu, /论文/u, /\bpaper\b/iu],
-    tags: ["OSDI", "SOSP", "论文阅读", "Paper"],
-  },
-  {
-    id: "ascend-c",
-    label: "Ascend C 算子开发",
-    patterns: [/\bascend\s*c\b/iu, /\bascendc\b/iu, /算子/u],
-    tags: ["AscendC", "Ascend C", "昇腾"],
-  },
-  {
-    id: "agent-engineering",
-    label: "Agent / MCP / Embedding 工程",
-    patterns: [/\bagent\b/iu, /\bmcp\b/iu, /\bembedding\b/iu, /\bllm\b/iu],
-    tags: ["Agent", "MCP", "Embedding", "LLM", "API"],
-  },
-  {
-    id: "algorithms",
-    label: "算法、数论与群体智能",
-    patterns: [/\balgorithm\b/iu, /number\s*theory/iu, /\bpso\b/iu, /群体/u],
-    tags: ["算法", "数论", "群体智能", "数学"],
-  },
-];
+interface CompiledTrack {
+  id: string;
+  label: string;
+  patterns: RegExp[];
+  tags: string[];
+}
 
-function sortSnapshotsByPublishedAt(snapshots) {
+interface Track {
+  id: string;
+  label: string;
+  count: number;
+  latest_post_id: string;
+  latest_post_title: string;
+  latest_route_path: string;
+  latest_excerpt: string;
+  published_at: string | null;
+}
+
+interface HomeStats {
+  total_posts: number;
+  featured_posts: number;
+  latest_post_title: string | null;
+  latest_post_route_path: string | null;
+  latest_post: SnapshotBrief | null;
+  featured_post: SnapshotBrief | null;
+}
+
+interface SnapshotBrief {
+  title: string;
+  route_path: string;
+  description: string;
+  excerpt: string;
+}
+
+export interface BuildHomePanelOptions {
+  postPaths?: string[];
+  provider?: RequestedProvider;
+  model?: string;
+  apiKey?: string;
+  force?: boolean;
+  /** false = read-only: report stale/missing instead of regenerating. */
+  regenerate?: boolean;
+  memoryStore?: MemoryStore;
+}
+
+// Track definitions live in global rules (`home_tracks`) so the taxonomy is
+// declared once; here they are only compiled into RegExps.
+function compileTracks(homeTracks?: HomeTrackRule[]): CompiledTrack[] {
+  return (homeTracks ?? DEFAULT_GLOBAL_RULES.home_tracks ?? []).map(track => ({
+    id: track.id,
+    label: track.label,
+    patterns: (track.patterns ?? []).map(pattern =>
+      typeof pattern === "string" ? new RegExp(pattern, "iu") : pattern
+    ),
+    tags: track.tags ?? [],
+  }));
+}
+
+function sortSnapshotsByPublishedAt(snapshots: PostSnapshot[]): PostSnapshot[] {
   return [...snapshots].sort((left, right) =>
     String(right.pubDatetime ?? "").localeCompare(
       String(left.pubDatetime ?? "")
@@ -62,11 +93,11 @@ function sortSnapshotsByPublishedAt(snapshots) {
   );
 }
 
-function normalizeTags(tags) {
+function normalizeTags(tags?: string[]): Set<string> {
   return new Set((tags ?? []).map(tag => String(tag).trim().toLowerCase()));
 }
 
-function collectSearchText(snapshot) {
+function collectSearchText(snapshot: PostSnapshot): string {
   return [
     snapshot.post_id,
     snapshot.title,
@@ -78,7 +109,7 @@ function collectSearchText(snapshot) {
     .join(" ");
 }
 
-function matchesTrack(snapshot, track) {
+function matchesTrack(snapshot: PostSnapshot, track: CompiledTrack): boolean {
   const searchText = collectSearchText(snapshot);
   const tagSet = normalizeTags(snapshot.tags);
 
@@ -88,33 +119,37 @@ function matchesTrack(snapshot, track) {
   );
 }
 
-function buildTracks(snapshots) {
-  return TRACK_DEFINITIONS.map(track => {
-    const matches = sortSnapshotsByPublishedAt(
-      snapshots.filter(snapshot => matchesTrack(snapshot, track))
-    );
+function buildTracks(
+  snapshots: PostSnapshot[],
+  trackDefinitions: CompiledTrack[]
+): Track[] {
+  return trackDefinitions
+    .map(track => {
+      const matches = sortSnapshotsByPublishedAt(
+        snapshots.filter(snapshot => matchesTrack(snapshot, track))
+      );
 
-    if (matches.length === 0) {
-      return null;
-    }
+      if (matches.length === 0) {
+        return null;
+      }
 
-    const latest = matches[0];
+      const latest = matches[0];
 
-    return {
-      id: track.id,
-      label: track.label,
-      count: matches.length,
-      latest_post_id: latest.post_id,
-      latest_post_title: latest.title,
-      latest_route_path: latest.route_path,
-      latest_excerpt: truncateText(
-        latest.description || latest.excerpt || latest.title,
-        88
-      ),
-      published_at: latest.pubDatetime,
-    };
-  })
-    .filter(Boolean)
+      return {
+        id: track.id,
+        label: track.label,
+        count: matches.length,
+        latest_post_id: latest.post_id,
+        latest_post_title: latest.title,
+        latest_route_path: latest.route_path,
+        latest_excerpt: truncateText(
+          latest.description || latest.excerpt || latest.title,
+          88
+        ),
+        published_at: latest.pubDatetime,
+      };
+    })
+    .filter((track): track is Track => Boolean(track))
     .sort((left, right) => {
       if (right.count !== left.count) {
         return right.count - left.count;
@@ -126,7 +161,7 @@ function buildTracks(snapshots) {
     });
 }
 
-function summarizeTrackLabels(tracks) {
+function summarizeTrackLabels(tracks: Track[]): string {
   const labels = tracks.slice(0, 4).map(track => track.label);
 
   if (labels.length === 0) {
@@ -140,7 +175,7 @@ function summarizeTrackLabels(tracks) {
   return labels.join("、");
 }
 
-function buildSummary(stats, tracks) {
+function buildSummary(stats: HomeStats, tracks: Track[]): string {
   const topics = summarizeTrackLabels(tracks);
 
   return truncateText(
@@ -149,11 +184,11 @@ function buildSummary(stats, tracks) {
   );
 }
 
-function buildAgentRole() {
+function buildAgentRole(): string {
   return "这个首页 Agent 不是在线客服，而是构建期生成的静态导览员：它负责概括博客主题、解释文章页 Agent Review 的作用，并把读者引到站内最有代表性的内容入口。";
 }
 
-function buildSiteOverview(stats, tracks) {
+function buildSiteOverview(stats: HomeStats, tracks: Track[]): string {
   const topics = summarizeTrackLabels(tracks);
   const latestTitle = stats.latest_post_title
     ? `最近更新是《${stats.latest_post_title}》。`
@@ -162,7 +197,7 @@ function buildSiteOverview(stats, tracks) {
   return `站点当前收录 ${stats.total_posts} 篇文章，其中 ${stats.featured_posts} 篇被标记为精选。内容主要围绕 ${topics} 展开，既包含课程实验与论文阅读，也包含 AI 基础设施和工程实践。${latestTitle}`.trim();
 }
 
-function buildHighlights(stats, tracks) {
+function buildHighlights(stats: HomeStats, tracks: Track[]): string[] {
   const highlights = [
     `首页精选与最近发布共同构成阅读入口，当前已收录 ${stats.total_posts} 篇文章、${stats.featured_posts} 篇精选。`,
     `站点主线集中在 ${summarizeTrackLabels(tracks)}，适合按专题连续阅读。`,
@@ -182,8 +217,11 @@ function buildHighlights(stats, tracks) {
   return dedupeStrings(highlights).slice(0, 4);
 }
 
-function buildRecommendedPaths(stats, tracks) {
-  const paths = [];
+function buildRecommendedPaths(
+  stats: HomeStats,
+  tracks: Track[]
+): RecommendedPath[] {
+  const paths: RecommendedPath[] = [];
 
   if (stats.featured_post) {
     paths.push({
@@ -241,11 +279,11 @@ function buildRecommendedPaths(stats, tracks) {
 
   return dedupeStrings(paths.map(path => path.href))
     .map(href => paths.find(path => path.href === href))
-    .filter(Boolean)
+    .filter((path): path is RecommendedPath => Boolean(path))
     .slice(0, 4);
 }
 
-function buildLatestPostContext(snapshots) {
+function buildLatestPostContext(snapshots: PostSnapshot[]) {
   return sortSnapshotsByPublishedAt(snapshots)
     .slice(0, 6)
     .map(snapshot => ({
@@ -259,7 +297,9 @@ function buildLatestPostContext(snapshots) {
     }));
 }
 
-function buildAllowedRecommendedPaths(baseSidecar) {
+function buildAllowedRecommendedPaths(
+  baseSidecar: Pick<HomeSidecar, "recommended_paths">
+): RecommendedPath[] {
   return dedupeStrings(
     [
       ...(baseSidecar.recommended_paths ?? []).map(path => path.href),
@@ -293,11 +333,14 @@ function buildAllowedRecommendedPaths(baseSidecar) {
     .slice(0, 6);
 }
 
-function isPublicSnapshot(snapshot) {
+function isPublicSnapshot(snapshot: PostSnapshot): boolean {
   return snapshot.document?.data?.draft !== true;
 }
 
-function buildGeminiHomePanelPrompt(baseSidecar, snapshots) {
+function buildGeminiHomePanelPrompt(
+  baseSidecar: HomeSidecar,
+  snapshots: PostSnapshot[]
+): string {
   const allowedPaths = buildAllowedRecommendedPaths(baseSidecar);
   const latestPosts = buildLatestPostContext(snapshots);
 
@@ -323,11 +366,15 @@ function buildGeminiHomePanelPrompt(baseSidecar, snapshots) {
   ].join("\n");
 }
 
-function sanitizeRecommendedPaths(rawPaths, fallbackPaths, allowedPaths) {
+function sanitizeRecommendedPaths(
+  rawPaths: unknown,
+  fallbackPaths: RecommendedPath[],
+  allowedPaths: RecommendedPath[]
+): RecommendedPath[] {
   const allowedByHref = new Map(allowedPaths.map(item => [item.href, item]));
-  const sanitized = [];
+  const sanitized: RecommendedPath[] = [];
 
-  for (const item of rawPaths ?? []) {
+  for (const item of (rawPaths as RawJson[]) ?? []) {
     if (!item || typeof item !== "object") {
       continue;
     }
@@ -352,13 +399,17 @@ function sanitizeRecommendedPaths(rawPaths, fallbackPaths, allowedPaths) {
 
   const deduped = dedupeStrings(sanitized.map(item => item.href))
     .map(href => sanitized.find(item => item.href === href))
-    .filter(Boolean)
+    .filter((item): item is RecommendedPath => Boolean(item))
     .slice(0, 4);
 
   return deduped.length > 0 ? deduped : fallbackPaths;
 }
 
-export function applyHomePanelGuide(baseSidecar, rawGuide, options = {}) {
+export function applyHomePanelGuide(
+  baseSidecar: HomeSidecar,
+  rawGuide: RawJson,
+  options: { provider?: string; model?: string; notes?: string[] } = {}
+): HomeSidecar {
   const allowedPaths = buildAllowedRecommendedPaths(baseSidecar);
 
   return {
@@ -399,14 +450,20 @@ export function applyHomePanelGuide(baseSidecar, rawGuide, options = {}) {
   };
 }
 
-export function buildHomePanelData(snapshots) {
+export function buildHomePanelData(
+  snapshots: PostSnapshot[],
+  options: { homeTracks?: HomeTrackRule[] } = {}
+): HomeSidecar {
   const publishedSnapshots = sortSnapshotsByPublishedAt(
     snapshots.filter(isPublicSnapshot)
   );
   const featuredSnapshots = publishedSnapshots.filter(
     snapshot => snapshot.document?.data?.featured === true
   );
-  const tracks = buildTracks(publishedSnapshots);
+  const tracks = buildTracks(
+    publishedSnapshots,
+    compileTracks(options.homeTracks)
+  );
   const latestPost = publishedSnapshots[0] ?? null;
   const stats = {
     total_posts: publishedSnapshots.length,
@@ -463,7 +520,7 @@ export function buildHomePanelData(snapshots) {
   };
 }
 
-function computePostsHash(snapshots) {
+function computePostsHash(snapshots: PostSnapshot[]): string {
   const sorted = [...snapshots].sort((a, b) =>
     a.post_id.localeCompare(b.post_id)
   );
@@ -472,9 +529,11 @@ function computePostsHash(snapshots) {
   return hashContent(payload);
 }
 
-export async function buildHomePanel(options = {}) {
+export async function buildHomePanel(
+  options: BuildHomePanelOptions = {}
+): Promise<HomePanelResult> {
   const postPaths = options.postPaths ?? (await listMarkdownFiles(BLOG_ROOT));
-  const snapshots = [];
+  const snapshots: PostSnapshot[] = [];
 
   for (const filePath of postPaths) {
     snapshots.push(await loadPostSnapshot(filePath));
@@ -485,7 +544,7 @@ export async function buildHomePanel(options = {}) {
   const sidecarPath = getHomeSidecarPath();
 
   if (options.force !== true) {
-    const existingSidecar = await readJsonIfExists(sidecarPath);
+    const existingSidecar = await readJsonIfExists<HomeSidecar>(sidecarPath);
 
     if (existingSidecar && existingSidecar.posts_hash === postsHash) {
       return {
@@ -499,10 +558,35 @@ export async function buildHomePanel(options = {}) {
         skipped: true,
       };
     }
+
+    // Read-only mode (CI): never regenerate, just report.
+    if (options.regenerate === false) {
+      const status = existingSidecar ? "stale" : "missing";
+
+      return {
+        page_id: existingSidecar?.page_id ?? "index",
+        title: existingSidecar?.title ?? "首页 Agent 导览",
+        route_path: existingSidecar?.route_path ?? "/",
+        sidecar_path: repoRelative(sidecarPath, REPO_ROOT),
+        focus_topics: existingSidecar?.focus_topics ?? [],
+        content_stats: existingSidecar?.content_stats ?? null,
+        notes: [
+          `${status}: ${existingSidecar ? "posts_hash changed" : "no home sidecar committed"}; run \`./agent build-home-panel\` locally and commit it.`,
+        ],
+        skipped: true,
+        stale: true,
+        stale_status: status,
+      };
+    }
   }
 
   const preferredProvider = options.provider ?? DEFAULT_PROVIDER;
-  const baseSidecar = buildHomePanelData(publicSnapshots);
+  const globalRules = await (
+    options.memoryStore ?? new MemoryStore()
+  ).loadGlobalRules();
+  const baseSidecar = buildHomePanelData(publicSnapshots, {
+    homeTracks: globalRules.home_tracks,
+  });
   let sidecar = baseSidecar;
 
   if (!["auto", "gemini", "heuristic"].includes(preferredProvider)) {
@@ -530,7 +614,7 @@ export async function buildHomePanel(options = {}) {
       } catch (error) {
         sidecar = applyHomePanelGuide(baseSidecar, null, {
           notes: [
-            `Gemini homepage guide failed: ${error.message}; falling back to heuristic guide.`,
+            `Gemini homepage guide failed: ${error instanceof Error ? error.message : String(error)}; falling back to heuristic guide.`,
           ],
         });
       }

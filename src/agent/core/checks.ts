@@ -1,11 +1,27 @@
-// @ts-nocheck
 import { SAFE_FIX_CODES } from "../shared/constants.js";
 import { stringifyMarkdownDocument } from "../parsers/frontmatter.js";
-import { inferCodeFenceLanguage, suggestImageAlt } from "../parsers/markdown.js";
+import {
+  inferCodeFenceLanguage,
+  suggestImageAlt,
+} from "../parsers/markdown.js";
 import { getPostIdFromFilePath, slugifyStr } from "../shared/pathing.js";
 import { dedupeStrings } from "../shared/utils.js";
+import type {
+  CheckResult,
+  CheckSuggestions,
+  ContentSchemaRules,
+  DetectedSeries,
+  FrontmatterValue,
+  GlobalRules,
+  HardCheckIssue,
+  MarkdownDocument,
+  PostSnapshot,
+  TagMetadata,
+} from "../types.js";
 
-function buildTagAliasMap(tagRegistry) {
+function buildTagAliasMap(
+  tagRegistry: Record<string, TagMetadata>
+): Map<string, string> {
   const aliasMap = new Map();
 
   for (const [canonical, metadata] of Object.entries(tagRegistry ?? {})) {
@@ -19,7 +35,10 @@ function buildTagAliasMap(tagRegistry) {
   return aliasMap;
 }
 
-export function normalizeTags(tags, tagRegistry) {
+export function normalizeTags(
+  tags: string[],
+  tagRegistry: Record<string, TagMetadata>
+) {
   const aliasMap = buildTagAliasMap(tagRegistry);
 
   return dedupeStrings(
@@ -30,7 +49,10 @@ export function normalizeTags(tags, tagRegistry) {
   );
 }
 
-export function inferTagsFromContent(snapshot, globalRules) {
+export function inferTagsFromContent(
+  snapshot: PostSnapshot,
+  globalRules: GlobalRules
+): string[] {
   const text = [
     snapshot.title,
     snapshot.description,
@@ -61,7 +83,9 @@ export function inferTagsFromContent(snapshot, globalRules) {
     .map(item => item.canonical);
 }
 
-export function buildDescriptionSuggestion(snapshot) {
+export function buildDescriptionSuggestion(
+  snapshot: PostSnapshot
+): string | null {
   const source = snapshot.analysis.firstParagraphs.join(" ");
 
   if (!source) {
@@ -72,13 +96,16 @@ export function buildDescriptionSuggestion(snapshot) {
   return normalized.length <= 80 ? normalized : `${normalized.slice(0, 79)}…`;
 }
 
-function detectSeries(postId, globalRules) {
+function detectSeries(
+  postId: string,
+  globalRules: GlobalRules
+): DetectedSeries | null {
   for (const rule of globalRules.series_naming_rules ?? []) {
-    if (new RegExp(rule.id_pattern, "u").test(postId)) {
+    if (rule.id_pattern && new RegExp(rule.id_pattern, "u").test(postId)) {
       return {
         id: rule.id,
         label: rule.label,
-        expected_total: rule.expected_total,
+        expected_total: rule.expected_total ?? null,
       };
     }
   }
@@ -86,7 +113,11 @@ function detectSeries(postId, globalRules) {
   return null;
 }
 
-function setDocumentField(document, key, value) {
+function setDocumentField(
+  document: MarkdownDocument,
+  key: string,
+  value: FrontmatterValue
+): void {
   document.data[key] = value;
 
   if (!document.order.includes(key)) {
@@ -94,16 +125,25 @@ function setDocumentField(document, key, value) {
   }
 }
 
-export function runChecks(snapshot, schemaRules, globalRules, options = {}) {
+export function runChecks(
+  snapshot: PostSnapshot,
+  schemaRules: ContentSchemaRules,
+  globalRules: GlobalRules,
+  options: {
+    filePath: string;
+    applyFixes?: boolean;
+    allowUnsafeFixes?: boolean;
+  }
+): CheckResult {
   const document = {
     ...snapshot.document,
     data: { ...snapshot.document.data },
     order: [...snapshot.document.order],
   };
-  const issues = [];
-  const fixesApplied = [];
-  const actionItems = [];
-  const suggestions = {
+  const issues: HardCheckIssue[] = [];
+  const fixesApplied: string[] = [];
+  const actionItems: string[] = [];
+  const suggestions: CheckSuggestions = {
     normalized_tags: [],
     tag_replacements: [],
     inferred_tags: [],
@@ -231,7 +271,10 @@ export function runChecks(snapshot, schemaRules, globalRules, options = {}) {
   const originalTags = Array.isArray(document.data.tags)
     ? document.data.tags.map(String)
     : [];
-  const normalizedTags = normalizeTags(originalTags, globalRules.tag_registry);
+  const normalizedTags = normalizeTags(
+    originalTags,
+    globalRules.tag_registry ?? {}
+  );
   suggestions.normalized_tags = normalizedTags;
   suggestions.tag_replacements = originalTags.filter(
     (tag, index) => normalizedTags[index] && normalizedTags[index] !== tag
