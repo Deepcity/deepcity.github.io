@@ -1,14 +1,27 @@
-// @ts-nocheck
 import { createGeminiProvider } from "./gemini.js";
 import { createHeuristicProvider } from "./heuristic.js";
+import type { RequestedProvider, ReviewProvider } from "../types.js";
 
-export function createProvider(options = {}) {
+export interface CreateProviderOptions {
+  provider?: RequestedProvider;
+  model?: string;
+  apiKey?: string;
+}
+
+export interface CreatedProvider {
+  provider: ReviewProvider;
+  notes: string[];
+}
+
+export function createProvider(
+  options: CreateProviderOptions = {}
+): CreatedProvider {
   const preferred = options.provider ?? "auto";
-  const notes = [];
+  const notes: string[] = [];
 
   if (preferred === "heuristic") {
     return {
-      provider: createHeuristicProvider(),
+      provider: createHeuristicProvider() as ReviewProvider,
       notes,
     };
   }
@@ -16,7 +29,7 @@ export function createProvider(options = {}) {
   const geminiProvider = createGeminiProvider({
     model: options.model,
     apiKey: options.apiKey,
-  });
+  }) as ReviewProvider;
 
   if (geminiProvider.available) {
     return {
@@ -30,7 +43,7 @@ export function createProvider(options = {}) {
   );
 
   return {
-    provider: createHeuristicProvider(),
+    provider: createHeuristicProvider() as ReviewProvider,
     notes,
   };
 }

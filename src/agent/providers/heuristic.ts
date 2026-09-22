@@ -1,12 +1,13 @@
-// @ts-nocheck
 import {
   dedupeStrings,
   maxSeverity,
   roundConfidence,
   truncateText,
 } from "../shared/utils.js";
+import type { MemoryContext, Review, ReviewProvider } from "../types.js";
+import type { ReviewInput } from "./gemini.js";
 
-function buildStructuralReview(input) {
+function buildStructuralReview(input: ReviewInput): string {
   const headingCount = input.analysis.headings.length;
   const codeCount = input.analysis.codeFences.length;
   const imageCount = input.analysis.images.length;
@@ -25,7 +26,7 @@ function buildStructuralReview(input) {
   return `正文结构偏紧凑，当前只有 ${headingCount} 个显式标题。若这是长文，建议再拆出更清晰的小节，把 ${codeCount} 个代码块或图示对应到明确段落。`;
 }
 
-function buildTechnicalReview(input) {
+function buildTechnicalReview(input: ReviewInput): string {
   const tags = new Set(input.post.tags);
   const lowerTitle = input.post.title.toLowerCase();
 
@@ -44,8 +45,8 @@ function buildTechnicalReview(input) {
   return "技术内容已经具备记录价值，但还可以进一步压缩背景铺垫，把篇幅更多让给核心机制、关键示例和结论依据。读者最需要的是你对问题本身的判断，而不是对名词的重复解释。";
 }
 
-function buildStrengths(input) {
-  const strengths = [];
+function buildStrengths(input: ReviewInput): string[] {
+  const strengths: string[] = [];
 
   if (input.post.description && input.post.description.length >= 20) {
     strengths.push("frontmatter 中已有可用摘要，页面元信息完整度较好。");
@@ -72,7 +73,7 @@ function buildStrengths(input) {
   return strengths;
 }
 
-function buildConcerns(input) {
+function buildConcerns(input: ReviewInput): string[] {
   const concerns = input.issues
     .filter(issue => issue.severity !== "info")
     .map(issue => issue.message);
@@ -92,7 +93,7 @@ function buildConcerns(input) {
   return dedupeStrings(concerns);
 }
 
-function buildActionItems(input, concerns) {
+function buildActionItems(input: ReviewInput, concerns: string[]): string[] {
   const actions = [...input.actionItems];
 
   for (const issue of input.issues) {
@@ -118,9 +119,9 @@ function buildActionItems(input, concerns) {
   return dedupeStrings(actions);
 }
 
-function buildPublicCommentary(input, concerns) {
+function buildPublicCommentary(input: ReviewInput, concerns: string[]): string {
   const knowledge = input.knowledge;
-  const trimTerminalPunctuation = value =>
+  const trimTerminalPunctuation = (value: string): string =>
     String(value)
       .trim()
       .replace(/[。.!！]+$/u, "");
@@ -141,11 +142,17 @@ function buildPublicCommentary(input, concerns) {
   ].join("\n\n");
 }
 
-export function createHeuristicProvider() {
+export function createHeuristicProvider(): ReviewProvider {
   return {
     name: "heuristic",
     model: "heuristic-v1",
-    async generateReview(input, context) {
+    prompt_version: "heuristic-v1",
+    available: true,
+    unavailable_reason: null,
+    async generateReview(
+      input: ReviewInput,
+      context: MemoryContext
+    ): Promise<Review> {
       const concerns = buildConcerns(input);
       const actionItems = buildActionItems(input, concerns);
       const memoryRefs = dedupeStrings([
@@ -178,6 +185,7 @@ export function createHeuristicProvider() {
             )
         ),
         memory_refs: memoryRefs,
+        notes: [],
       };
     },
     async generateFixes() {

@@ -4,12 +4,15 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT_DIR"
 
-if [ -f "$ROOT_DIR/.venv" ]; then
-  set -a
-  # shellcheck disable=SC1091
-  . "$ROOT_DIR/.venv"
-  set +a
-fi
+# Load local secrets (GEMINI_API_KEY etc). Both files are git-ignored.
+for env_file in "$ROOT_DIR/.env" "$ROOT_DIR/.venv"; do
+  if [ -f "$env_file" ]; then
+    set -a
+    # shellcheck disable=SC1091
+    . "$env_file"
+    set +a
+  fi
+done
 
 NODE_MAJOR="$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/' || true)"
 if [ -z "${NODE_MAJOR}" ] || [ "${NODE_MAJOR}" -lt 20 ]; then
