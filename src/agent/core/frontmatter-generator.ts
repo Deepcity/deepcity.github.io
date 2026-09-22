@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { SITE } from "../../config.js";
 import { stringifyMarkdownDocument } from "../parsers/frontmatter.js";
 import {
@@ -8,6 +7,16 @@ import {
 } from "./checks.js";
 import { slugifyStr } from "../shared/pathing.js";
 import { dedupeStrings, truncateText } from "../shared/utils.js";
+import type { FrontmatterAssist } from "./frontmatter-assist.js";
+import type {
+  ContentSchemaRules,
+  FrontmatterData,
+  FrontmatterGenerationResult,
+  FrontmatterHints,
+  FrontmatterValue,
+  GlobalRules,
+  PostSnapshot,
+} from "../types.js";
 
 const HINT_FIELD_ALIASES = {
   author: "author",
@@ -33,7 +42,7 @@ const HINT_FIELD_ALIASES = {
   title: "title",
 };
 
-function isMissingValue(value) {
+function isMissingValue(value: unknown): boolean {
   if (value === undefined || value === null) {
     return true;
   }
@@ -49,11 +58,11 @@ function isMissingValue(value) {
   return false;
 }
 
-function isWeakDescription(value) {
+function isWeakDescription(value: unknown): boolean {
   return typeof value !== "string" || value.trim().length < 15;
 }
 
-function isPlaceholderTags(value) {
+function isPlaceholderTags(value: unknown): boolean {
   if (!Array.isArray(value)) {
     return true;
   }
@@ -65,12 +74,12 @@ function isPlaceholderTags(value) {
   return normalized.length === 0 || normalized.every(item => item === "others");
 }
 
-function normalizeDatetime(value) {
+function normalizeDatetime(value: unknown): string | null {
   if (!value) {
     return null;
   }
 
-  const parsed = new Date(value);
+  const parsed = new Date(value as string | number | Date);
 
   if (Number.isNaN(parsed.getTime())) {
     return null;
@@ -79,7 +88,7 @@ function normalizeDatetime(value) {
   return parsed.toISOString().replace(/\.\d{3}Z$/u, "Z");
 }
 
-function humanizePostId(postId) {
+function humanizePostId(postId: string): string {
   return postId
     .replace(/([a-z0-9])([A-Z])/gu, "$1 $2")
     .replace(/[-_]+/gu, " ")
@@ -87,7 +96,7 @@ function humanizePostId(postId) {
     .trim();
 }
 
-function splitTagList(value) {
+function splitTagList(value: unknown): string[] {
   return String(value)
     .replace(/^\[(.*)\]$/u, "$1")
     .split(/[,，|/]/u)
@@ -95,7 +104,7 @@ function splitTagList(value) {
     .filter(Boolean);
 }
 
-function parseBoolean(value) {
+function parseBoolean(value: unknown): boolean | null {
   const normalized = String(value).trim().toLowerCase();
 
   if (["true", "yes", "y", "1", "on"].includes(normalized)) {
@@ -109,7 +118,10 @@ function parseBoolean(value) {
   return null;
 }
 
-function parseStructuredHintValue(key, value) {
+function parseStructuredHintValue(
+  key: string,
+  value: string
+): FrontmatterValue {
   if (key === "tags") {
     return splitTagList(value);
   }
@@ -125,9 +137,9 @@ function parseStructuredHintValue(key, value) {
   return String(value).trim();
 }
 
-export function parseFrontmatterHints(hintText = "") {
-  const structured = {};
-  const freeform = [];
+export function parseFrontmatterHints(hintText = ""): FrontmatterHints {
+  const structured: Record<string, FrontmatterValue> = {};
+  const freeform: string[] = [];
 
   for (const rawLine of String(hintText).split(/\r?\n/u)) {
     const line = rawLine.trim();
@@ -145,7 +157,9 @@ export function parseFrontmatterHints(hintText = "") {
 
     const [, rawKey, rawValue] = match;
     const key =
-      HINT_FIELD_ALIASES[rawKey.trim().toLowerCase()] ?? rawKey.trim();
+      (HINT_FIELD_ALIASES as Record<string, string>)[
+        rawKey.trim().toLowerCase()
+      ] ?? rawKey.trim();
     const parsedValue = parseStructuredHintValue(key, rawValue);
 
     if (key === "note") {
@@ -167,7 +181,10 @@ export function parseFrontmatterHints(hintText = "") {
   };
 }
 
-function findHintTags(hints, globalRules) {
+function findHintTags(
+  hints: FrontmatterHints,
+  globalRules: GlobalRules
+): string[] {
   const tagRegistry = globalRules.tag_registry ?? {};
   const haystack = [
     ...hints.freeform,
@@ -196,7 +213,7 @@ function findHintTags(hints, globalRules) {
   return matches;
 }
 
-function selectTitle(snapshot, hints) {
+function selectTitle(snapshot: PostSnapshot, hints: FrontmatterHints): string {
   if (!isMissingValue(hints.structured.title)) {
     return String(hints.structured.title).trim();
   }
@@ -216,7 +233,13 @@ function selectTitle(snapshot, hints) {
   return humanizePostId(snapshot.post_id) || snapshot.post_id;
 }
 
-function buildDescription(snapshot, hints, title) {
+function buildDescription(
+  snapshot: PostSnapshot,
+  hints: FrontmatterHints,
+  title: string,
+  assist?: FrontmatterAssist | null
+): string {
+  // Precedence: explicit user hint > existing frontmatter > LLM assist > rules.
   if (!isMissingValue(hints.structured.description)) {
     return String(hints.structured.description).trim();
   }
@@ -225,10 +248,15 @@ function buildDescription(snapshot, hints, title) {
     return String(snapshot.document.data.description).trim();
   }
 
-  const base = buildDescriptionSuggestion({
-    ...snapshot,
-    title,
-  });
+  if (assist?.description) {
+    return assist.description;
+  }
+
+  const base =
+    buildDescriptionSuggestion({
+      ...snapshot,
+      title,
+    }) ?? title;
   const focusHint = hints.freeform.find(line =>
     /(视角|聚焦|侧重|重点|focus|angle)/iu.test(line)
   );
@@ -253,20 +281,38 @@ function buildDescription(snapshot, hints, title) {
   return truncateText(`${base} 文章重点关注${normalizedFocus}。`, 140);
 }
 
-function buildTags(snapshot, hints, globalRules, generatedTitle, description) {
+function buildTags(
+  snapshot: PostSnapshot,
+  hints: FrontmatterHints,
+  globalRules: GlobalRules,
+  generatedTitle: string,
+  description: string,
+  assist?: FrontmatterAssist | null
+): string[] {
+  // An explicit `tags:` hint is the author speaking directly: take it as the
+  // complete list rather than padding it with keyword-inferred guesses, which
+  // used to drag unrelated tags onto a post.
+  const explicitHintTags = Array.isArray(hints.structured.tags)
+    ? normalizeTags(
+        hints.structured.tags.map(String),
+        globalRules.tag_registry ?? {}
+      )
+    : [];
+
+  if (explicitHintTags.length > 0) {
+    return dedupeStrings(explicitHintTags).slice(0, 5);
+  }
+
   const existingTags = Array.isArray(snapshot.document.data.tags)
     ? snapshot.document.data.tags.map(String)
     : [];
   const normalizedExistingTags = normalizeTags(
     existingTags,
-    globalRules.tag_registry
+    globalRules.tag_registry ?? {}
   );
   const hintTags = normalizeTags(
-    [
-      ...(Array.isArray(hints.structured.tags) ? hints.structured.tags : []),
-      ...findHintTags(hints, globalRules),
-    ],
-    globalRules.tag_registry
+    [...findHintTags(hints, globalRules)],
+    globalRules.tag_registry ?? {}
   );
   const inferredTags = inferTagsFromContent(
     {
@@ -292,11 +338,16 @@ function buildTags(snapshot, hints, globalRules, generatedTitle, description) {
     ]).slice(0, 5);
   }
 
-  const generated = dedupeStrings([...hintTags, ...inferredTags]).slice(0, 5);
+  const assistTags = assist?.tags ?? [];
+  const generated = dedupeStrings([
+    ...hintTags,
+    ...assistTags,
+    ...(assistTags.length > 0 ? [] : inferredTags),
+  ]).slice(0, 5);
   return generated.length > 0 ? generated : ["others"];
 }
 
-function shouldFillField(key, existingValue) {
+function shouldFillField(key: string, existingValue: unknown): boolean {
   if (isMissingValue(existingValue)) {
     return true;
   }
@@ -316,10 +367,15 @@ function shouldFillField(key, existingValue) {
   return false;
 }
 
-function buildGeneratedFields(snapshot, hints, globalRules) {
+function buildGeneratedFields(
+  snapshot: PostSnapshot,
+  hints: FrontmatterHints,
+  globalRules: GlobalRules,
+  assist?: FrontmatterAssist | null
+): FrontmatterData {
   const title = selectTitle(snapshot, hints);
-  const description = buildDescription(snapshot, hints, title);
-  const generated = {
+  const description = buildDescription(snapshot, hints, title, assist);
+  const generated: FrontmatterData = {
     title,
     pubDatetime:
       normalizeDatetime(hints.structured.pubDatetime) ??
@@ -332,7 +388,7 @@ function buildGeneratedFields(snapshot, hints, globalRules) {
         : typeof snapshot.document.data.draft === "boolean"
           ? snapshot.document.data.draft
           : false,
-    tags: buildTags(snapshot, hints, globalRules, title, description),
+    tags: buildTags(snapshot, hints, globalRules, title, description, assist),
     author: String(
       hints.structured.author ?? snapshot.document.data.author ?? SITE.author
     ).trim(),
@@ -355,8 +411,10 @@ function buildGeneratedFields(snapshot, hints, globalRules) {
     "modDatetime",
     "ogImage",
   ]) {
-    if (!isMissingValue(hints.structured[key])) {
-      generated[key] = hints.structured[key];
+    const hinted = hints.structured[key];
+
+    if (!isMissingValue(hinted)) {
+      generated[key] = hinted;
     }
   }
 
@@ -364,20 +422,25 @@ function buildGeneratedFields(snapshot, hints, globalRules) {
 }
 
 export function generateFrontmatter(
-  snapshot,
-  schemaRules,
-  globalRules,
-  options = {}
-) {
+  snapshot: PostSnapshot,
+  schemaRules: ContentSchemaRules,
+  globalRules: GlobalRules,
+  options: { hintText?: string; assist?: FrontmatterAssist | null } = {}
+): FrontmatterGenerationResult {
   const hints = parseFrontmatterHints(options.hintText ?? "");
-  const generatedFields = buildGeneratedFields(snapshot, hints, globalRules);
+  const generatedFields = buildGeneratedFields(
+    snapshot,
+    hints,
+    globalRules,
+    options.assist
+  );
   const document = {
     ...snapshot.document,
     hasFrontmatter: true,
     data: { ...snapshot.document.data },
     order: [...snapshot.document.order],
   };
-  const appliedFields = [];
+  const appliedFields: string[] = [];
 
   for (const field of schemaRules.required_fields ?? []) {
     if (shouldFillField(field, document.data[field])) {
