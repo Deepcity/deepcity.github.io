@@ -1,0 +1,93 @@
+{
+  "post_id": "Blog-after-write-first-paper",
+  "title": "写完第一篇paper后的随笔",
+  "source_path": "src/data/blog/Blog-after-write-first-paper.md",
+  "route_path": "/posts/blog-after-write-first-paper",
+  "source_hash": "ea2846f37260b358d37f1a782230bd5f1fee6e8f5dfc38af9535aa32e9e40e90",
+  "review_key": "2cffb7d2d84950611633291f7538f53de80e8594d919cfa875e2699db30cc49e",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:11:22.310Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "本文是一位系统方向研究生在完成首篇论文后对写作与作图流程的复盘随笔。全文紧凑地梳理了系统领域论文的标准框架、逆向推进的写作次序，并以八张具体图例展示了顶会论文中排版、灰度纹理、双轴和图例紧凑布局的经验。对于刚刚进入科研、面对双栏排版无从下手的初学者而言，这份实操视角的总结具备直接的借鉴价值。\n\n不过文章在行文与内容平衡上存在较多缺口。元信息与标签中重点提及的“English”、“语法”以及“未来技能展望”在正文中完全没有涉及，整篇随笔在快速过完八张图后戛然而止，更像是一篇未完工的备忘录。技术概念上也存在一些细节瑕疵，例如将典型的冰球杆/曲棍球曲线（*Hockey stick curve*）误写成了“棒球曲线”。如果后续能把作图背后的脚本工具链（如 Matplotlib/Seaborn 实践规范）以及前文承诺的语言润色经验补齐，文章的参考维度会立体得多。",
+  "related_post_ids": [],
+  "related_posts": [],
+  "summary": "文章回顾了撰写首篇计算机系统论文的经验，总结了系统论文的标准章节结构与推荐写作顺序，并通过多张论文图例剖析了柱状图、折线图、组合图及曲棍球曲线的排版技巧与空间紧凑原则。",
+  "structural_review": "文章按照“结构-顺序-作图”递进组织，层级划分清晰。但后半部分作图章节基本依赖单图切片与零散说明驱动，缺乏系统归纳，且整体收尾仓促，未兑现摘要中提及的语法与未来展望内容。",
+  "technical_review": "在“论文作图”节中，作者将“Hockey stick curve”（曲棍球棒曲线/冰球杆曲线）直译并称作“棒球曲线”，术语翻译存在明显硬伤。断言“对于图而言，主要的类型只有两种类型，柱状图与折线图”过于绝对，忽略了散点图、热力图及盒须图等常见形态。此外，在“论文写作顺序”中，作者主张将 Design 放在 Evaluation 之后写作，但未解释在缺乏核心设计细节时如何先行组织完整的实验评估，逻辑论证略显跳跃。",
+  "strengths": [
+    "提炼了系统论文写作按逻辑而非结构逆向推进的实用次序。",
+    "图例分析切中顶会排版痛点，强调了图例紧凑度、灰度打印适配及空间压缩技巧。"
+  ],
+  "concerns": [
+    "在“论文作图”尾部将 Hockey stick curve 误写为“棒球曲线”（应为曲棍球/冰球棒曲线）。",
+    "文章元信息 description 中承诺的“语法做一个简短的随笔，并对未来的技能锻炼做展望”在正文中完全缺席。",
+    "文件名 `Blog-after-write-first-paper.md` 存在大小写混用，不符合站内 kebab-case 路径规范。"
+  ],
+  "action_items": [
+    "修正 Hockey stick curve 的术语表述，改为“曲棍球棒曲线”或“冰球杆曲线”。",
+    "补写文章后半部分承诺的行文语法注意事项与技能锻炼展望，或者调整元信息 description 与 tags。",
+    "将源文件重命名为 `blog-after-write-first-paper.md`，保持 URL 规范统一。"
+  ],
+  "severity": "warn",
+  "confidence": 0.95,
+  "memory_refs": [
+    "topic:Paper",
+    "topic:English",
+    "topic:Plotting",
+    "issue:non-canonical-post-id"
+  ],
+  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
+  "knowledge_refs": [
+    "topic:Paper",
+    "topic:English",
+    "topic:Plotting"
+  ],
+  "knowledge_position": {
+    "series_id": null,
+    "series_label": null,
+    "role": "独立文章",
+    "previous_posts": [],
+    "next_posts": [],
+    "topic_neighbors": [],
+    "position_summary": "写完第一篇paper后的随笔 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
+  },
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2026-08-04T22:40:00Z",
+  "tags_snapshot": [
+    "Paper",
+    "English",
+    "Plotting"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `Blog-after-write-first-paper.md` 不符合站点路径规范，建议改为 `blog-after-write-first-paper.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "Paper",
+      "English",
+      "Plotting"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-23T03:20:01.765Z"
+}

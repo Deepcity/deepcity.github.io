@@ -1,0 +1,77 @@
+{
+  "post_id": "intra-ai-rethinking-concurrent",
+  "title": "Intra-ai: 重新思考并发",
+  "source_path": "src/data/blog/intra-ai-rethinking-concurrent.md",
+  "route_path": "/posts/intra-ai-rethinking-concurrent",
+  "source_hash": "c3cd9f9bb33bab4e937271a931c28fb5fb5e3c24973471380c0bba0fb44f33f6",
+  "review_key": "c7a0da767238ed9ec5c87fd42bb73be71244161b14e103631e981b66ad6c07e8",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-21T17:11:30.175Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "作为 Intra-ai 专栏的开篇，本文探讨了一个在存储器 Bank/Row 粒度 IO 场景下经典但容易被忽视的多线程冲突问题：当访问单元并非孤立 row，而是带有物理关联或激活邻域的 *row set* 时，单纯基于线程切分会导致重叠交集带来的竞态。\n\n文章引出 AI 建议的所谓 *wave*（跨步交错/波前调度）策略来规避重叠，思路方向是明确的——通过 stride 步长将连续的重叠邻域隔离。然而，目前文章技术阐述仍停留在非常简短的概念草图阶段：正文中突然出现的 `alpha 值` 并未给出定义，stride 的具体计算公式、线程边界调度机制以及硬件/仿真环境的伪代码也均未给出。另外文末提到“要做到 bank 级别有序只需让线程不在同一个 bank 内执行”，这与前文“线程数多于 bank 时需并发打到同个 bank 提速”的前提产生了直接妥协，缺乏进一步的权衡分析。\n\n*旁批*：AI 丢出“wave”这个词让作者瞬间顿悟，但读者看到正文大概也只能像冲浪一样被一波带走——想要看清浪底下的调度指针和同步原语，还得等作者的 Part 2。",
+  "related_post_ids": [],
+  "related_posts": [],
+  "summary": "文章记录了在存储器多线程并发 IO 场景下，由于激活 row set 存在邻域重叠而导致的并发冲突问题，并介绍了借助 AI 提供的 wave（步长划分）机制来避免线程间交集的解法与思考。",
+  "structural_review": "文章骨架清晰，从场景定义、冲突复现到解决方法和总结层层递进。然而整体篇幅极为短小，核心解法与机制解释过于简略，配图之后缺少对图表符号（如 alpha 值）的配合解读。",
+  "technical_review": "在技术论证上，文章清晰指出了 row set 存在邻域交集导致重叠竞态的本质原因（thread A 读 1-3，thread B 读 2-4）。但在《解决方法》章节中存在两处关键断层：一是正文提及“并发访问下每一个位置的访问次序按照 alpha 值标识”，却通篇未解释什么是 alpha 值；二是最后提出“要做到 bank 级别有序只需让线程不能同时在一个 bank 内执行”，但这直接推翻了前文“bank 数量小于 threads 时多线程压入同一 bank 提速”的核心冲突动机，未解释在 wave 模式下局部有序与全局有序如何折衷。",
+  "strengths": [
+    "敏锐抓住了带邻域激活效应的存储模型在并发切分时的重叠竞态问题，物理抽象准确。",
+    "将 AI 交流中的启发与算子编写理论中的波前/跨步思想进行对照，具备直觉洞察力。"
+  ],
+  "concerns": [
+    "《解决方法》段落中突兀出现了“按照 alpha 值标识”，但正文完全未对 alpha 作出定义或说明。",
+    "《解决方法》缺少具体步长划分或调度分配的伪代码，读者无法仅凭描述还原 wave 调度的具体实现。",
+    "文末“让线程不能同时在一个 bank 内执行”的结论与前文“为了加速让 threads 访问同一个 bank”的场景假设前后矛盾，缺乏权衡讨论。"
+  ],
+  "action_items": [
+    "在《解决方法》中补充说明图中的 alpha 值代表什么含义以及它如何决定访问时序。",
+    "提供一段简化伪代码或公式，演示线程 ID、stride 与目标 row set 的映射计算过程。",
+    "在文末澄清 bank 级完全有序与多线程局部无交集并发加速之间的权衡关系。"
+  ],
+  "severity": "warn",
+  "confidence": 0.9,
+  "memory_refs": [
+    "topic:concurrent programming"
+  ],
+  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
+  "knowledge_refs": [
+    "topic:concurrent programming"
+  ],
+  "knowledge_position": {
+    "series_id": null,
+    "series_label": null,
+    "role": "独立文章",
+    "previous_posts": [],
+    "next_posts": [],
+    "topic_neighbors": [],
+    "position_summary": "Intra-ai: 重新思考并发 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
+  },
+  "series_key": null,
+  "series_label": null,
+  "published_at": "2026-08-07T16:40:00Z",
+  "tags_snapshot": [
+    "concurrent programming"
+  ],
+  "hard_checks": [],
+  "fixes_applied": [
+    "补全 frontmatter 字段：author、timezone。"
+  ],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "concurrent programming"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": [],
+  "knowledge_refreshed_at": "2026-09-23T03:20:01.814Z"
+}

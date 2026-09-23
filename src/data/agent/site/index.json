@@ -2,23 +2,23 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-09-22T08:19:52.481Z",
+  "generated_at": "2026-09-23T03:20:13.817Z",
   "run_mode": "build-home-panel",
   "provider": "gemini",
   "model": "gemini-3.8-flash",
-  "summary": "这是 Deepcity 博客首页的静态导览，聚焦顶会论文阅读、AI 系统工程、底层实验与算子开发等主线，帮助读者快速把握技术脉络并定位核心内容。",
-  "agent_role": "作为构建期生成的静态导览员，负责梳理全站核心议题、阐明 Agent Review 机制，并为首次访问的读者指引最有价值的阅读入口。",
-  "site_overview": "站点现收录 34 篇文章，围绕 OSDI/SOSP 论文、Agent 与 MCP 工程、CMU 15-213 基础及昇腾算子开发展开，兼具系统理论与工程实践，最新更新聚焦 Jev 模型讨论。",
+  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦顶会论文阅读、Agent 与工程实践、硬件算子优化及系统基础，帮助首次访问者快速了解内容主线并进入代表性文章。",
+  "agent_role": "作为构建期生成的静态导览员，负责概括站点主题、说明文章页 Agent Review 机制，并引导读者高效探索最核心的技术内容入口。",
+  "site_overview": "站点当前收录 39 篇文章，主线涵盖 OSDI/SOSP 论文精读、Agent 工程、Ascend C 算子以及系统课程实践，最新文章聚焦 System One 模型 Jev。",
   "focus_topics": [
     "OSDI / SOSP 论文阅读",
     "Agent / MCP / Embedding 工程",
-    "CMU 15-213 实验与系统基础",
-    "Ascend C 算子开发"
+    "Ascend C 算子开发",
+    "CMU 15-213 实验与系统基础"
   ],
   "highlights": [
-    "全站已收录 34 篇深度技术文章，覆盖顶会系统论文研读与底层工程实操。",
-    "核心聚焦大模型推理调度、Agent 架构设计以及硬件算子开发实践。",
-    "文章内包含的 Agent Review 均由离线构建生成，页面浏览无需额外请求。"
+    "站点已收录 39 篇文章，结合前沿论文阅读与底层系统工程实践。",
+    "主线聚焦系统顶会论文剖析、AI 基础设施优化与底层实验探索。",
+    "文章详情页的 Agent Review 由离线静态预先生成，完全无需运行时在线调用。"
   ],
   "recommended_paths": [
     {
@@ -28,29 +28,29 @@
     },
     {
       "label": "Agent / MCP / Embedding 工程",
-      "href": "/posts/osdi22-orca",
-      "description": "最近相关更新是《OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative…"
-    },
-    {
-      "label": "Ascend C 算子开发",
-      "href": "/posts/ascendc-part5-pytorch-summary",
-      "description": "最近相关更新是《Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结》。"
+      "href": "/posts/openai-daybreak",
+      "description": "最近相关更新是《Openai Daybreak使用经历》。"
     },
     {
       "label": "浏览全部文章",
       "href": "/posts/",
       "description": "按时间线查看站内全部文章。"
+    },
+    {
+      "label": "关于作者",
+      "href": "/about",
+      "description": "查看研究兴趣、背景与站点定位。"
     }
   ],
   "content_stats": {
-    "total_posts": 34,
+    "total_posts": 39,
     "featured_posts": 0,
     "latest_post_title": "Jev: cheapest and fastest structural Model in 2026",
     "primary_topics": [
       "OSDI / SOSP 论文阅读",
       "Agent / MCP / Embedding 工程",
-      "CMU 15-213 实验与系统基础",
-      "Ascend C 算子开发"
+      "Ascend C 算子开发",
+      "CMU 15-213 实验与系统基础"
     ]
   },
   "confidence": 0.95,
@@ -59,5 +59,5 @@
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
     "Homepage guide was refined by Gemini from committed site data."
   ],
-  "posts_hash": "ac9b60ba490b8e2f951473b30435ed29b2e9b88a5b8cd9f5c760fdb2180a0e7b"
+  "posts_hash": "6d8c8fe65767bbf60e34fdcd7cbd33387763a536a1e5795e9515766bfae56c4e"
 }

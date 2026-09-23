@@ -61,7 +61,7 @@
     "topic:SOSP",
     "topic:论文阅读"
   ],
-  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
   "knowledge_refs": [
     "series:paper-reading",
     "topic:异构内存",
@@ -81,8 +81,8 @@
     ],
     "topic_neighbors": [
       "SOSP25-ByteRobust",
-      "OSDI22-orca",
-      "ICCV25-AdaLLaVA"
+      "EuroSys26-MAYA",
+      "ISCA20-Accel-Sim"
     ],
     "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 pgstudy-characterization-llm-development-datacenter，后续文章 OSDI24-ServerlessLLM。"
   },
@@ -127,5 +127,5 @@
     "slug_suggestion": null
   },
   "notes": [],
-  "knowledge_refreshed_at": "2026-09-22T08:19:52.444Z"
+  "knowledge_refreshed_at": "2026-09-23T03:20:13.373Z"
 }

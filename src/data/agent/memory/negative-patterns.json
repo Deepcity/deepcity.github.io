@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-22T08:19:56.584Z",
+  "updated_at": "2026-09-23T03:20:13.777Z",
   "patterns": [
     {
       "code": "non-canonical-post-id",
@@ -27,11 +27,13 @@
         "PGStudy-EAandGA",
         "PGStudy-Swarm-intelligence",
         "SOSP24-Colloid",
-        "SOSP25-ByteRobust"
+        "SOSP25-ByteRobust",
+        "EuroSys26-MAYA",
+        "ISCA20-Accel-Sim"
       ],
-      "sample_message": "文件名 `SOSP25-ByteRobust.md` 不符合站点路径规范，建议改为 `sosp25-byterobust.md`，站内文章链接统一使用小写 kebab-case。",
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 22
+      "sample_message": "文件名 `ISCA20-Accel-Sim.md` 不符合站点路径规范，建议改为 `isca20-accel-sim.md`，站内文章链接统一使用小写 kebab-case。",
+      "latest_post_id": "ISCA20-Accel-Sim",
+      "count": 24
     },
     {
       "code": "body-h1",
@@ -48,11 +50,12 @@
         "pgstudy-characterization-llm-development-datacenter",
         "PGStudy-Swarm-intelligence",
         "SOSP24-Colloid",
-        "SOSP25-ByteRobust"
+        "SOSP25-ByteRobust",
+        "ISCA20-Accel-Sim"
       ],
       "sample_message": "第 1 行存在正文 H1，建议从 H2 开始。",
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 12
+      "latest_post_id": "ISCA20-Accel-Sim",
+      "count": 13
     },
     {
       "code": "bare-url",

@@ -1,0 +1,113 @@
+{
+  "post_id": "EuroSys26-MAYA",
+  "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+  "source_path": "src/data/blog/EuroSys26-MAYA.md",
+  "route_path": "/posts/eurosys26-maya",
+  "source_hash": "a6c00272848414757e0e20ce2973d43189d8093cd2eeec14e6baecc4335c9432",
+  "review_key": "b66ba9582d519ec7e991ac23fe1f3b1b19f4ea70fe68a9e18d39756feb7dd031",
+  "prompt_version": "2026-09-22.1",
+  "generated_at": "2026-09-23T03:20:13.771Z",
+  "run_mode": "cli",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "degraded": false,
+  "degraded_reason": null,
+  "agent_experiment": false,
+  "agent_experiment_note": "",
+  "public_commentary": "在分布式深度学习训练配置搜索领域，传统的解析模型（如 Calculon、AMPed）往往受限于理想化公式推导，漏算了 kernel launch 延迟与通信气泡；而领域专用模拟器（如 Proteus）虽精度高，却要求用户编写数百行专用 IR 脚本。本文剖析的 EuroSys 2026 成果 Maya，选择了一条极具工程美感的折中路径：基于「窄腰假设」通过 CPU 端的设备 API 拦截（LD_PRELOAD）实现零代码侵入的运行时仿真，再通过轨迹合并与离散事件驱动完成耗时评估。\n\n文章对 Maya 核心架构的串联非常顺畅，特别是将 Device Emulator、Trace Collator 与由优先队列驱动的 Simulator 逻辑（包括带 `version` 标识的 `CudaEventWaitMap` 与 `NetworkCollectiveWaitMap`）拆解得极其清晰，有力论述了 DualPipe 等复杂调度如何能被还原为底层同步原语的自然涌现。结合前序探讨硬件建模的 Accel-Sim，本文补全了集群系统级调度仿真的一块关键拼图。\n\n在技术锐评方面，正文敏锐指出了 Maya 在假定「解耦假设」时暴露出的致命软肋：当控制流依赖 GPU 计算时（如 MoE 动态门控路由），纯 CPU 设备端 no-op 仿真会使调度逻辑失稳；同时，计算与 NCCL 通信在 SM 级别上的资源争抢（contention）被完全忽略。稍微令人忍俊不禁的是，针对测试脚本自带的 sanity check（如 rank 校验断言），系统不得不偷偷对小 buffer 执行真实的 `cudaMemcpy` 来“糊弄过关”——这种在优雅架构中不得不打上的工程补丁，倒极为写实地道出了做系统仿真的狼狈与智慧。",
+  "related_post_ids": [
+    "ISCA20-Accel-Sim",
+    "OSDI22-orca"
+  ],
+  "related_posts": [
+    {
+      "post_id": "ISCA20-Accel-Sim",
+      "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+      "route_path": "/posts/isca20-accel-sim",
+      "relation": "前置阅读"
+    },
+    {
+      "post_id": "OSDI22-orca",
+      "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+      "route_path": "/posts/osdi22-orca",
+      "relation": "相邻主题"
+    }
+  ],
+  "summary": "文章深入解析了EuroSys 2026系统Maya的设计与评测，重点阐述其通过CPU端拦截CUDA API、轨迹合并、基于ML的算子耗时回归与离散事件驱动模拟，实现零代码侵入的分布式训练性能预测与高效并行配置搜索。",
+  "structural_review": "整体结构严密，按照“研究背景与方法分类（Intro. to Idea）→ 核心模块架构与执行流（Designs）→ 精度与搜索评测（Experiments）→ 核心算法拆解（Appendix）→ 局限性反思（Discuss）”展开，层层递进。特别是从代码行数、执行流泳道图到算法级伪代码的比对安排，使复杂系统仿真机制的理解水到渠成。",
+  "technical_review": "文章技术推导扎实，准确还原了 Maya 的两大前提（窄腰假设与控制流解耦假设），并在 Designs 章节详尽解析了 hostDelay 的 wall-clock 捕获与集合通信同步/传输分离建模机制。对实验部分的分析尤为出彩，准确揭示了系统性高估（AMPed）与低估（Proteus/Calculon）在 argmin 搜索时的致命危害，并解释了 Oracle 消融中 E2E 误差反常更低的抵消现象。Discuss 节清晰指出了 SM 资源争抢未建模和动态控制流（MoE）带来的泛化瓶颈。",
+  "strengths": [
+    "对四大核心组件（Emulator、Collator、Estimator、Simulator）的协作分工与时间线映射梳理得细致入微。",
+    "深入挖掘了 CUDA Event 版本号追踪、小 buffer 真实拷贝规避 sanity check 等真实工程细节。",
+    "准确指出了性能预测中绝对误差与排序保真度的解耦关系，并透彻分析了配置空间 CMA-ES 搜索优化的有效性。"
+  ],
+  "concerns": [
+    "在「Intro. to Idea」章节的表格中，有多处笔误和拼写错误（如“作责”、“Calulon”、“DualPiple”）。",
+    "正文提及“在这篇论文中似乎不怎么考虑这一点（CPU运行时间取舍）”，但后文已明确指出 GPU 端操作均退化为 no-op 且存在 rank 去重机制，前后论述口径略有冲突。"
+  ],
+  "action_items": [
+    "统一文章文件名与站内文章链接为小写 kebab-case（将 EuroSys26-MAYA.md 调整为 eurosys26-maya.md）。",
+    "校对全文错别字（例如将“作责”修正为“作者”，“DualPiple”修正为“DualPipe”，“Calulon”修正为“Calculon”）。",
+    "微调 Intro. to Idea 中关于 CPU 运行精度的质疑，使之与后续章节阐述的 rank 去重和 no-op 机制保持前后一致。"
+  ],
+  "severity": "warn",
+  "confidence": 0.95,
+  "memory_refs": [
+    "series:paper-reading",
+    "topic:论文阅读",
+    "topic:GPU仿真",
+    "topic:EuroSys"
+  ],
+  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
+  "knowledge_refs": [
+    "series:paper-reading",
+    "topic:论文阅读",
+    "topic:EuroSys",
+    "topic:GPU仿真"
+  ],
+  "knowledge_position": {
+    "series_id": "paper-reading",
+    "series_label": "论文阅读",
+    "role": "论文阅读",
+    "previous_posts": [
+      "ISCA20-Accel-Sim"
+    ],
+    "next_posts": [],
+    "topic_neighbors": [
+      "OSDI22-orca",
+      "ICCV25-AdaLLaVA",
+      "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+    ],
+    "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISCA20-Accel-Sim。"
+  },
+  "series_key": "paper-reading",
+  "series_label": "论文阅读",
+  "published_at": "2026-09-18T00:00:00+08:00",
+  "tags_snapshot": [
+    "论文阅读",
+    "EuroSys",
+    "GPU仿真"
+  ],
+  "hard_checks": [
+    {
+      "code": "non-canonical-post-id",
+      "severity": "warn",
+      "message": "文件名 `EuroSys26-MAYA.md` 不符合站点路径规范，建议改为 `eurosys26-maya.md`，站内文章链接统一使用小写 kebab-case。",
+      "fixable": false
+    }
+  ],
+  "fixes_applied": [],
+  "safe_fix_codes": [],
+  "suggestions": {
+    "normalized_tags": [
+      "论文阅读",
+      "EuroSys",
+      "GPU仿真"
+    ],
+    "tag_replacements": [],
+    "inferred_tags": [],
+    "description_suggestion": null,
+    "slug_suggestion": null
+  },
+  "notes": []
+}

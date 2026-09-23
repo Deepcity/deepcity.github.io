@@ -62,7 +62,9 @@
         "SOSP25-ByteRobust",
         "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
         "ICCV25-AdaLLaVA",
-        "OSDI22-orca"
+        "OSDI22-orca",
+        "ISCA20-Accel-Sim",
+        "EuroSys26-MAYA"
       ],
       "expected_total": null,
       "open_ended": true,
@@ -152,11 +154,17 @@
       "previous_posts": [],
       "next_posts": [],
       "topic_neighbors": [
+        "openai-daybreak",
         "OSDI22-orca",
-        "ICCV25-AdaLLaVA",
-        "AscendC-part5-pytorch-summary"
+        "ICCV25-AdaLLaVA"
       ],
       "related_posts": [
+        {
+          "post_id": "openai-daybreak",
+          "title": "Openai Daybreak使用经历",
+          "route_path": "/posts/openai-daybreak",
+          "relation": "相邻主题"
+        },
         {
           "post_id": "OSDI22-orca",
           "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
@@ -167,12 +175,6 @@
           "post_id": "ICCV25-AdaLLaVA",
           "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
           "route_path": "/posts/iccv25-adallava",
-          "relation": "相邻主题"
-        },
-        {
-          "post_id": "AscendC-part5-pytorch-summary",
-          "title": "Ascend C 算子开发 Part5 PyTorch 算子调用与阶段总结",
-          "route_path": "/posts/ascendc-part5-pytorch-summary",
           "relation": "相邻主题"
         }
       ],
@@ -415,6 +417,25 @@
         "topic:c++",
         "topic:算子开发",
         "topic:LLM"
+      ]
+    },
+    {
+      "post_id": "Blog-after-write-first-paper",
+      "title": "写完第一篇paper后的随笔",
+      "source_path": "src/data/blog/Blog-after-write-first-paper.md",
+      "route_path": "/posts/blog-after-write-first-paper",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [],
+      "related_posts": [],
+      "position_summary": "写完第一篇paper后的随笔 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:Paper",
+        "topic:English",
+        "topic:Plotting"
       ]
     },
     {
@@ -699,6 +720,51 @@
       ]
     },
     {
+      "post_id": "EuroSys26-MAYA",
+      "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+      "source_path": "src/data/blog/EuroSys26-MAYA.md",
+      "route_path": "/posts/eurosys26-maya",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "ISCA20-Accel-Sim"
+      ],
+      "next_posts": [],
+      "topic_neighbors": [
+        "OSDI22-orca",
+        "ICCV25-AdaLLaVA",
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+      ],
+      "related_posts": [
+        {
+          "post_id": "ISCA20-Accel-Sim",
+          "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+          "route_path": "/posts/isca20-accel-sim",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "OSDI22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISCA20-Accel-Sim。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:论文阅读",
+        "topic:EuroSys",
+        "topic:GPU仿真"
+      ]
+    },
+    {
       "post_id": "ICCV25-AdaLLaVA",
       "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
       "source_path": "src/data/blog/ICCV25-AdaLLaVA.md",
@@ -748,6 +814,70 @@
       ]
     },
     {
+      "post_id": "intra-ai-rethinking-concurrent",
+      "title": "Intra-ai: 重新思考并发",
+      "source_path": "src/data/blog/intra-ai-rethinking-concurrent.md",
+      "route_path": "/posts/intra-ai-rethinking-concurrent",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [],
+      "related_posts": [],
+      "position_summary": "Intra-ai: 重新思考并发 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:concurrent programming"
+      ]
+    },
+    {
+      "post_id": "ISCA20-Accel-Sim",
+      "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+      "source_path": "src/data/blog/ISCA20-Accel-Sim.md",
+      "route_path": "/posts/isca20-accel-sim",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "OSDI22-orca"
+      ],
+      "next_posts": [
+        "EuroSys26-MAYA"
+      ],
+      "topic_neighbors": [
+        "ICCV25-AdaLLaVA",
+        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+        "SOSP25-ByteRobust"
+      ],
+      "related_posts": [
+        {
+          "post_id": "OSDI22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "前置阅读"
+        },
+        {
+          "post_id": "EuroSys26-MAYA",
+          "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+          "route_path": "/posts/eurosys26-maya",
+          "relation": "后续阅读"
+        },
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 OSDI22-orca，后续文章 EuroSys26-MAYA。",
+      "memory_refs": [
+        "series:paper-reading",
+        "topic:论文阅读",
+        "topic:ISCA",
+        "topic:GPU仿真"
+      ]
+    },
+    {
       "post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
       "title": "ISOCC 2020 - Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
       "source_path": "src/data/blog/ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis.md",
@@ -762,9 +892,9 @@
         "ICCV25-AdaLLaVA"
       ],
       "topic_neighbors": [
-        "OSDI22-orca",
-        "OSDI18-Ray",
-        "OSDI24-ServerlessLLM"
+        "EuroSys26-MAYA",
+        "ISCA20-Accel-Sim",
+        "OSDI22-orca"
       ],
       "related_posts": [
         {
@@ -780,9 +910,9 @@
           "relation": "后续阅读"
         },
         {
-          "post_id": "OSDI22-orca",
-          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
-          "route_path": "/posts/osdi22-orca",
+          "post_id": "EuroSys26-MAYA",
+          "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+          "route_path": "/posts/eurosys26-maya",
           "relation": "相邻主题"
         }
       ],
@@ -1178,14 +1308,65 @@
       "role": "独立文章",
       "previous_posts": [],
       "next_posts": [],
-      "topic_neighbors": [],
-      "related_posts": [],
+      "topic_neighbors": [
+        "openai-daybreak"
+      ],
+      "related_posts": [
+        {
+          "post_id": "openai-daybreak",
+          "title": "Openai Daybreak使用经历",
+          "route_path": "/posts/openai-daybreak",
+          "relation": "相邻主题"
+        }
+      ],
       "position_summary": "使用OneDrive的三年经验与不得不知的警告 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
       "memory_refs": [
         "topic:软件",
         "topic:云服务",
         "topic:Microsoft",
         "topic:365"
+      ]
+    },
+    {
+      "post_id": "openai-daybreak",
+      "title": "Openai Daybreak使用经历",
+      "source_path": "src/data/blog/openai-daybreak.md",
+      "route_path": "/posts/openai-daybreak",
+      "series_id": null,
+      "series_label": null,
+      "role": "独立文章",
+      "previous_posts": [],
+      "next_posts": [],
+      "topic_neighbors": [
+        "OSDI22-orca",
+        "ICCV25-AdaLLaVA",
+        "API-Agent-Embedding-MCP-Skills"
+      ],
+      "related_posts": [
+        {
+          "post_id": "OSDI22-orca",
+          "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
+          "route_path": "/posts/osdi22-orca",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "ICCV25-AdaLLaVA",
+          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
+          "route_path": "/posts/iccv25-adallava",
+          "relation": "相邻主题"
+        },
+        {
+          "post_id": "API-Agent-Embedding-MCP-Skills",
+          "title": "API Agent: Embedding, MCP, Skills",
+          "route_path": "/posts/api-agent-embedding-mcp-skills",
+          "relation": "相邻主题"
+        }
+      ],
+      "position_summary": "Openai Daybreak使用经历 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。",
+      "memory_refs": [
+        "topic:LLM",
+        "topic:OpenAI",
+        "topic:软件"
       ]
     },
     {
@@ -1205,7 +1386,7 @@
       "topic_neighbors": [
         "OSDI22-orca",
         "pgstudy-characterization-llm-development-datacenter",
-        "ICCV25-AdaLLaVA"
+        "EuroSys26-MAYA"
       ],
       "related_posts": [
         {
@@ -1247,7 +1428,9 @@
       "previous_posts": [
         "ICCV25-AdaLLaVA"
       ],
-      "next_posts": [],
+      "next_posts": [
+        "ISCA20-Accel-Sim"
+      ],
       "topic_neighbors": [
         "OSDI18-Ray",
         "OSDI24-ServerlessLLM",
@@ -1261,19 +1444,19 @@
           "relation": "前置阅读"
         },
         {
+          "post_id": "ISCA20-Accel-Sim",
+          "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+          "route_path": "/posts/isca20-accel-sim",
+          "relation": "后续阅读"
+        },
+        {
           "post_id": "OSDI18-Ray",
           "title": "OSDI 2018 - Ray: A Distributed Framework for Emerging AI Applications",
           "route_path": "/posts/osdi18-ray",
           "relation": "相邻主题"
-        },
-        {
-          "post_id": "OSDI24-ServerlessLLM",
-          "title": "OSDI 2024 - ServerlessLLM: Low-Latency Serverless Inference for Large Language Models",
-          "route_path": "/posts/osdi24-serverlessllm",
-          "relation": "相邻主题"
         }
       ],
-      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ICCV25-AdaLLaVA。",
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ICCV25-AdaLLaVA，后续文章 ISCA20-Accel-Sim。",
       "memory_refs": [
         "series:paper-reading",
         "topic:论文阅读",
@@ -1300,7 +1483,7 @@
       "topic_neighbors": [
         "OSDI22-orca",
         "ICCV25-AdaLLaVA",
-        "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
+        "EuroSys26-MAYA"
       ],
       "related_posts": [
         {
@@ -1480,8 +1663,8 @@
       ],
       "topic_neighbors": [
         "SOSP25-ByteRobust",
-        "OSDI22-orca",
-        "ICCV25-AdaLLaVA"
+        "EuroSys26-MAYA",
+        "ISCA20-Accel-Sim"
       ],
       "related_posts": [
         {
@@ -1581,10 +1764,10 @@
     }
   ],
   "issues": [],
-  "generated_at": "2026-09-22T08:19:52.356Z",
-  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "generated_at": "2026-09-22T14:16:27.226Z",
+  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
   "source": {
-    "post_count": 34,
+    "post_count": 39,
     "overrides_path": "src/data/agent/knowledge/overrides.yml"
   }
 }

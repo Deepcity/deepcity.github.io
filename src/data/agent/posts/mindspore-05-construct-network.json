@@ -68,7 +68,7 @@
     "topic:MindSpore",
     "issue:missing-code-language"
   ],
-  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
   "knowledge_refs": [
     "series:mindspore",
     "topic:机器学习",
@@ -115,5 +115,5 @@
     "slug_suggestion": null
   },
   "notes": [],
-  "knowledge_refreshed_at": "2026-09-22T08:19:52.421Z"
+  "knowledge_refreshed_at": "2026-09-23T03:20:13.318Z"
 }

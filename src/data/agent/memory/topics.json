@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-22T08:19:56.584Z",
+  "updated_at": "2026-09-23T03:20:13.777Z",
   "topics": [
     {
       "tag": "人工智能",
@@ -53,25 +53,12 @@
         "OSDI24-ServerlessLLM",
         "pgstudy-characterization-llm-development-datacenter",
         "SOSP24-Colloid",
-        "SOSP25-ByteRobust"
+        "SOSP25-ByteRobust",
+        "EuroSys26-MAYA",
+        "ISCA20-Accel-Sim"
       ],
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 8
-    },
-    {
-      "tag": "LLM",
-      "category": "development",
-      "post_ids": [
-        "API-Agent-Embedding-MCP-Skills",
-        "AscendC-part1-basic-concept",
-        "AscendC-part5-pytorch-summary",
-        "ICCV25-AdaLLaVA",
-        "mindspore-extra-transformer-structure",
-        "OSDI22-orca",
-        "pgstudy-characterization-llm-development-datacenter"
-      ],
-      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
-      "count": 7
+      "latest_post_id": "ISCA20-Accel-Sim",
+      "count": 10
     },
     {
       "tag": "MindSpore",
@@ -88,6 +75,21 @@
       ],
       "latest_post_id": "mindspore-extra-transformer-structure",
       "count": 8
+    },
+    {
+      "tag": "LLM",
+      "category": "development",
+      "post_ids": [
+        "API-Agent-Embedding-MCP-Skills",
+        "AscendC-part1-basic-concept",
+        "AscendC-part5-pytorch-summary",
+        "ICCV25-AdaLLaVA",
+        "mindspore-extra-transformer-structure",
+        "OSDI22-orca",
+        "pgstudy-characterization-llm-development-datacenter"
+      ],
+      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
+      "count": 7
     },
     {
       "tag": "c",
@@ -191,6 +193,16 @@
       "count": 3
     },
     {
+      "tag": "GPU仿真",
+      "category": "custom",
+      "post_ids": [
+        "EuroSys26-MAYA",
+        "ISCA20-Accel-Sim"
+      ],
+      "latest_post_id": "ISCA20-Accel-Sim",
+      "count": 2
+    },
+    {
       "tag": "SOSP",
       "category": "paper",
       "post_ids": [
@@ -261,15 +273,6 @@
       "count": 2
     },
     {
-      "tag": "软件",
-      "category": "software",
-      "post_ids": [
-        "onedrive-experience-and-warnings"
-      ],
-      "latest_post_id": "onedrive-experience-and-warnings",
-      "count": 1
-    },
-    {
       "tag": "365",
       "category": "software",
       "post_ids": [
@@ -306,6 +309,15 @@
       "count": 1
     },
     {
+      "tag": "EuroSys",
+      "category": "custom",
+      "post_ids": [
+        "EuroSys26-MAYA"
+      ],
+      "latest_post_id": "EuroSys26-MAYA",
+      "count": 1
+    },
+    {
       "tag": "Exploit String Attack",
       "category": "course",
       "post_ids": [
@@ -321,6 +333,15 @@
         "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis"
       ],
       "latest_post_id": "ISOCC20-Efficient TSV Fault Detection Scheme For High Bandwidth Memory Using Pattern Analysis",
+      "count": 1
+    },
+    {
+      "tag": "ISCA",
+      "category": "custom",
+      "post_ids": [
+        "ISCA20-Accel-Sim"
+      ],
+      "latest_post_id": "ISCA20-Accel-Sim",
       "count": 1
     },
     {
@@ -474,6 +495,15 @@
         "PGStudy-Swarm-intelligence"
       ],
       "latest_post_id": "PGStudy-Swarm-intelligence",
+      "count": 1
+    },
+    {
+      "tag": "软件",
+      "category": "software",
+      "post_ids": [
+        "onedrive-experience-and-warnings"
+      ],
+      "latest_post_id": "onedrive-experience-and-warnings",
       "count": 1
     },
     {

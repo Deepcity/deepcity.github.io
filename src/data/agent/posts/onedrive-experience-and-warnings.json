@@ -16,7 +16,14 @@
   "agent_experiment_note": "",
   "public_commentary": "OneDrive 作为 Windows 的原生级云存储组件，凭借按需占位（Files On-Demand）与静默自动备份，在干净的办公环境下表现可圈可点。然而一旦置身于国内桌面生态，海量应用（尤其习惯将收发文件与运行日志直接丢进“文档”目录的微信与 QQ）便会引发无休止的文件句柄占用、同步挂起与回收站污染。本文敏锐且精准地捕捉到了这一国内 Windows 用户极为高频却常被忽视的“水土不服”痛点。但在技术机制的拆解上，文章尚有进一步夯实的空间。例如文中对新设备登录拉取策略给出了模糊推测，忽略了现代 OneDrive 默认启用占位符而非全量下载的机制；针对微信目录冲突，最直接的解法实为前往微信设置更改文件存储路径或关闭 OneDrive 的文档备份重定向。此外，作者规劝读者切勿以网盘同步代替 Git 版本控制的建议十分中肯，避免了许多开发者在多端编译产物冲突上的踩坑。至于文末将资源管理器 Explorer 调侃（或笔误）为 Exploder，倒是极其传神地描摹出了同步锁死时桌面崩溃的真实体验；但若真想保全数据，与其指望崩溃重启，不如谨记公用设备莫登私号、跨驱动器慎用软链接这两条铁律。",
   "related_post_ids": [],
-  "related_posts": [],
+  "related_posts": [
+    {
+      "post_id": "openai-daybreak",
+      "title": "Openai Daybreak使用经历",
+      "route_path": "/posts/openai-daybreak",
+      "relation": "相邻主题"
+    }
+  ],
   "summary": "文章总结了作者三年使用 OneDrive 的心得与风险防范经验，剖析了微信、QQ 占用文档目录导致的同步异常及国内网络连接隐患，警示了公用设备登录的隐私泄露风险，并通过问答形式解答了代码项目同步、速度、个人保管库及软链接等日常使用疑问。",
   "structural_review": "文章从安全警示开篇，逐步展开至基础定位、本土软件与网络适配、设备安全，最后以 Q&A 形式收尾，脉络清晰。但开篇的危险操作警告与正文后半段的“文件回档”脱节，“文件回档”小节仅寥寥数语，未能与标题强调的“三年警告”深度呼应。",
   "technical_review": "“CN本地适配 - 软件”一节对微信、QQ 占用“文档”目录导致同步频繁挂起机制的阐述切中要害，但在“文件安全”中推测“设定为始终保存的文件会直接下载到登入电脑上（可能，记忆不是很清楚）”，忽视了按需文件（Files On-Demand）机制的默认表现。在“其他”第 5 条中建议使用软链接迁移存储，忽略了新版 OneDrive 对 symlink/junction 支持并不稳定且不再被官方推荐的风险。此外第 4 条将资源管理器 Explorer 写作 Exploder 属于笔误或未作解释的俚语化表述。",
@@ -43,7 +50,7 @@
     "topic:Microsoft",
     "topic:365"
   ],
-  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
   "knowledge_refs": [
     "topic:软件",
     "topic:云服务",
@@ -56,7 +63,9 @@
     "role": "独立文章",
     "previous_posts": [],
     "next_posts": [],
-    "topic_neighbors": [],
+    "topic_neighbors": [
+      "openai-daybreak"
+    ],
     "position_summary": "使用OneDrive的三年经验与不得不知的警告 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
   },
   "series_key": null,
@@ -86,5 +95,5 @@
     "slug_suggestion": null
   },
   "notes": [],
-  "knowledge_refreshed_at": "2026-09-22T08:19:52.430Z"
+  "knowledge_refreshed_at": "2026-09-23T03:20:13.338Z"
 }

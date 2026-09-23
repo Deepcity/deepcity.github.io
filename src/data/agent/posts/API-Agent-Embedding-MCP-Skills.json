@@ -21,6 +21,12 @@
   ],
   "related_posts": [
     {
+      "post_id": "openai-daybreak",
+      "title": "Openai Daybreak使用经历",
+      "route_path": "/posts/openai-daybreak",
+      "relation": "相邻主题"
+    },
+    {
       "post_id": "ICCV25-AdaLLaVA",
       "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
       "route_path": "/posts/iccv25-adallava",
@@ -53,7 +59,7 @@
     "topic:MCP",
     "topic:Embedding"
   ],
-  "knowledge_hash": "fa7c3ca87a0ba814ea5c3f8f72000d7c9a5ccb0e23780d54b54e4070ebe336f4",
+  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
   "knowledge_refs": [
     "topic:LLM",
     "topic:Agent",
@@ -67,9 +73,9 @@
     "previous_posts": [],
     "next_posts": [],
     "topic_neighbors": [
+      "openai-daybreak",
       "OSDI22-orca",
-      "ICCV25-AdaLLaVA",
-      "AscendC-part5-pytorch-summary"
+      "ICCV25-AdaLLaVA"
     ],
     "position_summary": "API Agent: Embedding, MCP, Skills 当前被视为独立文章，可通过 tags 与相邻主题文章建立阅读路径。"
   },
@@ -105,5 +111,5 @@
     "slug_suggestion": null
   },
   "notes": [],
-  "knowledge_refreshed_at": "2026-09-22T08:19:52.373Z"
+  "knowledge_refreshed_at": "2026-09-23T03:20:01.739Z"
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-22T08:19:56.584Z",
+  "updated_at": "2026-09-22T14:17:42.503Z",
   "series": [
     {
       "id": "ascendc",
@@ -167,6 +167,30 @@
       "open_ended": true,
       "missing": [],
       "posts": [
+        {
+          "post_id": "EuroSys26-MAYA",
+          "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+          "file_path": "src/data/blog/EuroSys26-MAYA.md",
+          "published_at": "2026-09-18T00:00:00+08:00",
+          "severity": "warn",
+          "tags": [
+            "论文阅读",
+            "EuroSys",
+            "GPU仿真"
+          ]
+        },
+        {
+          "post_id": "ISCA20-Accel-Sim",
+          "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+          "file_path": "src/data/blog/ISCA20-Accel-Sim.md",
+          "published_at": "2026-09-15T00:00:00+08:00",
+          "severity": "warn",
+          "tags": [
+            "论文阅读",
+            "ISCA",
+            "GPU仿真"
+          ]
+        },
         {
           "post_id": "OSDI22-orca",
           "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
