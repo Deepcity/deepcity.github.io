@@ -64,7 +64,8 @@
         "ICCV25-AdaLLaVA",
         "OSDI22-orca",
         "ISCA20-Accel-Sim",
-        "EuroSys26-MAYA"
+        "EuroSys26-MAYA",
+        "MLSys26-Charon"
       ],
       "expected_total": null,
       "open_ended": true,
@@ -721,7 +722,7 @@
     },
     {
       "post_id": "EuroSys26-MAYA",
-      "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+      "title": "EuroSys26 - Maya: optimizing deep learning training workloads using GPU runtime emulation",
       "source_path": "src/data/blog/EuroSys26-MAYA.md",
       "route_path": "/posts/eurosys26-maya",
       "series_id": "paper-reading",
@@ -730,7 +731,9 @@
       "previous_posts": [
         "ISCA20-Accel-Sim"
       ],
-      "next_posts": [],
+      "next_posts": [
+        "MLSys26-Charon"
+      ],
       "topic_neighbors": [
         "OSDI22-orca",
         "ICCV25-AdaLLaVA",
@@ -739,24 +742,24 @@
       "related_posts": [
         {
           "post_id": "ISCA20-Accel-Sim",
-          "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+          "title": "ISCA20 - Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
           "route_path": "/posts/isca20-accel-sim",
           "relation": "前置阅读"
+        },
+        {
+          "post_id": "MLSys26-Charon",
+          "title": "MLSys26 - Charon: a unified and fine-grained simulator for large-scale LLM training and inference",
+          "route_path": "/posts/mlsys26-charon",
+          "relation": "后续阅读"
         },
         {
           "post_id": "OSDI22-orca",
           "title": "OSDI 2022 - Orca: A Distributed Serving System for Transformer-Based Generative Models",
           "route_path": "/posts/osdi22-orca",
           "relation": "相邻主题"
-        },
-        {
-          "post_id": "ICCV25-AdaLLaVA",
-          "title": "ICCV 2025 - AdaLLaVA: Learning to Inference Adaptively for Multimodal Large Language Models",
-          "route_path": "/posts/iccv25-adallava",
-          "relation": "相邻主题"
         }
       ],
-      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISCA20-Accel-Sim。",
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 ISCA20-Accel-Sim，后续文章 MLSys26-Charon。",
       "memory_refs": [
         "series:paper-reading",
         "topic:论文阅读",
@@ -832,7 +835,7 @@
     },
     {
       "post_id": "ISCA20-Accel-Sim",
-      "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+      "title": "ISCA20 - Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
       "source_path": "src/data/blog/ISCA20-Accel-Sim.md",
       "route_path": "/posts/isca20-accel-sim",
       "series_id": "paper-reading",
@@ -858,7 +861,7 @@
         },
         {
           "post_id": "EuroSys26-MAYA",
-          "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+          "title": "EuroSys26 - Maya: optimizing deep learning training workloads using GPU runtime emulation",
           "route_path": "/posts/eurosys26-maya",
           "relation": "后续阅读"
         },
@@ -911,7 +914,7 @@
         },
         {
           "post_id": "EuroSys26-MAYA",
-          "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+          "title": "EuroSys26 - Maya: optimizing deep learning training workloads using GPU runtime emulation",
           "route_path": "/posts/eurosys26-maya",
           "relation": "相邻主题"
         }
@@ -1299,6 +1302,32 @@
       ]
     },
     {
+      "post_id": "MLSys26-Charon",
+      "title": "MLSys26 - Charon: a unified and fine-grained simulator for large-scale LLM training and inference",
+      "source_path": "src/data/blog/MLSys26-Charon.md",
+      "route_path": "/posts/mlsys26-charon",
+      "series_id": "paper-reading",
+      "series_label": "论文阅读",
+      "role": "论文阅读",
+      "previous_posts": [
+        "EuroSys26-MAYA"
+      ],
+      "next_posts": [],
+      "topic_neighbors": [],
+      "related_posts": [
+        {
+          "post_id": "EuroSys26-MAYA",
+          "title": "EuroSys26 - Maya: optimizing deep learning training workloads using GPU runtime emulation",
+          "route_path": "/posts/eurosys26-maya",
+          "relation": "前置阅读"
+        }
+      ],
+      "position_summary": "这篇文章位于「论文阅读」系列中，当前角色是「论文阅读」，前置文章 EuroSys26-MAYA。",
+      "memory_refs": [
+        "series:paper-reading"
+      ]
+    },
+    {
       "post_id": "onedrive-experience-and-warnings",
       "title": "使用OneDrive的三年经验与不得不知的警告",
       "source_path": "src/data/blog/onedrive-experience-and-warnings.md",
@@ -1445,7 +1474,7 @@
         },
         {
           "post_id": "ISCA20-Accel-Sim",
-          "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+          "title": "ISCA20 - Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
           "route_path": "/posts/isca20-accel-sim",
           "relation": "后续阅读"
         },
@@ -1764,10 +1793,10 @@
     }
   ],
   "issues": [],
-  "generated_at": "2026-09-22T14:16:27.226Z",
-  "knowledge_hash": "0b0ba1efaf404431bc409c1a81b6d1c0964ad94e0780df456a2130eb8af45c5a",
+  "generated_at": "2026-09-28T02:21:16.413Z",
+  "knowledge_hash": "313b9f8049d4efad53cd0f8ca08a9f5f15cfa91ea4b5f79e69ea83624237279a",
   "source": {
-    "post_count": 39,
+    "post_count": 40,
     "overrides_path": "src/data/agent/knowledge/overrides.yml"
   }
 }

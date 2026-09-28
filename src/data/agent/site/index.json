@@ -2,13 +2,13 @@
   "page_id": "index",
   "title": "首页 Agent 导览",
   "route_path": "/",
-  "generated_at": "2026-09-23T03:20:13.817Z",
+  "generated_at": "2026-09-28T02:22:19.206Z",
   "run_mode": "build-home-panel",
   "provider": "gemini",
   "model": "gemini-3.8-flash",
-  "summary": "这是 Deepcity 博客首页的静态 Agent 导览，聚焦顶会论文阅读、Agent 与工程实践、硬件算子优化及系统基础，帮助首次访问者快速了解内容主线并进入代表性文章。",
-  "agent_role": "作为构建期生成的静态导览员，负责概括站点主题、说明文章页 Agent Review 机制，并引导读者高效探索最核心的技术内容入口。",
-  "site_overview": "站点当前收录 39 篇文章，主线涵盖 OSDI/SOSP 论文精读、Agent 工程、Ascend C 算子以及系统课程实践，最新文章聚焦 System One 模型 Jev。",
+  "summary": "Deepcity 博客导览 Agent，聚焦系统顶会论文精读、AI 工程与系统底座探索，助力快速定位高质量技术干货与阅读入口。",
+  "agent_role": "作为构建期生成的静态导览员，负责凝练全站核心脉络、指引特色模块并推荐关键阅读路径，运行完全零外部动态请求。",
+  "site_overview": "全站现收录 40 篇深度技术文章，覆盖顶会系统论文阅读、Agent 工程实践、昇腾算子开发及系统基础实验，近期主推大模型仿真前沿。",
   "focus_topics": [
     "OSDI / SOSP 论文阅读",
     "Agent / MCP / Embedding 工程",
@@ -16,25 +16,26 @@
     "CMU 15-213 实验与系统基础"
   ],
   "highlights": [
-    "站点已收录 39 篇文章，结合前沿论文阅读与底层系统工程实践。",
-    "主线聚焦系统顶会论文剖析、AI 基础设施优化与底层实验探索。",
-    "文章详情页的 Agent Review 由离线静态预先生成，完全无需运行时在线调用。"
+    "站点当前收录 40 篇深度硬核博文，涵盖前沿论文与工程实操。",
+    "核心聚焦顶会论文拆解、Agent 工程与硬件算子开发等系统主线。",
+    "最新博文聚焦 MLSys 2026 前沿大模型细粒度仿真框架 Charon。",
+    "文章配套 Agent Review 由静态 sidecar 构建生成，纯本地极速呈现。"
   ],
   "recommended_paths": [
     {
-      "label": "最近更新：Jev: cheapest and fastest structural Model in 2026",
-      "href": "/posts/system-one-model-jev",
-      "description": "TypeSafe AI 发布的 System One 模型 Jev：terra 级智力、低成本低延迟、无幻觉宣传，以及社区评测与质疑的整理。"
+      "label": "最近更新：MLSys26 - Charon: a unified and fine-grained simulator for large-scale LLM training and inference",
+      "href": "/posts/mlsys26-charon",
+      "description": "解析面向大规模大语言模型训练与推理的细粒度仿真框架 Charon，系统梳理其算子图级建模与通信重叠设计。"
     },
     {
-      "label": "Agent / MCP / Embedding 工程",
-      "href": "/posts/openai-daybreak",
-      "description": "最近相关更新是《Openai Daybreak使用经历》。"
+      "label": "CMU 15-213 实验与系统基础",
+      "href": "/posts/cmu-15213-malloclab",
+      "description": "从经典实验切入系统底层机制，最近相关更新包含 MallocLab 深入实现与解析。"
     },
     {
       "label": "浏览全部文章",
       "href": "/posts/",
-      "description": "按时间线查看站内全部文章。"
+      "description": "按时间线查看站内全部 40 篇文章。"
     },
     {
       "label": "关于作者",
@@ -43,9 +44,9 @@
     }
   ],
   "content_stats": {
-    "total_posts": 39,
+    "total_posts": 40,
     "featured_posts": 0,
-    "latest_post_title": "Jev: cheapest and fastest structural Model in 2026",
+    "latest_post_title": "MLSys26 - Charon: a unified and fine-grained simulator for large-scale LLM training and inference",
     "primary_topics": [
       "OSDI / SOSP 论文阅读",
       "Agent / MCP / Embedding 工程",
@@ -59,5 +60,5 @@
     "Homepage Agent panel is a static guide and does not issue online requests at runtime.",
     "Homepage guide was refined by Gemini from committed site data."
   ],
-  "posts_hash": "6d8c8fe65767bbf60e34fdcd7cbd33387763a536a1e5795e9515766bfae56c4e"
+  "posts_hash": "5583eb607537e8f1634ccc652f9db2e2080785e455bb815b9bd193dded2aa3c5"
 }

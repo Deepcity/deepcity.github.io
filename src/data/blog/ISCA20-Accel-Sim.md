@@ -1,5 +1,5 @@
 ---
-title: "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling"
+title: "ISCA20 - Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling"
 pubDatetime: 2026-09-15T00:00:00+08:00
 description: "ISCA 2020 论文 Accel-Sim 阅读笔记：一个可在执行驱动 vISA 与追踪驱动 mISA 前端之间切换的 GPU 仿真框架，梳理其前端设计、性能模型演进与面向真实硬件的验证方法。"
 slug: "isca20-accel-sim"

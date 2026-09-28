@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-22T14:17:42.503Z",
+  "updated_at": "2026-09-28T02:22:19.158Z",
   "series": [
     {
       "id": "ascendc",
@@ -168,8 +168,21 @@
       "missing": [],
       "posts": [
         {
+          "post_id": "MLSys26-Charon",
+          "title": "MLSys26 - Charon: a unified and fine-grained simulator for large-scale LLM training and inference",
+          "file_path": "src/data/blog/MLSys26-Charon.md",
+          "published_at": "2026-09-23T00:00:00+08:00",
+          "severity": "warn",
+          "tags": [
+            "论文阅读",
+            "LLM",
+            "大模型推理",
+            "分布式系统"
+          ]
+        },
+        {
           "post_id": "EuroSys26-MAYA",
-          "title": "Maya: optimizing deep learning training workloads using GPU runtime emulation",
+          "title": "EuroSys26 - Maya: optimizing deep learning training workloads using GPU runtime emulation",
           "file_path": "src/data/blog/EuroSys26-MAYA.md",
           "published_at": "2026-09-18T00:00:00+08:00",
           "severity": "warn",
@@ -181,7 +194,7 @@
         },
         {
           "post_id": "ISCA20-Accel-Sim",
-          "title": "Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
+          "title": "ISCA20 - Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling",
           "file_path": "src/data/blog/ISCA20-Accel-Sim.md",
           "published_at": "2026-09-15T00:00:00+08:00",
           "severity": "warn",

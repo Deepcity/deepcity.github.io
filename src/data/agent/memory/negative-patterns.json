@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-23T03:20:13.777Z",
+  "updated_at": "2026-09-28T02:22:19.158Z",
   "patterns": [
     {
       "code": "non-canonical-post-id",
@@ -29,11 +29,12 @@
         "SOSP24-Colloid",
         "SOSP25-ByteRobust",
         "EuroSys26-MAYA",
-        "ISCA20-Accel-Sim"
+        "ISCA20-Accel-Sim",
+        "MLSys26-Charon"
       ],
-      "sample_message": "文件名 `ISCA20-Accel-Sim.md` 不符合站点路径规范，建议改为 `isca20-accel-sim.md`，站内文章链接统一使用小写 kebab-case。",
-      "latest_post_id": "ISCA20-Accel-Sim",
-      "count": 24
+      "sample_message": "文件名 `MLSys26-Charon.md` 不符合站点路径规范，建议改为 `mlsys26-charon.md`，站内文章链接统一使用小写 kebab-case。",
+      "latest_post_id": "MLSys26-Charon",
+      "count": 25
     },
     {
       "code": "body-h1",
@@ -70,11 +71,12 @@
         "mindspore-01-install",
         "mindspore-04-dataset",
         "pgstudy-characterization-llm-development-datacenter",
-        "SOSP25-ByteRobust"
+        "SOSP25-ByteRobust",
+        "MLSys26-Charon"
       ],
-      "sample_message": "检测到 3 处裸 URL，建议改成 Markdown 链接。",
-      "latest_post_id": "SOSP25-ByteRobust",
-      "count": 10
+      "sample_message": "检测到 1 处裸 URL，建议改成 Markdown 链接。",
+      "latest_post_id": "MLSys26-Charon",
+      "count": 11
     },
     {
       "code": "heading-skip",

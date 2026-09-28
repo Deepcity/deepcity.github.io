@@ -1,5 +1,5 @@
 ---
-title: "Maya: optimizing deep learning training workloads using GPU runtime emulation"
+title: "EuroSys26 - Maya: optimizing deep learning training workloads using GPU runtime emulation"
 pubDatetime: 2026-09-18T00:00:00+08:00
 description: "解析EuroSys 2026系统Maya的设计与评测，其通过CPU端拦截设备API实现运行时仿真，结合轨迹合并、算子耗时回归与离散事件模拟，在无需修改用户代码的前提下高保真捕获计算通信重叠与调度开销，实现大规模分布式训练性能预测与配置高效搜索。"
 slug: "eurosys26-maya"
@@ -12,17 +12,17 @@ author: "Deepcity"
 timezone: "Asia/Shanghai"
 ---
 
-## Maya: optimizing deep learning training workloads using GPU runtime emulation
+## EuroSys26 - Maya: optimizing deep learning training workloads using GPU runtime emulation
 
 佐治亚理工与NVI合作做的工作。值得注意的是，这篇论文的最后一位作者**Alexey Tumanov**是SAIL实验室负责人，即发表Ray的工作，相关的仿真工作则有Revati，2026预印本。倒数第二位作责**Srinivas Sridharan**则是ASTRA-sim的同一位作者。Amey Agrawal共同第一作者第二位还发表了Vidur（MLSys’24 LLM推理模拟）。
 
-| 项目       | 内容                                                         |
-| ---------- | :----------------------------------------------------------- |
-| 论文标题   | Maya: optimizing deep learning training workloads using GPU runtime emulation |
-| 发表于     | EuroSys 2026                                                 |
+| 项目       | 内容                                                                                                                                                                    |
+| ---------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 论文标题   | Maya: optimizing deep learning training workloads using GPU runtime emulation                                                                                           |
+| 发表于     | EuroSys 2026                                                                                                                                                            |
 | 核心一句话 | Maya通过GPU运行时仿真技术直接模拟未修改的深度学习训练工作负载，消除了传统性能建模系统中的语义鸿沟，能够以极低开销实现对大规模分布式训练配置的高保真性能预测与部署优化。 |
-| 适用场景   | GPU仿真、机器学习负载仿真                                    |
-| 代码/项目  | [Maya paper](https://dl.acm.org/doi/10.1145/3767295.3769366)  代码未开源 |
+| 适用场景   | GPU仿真、机器学习负载仿真                                                                                                                                               |
+| 代码/项目  | [Maya paper](https://dl.acm.org/doi/10.1145/3767295.3769366)  代码未开源                                                                                                 |
 
 ## Intro. to Idea
 
@@ -48,11 +48,12 @@ timezone: "Asia/Shanghai"
 >
 > 该工作的主要优势在于表达能力强：STree原则上可以任意编码切人，通信拓扑优化、显存优化组合。代价是Usability，其在GPT3的仿真任务中需数百行专用代码，Deepseek的DualPiple则需要一个自定义的图变化pass。
 >
-> > 针对这里图变化pass有如下解释：
-> >
-> > ![dualpipe](https://p.ipic.vip/dl2kzw.png)
-> >
-> > 这里对两个不同的执行子图需要进行共享GPU的编排。这里ds3在这里的执行顺序是有较严格的指定的。
+>> 针对这里图变化pass有如下解释：
+>>
+>> ![dualpipe](https://p.ipic.vip/dl2kzw.png)
+>>
+>> 这里对两个不同的执行子图需要进行共享GPU的编排。这里ds3在这里的执行顺序是有较严格的指定的。
+>>
 >
 > 这要求仿真工作需要大量的代码与对仿真workload深刻准确的洞察。
 >
@@ -179,7 +180,7 @@ out_3 = torch.all_reduce(d)     # 通信
 
 > 对于这里的hostDelay，之所以可以这样通过wall-clock的时间戳认定，是因为在emulation期间，所有的GPU设备操作都被变成no-op。显存分配只是虚拟的，集合通信也不传真实数据。
 >
-> ```plain text
+> ```plain
 > 上一次 API 调用返回的时刻  →  下一次 API 调用进入的时刻  =  hostDelay
 > ```
 >
@@ -227,11 +228,11 @@ out_3 = torch.all_reduce(d)     # 通信
 
 回顾一下这里对对比方法
 
-| 基线         | 类别           | 方法回顾（对应 Table 1）                                     |
-| :----------- | :------------- | :----------------------------------------------------------- |
-| **Proteus**  | 领域专用模拟器 | 手写 strategy tree + 层级拓扑感知执行器，还在真 GPU 上 profile kernel |
+| 基线               | 类别           | 方法回顾（对应 Table 1）                                                   |
+| :----------------- | :------------- | :------------------------------------------------------------------------- |
+| **Proteus**  | 领域专用模拟器 | 手写 strategy tree + 层级拓扑感知执行器，还在真 GPU 上 profile kernel      |
 | **Calculon** | 解析模型       | Megatron 系 LLM 专用，配置参数 → 闭式公式，我们前面提到的适配性很好的模型 |
-| **AMPed**    | 解析模型       | 同样是 transformer 训练专用解析模型                          |
+| **AMPed**    | 解析模型       | 同样是 transformer 训练专用解析模型                                        |
 
 这里文章中说选用GPT3作为workload，是因为这是AMPed与Calculon唯一原生支持的负载。更细的模型配置上Megatron-LM GPT-3系列 2.7B / 18.4B / 145.6B，对于每一个参数大小全局batch分别 256 / 512 / 12k，bf16 混合精度，HuggingFace Accelerate + PyTorch 2.1.0。而在硬件上，这里对比了不同规模与代际的芯片，跨度有些大分别是V100与H100。
 
@@ -249,7 +250,6 @@ out_3 = torch.all_reduce(d)     # 通信
 - 紫色的线在哪里？
 
   AMPed很遗憾的系统性高估了2-3x的时间。原因基本可以归结于预置算子模型偏保守（留了较大裕量）。
-
 - 为什么Proteus与Calculon都系统性低估了Iteration Time？
 
   他们没有建模的内容，包括kernel launch/dispatch 开销（Fig 6 里的 hostDelay）、同步等待、显存分配器行为、优化器step、gradient clipping等使得他们漏算了开销。
@@ -328,7 +328,8 @@ Table 9（A40 + ResNet152 + torch.compile 那组实验，即 Fig 10 对应的设
 >
 > 论文的原话（附录 B）：
 >
-> > We address this by collecting information from the compiler IR about the **content of the kernels** rather than just their inputs.
+>> We address this by collecting information from the compiler IR about the **content of the kernels** rather than just their inputs.
+>>
 >
 > 具体做法：对 Triton 生成的 kernel，不再只用输入张量的 shape/dtype 当特征，而是**从编译器 IR 中提取 kernel 本体特征**——实验证明有效的特征是 kernel 定义中**基础 Triton 指令的数量统计**（add、sub 等原语各有多少条）。这相当于用"这个 kernel 内部做了多少算术工作"来预测耗时，而不是靠"它叫什么名字"。
 >
@@ -358,7 +359,7 @@ Table 9（A40 + ResNet152 + torch.compile 那组实验，即 Fig 10 对应的设
 
 ![table5](https://files.seeusercontent.com/2026/09/22/gX5o/image-20260922173440829.png)
 
-```plain text
+```plain
 Table 5（7 knobs → 1920 配置点）
         │  穷举 = 1920 × 每点评估成本 → >24h（Table 6）
         ▼  CMA-ES + 去重/剪枝/并发/早停
@@ -426,13 +427,13 @@ CMA-ES 偶尔比穷举差 3–5 个点，是启发式搜索正常的质量-速�
 
 > ![partial fig6](https://files.seeusercontent.com/2026/09/22/Vk8t/image-20260922220058220.png)
 >
-> | Fig 6 trace 条目                  | 模拟器中的处理                                               |
-> | :-------------------------------- | :----------------------------------------------------------- |
+> | Fig 6 trace 条目                    | 模拟器中的处理                                                                  |
+> | :---------------------------------- | :------------------------------------------------------------------------------ |
 > | `cpu0: hostDelay (5 ms)`          | host dispatch 队列上的**阻塞操作**（实测 wall-clock，直接占用 cpu0 资源） |
-> | `stream0: cublasSgemm_v2 (14 ms)` | `schedule_operation`：stream0 空闲 → 占用，登记 `EndEvent(t+14ms)` |
-> | `stream1: ncclAllReduce (20 ms)`  | `NetworkCollectiveWaitMap.JoinCollective`：到齐才放行，`EndEvent(t+20ms)` |
-> | `stream1: cudaEventRecord`        | 触发 `CudaEventWaitMap.ReleaseWaiters(event_id, version)`    |
-> | `stream0: cudaStreamWaitEvent`    | `CudaEventWaitMap.BlockOnEvent(event_id, version)`：stream0 停住 |
+> | `stream0: cublasSgemm_v2 (14 ms)` | `schedule_operation`：stream0 空闲 → 占用，登记 `EndEvent(t+14ms)`         |
+> | `stream1: ncclAllReduce (20 ms)`  | `NetworkCollectiveWaitMap.JoinCollective`：到齐才放行，`EndEvent(t+20ms)`   |
+> | `stream1: cudaEventRecord`        | 触发`CudaEventWaitMap.ReleaseWaiters(event_id, version)`                      |
+> | `stream0: cudaStreamWaitEvent`    | `CudaEventWaitMap.BlockOnEvent(event_id, version)`：stream0 停住              |
 >
 > t=0 起，cpu0 串行 dispatch（Algorithm 1 主循环 + Algorithm 2 资源检查）：
 >
@@ -479,4 +480,3 @@ Fig 15 里那 20–30% 的 Skipped 是怎么来的——四条针对 Megatron-LM
 1. GPU侧可以更换，但CPU开销固定在仿真机器上，如果端到端与CPU相关，无法避免CPU侧误差
 2. Maya，Alpa，FlexFlow这类并行搜索、DL编译器都假设Host控制流与计算结果完全解耦，一旦这一点被打破，例如MoE的路由规则，那么整体预测将失稳
 3. Maya没有涉及具体的GPU内资源管控问题，wait map 模型里，通信流和计算流是**完全独立的资源**。但真实硬件上，NCCL kernel 要占 SM、占 HBM 带宽、占 L2：与计算 kernel 并发时双方都会变慢。但这一点很难做，也只能做一个争抢模式的预测时长缩放，要准确只能牺牲模拟时间，很难接受。
-

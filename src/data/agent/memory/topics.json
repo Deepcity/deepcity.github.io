@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-23T03:20:13.777Z",
+  "updated_at": "2026-09-28T02:22:19.158Z",
   "topics": [
     {
       "tag": "人工智能",
@@ -55,10 +55,27 @@
         "SOSP24-Colloid",
         "SOSP25-ByteRobust",
         "EuroSys26-MAYA",
-        "ISCA20-Accel-Sim"
+        "ISCA20-Accel-Sim",
+        "MLSys26-Charon"
       ],
-      "latest_post_id": "ISCA20-Accel-Sim",
-      "count": 10
+      "latest_post_id": "MLSys26-Charon",
+      "count": 11
+    },
+    {
+      "tag": "LLM",
+      "category": "development",
+      "post_ids": [
+        "API-Agent-Embedding-MCP-Skills",
+        "AscendC-part1-basic-concept",
+        "AscendC-part5-pytorch-summary",
+        "ICCV25-AdaLLaVA",
+        "mindspore-extra-transformer-structure",
+        "OSDI22-orca",
+        "pgstudy-characterization-llm-development-datacenter",
+        "MLSys26-Charon"
+      ],
+      "latest_post_id": "MLSys26-Charon",
+      "count": 8
     },
     {
       "tag": "MindSpore",
@@ -75,21 +92,6 @@
       ],
       "latest_post_id": "mindspore-extra-transformer-structure",
       "count": 8
-    },
-    {
-      "tag": "LLM",
-      "category": "development",
-      "post_ids": [
-        "API-Agent-Embedding-MCP-Skills",
-        "AscendC-part1-basic-concept",
-        "AscendC-part5-pytorch-summary",
-        "ICCV25-AdaLLaVA",
-        "mindspore-extra-transformer-structure",
-        "OSDI22-orca",
-        "pgstudy-characterization-llm-development-datacenter"
-      ],
-      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
-      "count": 7
     },
     {
       "tag": "c",
@@ -160,32 +162,34 @@
       "count": 5
     },
     {
-      "tag": "OSDI",
-      "category": "paper",
-      "post_ids": [
-        "OSDI18-Ray",
-        "OSDI22-orca",
-        "OSDI24-ServerlessLLM"
-      ],
-      "latest_post_id": "OSDI24-ServerlessLLM",
-      "count": 3
-    },
-    {
       "tag": "分布式系统",
       "category": "paper",
       "post_ids": [
         "OSDI18-Ray",
         "OSDI22-orca",
-        "pgstudy-characterization-llm-development-datacenter"
+        "pgstudy-characterization-llm-development-datacenter",
+        "MLSys26-Charon"
       ],
-      "latest_post_id": "pgstudy-characterization-llm-development-datacenter",
-      "count": 3
+      "latest_post_id": "MLSys26-Charon",
+      "count": 4
     },
     {
       "tag": "大模型推理",
       "category": "paper",
       "post_ids": [
         "ICCV25-AdaLLaVA",
+        "OSDI22-orca",
+        "OSDI24-ServerlessLLM",
+        "MLSys26-Charon"
+      ],
+      "latest_post_id": "MLSys26-Charon",
+      "count": 4
+    },
+    {
+      "tag": "OSDI",
+      "category": "paper",
+      "post_ids": [
+        "OSDI18-Ray",
         "OSDI22-orca",
         "OSDI24-ServerlessLLM"
       ],
